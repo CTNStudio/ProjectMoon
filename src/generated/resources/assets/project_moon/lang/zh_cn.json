@@ -1,0 +1,15 @@
+{
+  "item.project_moon.bear_paws": "熊熊抱",
+  "item.project_moon.detonating_baton": "镇暴棍",
+  "item.project_moon.in_the_name_of_love_and_hate": "以爱与恨之名",
+  "item.project_moon.paradise_lost": "失乐园",
+  "item.project_moon.wrist_cutter": "割腕者",
+  "itemGroup.project_moon.ego_curios": "E.G.O 饰品",
+  "itemGroup.project_moon.ego_suit": "E.G.O 护甲",
+  "itemGroup.project_moon.ego_weapon": "E.G.O 武器",
+  "project_moon.item.geo_describe.damage_type": "伤害类型",
+  "project_moon.item.geo_describe.erosion": "   侵蚀",
+  "project_moon.item.geo_describe.physics": "    物理",
+  "project_moon.item.geo_describe.spirit": "    精神",
+  "project_moon.item.geo_describe.the_soul": "    灵魂"
+}

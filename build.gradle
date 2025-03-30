@@ -26,6 +26,10 @@ repositories {
         }
     }
     maven {
+        name = 'AzureLib'
+        url = uri("https://maven.azuredoom.com/mods")
+    }
+    maven {
         name "KosmX's maven"
         url = uri("https://maven.kosmx.dev/")
     }
@@ -92,6 +96,7 @@ dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_api_version}:api"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
     implementation "dev.kosmx.player-anim:player-animation-lib-forge:${player_anim_version}"
+    implementation "mod.azure.azurelib:azurelib-neo-${minecraft_version}:${azurelib_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
