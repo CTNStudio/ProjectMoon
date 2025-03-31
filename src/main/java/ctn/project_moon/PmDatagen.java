@@ -4,7 +4,7 @@ import ctn.project_moon.datagen.PmBlockState;
 import ctn.project_moon.datagen.PmDatapackBuiltinEntriesProvider;
 import ctn.project_moon.datagen.PmItemModel;
 import ctn.project_moon.datagen.PmTags;
-import ctn.project_moon.datagen.language.I18ZhCnDatagen;
+import ctn.project_moon.datagen.I18ZhCnDatagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;

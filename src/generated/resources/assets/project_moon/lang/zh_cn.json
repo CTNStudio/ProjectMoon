@@ -1,4 +1,14 @@
 {
+  "death.attack.ego": "%s死于§lEGO§r",
+  "death.attack.ego.player": "%s死于%s的§lEGO§r",
+  "death.attack.erosion": "%s死于§5§l侵蚀§r伤害",
+  "death.attack.erosion.player": "%s死于%s的造成的§5§l侵蚀§r伤害",
+  "death.attack.physics": "%s死于§4§l物理§r伤害",
+  "death.attack.physics.player": "%s死于%s的造成的§4§l物理§r伤害",
+  "death.attack.spirit": "%s死于§l精神§r伤害",
+  "death.attack.spirit.player": "%s死于%s的造成的§l精神§r伤害",
+  "death.attack.the_soul": "%s死于§b§l灵魂§r伤害",
+  "death.attack.the_soul.player": "%s死于%s的造成的§b§l灵魂§r伤害",
   "item.project_moon.bear_paws": "熊熊抱",
   "item.project_moon.detonating_baton": "镇暴棍",
   "item.project_moon.in_the_name_of_love_and_hate": "以爱与恨之名",
@@ -8,8 +18,8 @@
   "itemGroup.project_moon.ego_suit": "E.G.O 护甲",
   "itemGroup.project_moon.ego_weapon": "E.G.O 武器",
   "project_moon.item.geo_describe.damage_type": "伤害类型",
-  "project_moon.item.geo_describe.erosion": "   侵蚀",
-  "project_moon.item.geo_describe.physics": "    物理",
-  "project_moon.item.geo_describe.spirit": "    精神",
-  "project_moon.item.geo_describe.the_soul": "    灵魂"
+  "project_moon.item.geo_describe.erosion": " 侵蚀",
+  "project_moon.item.geo_describe.physics": " 物理",
+  "project_moon.item.geo_describe.spirit": " 精神",
+  "project_moon.item.geo_describe.the_soul": " 灵魂"
 }

@@ -1,14 +1,9 @@
 {
   "values": [
-    "#project_moon:ego_weapon_mace",
-    "#project_moon:ego_weapon_axe",
-    "#project_moon:ego_weapon_pistol",
-    "#project_moon:ego_weapon_bowgun",
-    "#project_moon:ego_weapon_spear",
-    "#project_moon:ego_weapon_rifle",
-    "#project_moon:ego_weapon_fist",
-    "#project_moon:ego_weapon_cannon",
-    "#project_moon:ego_weapon_hammer",
-    "#project_moon:ego_weapon_knife"
+    "project_moon:detonating_baton",
+    "project_moon:wrist_cutter",
+    "project_moon:bear_paws",
+    "project_moon:in_the_name_of_love_and_hate",
+    "project_moon:paradise_lost"
   ]
 }

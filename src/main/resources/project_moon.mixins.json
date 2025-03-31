@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "package": "ctn.project_moon.mixins",
+  "mixins": [],
+  "client": [],
+  "server": [],
+  "minVersion": "0.8.7"
+}

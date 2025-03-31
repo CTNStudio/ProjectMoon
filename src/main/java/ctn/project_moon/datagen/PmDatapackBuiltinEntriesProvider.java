@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.datagen.PmDamageTypes.*;
+import static ctn.project_moon.create.PmDamageTypes.*;
 
 /**
  * @author wang_
@@ -28,26 +28,17 @@ import static ctn.project_moon.datagen.PmDamageTypes.*;
 public class PmDatapackBuiltinEntriesProvider extends DatapackBuiltinEntriesProvider{
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.DAMAGE_TYPE, context -> {
-                createDamageType(context, SPIRIT,
-                        DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER,
-                        0.1f,
-                        DamageEffects.HURT,
-                        DeathMessageType.DEFAULT);
-                createDamageType(context, EROSION,
-                        DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER,
-                        0.1f,
-                        DamageEffects.HURT,
-                        DeathMessageType.DEFAULT);
-                createDamageType(context, THE_SOUL,
-                        DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER,
-                        0.1f,
-                        DamageEffects.HURT,
-                        DeathMessageType.DEFAULT);
-                createDamageType(context, PHYSICS,
-                        DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER,
-                        0.1f,
-                        DamageEffects.HURT,
-                        DeathMessageType.DEFAULT);
+                createDamageType(context, PHYSICS, 0.1f);
+
+                createDamageType(context, SPIRIT, 0.2f);
+
+                createDamageType(context, EROSION, 0.3f);
+
+                createDamageType(context, THE_SOUL, 0.4f);
+
+                createDamageType(context, ABNOS, 0.3f);
+
+                createDamageType(context, EGO,0.3f);
             });
 
     public PmDatapackBuiltinEntriesProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
@@ -56,6 +47,10 @@ public class PmDatapackBuiltinEntriesProvider extends DatapackBuiltinEntriesProv
 
     public static Holder.Reference<DamageType> createDamageType(BootstrapContext<DamageType> context, ResourceKey<DamageType> damageType, DamageScaling damageScaling, float exhaustion, DamageEffects damageEffects, DeathMessageType deathMessageType) {
         return context.register(damageType, new DamageType(damageType.location().getPath(), damageScaling, exhaustion, damageEffects, deathMessageType));
+    }
+
+    public static Holder.Reference<DamageType> createDamageType(BootstrapContext<DamageType> context, ResourceKey<DamageType> damageType, float exhaustion) {
+        return createDamageType(context, damageType, DamageScaling.ALWAYS, exhaustion, DamageEffects.HURT, DeathMessageType.DEFAULT);
     }
 
 }

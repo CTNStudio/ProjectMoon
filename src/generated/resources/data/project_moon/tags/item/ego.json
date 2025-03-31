@@ -2,11 +2,6 @@
   "values": [
     "#project_moon:ego_curios",
     "#project_moon:ego_suit",
-    "#project_moon:ego_weapon",
-    "project_moon:detonating_baton",
-    "project_moon:wrist_cutter",
-    "project_moon:bear_paws",
-    "project_moon:in_the_name_of_love_and_hate",
-    "project_moon:paradise_lost"
+    "#project_moon:ego_weapon"
   ]
 }

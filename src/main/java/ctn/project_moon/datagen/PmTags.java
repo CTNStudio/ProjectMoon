@@ -57,16 +57,6 @@ public class PmTags {
         public static final TagKey<Item> EGO_CURIOS = createTag("ego_curios");
         public static final TagKey<Item> EGO_SUIT = createTag("ego_suit");
         public static final TagKey<Item> EGO_WEAPON = createTag("ego_weapon");
-        public static final TagKey<Item> EGO_WEAPON_MACE = createTag("ego_weapon_mace");
-        public static final TagKey<Item> EGO_WEAPON_AXE = createTag("ego_weapon_axe");
-        public static final TagKey<Item> EGO_WEAPON_PISTOL = createTag("ego_weapon_pistol");
-        public static final TagKey<Item> EGO_WEAPON_BOWGUN = createTag("ego_weapon_bowgun");
-        public static final TagKey<Item> EGO_WEAPON_SPEAR = createTag("ego_weapon_spear");
-        public static final TagKey<Item> EGO_WEAPON_RIFLE = createTag("ego_weapon_rifle");
-        public static final TagKey<Item> EGO_WEAPON_FIST = createTag("ego_weapon_fist");
-        public static final TagKey<Item> EGO_WEAPON_CANNON = createTag("ego_weapon_cannon");
-        public static final TagKey<Item> EGO_WEAPON_HAMMER = createTag("ego_weapon_hammer");
-        public static final TagKey<Item> EGO_WEAPON_KNIFE = createTag("ego_weapon_knife");
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
@@ -92,25 +82,15 @@ public class PmTags {
             tag(THE_SOUL) // 灵魂
                     .add(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get())
                     .add(PmItems.PARADISE_LOST.get());
-            tag(EGO_WEAPON_MACE);
-            tag(EGO_WEAPON_AXE);
-            tag(EGO_WEAPON_PISTOL);
-            tag(EGO_WEAPON_BOWGUN);
-            tag(EGO_WEAPON_SPEAR);
-            tag(EGO_WEAPON_RIFLE);
-            tag(EGO_WEAPON_FIST);
-            tag(EGO_WEAPON_CANNON);
-            tag(EGO_WEAPON_HAMMER);
-            tag(EGO_WEAPON_KNIFE);
             tag(EGO_CURIOS);
             tag(EGO_SUIT);
-            tag(EGO_WEAPON).addTags(EGO_WEAPON_MACE, EGO_WEAPON_AXE, EGO_WEAPON_PISTOL, EGO_WEAPON_BOWGUN, EGO_WEAPON_SPEAR, EGO_WEAPON_RIFLE, EGO_WEAPON_FIST, EGO_WEAPON_CANNON, (EGO_WEAPON_HAMMER), EGO_WEAPON_KNIFE);
-            tag(EGO).addTags(EGO_CURIOS, EGO_SUIT, EGO_WEAPON)
+            tag(EGO_WEAPON)
                     .add(PmItems.DETONATING_BATON.get())
                     .add(PmItems.WRIST_CUTTER.get())
                     .add(PmItems.BEAR_PAWS.get())
                     .add(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get())
                     .add(PmItems.PARADISE_LOST.get());
+            tag(EGO).addTags(EGO_CURIOS, EGO_SUIT, EGO_WEAPON);
         }
 
         protected static TagKey<Item> createTag(String name) {
@@ -123,16 +103,11 @@ public class PmTags {
             super(output, lookupProvider, MOD_ID, existingFileHelper);
         }
 
-        public static final TagKey<EntityType<?>> ABNORMALITIES = createTag("abnormalities");
-        public static final TagKey<EntityType<?>> ZAYIN = createTag("zayin");
-        public static final TagKey<EntityType<?>> TETH = createTag("teth");
-        public static final TagKey<EntityType<?>> HE = createTag("he");
-        public static final TagKey<EntityType<?>> WAW = createTag("waw");
-        public static final TagKey<EntityType<?>> ALEPH = createTag("aleph");
+        public static final TagKey<EntityType<?>> ABNOS = createTag("abnos");
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
-
+            tag(ABNOS);
         }
 
         protected static TagKey<EntityType<?>> createTag(String name) {
@@ -145,9 +120,21 @@ public class PmTags {
             super(output, lookupProvider, MOD_ID, existingFileHelper);
         }
 
+        public static final TagKey<DamageType> PHYSICS = createTag("physics");
+        public static final TagKey<DamageType> SPIRIT = createTag("spirit");
+        public static final TagKey<DamageType> EROSION = createTag("erosion");
+        public static final TagKey<DamageType> THE_SOUL = createTag("the_soul") ;
+        public static final TagKey<DamageType> ABNOS = createTag("abnos") ;
+        public static final TagKey<DamageType> EGO = createTag("ego") ;
+
         @Override
         protected void addTags(HolderLookup.Provider provider) {
-
+            tag(PHYSICS);
+            tag(SPIRIT);
+            tag(EROSION);
+            tag(THE_SOUL);
+            tag(ABNOS);
+            tag(EGO);
         }
 
         protected static TagKey<DamageType> createTag(String name) {

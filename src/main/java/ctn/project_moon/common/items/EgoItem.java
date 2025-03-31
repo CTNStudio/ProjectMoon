@@ -14,11 +14,11 @@ import java.util.Map;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 
 /**
- * EGO
- */
-public interface EgoItem {
+* EGO
+*/
+public interface EgoItem{
     /** 返回EGO等级tga */
-    default TagKey<Item> getEgoLevelTag(ItemStack item){
+    static TagKey<Item> getEgoLevelTag(ItemStack item){
         List<TagKey<Item>> tags = item.getTags().toList();
         Map<TagKey<Item>, TagKey<Item>> levelTags = Map.of(
                 ALEPH, ALEPH,
@@ -35,17 +35,17 @@ public interface EgoItem {
     }
 
     /** 返回EGO等级 */
-    default int levelValue(TagKey<Item> levelTag) {
+    static int levelValue(TagKey<Item> levelTag) {
         if (levelTag.equals(PmTags.PmItem.ZAYIN)) return 1;
         else if (levelTag.equals(PmTags.PmItem.TETH)) return 2;
         else if (levelTag.equals(PmTags.PmItem.HE)) return 3;
         else if (levelTag.equals(PmTags.PmItem.WAW)) return 4;
         else if (levelTag.equals(PmTags.PmItem.ALEPH)) return 5;
-        return 1;
+        return 0;
     }
 
     /** 返回EGO伤害类型 */
-    default List<TagKey<Item>> egoDamageTypes(ItemStack item){
+    static List<TagKey<Item>> egoDamageTypes(ItemStack item){
         List<TagKey<Item>> itemTags = item.getTags().toList();
         List<TagKey<Item>> tags = new ArrayList<>();
         Map<TagKey<Item>, TagKey<Item>> levelTags = Map.of(
@@ -58,19 +58,16 @@ public interface EgoItem {
                 tags.add(levelTags.get(tag));
             }
         }
-        if (tags.isEmpty()) {
-            tags.add(PHYSICS);
-        }
         return tags;
     }
 
     /** 返回EGO之间的等级差值 */
-    default int leveDifferenceValue(TagKey<Item> levelTag, TagKey<Item> levelTag2){
+    static int leveDifferenceValue(TagKey<Item> levelTag, TagKey<Item> levelTag2){
         return levelValue(levelTag) - levelValue(levelTag2);
     }
 
     /** 返回EGO之间的伤害倍数 */
-    default double damageMultiple(TagKey<Item> levelTag, TagKey<Item> levelTag2) {
+    static double damageMultiple(TagKey<Item> levelTag, TagKey<Item> levelTag2) {
         return PmApi.damageMultiple(leveDifferenceValue(levelTag, levelTag2));
     }
 }

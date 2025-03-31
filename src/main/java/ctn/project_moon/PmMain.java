@@ -1,32 +1,30 @@
 package ctn.project_moon;
 
 import com.mojang.logging.LogUtils;
-import ctn.project_moon.common.az_renderer.item.mace.DetonatingBatonItemRenderer;
 import ctn.project_moon.create.PmBlocks;
 import ctn.project_moon.create.PmItems;
-import mod.azure.azurelib.rewrite.animation.cache.AzIdentityRegistry;
-import mod.azure.azurelib.rewrite.render.item.AzItemRendererRegistry;
-import net.minecraft.client.Minecraft;
+import ctn.project_moon.events.ItemEvents;
+import ctn.project_moon.events.LivingEvent;
+import ctn.project_moon.events.PlayerEvents;
+import ctn.project_moon.events.ScreenEvents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
-import static ctn.project_moon.create.PmItems.DETONATING_BATON;
 import static ctn.project_moon.create.PmTab.PROJECT_MOON_TAB;
 
-// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(PmMain.MOD_ID)
 public class PmMain {
     public static final String MOD_ID = "project_moon";
@@ -51,26 +49,43 @@ public class PmMain {
         PmConfig.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
-
-
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("HELLO from server starting");
     }
 
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
+    @SubscribeEvent
+    public void itemTooltip(final ItemTooltipEvent event){
+        ItemEvents.itemTooltip(event);
+    }
 
-        @SubscribeEvent
-        public static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
-            AzIdentityRegistry.register(DETONATING_BATON.asItem());
-            AzItemRendererRegistry.register(DetonatingBatonItemRenderer::new, DETONATING_BATON.asItem());
-        }
+    @SubscribeEvent
+    public void saveToSpiritValue(PlayerEvent.SaveToFile event){
+        PlayerEvents.saveToSpiritValue(event);
+    }
+
+    @SubscribeEvent
+    public void loadFromSpiritValue(PlayerEvent.LoadFromFile event){
+        PlayerEvents.loadFromSpiritValue(event);
+    }
+
+    @SubscribeEvent
+    public void resetSpiritValue(PlayerEvent.PlayerRespawnEvent event){
+        PlayerEvents.resetSpiritValue(event);
+    }
+
+    @SubscribeEvent
+    public void damage(LivingIncomingDamageEvent event){
+        LivingEvent.damage(event);
+    }
+
+    @SubscribeEvent
+    public void hudExtensions(RenderGuiEvent.Pre event){
+        ScreenEvents.preScreenEvent(event);
+    }
+
+    @SubscribeEvent
+    public void hudExtensions(RenderGuiEvent.Post event){
+        ScreenEvents.postScreenEvent(event);
     }
 }

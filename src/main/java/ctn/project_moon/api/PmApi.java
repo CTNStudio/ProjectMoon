@@ -1,9 +1,11 @@
 package ctn.project_moon.api;
 
-import ctn.project_moon.common.entitys.mob.abnormalities.AbnormalitiesTypes;
+import ctn.project_moon.common.entitys.mob.abnos.AbnosTypes;
+import ctn.project_moon.create.PmDamageSources;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.entity.Entity;
 
-import static com.mojang.text2speech.Narrator.LOGGER;
+import static ctn.project_moon.PmMain.LOGGER;
 
 public class PmApi {
 
@@ -25,16 +27,20 @@ public class PmApi {
         };
     }
 
-    public static double damageMultiple(AbnormalitiesTypes type, AbnormalitiesTypes type2) {
+    public static double damageMultiple(AbnosTypes type, AbnosTypes type2) {
         try {
             return damageMultiple(type.getLevel() - type2.getLevel());
         } catch (IllegalArgumentException e) {
-            LOGGER.info("Abnormalities difference error");
-            throw new IllegalArgumentException("Abnormalities difference error");
+            LOGGER.info("Abnos difference error");
+            throw new IllegalArgumentException("Abnos difference error");
         }
     }
 
     public static int colorConversion(String color){
         return TextColor.parseColor(color).getOrThrow().getValue();
+    }
+
+    public static PmDamageSources getDamageSource(Entity entity) {
+        return new PmDamageSources(entity.level().registryAccess());
     }
 }

@@ -1,7 +1,6 @@
 package ctn.project_moon.create;
 
-import ctn.project_moon.common.items.ego_weapon.mace.DetonatingBatonItem;
-import ctn.project_moon.common.items.ego_weapon.mace.MaceItem;
+import ctn.project_moon.common.items.ego_weapon.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -19,15 +18,19 @@ public class PmItems{
     public static final DeferredItem<Item> EGO_SUIT_ICON = registerSimpleIconItem("ego_suit_icon");
     public static final DeferredItem<Item> EGO_WEAPON_ICON = registerSimpleIconItem("ego_weapon_icon");
 
-    public static final DeferredItem<Item> DETONATING_BATON = createBatonItem("detonating_baton", DetonatingBatonItem::new,
+    public static final DeferredItem<Item> DETONATING_BATON = createItem("detonating_baton", DetonatingBatonItem::new,
             new Item.Properties().stacksTo(1));
-    public static final DeferredItem<Item> WRIST_CUTTER = createBatonItem("wrist_cutter", DetonatingBatonItem::new,
+
+    public static final DeferredItem<Item> WRIST_CUTTER = createItem("wrist_cutter", WristCutterItem::new,
             new Item.Properties().stacksTo(1));
-    public static final DeferredItem<Item> BEAR_PAWS = createBatonItem("bear_paws", DetonatingBatonItem::new,
+
+    public static final DeferredItem<Item> BEAR_PAWS = createItem("bear_paws", BearPawsItem::new,
             new Item.Properties().stacksTo(1));
-    public static final DeferredItem<Item> IN_THE_NAME_OF_LOVE_AND_HATE = createBatonItem("in_the_name_of_love_and_hate", DetonatingBatonItem::new,
+
+    public static final DeferredItem<Item> IN_THE_NAME_OF_LOVE_AND_HATE = createItem("in_the_name_of_love_and_hate", InTheNameOfLoveAndHateItem::new,
             new Item.Properties().stacksTo(1));
-    public static final DeferredItem<Item> PARADISE_LOST = createBatonItem("paradise_lost", DetonatingBatonItem::new,
+
+    public static final DeferredItem<Item> PARADISE_LOST = createItem("paradise_lost", ParadiseLostItem::new,
             new Item.Properties().stacksTo(1));
 
     public static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props){
@@ -44,9 +47,5 @@ public class PmItems{
 
     public static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item, Item.Properties properties){
         return ITEMS.registerItem(name, item, properties);
-    }
-
-    public static DeferredItem<Item> createBatonItem(String name, Function<Item.Properties, ? extends MaceItem> item, Item.Properties properties){
-        return createItem(name, item, properties);
     }
 }

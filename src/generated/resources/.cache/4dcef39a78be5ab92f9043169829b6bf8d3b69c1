@@ -1,19 +1,9 @@
-// 1.21.1	2025-03-30T01:33:29.0767851	Tags for minecraft:item mod id project_moon
+// 1.21.1	2025-03-31T11:14:05.1751255	Tags for minecraft:item mod id project_moon
 f97f767e95d297a48a5bbd3b8edb7c889beead33 data/project_moon/tags/item/aleph.json
-5787c44aa781fdd279c038aae797049d7376b106 data/project_moon/tags/item/ego.json
+174d9e8594428112d6f5798b5f6433683efd74f7 data/project_moon/tags/item/ego.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_curios.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_suit.json
-c5b2405d3f34730eb04da2b01eb8b100ab9fc9f5 data/project_moon/tags/item/ego_weapon.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_axe.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_bowgun.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_cannon.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_fist.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_hammer.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_knife.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_mace.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_pistol.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_rifle.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_weapon_spear.json
+cb0be0451d3280d34668fae4da3bf447f0902522 data/project_moon/tags/item/ego_weapon.json
 1f25ea682ac02d54d021794abcd863cd3707020b data/project_moon/tags/item/erosion.json
 4a7ff94e181603f2190dba20a52614198cedfcbe data/project_moon/tags/item/he.json
 db2dfa445d46195432081b655a832d683087f4f9 data/project_moon/tags/item/physics.json
