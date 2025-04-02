@@ -14,8 +14,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.function.BiFunction;
 
 import static ctn.project_moon.create.PmDamageSources.egoDamage;
-import static ctn.project_moon.events.PlayerEvents.DEFAULT_SPIRIT_VALUE;
-import static ctn.project_moon.events.PlayerEvents.getSpiritValue;
+import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
+import static ctn.project_moon.events.SpiritEvents.updateSpiritValue;
 
 
 public class EgoWeaponItem extends Item implements EgoItem{
@@ -46,7 +46,7 @@ public class EgoWeaponItem extends Item implements EgoItem{
             target.hurt(egoDamage().apply(target, attacker), 10);
         }
         CompoundTag npt = attacker.getPersistentData();
-        npt.putFloat("Spirit", npt.getFloat("Spirit") - 1);
+        updateSpiritValue(attacker, -1);
         attacker.sendSystemMessage(Component.literal("我当前的精神值为" + getSpiritValue(npt)));
     }
 

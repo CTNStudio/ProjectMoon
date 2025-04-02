@@ -1,4 +1,4 @@
-package ctn.project_moon.common.geo_models;
+package ctn.project_moon.client.geo_models;
 
 import net.minecraft.resources.ResourceLocation;
 

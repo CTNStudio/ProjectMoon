@@ -1,7 +1,7 @@
 package ctn.project_moon.common.items.ego_weapon;
 
 
-import ctn.project_moon.common.az_dispatchers.item.DetonatingBatonItemDispatcher;
+import ctn.project_moon.client.az_dispatchers.item.DetonatingBatonItemDispatcher;
 import ctn.project_moon.common.items.EgoWeaponItem;
 
 import static ctn.project_moon.create.PmDamageSources.physicsDamage;

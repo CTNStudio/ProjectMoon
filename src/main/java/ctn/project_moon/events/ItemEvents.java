@@ -1,19 +1,16 @@
 package ctn.project_moon.events;
 
-import ctn.project_moon.PmMain;
 import ctn.project_moon.api.PmApi;
 import ctn.project_moon.common.items.EgoItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,8 +24,9 @@ import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 
+@EventBusSubscriber(modid = MOD_ID)
 public class ItemEvents{
-
+    @SubscribeEvent
     public static void itemTooltip(final ItemTooltipEvent event){
         LinkedList<Component> component = new LinkedList<>(event.getToolTip());
         ItemStack stack = event.getItemStack();

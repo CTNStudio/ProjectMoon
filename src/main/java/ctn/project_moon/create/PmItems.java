@@ -1,5 +1,6 @@
 package ctn.project_moon.create;
 
+import ctn.project_moon.common.items.creative_tool.CreativeSpiritToolItem;
 import ctn.project_moon.common.items.ego_weapon.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -17,6 +18,9 @@ public class PmItems{
     public static final DeferredItem<Item> EGO_CURIOS_ICON = registerSimpleIconItem("ego_curios_icon");
     public static final DeferredItem<Item> EGO_SUIT_ICON = registerSimpleIconItem("ego_suit_icon");
     public static final DeferredItem<Item> EGO_WEAPON_ICON = registerSimpleIconItem("ego_weapon_icon");
+    public static final DeferredItem<Item> CREATIVE_TOOL_ICON = registerSimpleIconItem("creative_tool_icon");
+
+    public static final DeferredItem<Item> CREATIVE_SPIRIT_TOOL = creativeToolItem("creative_spirit_tool", CreativeSpiritToolItem::new);
 
     public static final DeferredItem<Item> DETONATING_BATON = createItem("detonating_baton", DetonatingBatonItem::new,
             new Item.Properties().stacksTo(1));
@@ -43,6 +47,14 @@ public class PmItems{
 
     public static DeferredItem<Item> registerSimpleIconItem(String name){
         return ITEMS.registerSimpleItem(name, new Item.Properties().stacksTo(1));
+    }
+
+    public static DeferredItem<Item> creativeToolItem(String name){
+        return ITEMS.registerSimpleItem(name, new Item.Properties().stacksTo(1));
+    }
+
+    public static DeferredItem<Item> creativeToolItem(String name, Function<Item.Properties, ? extends Item> item){
+        return ITEMS.registerItem(name, item, new Item.Properties().stacksTo(1));
     }
 
     public static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item, Item.Properties properties){

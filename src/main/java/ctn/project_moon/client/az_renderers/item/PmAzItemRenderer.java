@@ -1,4 +1,4 @@
-package ctn.project_moon.common.az_renderers.item;
+package ctn.project_moon.client.az_renderers.item;
 
 import mod.azure.azurelib.rewrite.animation.AzAnimator;
 import mod.azure.azurelib.rewrite.render.item.AzItemRenderer;

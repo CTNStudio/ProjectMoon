@@ -16,8 +16,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 public class PmTab extends CreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> PROJECT_MOON_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_WEAPON =
-            register("ego_weapon",
-                    CreativeModeTabs.COMBAT, () -> PmItems.EGO_WEAPON_ICON.get().getDefaultInstance(),
+            register("ego_weapon", CreativeModeTabs.COMBAT, () -> PmItems.EGO_WEAPON_ICON.get().getDefaultInstance(),
                     (parameters, output) -> {
                             output.accept(PmItems.DETONATING_BATON.get());
                             output.accept(PmItems.WRIST_CUTTER.get());
@@ -25,16 +24,23 @@ public class PmTab extends CreativeModeTabs {
                             output.accept(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get());
                             output.accept(PmItems.PARADISE_LOST.get());
                     });
+
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_SUIT =
-            register("ego_suit",
-                    CreativeModeTabs.COMBAT, () -> PmItems.EGO_SUIT_ICON.get().getDefaultInstance(),
+            register("ego_suit", CreativeModeTabs.COMBAT, () -> PmItems.EGO_SUIT_ICON.get().getDefaultInstance(),
                     (parameters, output) -> {
 
                     });
+
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_CURIOS =
             register("ego_curios", CreativeModeTabs.COMBAT, () -> PmItems.EGO_CURIOS_ICON.get().getDefaultInstance(),
                     (parameters, output) -> {
 
+                    });
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TOOL =
+            register("creative_tool", CreativeModeTabs.COMBAT, () -> PmItems.CREATIVE_TOOL_ICON.get().getDefaultInstance(),
+                    (parameters, output) -> {
+                        output.accept(PmItems.CREATIVE_SPIRIT_TOOL.get());
                     });
 
     public static DeferredHolder<CreativeModeTab, CreativeModeTab> register(

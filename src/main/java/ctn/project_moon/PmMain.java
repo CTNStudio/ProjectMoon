@@ -3,10 +3,7 @@ package ctn.project_moon;
 import com.mojang.logging.LogUtils;
 import ctn.project_moon.create.PmBlocks;
 import ctn.project_moon.create.PmItems;
-import ctn.project_moon.events.ItemEvents;
-import ctn.project_moon.events.LivingEvent;
-import ctn.project_moon.events.PlayerEvents;
-import ctn.project_moon.events.ScreenEvents;
+import ctn.project_moon.events.PmConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
@@ -15,11 +12,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
@@ -52,40 +45,5 @@ public class PmMain {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("HELLO from server starting");
-    }
-
-    @SubscribeEvent
-    public void itemTooltip(final ItemTooltipEvent event){
-        ItemEvents.itemTooltip(event);
-    }
-
-    @SubscribeEvent
-    public void saveToSpiritValue(PlayerEvent.SaveToFile event){
-        PlayerEvents.saveToSpiritValue(event);
-    }
-
-    @SubscribeEvent
-    public void loadFromSpiritValue(PlayerEvent.LoadFromFile event){
-        PlayerEvents.loadFromSpiritValue(event);
-    }
-
-    @SubscribeEvent
-    public void resetSpiritValue(PlayerEvent.PlayerRespawnEvent event){
-        PlayerEvents.resetSpiritValue(event);
-    }
-
-    @SubscribeEvent
-    public void damage(LivingIncomingDamageEvent event){
-        LivingEvent.damage(event);
-    }
-
-    @SubscribeEvent
-    public void hudExtensions(RenderGuiEvent.Pre event){
-        ScreenEvents.preScreenEvent(event);
-    }
-
-    @SubscribeEvent
-    public void hudExtensions(RenderGuiEvent.Post event){
-        ScreenEvents.postScreenEvent(event);
     }
 }

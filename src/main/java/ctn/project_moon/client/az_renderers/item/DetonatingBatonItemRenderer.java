@@ -1,6 +1,6 @@
-package ctn.project_moon.common.az_renderers.item;
+package ctn.project_moon.client.az_renderers.item;
 
-import ctn.project_moon.common.az_animators.item.DetonatingBatonItemAnimator;
+import ctn.project_moon.client.az_animators.item.DetonatingBatonItemAnimator;
 import net.minecraft.resources.ResourceLocation;
 
 public class DetonatingBatonItemRenderer extends PmAzItemRenderer {
