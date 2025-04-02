@@ -1,10 +1,12 @@
 package ctn.project_moon.events;
 
 import ctn.project_moon.api.PmApi;
-import ctn.project_moon.common.items.EgoItem;
+import ctn.project_moon.common.entity.abnos.AbnosEntity;
+import ctn.project_moon.common.item.EgoItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
@@ -38,24 +40,24 @@ public class ItemEvents{
 
     private static void levelText(LinkedList<Component> tooltipComponents, ItemStack stack) {
         TagKey<Item> levelTags = EgoItem.getEgoLevelTag(stack);
-        MutableComponent mutableComponent = null;
-        if (levelTags.equals(ALEPH)) {
-            mutableComponent = createColorText("ALEPH", "#ff0000");
-        } else if (levelTags.equals(WAW)) {
-            mutableComponent = createColorText("WAW", "#8a2be2");
-        } else if (levelTags.equals(HE)) {
-            mutableComponent = createColorText("HE", "#ffff00");
-        } else if (levelTags.equals(TETH)) {
-            mutableComponent = createColorText("TETH", "#1e90ff");
-        } else if (levelTags.equals(ZAYIN)) {
-            mutableComponent = createColorText("ZAYIN", "#00ff00");
-        }
-        if (tooltipComponents.size() <= 1) {
-            tooltipComponents.add(mutableComponent);
-        }else {
-            tooltipComponents.add(1, mutableComponent);
-        }
+        MutableComponent mutableComponent = switch(AbnosEntity.AbnosType.getTypeByTag(levelTags)) {
+            case ZAYIN -> createColorText("ALEPH", "#ff0000");
+            case TETH -> createColorText("WAW", "#8a2be2");
+            case HE -> createColorText("HE", "#ffff00");
+            case WAW -> createColorText("TETH", "#1e90ff");
+            case ALEPH -> createColorText("ZAYIN", "#00ff00");
+            case null -> null;
+        };
+
+        tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 0, 1), mutableComponent);
     }
+
+    private static final Map<TagKey<Item>, String> COLOR_MAP = Map.of(
+            PHYSICS, "#ff0000",
+            SPIRIT, "#ffffff",
+            EROSION, "#8a2be2",
+            THE_SOUL, "#00ffff"
+    );
 
     private static void injuryType(LinkedList<Component> tooltipComponents, ItemStack stack) {
         List<TagKey<Item>> damageTypesTags = EgoItem.egoDamageTypes(stack);
@@ -77,27 +79,13 @@ public class ItemEvents{
             }
         }
 
-        for (TagKey<Item> itemTag : damageTypesTags) {
-            if (itemTag.equals(PHYSICS)) {
-                texts.put("physics", "#ff0000");
-            } else if (itemTag.equals(SPIRIT)) {
-                texts.put("spirit", "#ffffff");
-            } else if (itemTag.equals(EROSION)) {
-                texts.put("erosion", "#8a2be2");
-            } else if (itemTag.equals(THE_SOUL)) {
-                texts.put("the_soul", "#00ffff");
-            }
-        }
-        Set<String> levelText = texts.keySet();
-        if (levelText.isEmpty()) {
-            return;
-        }
-
         tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe.damage_type", "#AAAAAA"));
-        for (String level : levelText) {
-            String color = texts.get(level);
-            tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe." + level, color));
-        }
+        damageTypesTags.stream()
+                .filter(COLOR_MAP::containsKey)
+                .forEach(it ->
+                        tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe." + it.location().getPath()
+                                , COLOR_MAP.get(it)))
+                );
     }
 
     private static @NotNull MutableComponent createColorText(String text, String color) {

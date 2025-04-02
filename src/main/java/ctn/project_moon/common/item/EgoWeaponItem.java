@@ -1,4 +1,4 @@
-package ctn.project_moon.common.items;
+package ctn.project_moon.common.item;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.BiFunction;
 
-import static ctn.project_moon.create.PmDamageSources.egoDamage;
+import static ctn.project_moon.init.PmDamageSources.egoDamage;
 import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
 import static ctn.project_moon.events.SpiritEvents.updateSpiritValue;
 

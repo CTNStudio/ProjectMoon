@@ -1,4 +1,4 @@
-package ctn.project_moon.create;
+package ctn.project_moon.init;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;

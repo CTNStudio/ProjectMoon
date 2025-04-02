@@ -1,10 +1,10 @@
-package ctn.project_moon.common.items.ego_weapon;
+package ctn.project_moon.common.item.ego_weapon;
 
 
 import ctn.project_moon.client.az_dispatchers.item.DetonatingBatonItemDispatcher;
-import ctn.project_moon.common.items.EgoWeaponItem;
+import ctn.project_moon.common.item.EgoWeaponItem;
 
-import static ctn.project_moon.create.PmDamageSources.physicsDamage;
+import static ctn.project_moon.init.PmDamageSources.physicsDamage;
 
 public class DetonatingBatonItem extends EgoWeaponItem {
     public final DetonatingBatonItemDispatcher dispatcher;

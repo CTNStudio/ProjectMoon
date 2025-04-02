@@ -1,7 +1,7 @@
-package ctn.project_moon.create;
+package ctn.project_moon.init;
 
-import ctn.project_moon.common.items.creative_tool.CreativeSpiritToolItem;
-import ctn.project_moon.common.items.ego_weapon.*;
+import ctn.project_moon.common.item.creative_tool.CreativeSpiritToolItem;
+import ctn.project_moon.common.item.ego_weapon.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

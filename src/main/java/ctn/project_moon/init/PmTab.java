@@ -1,4 +1,4 @@
-package ctn.project_moon.create;
+package ctn.project_moon.init;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -39,9 +39,7 @@ public class PmTab extends CreativeModeTabs {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TOOL =
             register("creative_tool", CreativeModeTabs.COMBAT, () -> PmItems.CREATIVE_TOOL_ICON.get().getDefaultInstance(),
-                    (parameters, output) -> {
-                        output.accept(PmItems.CREATIVE_SPIRIT_TOOL.get());
-                    });
+                    (parameters, output) -> output.accept(PmItems.CREATIVE_SPIRIT_TOOL.get()));
 
     public static DeferredHolder<CreativeModeTab, CreativeModeTab> register(
             String name,

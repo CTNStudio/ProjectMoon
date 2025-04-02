@@ -1,7 +1,7 @@
 package ctn.project_moon.api;
 
-import ctn.project_moon.common.entitys.mob.abnos.AbnosTypes;
-import ctn.project_moon.create.PmDamageSources;
+import ctn.project_moon.common.entity.abnos.AbnosEntity;
+import ctn.project_moon.init.PmDamageSources;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.Entity;
 
@@ -27,7 +27,7 @@ public class PmApi {
         };
     }
 
-    public static double damageMultiple(AbnosTypes type, AbnosTypes type2) {
+    public static double damageMultiple(AbnosEntity.AbnosType type, AbnosEntity.AbnosType type2) {
         try {
             return damageMultiple(type.getLevel() - type2.getLevel());
         } catch (IllegalArgumentException e) {

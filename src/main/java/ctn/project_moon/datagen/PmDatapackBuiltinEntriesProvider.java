@@ -17,12 +17,11 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.create.PmDamageTypes.*;
+import static ctn.project_moon.init.PmDamageTypes.*;
 
 /**
  * @author wang_
  * @version 2024.3.4.1
- * @description
  * @date 2025/3/29
  */
 public class PmDatapackBuiltinEntriesProvider extends DatapackBuiltinEntriesProvider{

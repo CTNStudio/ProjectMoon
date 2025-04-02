@@ -1,4 +1,4 @@
-package ctn.project_moon.create;
+package ctn.project_moon.init;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
