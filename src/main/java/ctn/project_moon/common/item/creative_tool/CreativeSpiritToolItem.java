@@ -1,4 +1,4 @@
-package ctn.project_moon.common.items.creative_tool;
+package ctn.project_moon.common.item.creative_tool;
 
 import ctn.project_moon.events.SpiritEvents;
 import net.minecraft.world.InteractionHand;

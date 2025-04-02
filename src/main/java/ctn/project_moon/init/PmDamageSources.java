@@ -1,4 +1,4 @@
-package ctn.project_moon.create;
+package ctn.project_moon.init;
 
 import ctn.project_moon.api.PmApi;
 import net.minecraft.core.RegistryAccess;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
 
-import static ctn.project_moon.create.PmDamageTypes.*;
+import static ctn.project_moon.init.PmDamageTypes.*;
 
 /** 伤害来源 */
 public class PmDamageSources extends DamageSources {
