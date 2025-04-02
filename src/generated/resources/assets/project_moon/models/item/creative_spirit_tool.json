@@ -2,13 +2,13 @@
   "parent": "minecraft:item/generated",
   "overrides": [
     {
-      "model": "project_moon:ego_weapon_icon_add",
+      "model": "project_moon:item/creative_spirit_tool_add",
       "predicate": {
         "project_moon:mode_boolean": 0.0
       }
     },
     {
-      "model": "project_moon:ego_weapon_icon_decrease",
+      "model": "project_moon:item/creative_spirit_tool_decrease",
       "predicate": {
         "project_moon:mode_boolean": 1.0
       }

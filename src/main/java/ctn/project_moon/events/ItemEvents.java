@@ -3,7 +3,6 @@ package ctn.project_moon.events;
 import ctn.project_moon.api.PmApi;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.common.item.EgoItem;
-import ctn.project_moon.datagen.PmTags;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
@@ -17,7 +16,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +58,7 @@ public class ItemEvents{
             THE_SOUL, "#00ffff"
     );
 
+    // TODO 无伤害类型处理错误
     private static void injuryType(LinkedList<Component> tooltipComponents, ItemStack stack) {
         List<TagKey<Item>> damageTypesTags = EgoItem.egoDamageTypes(stack);
         if (damageTypesTags.isEmpty()) {
@@ -69,7 +68,7 @@ public class ItemEvents{
             boolean isEmpty = false;
             for (ItemAttributeModifiers.Entry itemattributemodifiers$entry : stack.getComponents().get(ATTRIBUTE_MODIFIERS).modifiers()) {
                 if (itemattributemodifiers$entry.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID)) {
-                    damageTypesTags.add(PmTags.PmItem.PHYSICS);
+//                    damageTypesTags.add(PmTags.PmItem.PHYSICS);
                     isEmpty = true;
                     break;
                 }

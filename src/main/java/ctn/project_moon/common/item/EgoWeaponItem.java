@@ -1,8 +1,6 @@
 package ctn.project_moon.common.item;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,10 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.BiFunction;
-
-import static ctn.project_moon.init.PmDamageSources.egoDamage;
-import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
-import static ctn.project_moon.events.SpiritEvents.updateSpiritValue;
 
 
 public class EgoWeaponItem extends Item implements EgoItem{
@@ -40,14 +34,13 @@ public class EgoWeaponItem extends Item implements EgoItem{
     // TODO
     @Override
     public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!isSpecialTemplate) {
-            target.hurt(damageType.apply(target, attacker), 10);
-        } else {
-            target.hurt(egoDamage().apply(target, attacker), 10);
-        }
-        CompoundTag npt = attacker.getPersistentData();
-        updateSpiritValue(attacker, -1);
-        attacker.sendSystemMessage(Component.literal("我当前的精神值为" + getSpiritValue(npt)));
+//        if (!isSpecialTemplate) {
+//            target.hurt(damageType.apply(target, attacker), 10);
+//        } else {
+//            target.hurt(egoDamage().apply(target, attacker), 10);
+//        }
+//        CompoundTag nbt = attacker.getPersistentData();
+//        updateSpiritValue(attacker, -1);
     }
 
 //    public static ItemAttributeModifiers createAttributes(Tier tier, int attackDamage, float attackSpeed) {

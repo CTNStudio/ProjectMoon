@@ -16,21 +16,21 @@ public class SpiritEvents {
     public static final float DEFAULT_MIN_SPIRIT_VALUE = DEFAULT_MAX_SPIRIT_VALUE * -1;
 
     public static void setSpiritValue(LivingEntity entity, float value){
-        CompoundTag npt = entity.getPersistentData();
-        npt.putFloat(SPIRIT, value);
+        CompoundTag nbt = entity.getPersistentData();
+        nbt.putFloat(SPIRIT, value);
         restrictSpirit(entity);
     }
 
     public static void updateSpiritValue(LivingEntity entity, float value){
-        CompoundTag npt = entity.getPersistentData();
-        npt.putFloat(SPIRIT, getSpiritValue(entity) + value);
+        CompoundTag nbt = entity.getPersistentData();
+        nbt.putFloat(SPIRIT, getSpiritValue(entity) + value);
         restrictSpirit(entity);
     }
 
     public static void setMaxSpiritValue(LivingEntity entity, float value){
-        CompoundTag npt = entity.getPersistentData();
-        npt.putFloat(MAX_SPIRIT, value);
-        npt.putFloat(MIN_SPIRIT, value * -1);
+        CompoundTag nbt = entity.getPersistentData();
+        nbt.putFloat(MAX_SPIRIT, value);
+        nbt.putFloat(MIN_SPIRIT, value * -1);
         restrictSpirit(entity);
     }
 
@@ -57,16 +57,16 @@ public class SpiritEvents {
         return entity.getPersistentData().getFloat(MIN_SPIRIT);
     }
 
-    public static float getSpiritValue(CompoundTag npt) {
-        return npt.getFloat(SPIRIT);
+    public static float getSpiritValue(CompoundTag nbt) {
+        return nbt.getFloat(SPIRIT);
     }
 
-    public static float getMaxSpiritValue(CompoundTag npt) {
-        return npt.getFloat(MAX_SPIRIT);
+    public static float getMaxSpiritValue(CompoundTag nbt) {
+        return nbt.getFloat(MAX_SPIRIT);
     }
 
-    public static float getMinSpiritValue(CompoundTag npt) {
-        return npt.getFloat(MIN_SPIRIT);
+    public static float getMinSpiritValue(CompoundTag nbt) {
+        return nbt.getFloat(MIN_SPIRIT);
     }
 
     private static @NotNull String createAttribute(String name) {

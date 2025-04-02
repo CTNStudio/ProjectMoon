@@ -26,26 +26,26 @@ public class PlayerEvents {
     }
 
     private static void processAttributeInformation(PlayerEvent event) {
-        CompoundTag npt = event.getEntity().getPersistentData();
-        if (!npt.contains(SPIRIT)) {
-            npt.putFloat(SPIRIT, DEFAULT_SPIRIT_VALUE);
+        CompoundTag nbt = event.getEntity().getPersistentData();
+        if (!nbt.contains(SPIRIT)) {
+            nbt.putFloat(SPIRIT, DEFAULT_SPIRIT_VALUE);
         }
-        if (!npt.contains(MAX_SPIRIT)) {
-            npt.putFloat(MAX_SPIRIT, DEFAULT_MAX_SPIRIT_VALUE);
+        if (!nbt.contains(MAX_SPIRIT)) {
+            nbt.putFloat(MAX_SPIRIT, DEFAULT_MAX_SPIRIT_VALUE);
         }
-        if (!npt.contains(MIN_SPIRIT)) {
-            npt.putFloat(MIN_SPIRIT, DEFAULT_MIN_SPIRIT_VALUE);
+        if (!nbt.contains(MIN_SPIRIT)) {
+            nbt.putFloat(MIN_SPIRIT, DEFAULT_MIN_SPIRIT_VALUE);
         }
-        npt.putFloat(SPIRIT, getSpiritValue(npt));
-        npt.putFloat(MAX_SPIRIT, getMaxSpiritValue(npt));
-        npt.putFloat(MIN_SPIRIT, getMinSpiritValue(npt));
+        nbt.putFloat(SPIRIT, getSpiritValue(nbt));
+        nbt.putFloat(MAX_SPIRIT, getMaxSpiritValue(nbt));
+        nbt.putFloat(MIN_SPIRIT, getMinSpiritValue(nbt));
     }
 
     /** 玩家死亡后重置精神值 */
     @SubscribeEvent
     public static void resetSpiritValue(PlayerEvent.PlayerRespawnEvent event) {
-        CompoundTag npt = event.getEntity().getPersistentData();
-        npt.putFloat(SPIRIT, DEFAULT_SPIRIT_VALUE);
+        CompoundTag nbt = event.getEntity().getPersistentData();
+        nbt.putFloat(SPIRIT, DEFAULT_SPIRIT_VALUE);
     }
 
 
@@ -61,8 +61,7 @@ public class PlayerEvents {
             if (getSpiritValue(livingEntity) < 0) {
                 return;
             }
-            updateSpiritValue(livingEntity, 1);
-            livingEntity.sendSystemMessage(Component.literal("我当前的精神值为" + getSpiritValue(livingEntity)));
+//            updateSpiritValue(livingEntity, 1);
         }
     }
 }

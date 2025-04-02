@@ -1,9 +1,9 @@
 package ctn.project_moon;
 
 import com.mojang.logging.LogUtils;
+import ctn.project_moon.events.PmConfig;
 import ctn.project_moon.init.PmBlocks;
 import ctn.project_moon.init.PmItems;
-import ctn.project_moon.events.PmConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;

@@ -14,9 +14,9 @@ import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
 public class LivingEvent {
     @SubscribeEvent
     public static void damage(LivingIncomingDamageEvent event){
-        CompoundTag npt = event.getEntity().getPersistentData();
-        if (npt.contains(SPIRIT)) {
-            event.getEntity().sendSystemMessage(Component.literal("我当前的精神值为" + getSpiritValue(npt)));
+        CompoundTag nbt = event.getEntity().getPersistentData();
+        if (nbt.contains(SPIRIT)) {
+            event.getEntity().sendSystemMessage(Component.literal("我当前的精神值为" + getSpiritValue(nbt)));
         }
     }
 }

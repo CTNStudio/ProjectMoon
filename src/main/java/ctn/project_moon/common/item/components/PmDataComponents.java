@@ -1,4 +1,4 @@
-package ctn.project_moon.common.PmDataComponents;
+package ctn.project_moon.common.item.components;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
