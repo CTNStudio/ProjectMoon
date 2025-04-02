@@ -13,6 +13,9 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+/**
+ * 理智值（精神值）渲染类
+ */
 @OnlyIn(Dist.CLIENT)
 public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
     private GuiGraphics guiGraphics;
@@ -37,10 +40,12 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
 
     private void renderSpirit(GuiGraphics guiGraphics) {
         minecraft = Minecraft.getInstance();
-        int spriteWidth = 20;
+        // todo : 获取玩家当前精神值，并渲染对应图片() 判断是否按F1
+//        if (minecraft.gui.getDebugOverlay().getBandwidthLogger())
+//        int spriteWidth = 20;
         int spriteHeight = 20;
-        int height = guiGraphics.guiWidth() / 2 - spriteHeight / 2;
-        int width = (guiGraphics.guiHeight() - spriteWidth) - 35;
+        int height = guiGraphics.guiHeight() / 2 - spriteHeight / 2;
+        int width = (guiGraphics.guiWidth() - spriteWidth) - 35;
         ResourceLocation currentTexture;
         LocalPlayer player = getPlayer();
         float spiritValue = SpiritEvents.getSpiritValue(player);
