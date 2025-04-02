@@ -1,7 +1,7 @@
 package ctn.project_moon.datagen;
 
-import ctn.project_moon.create.PmItems;
-import ctn.project_moon.create.PmTab;
+import ctn.project_moon.init.PmItems;
+import ctn.project_moon.init.PmTab;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -9,7 +9,7 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.create.PmDamageTypes.*;
+import static ctn.project_moon.init.PmDamageTypes.*;
 
 
 public class I18ZhCnDatagen extends LanguageProvider {

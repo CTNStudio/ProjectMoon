@@ -1,8 +1,8 @@
 package ctn.project_moon;
 
 import com.mojang.logging.LogUtils;
-import ctn.project_moon.create.PmBlocks;
-import ctn.project_moon.create.PmItems;
+import ctn.project_moon.init.PmBlocks;
+import ctn.project_moon.init.PmItems;
 import ctn.project_moon.events.PmConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
@@ -16,7 +16,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
-import static ctn.project_moon.create.PmTab.PROJECT_MOON_TAB;
+import static ctn.project_moon.init.PmTab.PROJECT_MOON_TAB;
 
 @Mod(PmMain.MOD_ID)
 public class PmMain {

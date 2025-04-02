@@ -1,6 +1,6 @@
 package ctn.project_moon.datagen;
 
-import ctn.project_moon.create.PmItems;
+import ctn.project_moon.init.PmItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.common.PmDataComponents.PmDataComponents.MODE_BOOLEAN;
 import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
 import static net.minecraft.resources.ResourceLocation.parse;
 
@@ -27,9 +28,12 @@ public class PmItemModel extends ItemModelProvider {
     protected void registerModels() {
         basicItem(PmItems.EGO_SUIT_ICON.get());
         basicItem(PmItems.EGO_CURIOS_ICON.get());
-        basicItem(PmItems.EGO_WEAPON_ICON.get()).override()
-                .model(new ModelFile.ExistingModelFile(getItemResourceLocation(PmItems.EGO_WEAPON_ICON.get(), "add").toString(), new ExistingFileHelper()))// TODO
-                .model();
+        basicItem(PmItems.EGO_WEAPON_ICON.get());
+        basicItem(PmItems.CREATIVE_SPIRIT_TOOL.get())
+                .override().model(new ModelFile.UncheckedModelFile(getItemResourceLocation(PmItems.EGO_WEAPON_ICON.get(), "add").toString()))
+                .predicate(ResourceLocation.fromNamespaceAndPath(MOD_ID, "mode_boolean"), 0).end()
+                .override().model(new ModelFile.UncheckedModelFile(getItemResourceLocation(PmItems.EGO_WEAPON_ICON.get(), "decrease").toString()))
+                .predicate(ResourceLocation.fromNamespaceAndPath(MOD_ID, "mode_boolean"), 1).end();
         specialItem(PmItems.CREATIVE_SPIRIT_TOOL.get(), "add");
         specialItem(PmItems.CREATIVE_SPIRIT_TOOL.get(), "decrease");
     }
@@ -53,11 +57,11 @@ public class PmItemModel extends ItemModelProvider {
 
     public ItemModelBuilder basicItem(ResourceLocation item, String name) {
         return getBuilder(item.toString())
-                .parent(customModelFile(name))
+                .parent(customModelFile("models/item/" + name))
                 .texture("layer0", fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()));
     }
 
     public ModelFile customModelFile(String name){
-        return new ModelFile.UncheckedModelFile(fromNamespaceAndPath(MOD_ID, "models/item/"+ name));
+        return new ModelFile.UncheckedModelFile(fromNamespaceAndPath(MOD_ID, name));
     }
 }

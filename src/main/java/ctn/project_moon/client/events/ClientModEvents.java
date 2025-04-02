@@ -12,7 +12,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 
 import static ctn.project_moon.PmMain.LOGGER;
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.create.PmItems.DETONATING_BATON;
+import static ctn.project_moon.init.PmItems.DETONATING_BATON;
 
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {

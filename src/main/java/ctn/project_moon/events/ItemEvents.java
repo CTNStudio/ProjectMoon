@@ -3,6 +3,7 @@ package ctn.project_moon.events;
 import ctn.project_moon.api.PmApi;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.common.item.EgoItem;
+import ctn.project_moon.datagen.PmTags;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
@@ -41,11 +42,11 @@ public class ItemEvents{
     private static void levelText(LinkedList<Component> tooltipComponents, ItemStack stack) {
         TagKey<Item> levelTags = EgoItem.getEgoLevelTag(stack);
         MutableComponent mutableComponent = switch(AbnosEntity.AbnosType.getTypeByTag(levelTags)) {
-            case ZAYIN -> createColorText("ALEPH", "#ff0000");
-            case TETH -> createColorText("WAW", "#8a2be2");
+            case ZAYIN -> createColorText("ZAYIN", "#00ff00");
+            case TETH -> createColorText("TETH", "#1e90ff");
             case HE -> createColorText("HE", "#ffff00");
-            case WAW -> createColorText("TETH", "#1e90ff");
-            case ALEPH -> createColorText("ZAYIN", "#00ff00");
+            case WAW -> createColorText("WAW", "#8a2be2");
+            case ALEPH -> createColorText("ALEPH", "#ff0000");
             case null -> null;
         };
 
@@ -61,31 +62,25 @@ public class ItemEvents{
 
     private static void injuryType(LinkedList<Component> tooltipComponents, ItemStack stack) {
         List<TagKey<Item>> damageTypesTags = EgoItem.egoDamageTypes(stack);
-        LinkedHashMap<String, String> texts = new LinkedHashMap<>();
         if (damageTypesTags.isEmpty()) {
             if (!stack.getComponents().has(ATTRIBUTE_MODIFIERS)){
                 return;
             }
-            boolean isPhysics = false;
+            boolean isEmpty = false;
             for (ItemAttributeModifiers.Entry itemattributemodifiers$entry : stack.getComponents().get(ATTRIBUTE_MODIFIERS).modifiers()) {
                 if (itemattributemodifiers$entry.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID)) {
-                    texts.put("physics", "#ff0000");
-                    isPhysics = true;
+                    damageTypesTags.add(PmTags.PmItem.PHYSICS);
+                    isEmpty = true;
                     break;
                 }
             }
-            if (!isPhysics){
+            if (!isEmpty){
                 return;
             }
         }
 
         tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe.damage_type", "#AAAAAA"));
-        damageTypesTags.stream()
-                .filter(COLOR_MAP::containsKey)
-                .forEach(it ->
-                        tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe." + it.location().getPath()
-                                , COLOR_MAP.get(it)))
-                );
+        damageTypesTags.stream().filter(COLOR_MAP::containsKey).forEach(it -> tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe." + it.location().getPath(), COLOR_MAP.get(it))));
     }
 
     private static @NotNull MutableComponent createColorText(String text, String color) {

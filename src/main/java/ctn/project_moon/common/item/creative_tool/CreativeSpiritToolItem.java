@@ -27,6 +27,6 @@ public class CreativeSpiritToolItem extends Item {
         if (!level.isClientSide()) {
             SpiritEvents.updateSpiritValue(player, itemstack.get(MODE_BOOLEAN) ? -1 : 1);
         }
-        return super.use(level, player, usedHand);
+        return InteractionResultHolder.success(itemstack);
     }
 }

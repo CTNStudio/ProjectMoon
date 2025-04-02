@@ -27,7 +27,7 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
         this.guiGraphics = guiGraphics;
         this.deltaTracker = deltaTracker;
         render(guiGraphics,deltaTracker);
-        minecraft = Minecraft.getInstance();
+
     }
 
     @Override
@@ -36,6 +36,7 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
     }
 
     private void renderSpirit(GuiGraphics guiGraphics) {
+        minecraft = Minecraft.getInstance();
         int spriteWidth = 20;
         int spriteHeight = 20;
         int height = guiGraphics.guiWidth() / 2 - spriteHeight / 2;

@@ -1,6 +1,6 @@
 package ctn.project_moon.datagen;
 
-import ctn.project_moon.create.PmItems;
+import ctn.project_moon.init.PmItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
