@@ -85,8 +85,16 @@ public class ItemEvents{
                 }
             }
 
+            final var listIn = damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList();
+
+            if (listIn.isEmpty()) {
+                return;
+            }
+
             tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe.damage_type", "#AAAAAA"));
-            damageTypesTags.stream().filter(COLOR_MAP::containsKey).forEach(it -> tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe." + it.location().getPath(), COLOR_MAP.get(it))));
+            listIn.forEach(it ->
+                            tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe." +
+                                    it.location().getPath(), COLOR_MAP.get(it))));
         }
 
         private static @NotNull MutableComponent createColorText(String text, String color) {
