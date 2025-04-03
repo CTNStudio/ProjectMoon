@@ -25,7 +25,7 @@ public class PmTab extends CreativeModeTabs {
                         output.accept(PmItems.DETONATING_BATON.get());
                         output.accept(PmItems.WRIST_CUTTER.get());
                         output.accept(PmItems.BEAR_PAWS.get());
-                        output.accept(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get());
+                        output.accept(PmItems.LOVE_HATE.get());
                         output.accept(PmItems.PARADISE_LOST.get());
                     }, ()-> PmItems.EGO_WEAPON_ICON.get().getDefaultInstance()));
 

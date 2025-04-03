@@ -1,4 +1,4 @@
-package ctn.project_moon.common.client.gui_layered;
+package ctn.project_moon.common.spirit_layered;
 
 import ctn.project_moon.events.SpiritEvents;
 import net.minecraft.client.DeltaTracker;

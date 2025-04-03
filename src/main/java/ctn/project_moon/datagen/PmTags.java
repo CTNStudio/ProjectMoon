@@ -67,20 +67,20 @@ public class PmTags {
             tag(HE)
                     .add(PmItems.BEAR_PAWS.get());
             tag(WAW)
-                    .add(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get());
+                    .add(PmItems.LOVE_HATE.get());
             tag(ALEPH)
                     .add(PmItems.PARADISE_LOST.get());
             tag(PHYSICS) // 物理
-                    .add(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get())
+                    .add(PmItems.LOVE_HATE.get())
                     .add(PmItems.DETONATING_BATON.get())
                     .add(PmItems.BEAR_PAWS.get());
             tag(SPIRIT) // 精神
-                    .add(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get())
+                    .add(PmItems.LOVE_HATE.get())
                     .add(PmItems.WRIST_CUTTER.get());
             tag(EROSION) // 侵蚀
-                    .add(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get());
+                    .add(PmItems.LOVE_HATE.get());
             tag(THE_SOUL) // 灵魂
-                    .add(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get())
+                    .add(PmItems.LOVE_HATE.get())
                     .add(PmItems.PARADISE_LOST.get());
             tag(EGO_CURIOS);
             tag(EGO_SUIT);
@@ -88,7 +88,7 @@ public class PmTags {
                     .add(PmItems.DETONATING_BATON.get())
                     .add(PmItems.WRIST_CUTTER.get())
                     .add(PmItems.BEAR_PAWS.get())
-                    .add(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE.get())
+                    .add(PmItems.LOVE_HATE.get())
                     .add(PmItems.PARADISE_LOST.get());
             tag(EGO).addTags(EGO_CURIOS, EGO_SUIT, EGO_WEAPON);
         }

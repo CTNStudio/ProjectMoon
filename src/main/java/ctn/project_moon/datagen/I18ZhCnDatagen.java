@@ -42,7 +42,7 @@ public class I18ZhCnDatagen extends LanguageProvider {
         addItem(PmItems.DETONATING_BATON, "镇暴棍");
         addItem(PmItems.WRIST_CUTTER, "割腕者");
         addItem(PmItems.BEAR_PAWS, "熊熊抱");
-        addItem(PmItems.IN_THE_NAME_OF_LOVE_AND_HATE, "以爱与恨之名");
+        addItem(PmItems.LOVE_HATE, "以爱与恨之名");
         addItem(PmItems.PARADISE_LOST, "失乐园");
     }
 

@@ -1,18 +1,13 @@
 package ctn.project_moon.events.client;
 
-import ctn.project_moon.common.client.az_renderers.item.DetonatingBatonItemRenderer;
-import mod.azure.azurelib.rewrite.animation.cache.AzIdentityRegistry;
-import mod.azure.azurelib.rewrite.render.item.AzItemRendererRegistry;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
 import static ctn.project_moon.PmMain.LOGGER;
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.init.PmItems.DETONATING_BATON;
 
 /**
  * 没什么特有的客户端事件
@@ -23,12 +18,5 @@ public class ClientModEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
         LOGGER.info("HELLO FROM CLIENT SETUP");
         LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-    }
-
-    /** 物品渲染扩展源自 AzureLib */
-    @SubscribeEvent
-    public static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
-        AzIdentityRegistry.register(DETONATING_BATON.asItem());
-        AzItemRendererRegistry.register(DetonatingBatonItemRenderer::new, DETONATING_BATON.asItem());
     }
 }
