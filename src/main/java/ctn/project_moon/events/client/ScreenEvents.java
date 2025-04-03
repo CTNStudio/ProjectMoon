@@ -1,5 +1,9 @@
 package ctn.project_moon.events.client;
 
+import ctn.project_moon.client.PmGuiLayers;
+import ctn.project_moon.common.client.gui_layered.SpiritLayersDraw;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.LayeredDraw;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -8,31 +12,34 @@ import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-@EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
+/** 屏幕相关事件 */
 public class ScreenEvents {
-    @SubscribeEvent
-    public static void renderGuiEventPre(RenderGuiEvent.Pre event){
+
+    /** 渲染到hud */
+    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
+    public static class RenderHud{
+        @SubscribeEvent
+        public static void renderGuiEventPre(RenderGuiEvent.Pre event){
+
+        }
+
+        @SubscribeEvent
+        public static void renderGuiEventPost(RenderGuiEvent.Post event){
+
+        }
     }
 
-    @SubscribeEvent
-    public static void renderGuiEventPost(RenderGuiEvent.Post event){
+    /** 拦截gui图层渲染 */
+    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
+    public static class interceptGuiLayer {
+        @SubscribeEvent
+        public static void renderGuiEventPre(RenderGuiLayerEvent.Pre event){
 
-    }
+        }
 
-    @SubscribeEvent
-    public static void renderGuiEventPre(RenderGuiLayerEvent.Pre event){
-//        if (event.getName() == PmGuiLayers.PLAYER_SPIRIT) {
-//            LayeredDraw.Layer layer = event.getLayer();
-//            GuiGraphics guiGraphics = event.getGuiGraphics();
-//            DeltaTracker partialTick = event.getPartialTick();
-//            layer.render(guiGraphics, partialTick);
-//            LayeredDraw.Layer layer1 = new SpiritLayersDraw(guiGraphics, partialTick);
-//            layer1.render(guiGraphics, partialTick);
-//        }
-    }
+        @SubscribeEvent
+        public static void renderGuiEventPost(RenderGuiLayerEvent.Post event){
 
-    @SubscribeEvent
-    public static void renderGuiEventPost(RenderGuiLayerEvent.Post event){
-
+        }
     }
 }

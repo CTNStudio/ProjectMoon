@@ -6,31 +6,32 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
+
 import static ctn.project_moon.PmMain.MOD_ID;
 
 /**
- * 理智值（精神值）渲染类
+ * 理智值层渲染
  */
 @OnlyIn(Dist.CLIENT)
 public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
-    private GuiGraphics guiGraphics;
-    private DeltaTracker deltaTracker;
-    private Minecraft minecraft;
+    private final Minecraft minecraft;
 
     private static final ResourceLocation DEFAULT_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/default");
     private static final ResourceLocation FULL_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/full");
     private static final ResourceLocation FEW_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/few");
 
-    public SpiritLayersDraw(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        this.guiGraphics = guiGraphics;
-        this.deltaTracker = deltaTracker;
-        render(guiGraphics,deltaTracker);
-
+    public SpiritLayersDraw(GuiGraphics guiGraphics, DeltaTracker deltaTracker, Minecraft minecraft) {
+        this.minecraft = minecraft;
+        render(guiGraphics, deltaTracker);
     }
 
     @Override
@@ -39,32 +40,50 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
     }
 
     private void renderSpirit(GuiGraphics guiGraphics) {
-        minecraft = Minecraft.getInstance();
-        // todo : 获取玩家当前精神值，并渲染对应图片() 判断是否按F1
-//        if (minecraft.gui.getDebugOverlay().getBandwidthLogger())
+        if (minecraft.options.hideGui) {
+            return;
+        }
+        Player player = getCameraPlayer();
+        if (player == null){
+            return;
+        }
         int spriteWidth = 20;
         int spriteHeight = 20;
-        int height = guiGraphics.guiHeight() / 2 - spriteHeight / 2;
-        int width = (guiGraphics.guiWidth() - spriteWidth) - 35;
+        int height = guiGraphics.guiHeight() - spriteHeight - 35;
+        int width = guiGraphics.guiWidth() / 2 - spriteWidth / 2 ;
         ResourceLocation currentTexture;
-        LocalPlayer player = getPlayer();
         float spiritValue = SpiritEvents.getSpiritValue(player);
-        if (spiritValue >= SpiritEvents.getMaxSpiritValue(player) * 0.7) {
+        float maxSpiritValue = SpiritEvents.getMaxSpiritValue(player);
+        float minSpiritValue = SpiritEvents.getMinSpiritValue(player);
+        if (spiritValue >= maxSpiritValue * 0.7) {
             currentTexture = FULL_SPIRIT_TEXTURE;
-        } else if (spiritValue <= SpiritEvents.getMinSpiritValue(player) * 0.7) {
+        } else if (spiritValue <= minSpiritValue * 0.7) {
             currentTexture = FEW_SPIRIT_TEXTURE;
         } else {
             currentTexture = DEFAULT_SPIRIT_TEXTURE;
         }
         guiGraphics.blitSprite(currentTexture, width, height, spriteWidth, spriteHeight);
-    }
 
-
-    private LocalPlayer getPlayer() {
-        return this.minecraft.player;
     }
 
     private Player getCameraPlayer() {
         return this.minecraft.getCameraEntity() instanceof Player player ? player : null;
+    }
+
+    @Nullable
+    private LivingEntity getPlayer() {
+        Player player = this.getCameraPlayer();
+        if (player != null) {
+            Entity entity = player.getVehicle();
+            if (entity == null) {
+                return null;
+            }
+
+            if (entity instanceof LivingEntity) {
+                return (LivingEntity)entity;
+            }
+        }
+
+        return null;
     }
 }

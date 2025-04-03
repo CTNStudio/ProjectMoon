@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+/** 理智值相关 */
 public class SpiritEvents {
     public static final String SPIRIT = createAttribute("spirit");
     public static final String MAX_SPIRIT = createAttribute("max_spirit");

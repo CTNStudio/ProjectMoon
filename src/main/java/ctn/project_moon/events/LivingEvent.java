@@ -10,6 +10,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.events.SpiritEvents.SPIRIT;
 import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
 
+/**  */
 @EventBusSubscriber(modid = MOD_ID)
 public class LivingEvent {
     @SubscribeEvent

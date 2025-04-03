@@ -26,10 +26,10 @@ import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 
 /** 物品事件 */
-@EventBusSubscriber(modid = MOD_ID)
 public class ItemEvents{
 
     /** 物品提示 */
+    @EventBusSubscriber(modid = MOD_ID)
     public static class ItemTooltip {
         @SubscribeEvent
         public static void itemTooltip(final ItemTooltipEvent event) {

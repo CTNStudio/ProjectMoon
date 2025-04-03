@@ -22,7 +22,7 @@ public class I18ZhCnDatagen extends LanguageProvider {
         addTab(PmTab.EGO_WEAPON, "E.G.O 武器");
         addTab(PmTab.EGO_SUIT, "E.G.O 护甲");
         addTab(PmTab.EGO_CURIOS, "E.G.O 饰品");
-        addTab(PmTab.CREATIVE_TOOL, MOD_ID + " 测试工具");
+        addTab(PmTab.CREATIVE_TOOL, "奇点科技");
         add(MOD_ID + ".item.geo_describe.damage_type", "伤害类型");
         add(MOD_ID + ".item.geo_describe.physics", " 物理");
         add(MOD_ID + ".item.geo_describe.spirit", " 精神");

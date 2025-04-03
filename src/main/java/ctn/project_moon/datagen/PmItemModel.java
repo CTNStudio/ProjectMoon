@@ -1,6 +1,6 @@
 package ctn.project_moon.datagen;
 
-import ctn.project_moon.events.client.OverridesEvents;
+import ctn.project_moon.events.client.ItemPropertyEvents;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -29,11 +29,13 @@ public class PmItemModel extends ItemModelProvider {
         basicItem(PmItems.EGO_SUIT_ICON.get());
         basicItem(PmItems.EGO_CURIOS_ICON.get());
         basicItem(PmItems.EGO_WEAPON_ICON.get());
+        basicItem(PmItems.CREATIVE_TOOL_ICON.get());
+
         basicItem(PmItems.CREATIVE_SPIRIT_TOOL.get())
                 .override().model(createModelFile(PmItems.CREATIVE_SPIRIT_TOOL.get(), "add"))
-                .predicate(OverridesEvents.MODE_BOOLEAN, 0).end()
+                .predicate(ItemPropertyEvents.MODE_BOOLEAN, 0).end()
                 .override().model(createModelFile(PmItems.CREATIVE_SPIRIT_TOOL.get(), "decrease"))
-                .predicate(OverridesEvents.MODE_BOOLEAN, 1).end();
+                .predicate(ItemPropertyEvents.MODE_BOOLEAN, 1).end();
         specialItem(PmItems.CREATIVE_SPIRIT_TOOL.get(), "add");
         specialItem(PmItems.CREATIVE_SPIRIT_TOOL.get(), "decrease");
     }
