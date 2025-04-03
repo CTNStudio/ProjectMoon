@@ -1,4 +1,4 @@
-package ctn.project_moon.client.events;
+package ctn.project_moon.events.client;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;

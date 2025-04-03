@@ -1,6 +1,6 @@
 package ctn.project_moon.datagen;
 
-import ctn.project_moon.client.events.OverridesEvents;
+import ctn.project_moon.events.client.OverridesEvents;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;

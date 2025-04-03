@@ -1,19 +1,15 @@
-package ctn.project_moon.client.events;
+package ctn.project_moon.events.client;
 
-import com.google.common.collect.Maps;
 import ctn.project_moon.common.item.components.PmDataComponents;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-
-import java.util.Map;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 

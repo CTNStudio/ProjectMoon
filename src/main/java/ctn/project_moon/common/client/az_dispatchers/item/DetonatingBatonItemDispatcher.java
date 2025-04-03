@@ -1,4 +1,4 @@
-package ctn.project_moon.client.az_dispatchers.item;
+package ctn.project_moon.common.client.az_dispatchers.item;
 
 import mod.azure.azurelib.rewrite.animation.dispatch.command.AzCommand;
 import mod.azure.azurelib.rewrite.animation.play_behavior.AzPlayBehaviors;

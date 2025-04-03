@@ -1,4 +1,4 @@
-package ctn.project_moon.client.az_animators.item;
+package ctn.project_moon.common.client.az_animators.item;
 
 
 import mod.azure.azurelib.rewrite.animation.controller.AzAnimationController;

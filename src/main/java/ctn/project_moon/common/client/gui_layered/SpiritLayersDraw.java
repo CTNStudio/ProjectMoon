@@ -1,4 +1,4 @@
-package ctn.project_moon.client.gui_layered;
+package ctn.project_moon.common.client.gui_layered;
 
 import ctn.project_moon.events.SpiritEvents;
 import net.minecraft.client.DeltaTracker;
@@ -42,7 +42,7 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
         minecraft = Minecraft.getInstance();
         // todo : 获取玩家当前精神值，并渲染对应图片() 判断是否按F1
 //        if (minecraft.gui.getDebugOverlay().getBandwidthLogger())
-//        int spriteWidth = 20;
+        int spriteWidth = 20;
         int spriteHeight = 20;
         int height = guiGraphics.guiHeight() / 2 - spriteHeight / 2;
         int width = (guiGraphics.guiWidth() - spriteWidth) - 35;

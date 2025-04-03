@@ -1,6 +1,6 @@
-package ctn.project_moon.client.events;
+package ctn.project_moon.events.client;
 
-import ctn.project_moon.client.gui_layered.SpiritLayersDraw;
+import ctn.project_moon.common.client.gui_layered.SpiritLayersDraw;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

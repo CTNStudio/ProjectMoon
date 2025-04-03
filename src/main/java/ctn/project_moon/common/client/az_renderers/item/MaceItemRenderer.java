@@ -1,4 +1,4 @@
-package ctn.project_moon.client.az_renderers.item;
+package ctn.project_moon.common.client.az_renderers.item;
 
 import mod.azure.azurelib.rewrite.animation.AzAnimator;
 import net.minecraft.resources.ResourceLocation;
