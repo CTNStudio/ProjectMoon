@@ -21,7 +21,7 @@ public class ItemPropertyEvents {
     // 条件
     public static final ClampedItemPropertyFunction PROPERTY_MODE_BOOLEAN =
             (itemStack, clientLevel, livingEntity, i) ->
-                    itemStack.get(PmDataComponents.MODE_BOOLEAN) ? 1 : 0;
+                    Boolean.TRUE.equals(itemStack.get(PmDataComponents.MODE_BOOLEAN)) ? 1 : 0;
 
     /** 注册物品渲染附加 */
     @SubscribeEvent

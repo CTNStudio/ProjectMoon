@@ -1,9 +1,5 @@
 package ctn.project_moon.events.client;
 
-import ctn.project_moon.client.PmGuiLayers;
-import ctn.project_moon.common.client.gui_layered.SpiritLayersDraw;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.LayeredDraw;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

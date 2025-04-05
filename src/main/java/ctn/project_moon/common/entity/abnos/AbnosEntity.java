@@ -11,7 +11,7 @@ import net.minecraft.world.item.Item;
 import javax.annotation.CheckForNull;
 import java.util.Arrays;
 
-public abstract class AbnosEntity extends Mob implements EgoItem{
+public abstract class AbnosEntity extends Mob implements EgoItem {
     protected AbnosEntity(EntityType<? extends Mob> entityType, net.minecraft.world.level.Level level) {
         super(entityType, level);
     }
