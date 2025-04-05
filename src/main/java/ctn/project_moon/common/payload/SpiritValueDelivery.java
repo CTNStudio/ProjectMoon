@@ -9,8 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 public record SpiritValueDelivery(float spiritValue, float maxSpiritValue, float minSpiritValue) implements CustomPacketPayload {
-
-    // TODO 这里
     public static final CustomPacketPayload.Type<SpiritValueDelivery> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_value_delivery"));
     public static final StreamCodec<FriendlyByteBuf, SpiritValueDelivery> CODEC =
             CustomPacketPayload.codec(SpiritValueDelivery::write, SpiritValueDelivery::of);
