@@ -26,12 +26,13 @@ import java.util.function.Function;
 import static ctn.project_moon.common.item.components.PmDataComponents.MODE_BOOLEAN;
 
 
-public class EgoWeaponItem extends Item implements EgoItem, GeoItem {
+public abstract class EgoWeaponItem extends Item implements EgoItem, GeoItem, AnimItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final BiFunction<LivingEntity, LivingEntity, ? extends DamageSource> damageType;
-    private final float maxDamage, minDamage ;
+    private final float maxDamage, minDamage;
     private final boolean isSpecialTemplate;
     private GeoModel<EgoWeaponItem> defaultModel;
+
     public EgoWeaponItem(Properties properties, EgoAttribute egoAttribute) {
         this(properties, false, egoAttribute.damageType, egoAttribute.maxDamage, egoAttribute.minDamage);
     }
@@ -113,9 +114,11 @@ public class EgoWeaponItem extends Item implements EgoItem, GeoItem {
     public boolean isSpecialTemplate() {
         return isSpecialTemplate;
     }
+
     public float getMinDamage() {
         return minDamage;
     }
+
     public float getMaxDamage() {
         return maxDamage;
     }
@@ -148,13 +151,13 @@ public class EgoWeaponItem extends Item implements EgoItem, GeoItem {
             return this;
         }
 
-        public EgoAttribute damage(float maxDamage, float minDamage){
+        public EgoAttribute damage(float maxDamage, float minDamage) {
             this.maxDamage = maxDamage;
             this.minDamage = minDamage;
             return this;
         }
 
-        public EgoAttribute damage(float damage){
+        public EgoAttribute damage(float damage) {
             return damage(damage, damage);
         }
 
