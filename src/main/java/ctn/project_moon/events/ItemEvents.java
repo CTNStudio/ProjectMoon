@@ -1,5 +1,6 @@
 package ctn.project_moon.events;
 
+import com.google.common.collect.Lists;
 import ctn.project_moon.api.PmApi;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.common.item.EgoItem;
@@ -16,9 +17,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
@@ -33,17 +34,18 @@ public class ItemEvents{
     public static class ItemTooltip {
         @SubscribeEvent
         public static void itemTooltip(final ItemTooltipEvent event) {
-            LinkedList<Component> component = new LinkedList<>(event.getToolTip());
+            List<Component> component = Lists.newArrayList(event.getToolTip());
             ItemStack stack = event.getItemStack();
             levelText(component, stack);
             injuryType(component, stack);
+
             // 清除所有并重新提添加
             event.getToolTip().clear();
             event.getToolTip().addAll(component);
         }
 
         /** 等级 */
-        private static void levelText(LinkedList<Component> tooltipComponents, ItemStack stack) {
+        private static void levelText(List<Component> tooltipComponents, ItemStack stack) {
             TagKey<Item> levelTags = EgoItem.getEgoLevelTag(stack);
             MutableComponent mutableComponent = switch (AbnosEntity.AbnosType.getTypeByTag(levelTags)) {
                 case ZAYIN -> createColorText("ZAYIN", "#00ff00");
@@ -64,29 +66,30 @@ public class ItemEvents{
                 THE_SOUL, "#00ffff"
         );
 
-        // TODO 无伤害类型时处理错误
         /** 伤害类型 */
-        private static void injuryType(LinkedList<Component> tooltipComponents, ItemStack stack) {
+        private static void injuryType(List<Component> tooltipComponents, ItemStack stack) {
             List<TagKey<Item>> damageTypesTags = EgoItem.egoDamageTypes(stack);
             if (damageTypesTags.isEmpty()) {
-                if (!stack.getComponents().has(ATTRIBUTE_MODIFIERS)) {
-                    return;
-                }
-                boolean isEmpty = false;
-                for (ItemAttributeModifiers.Entry itemattributemodifiers$entry : stack.getComponents().get(ATTRIBUTE_MODIFIERS).modifiers()) {
-                    if (itemattributemodifiers$entry.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID)) {
-//                    damageTypesTags.add(PmTags.PmItem.PHYSICS);
-                        isEmpty = true;
-                        break;
-                    }
-                }
+                // TODO
+                final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents()
+                                        .get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
+                        .modifiers()
+                        .stream()
+                        .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
                 if (!isEmpty) {
                     return;
                 }
             }
 
+            final var listIn = damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList();
+            if (listIn.isEmpty()) {
+                return;
+            }
+
             tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe.damage_type", "#AAAAAA"));
-            damageTypesTags.stream().filter(COLOR_MAP::containsKey).forEach(it -> tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe." + it.location().getPath(), COLOR_MAP.get(it))));
+            listIn.forEach(it ->
+                            tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe." +
+                                    it.location().getPath(), COLOR_MAP.get(it))));
         }
 
         private static @NotNull MutableComponent createColorText(String text, String color) {

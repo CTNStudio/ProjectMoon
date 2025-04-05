@@ -1,9 +1,8 @@
 {
   "required": true,
-  "package": "ctn.project_moon.mixins",
+  "package": "ctn.project_moon.mixin",
   "mixins": [],
   "client": [
-    "GuiMixin"
   ],
   "server": [],
   "minVersion": "0.8.7"

@@ -1,7 +1,6 @@
 package ctn.project_moon.events;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -40,6 +39,7 @@ public class PlayerEvents {
 
         private static void processAttributeInformation(PlayerEvent event) {
             CompoundTag nbt = event.getEntity().getPersistentData();
+
             if (!nbt.contains(SPIRIT)) {
                 nbt.putFloat(SPIRIT, DEFAULT_SPIRIT_VALUE);
             }
