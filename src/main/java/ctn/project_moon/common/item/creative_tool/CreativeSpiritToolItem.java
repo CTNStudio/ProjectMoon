@@ -23,14 +23,17 @@ public class CreativeSpiritToolItem extends Item {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack itemstack = player.getItemInHand(usedHand);
-        if(player.isShiftKeyDown()){
-            itemstack.set(MODE_BOOLEAN, !itemstack.get(MODE_BOOLEAN));
-            return InteractionResultHolder.success(itemstack);
+        if (player.isCreative()){
+            if(player.isShiftKeyDown()){
+                itemstack.set(MODE_BOOLEAN, !itemstack.get(MODE_BOOLEAN));
+                return InteractionResultHolder.success(itemstack);
+            }
+            if (!level.isClientSide()) {
+                SpiritEvents.updateSpiritValue(player, itemstack.get(MODE_BOOLEAN) ? -1 : 1);
+                return InteractionResultHolder.success(itemstack);
+            }
         }
-        if (!level.isClientSide() && player.isCreative()) {
-            SpiritEvents.updateSpiritValue(player, itemstack.get(MODE_BOOLEAN) ? -1 : 1);
-        }
-        return InteractionResultHolder.success(itemstack);
+        return InteractionResultHolder.fail(itemstack);
     }
 
     @Override

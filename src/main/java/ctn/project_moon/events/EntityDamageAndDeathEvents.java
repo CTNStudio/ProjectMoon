@@ -8,7 +8,6 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 /** 实体事件 */
-@EventBusSubscriber(modid = MOD_ID)
 public class EntityDamageAndDeathEvents {
 
     /** 事件 */
