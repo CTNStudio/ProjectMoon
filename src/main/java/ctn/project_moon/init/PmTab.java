@@ -45,6 +45,7 @@ public class PmTab extends CreativeModeTabs {
             register("creative_tool", (name) -> createCreativeModeTab(name,
                     (parameters, output) -> {
                         output.accept(PmItems.CREATIVE_SPIRIT_TOOL.get());
+                        output.accept(PmItems.CHAOS_KNIFE.get());
                     }, ()-> PmItems.CREATIVE_TOOL_ICON.get().getDefaultInstance()));
 
     public static DeferredHolder<CreativeModeTab, CreativeModeTab> register(String name, Function<String, CreativeModeTab.Builder> builder) {

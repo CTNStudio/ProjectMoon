@@ -7,6 +7,6 @@ import static ctn.project_moon.init.PmDamageSources.physicsDamage;
 
 public class BearPawsItem extends EgoWeaponItem {
     public BearPawsItem(Properties properties, EgoAttribute egoAttribute) {
-        super(properties, egoAttribute.damageType(physicsDamage()));
+        super(properties, egoAttribute);
     }
 }

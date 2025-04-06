@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "project_moon:item/chaos_knife_physics",
+      "predicate": {
+        "project_moon:current_damage_type": 0.0
+      }
+    },
+    {
+      "model": "project_moon:item/chaos_knife_spirit",
+      "predicate": {
+        "project_moon:current_damage_type": 0.1
+      }
+    },
+    {
+      "model": "project_moon:item/chaos_knife_erosion",
+      "predicate": {
+        "project_moon:current_damage_type": 0.2
+      }
+    },
+    {
+      "model": "project_moon:item/chaos_knife_the_soul",
+      "predicate": {
+        "project_moon:current_damage_type": 0.3
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "project_moon:item/chaos_knife"
+  }
+}

@@ -1,6 +1,7 @@
 package ctn.project_moon.init;
 
 import ctn.project_moon.common.item.EgoWeaponItem;
+import ctn.project_moon.common.item.creative_tool.ChaosKnifeItem;
 import ctn.project_moon.common.item.creative_tool.CreativeSpiritToolItem;
 import ctn.project_moon.common.item.weapon.*;
 import net.minecraft.world.item.BlockItem;
@@ -23,6 +24,7 @@ public class PmItems{
     public static final DeferredItem<Item> CREATIVE_TOOL_ICON = registerSimpleIconItem("creative_tool_icon");
 
     public static final DeferredItem<Item> CREATIVE_SPIRIT_TOOL = creativeToolItem("creative_spirit_tool", CreativeSpiritToolItem::new);
+    public static final DeferredItem<Item> CHAOS_KNIFE = creativeToolItem("chaos_knife", ChaosKnifeItem::new);
 
     public static final DeferredItem<Item> DETONATING_BATON = createItem("detonating_baton", DetonatingBatonItem::new, EgoWeaponItem.EgoAttribute.builder());
     public static final DeferredItem<Item> WRIST_CUTTER = createItem("wrist_cutter", WristCutterItem::new, EgoWeaponItem.EgoAttribute.builder());

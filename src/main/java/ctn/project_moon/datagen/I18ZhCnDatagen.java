@@ -39,6 +39,7 @@ public class I18ZhCnDatagen extends LanguageProvider {
         addDeathMessage(THE_SOUL, "%s的灵魂被超度了");
         addDeathMessage(EGO, "%s死于§lEGO§r");
         addItem(PmItems.CREATIVE_SPIRIT_TOOL, "精神控制工具");
+        addItem(PmItems.CHAOS_KNIFE, "混沌刀");
         addItem(PmItems.DETONATING_BATON, "镇暴棍");
         addItem(PmItems.WRIST_CUTTER, "割腕者");
         addItem(PmItems.BEAR_PAWS, "熊熊抱");

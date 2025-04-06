@@ -28,26 +28,23 @@ import static ctn.project_moon.common.item.components.PmDataComponents.MODE_BOOL
 
 public abstract class EgoWeaponItem extends Item implements EgoItem, GeoItem, AnimItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private final BiFunction<LivingEntity, LivingEntity, ? extends DamageSource> damageType;
     private final float maxDamage, minDamage;
     private final boolean isSpecialTemplate;
     private GeoModel<EgoWeaponItem> defaultModel;
 
     public EgoWeaponItem(Properties properties, EgoAttribute egoAttribute) {
-        this(properties, false, egoAttribute.damageType, egoAttribute.maxDamage, egoAttribute.minDamage);
+        this(properties, false, egoAttribute.maxDamage, egoAttribute.minDamage);
     }
 
     public EgoWeaponItem(Properties properties) {
-        this(properties, true, null, 0, 0);
+        this(properties, true, 0, 0);
     }
 
     private EgoWeaponItem(Properties properties,
                           Boolean isSpecialTemplate,
-                          BiFunction<LivingEntity, LivingEntity, ? extends DamageSource> damageType,
                           float maxDamage, float minDamage) {
         super(properties.component(MODE_BOOLEAN, false));
         this.isSpecialTemplate = isSpecialTemplate;
-        this.damageType = damageType;
         this.maxDamage = maxDamage;
         this.minDamage = minDamage;
     }
@@ -71,19 +68,19 @@ public abstract class EgoWeaponItem extends Item implements EgoItem, GeoItem, An
         });
     }
 
-    @Override
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        return true;
-    }
+//    @Override
+//    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+//        return true;
+//    }
 
-    // TODO 未完成
-    @Override
-    public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (isSpecialTemplate) {
-            return;
-        }
-        target.hurt(damageType.apply(target, attacker), 10);
-    }
+//    // TODO 未完成
+//    @Override
+//    public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+//        if (isSpecialTemplate) {
+//            return;
+//        }
+//        target.hurt(damageType.apply(target, attacker), 10);
+//    }
 
 //    public static ItemAttributeModifiers createAttributes(Tier tier, int attackDamage, float attackSpeed) {
 //        return createAttributes(tier, (float)attackDamage, attackSpeed);
@@ -134,7 +131,6 @@ public abstract class EgoWeaponItem extends Item implements EgoItem, GeoItem, An
     }
 
     public static class EgoAttribute {
-        private BiFunction<LivingEntity, LivingEntity, ? extends DamageSource> damageType = PmDamageSources.physicsDamage();
         private float maxDamage = 1, minDamage = 1;
 
         public static EgoAttribute builder() {
@@ -159,11 +155,6 @@ public abstract class EgoWeaponItem extends Item implements EgoItem, GeoItem, An
 
         public EgoAttribute damage(float damage) {
             return damage(damage, damage);
-        }
-
-        public EgoAttribute damageType(BiFunction<LivingEntity, LivingEntity, ? extends DamageSource> damageType) {
-            this.damageType = damageType;
-            return this;
         }
     }
 

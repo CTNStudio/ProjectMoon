@@ -23,15 +23,10 @@ public class PmDatapackBuiltinEntriesProvider extends DatapackBuiltinEntriesProv
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.DAMAGE_TYPE, context -> {
                 createDamageType(context, PHYSICS, 0.1f);
-
                 createDamageType(context, SPIRIT, 0.2f);
-
                 createDamageType(context, EROSION, 0.3f);
-
                 createDamageType(context, THE_SOUL, 0.4f);
-
                 createDamageType(context, ABNOS, 0.3f);
-
                 createDamageType(context, EGO,0.3f);
             });
 

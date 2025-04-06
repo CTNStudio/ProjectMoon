@@ -12,7 +12,7 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+import java.util.*;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
@@ -31,13 +31,34 @@ public class PmItemModel extends ItemModelProvider {
         basicItem(PmItems.EGO_WEAPON_ICON.get());
         basicItem(PmItems.CREATIVE_TOOL_ICON.get());
 
-        basicItem(PmItems.CREATIVE_SPIRIT_TOOL.get())
-                .override().model(createModelFile(PmItems.CREATIVE_SPIRIT_TOOL.get(), "add"))
-                .predicate(ItemPropertyEvents.MODE_BOOLEAN, 0).end()
-                .override().model(createModelFile(PmItems.CREATIVE_SPIRIT_TOOL.get(), "decrease"))
-                .predicate(ItemPropertyEvents.MODE_BOOLEAN, 1).end();
-        specialItem(PmItems.CREATIVE_SPIRIT_TOOL.get(), "add");
-        specialItem(PmItems.CREATIVE_SPIRIT_TOOL.get(), "decrease");
+        LinkedHashMap<Float, String> creativeSpiritTool = new LinkedHashMap<>();
+        creativeSpiritTool.put(0F, "add");
+        creativeSpiritTool.put(1F, "decrease");
+        LinkedHashMap<Float, String> chaosKnife = new LinkedHashMap<>();
+        chaosKnife.put(0F, "physics");
+        chaosKnife.put(0.1F, "spirit");
+        chaosKnife.put(0.2F, "erosion");
+        chaosKnife.put(0.3F, "the_soul");
+        createModelFile(PmItems.CREATIVE_SPIRIT_TOOL.get(), creativeSpiritTool, ItemPropertyEvents.MODE_BOOLEAN);
+        createModelFile(PmItems.CHAOS_KNIFE.get(), chaosKnife, ItemPropertyEvents.CURRENT_DAMAGE_TYPE);
+    }
+
+    public void createModelFile(Item item, Map<Float, String> texture, ResourceLocation... predicates) {
+        var mod = basicItem(item);
+        var predicate = predicates[0];
+        Iterator<Float> iteratorKey = texture.keySet().iterator();
+        Float key;
+        String value;
+        for (int i = 0; i < texture.size(); i++) {
+            key = iteratorKey.next();
+            value = texture.get(key);
+            if (predicates.length > 1) {
+                predicate = predicates[i];
+            }
+            mod.override().model(createModelFile(item, value))
+                    .predicate(predicate, key).end();
+            specialItem(item, value);
+        }
     }
 
     public ModelFile.UncheckedModelFile createModelFile(Item item, String name) {
