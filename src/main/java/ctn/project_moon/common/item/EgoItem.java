@@ -1,12 +1,8 @@
 package ctn.project_moon.common.item;
 
-import ctn.project_moon.api.PmApi;
-import ctn.project_moon.common.entity.abnos.AbnosEntity;
+import ctn.project_moon.api.GradeType;
 import ctn.project_moon.datagen.PmTags;
-import ctn.project_moon.init.PmDamageTypes;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -17,63 +13,93 @@ import java.util.Objects;
 
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 
-/**
-* EGO
-*/
-public interface EgoItem{
-    /** 返回EGO等级tga */
-    static TagKey<Item> getEgoLevelTag(ItemStack item){
-        return item.getTags()
-                .filter(it -> Objects.nonNull(AbnosEntity.AbnosType.getTypeByTag(it)))
-                .findFirst()
-                .orElse(ZAYIN);
+public interface EgoItem {
+    List<TagKey<Item>> DAMAGE_TYPE = List.of(PHYSICS, SPIRIT, EROSION, THE_SOUL);
+
+    /**
+     * 返回之间的等级差值
+     */
+    static int leveDifferenceValue(ItemStack item, ItemStack item2) {
+        return getItemLevelValue(item) - getItemLevelValue(item2);
     }
 
-    /** 返回EGO等级 */
-    static int levelValue(TagKey<Item> levelTag) {
-        final var type = AbnosEntity.AbnosType.getTypeByTag(levelTag);
+    /**
+     * 物品等级tga
+     */
+    static TagKey<Item> getEgoLevelTag(ItemStack item) {
+        if (item.isEmpty()) {
+            return GradeType.Level.ZAYIN.getItemTag();
+        }
+        return item.getTags()
+                .filter(it -> Objects.nonNull(getItemTag(it)))
+                .findFirst()
+                .orElse(GradeType.Level.ZAYIN.getItemTag());
+    }
+
+    /**
+     * 返回物品等级
+     */
+    static int getItemLevelValue(ItemStack item) {
+        return getItemLevelValue(getEgoLevelTag(item));
+
+    }
+
+    /**
+     * @return {@link GradeType.Level}
+     */
+    @CheckForNull
+    static GradeType.Level getItemLevel(ItemStack item) {
+        return getItemTag(getEgoLevelTag(item));
+    }
+
+    /**
+     * 返回物品等级
+     */
+    static int getItemLevelValue(TagKey<Item> itemLevelTag) {
+        final var type = getItemTag(itemLevelTag);
         return Objects.nonNull(type) ? type.getLevel() : 0;
     }
 
-    List<TagKey<Item>> DAMAGE_TYPE = List.of(PHYSICS, SPIRIT, EROSION, THE_SOUL);
+    /**
+     * @return {@link GradeType.Level}
+     */
+    static GradeType.Level getItemTag(TagKey<Item> itemLevelTag) {
+        return Arrays.stream(GradeType.Level.values())
+                .sorted((a, b) -> Integer.compare(b.getLevel(), a.getLevel()))
+                .filter(it -> itemLevelTag.equals(it.getItemTag()))
+                .findFirst()
+                .orElse(GradeType.Level.ZAYIN);
+    }
 
-    /** 返回EGO伤害类型 */
-    static List<TagKey<Item>> egoDamageTypes(ItemStack item){
+    /**
+     * 返回EGO伤害类型 仅物品描述用
+     */
+    static List<TagKey<Item>> egoDamageTypes(ItemStack item) {
         return item.getTags().filter(DAMAGE_TYPE::contains).toList();
     }
 
-    /** 返回EGO之间的等级差值 */
-    static int leveDifferenceValue(TagKey<Item> levelTag, TagKey<Item> levelTag2){
-        return levelValue(levelTag) - levelValue(levelTag2);
-    }
-
-    /** 返回EGO之间的伤害倍数 */
-    static double damageMultiple(TagKey<Item> levelTag, TagKey<Item> levelTag2) {
-        return PmApi.damageMultiple(leveDifferenceValue(levelTag, levelTag2));
-    }
-
-    enum Types{
+    enum DamageTypes {
         PHYSICS(PmTags.PmItem.PHYSICS),
         SPIRIT(PmTags.PmItem.SPIRIT),
         EROSION(PmTags.PmItem.EROSION),
-        THE_SOUL(PmTags.PmItem.THE_SOUL),
-        EGO(PmTags.PmItem.EGO);
+        THE_SOUL(PmTags.PmItem.THE_SOUL);
 
         private final TagKey<Item> key;
-        Types(TagKey<Item> key){
+
+        DamageTypes(TagKey<Item> key) {
             this.key = key;
+        }
+
+        @CheckForNull
+        public static DamageTypes getTypeByTag(TagKey<Item> tag) {
+            return Arrays.stream(DamageTypes.values())
+                    .filter(it -> tag.equals(it.getKey()))
+                    .findFirst()
+                    .orElse(null);
         }
 
         public TagKey<Item> getKey() {
             return key;
-        }
-
-        @CheckForNull
-        public static Types getTypeByTag(TagKey<Item> tag) {
-            return Arrays.stream(Types.values())
-                    .filter(it -> tag.equals(it.getKey()))
-                    .findFirst()
-                    .orElse(null);
         }
     }
 }

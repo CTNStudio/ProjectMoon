@@ -13,9 +13,11 @@ import java.util.concurrent.CompletableFuture;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-/** 数据生成主类 */
+/**
+ * 数据生成主类
+ */
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = MOD_ID)
-public class PmDatagen{
+public class PmDatagen {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();

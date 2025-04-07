@@ -15,7 +15,9 @@ import java.util.function.BiFunction;
 
 import static ctn.project_moon.init.PmDamageTypes.*;
 
-/** 伤害来源 */
+/**
+ * 伤害来源
+ */
 public class PmDamageSources extends DamageSources {
     private final DamageSource physics;
     private final DamageSource spirit;
@@ -32,30 +34,6 @@ public class PmDamageSources extends DamageSources {
         theSoul = source(THE_SOUL);
         abnos = source(ABNOS);
         ego = source(EGO);
-    }
-
-    public DamageSource physics() {
-        return physics;
-    }
-
-    public DamageSource spirit() {
-        return spirit;
-    }
-
-    public DamageSource erosion() {
-        return erosion;
-    }
-
-    public DamageSource theSoul() {
-        return theSoul;
-    }
-
-    public DamageSource abnos() {
-        return abnos;
-    }
-
-    public DamageSource ego() {
-        return ego;
     }
 
     public static BiFunction<LivingEntity, LivingEntity, ? extends DamageSource> physicsDamage() {
@@ -110,8 +88,32 @@ public class PmDamageSources extends DamageSources {
         return new DamageSource(causer.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(damageTypes), causer);
     }
 
-    public static BiFunction<LivingEntity, LivingEntity, ? extends PmDamageSources> getDamageSource(){
+    public static BiFunction<LivingEntity, LivingEntity, ? extends PmDamageSources> getDamageSource() {
         return (attacker, target) -> PmApi.getDamageSource(attacker);
+    }
+
+    public DamageSource physics() {
+        return physics;
+    }
+
+    public DamageSource spirit() {
+        return spirit;
+    }
+
+    public DamageSource erosion() {
+        return erosion;
+    }
+
+    public DamageSource theSoul() {
+        return theSoul;
+    }
+
+    public DamageSource abnos() {
+        return abnos;
+    }
+
+    public DamageSource ego() {
+        return ego;
     }
 
 }

@@ -2,7 +2,6 @@ package ctn.project_moon.events;
 
 import com.google.common.collect.Lists;
 import ctn.project_moon.api.PmApi;
-import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.common.item.EgoItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -22,16 +21,28 @@ import java.util.Map;
 import java.util.Objects;
 
 import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.common.item.EgoItem.getItemTag;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 
-/** 物品事件 */
-public class ItemEvents{
+/**
+ * 物品事件
+ */
+public class ItemEvents {
 
-    /** 物品提示 */
+    /**
+     * 物品提示
+     */
     @EventBusSubscriber(modid = MOD_ID)
     public static class ItemTooltip {
+        private static final Map<TagKey<Item>, String> COLOR_MAP = Map.of(
+                PHYSICS, "#ff0000",
+                SPIRIT, "#ffffff",
+                EROSION, "#8a2be2",
+                THE_SOUL, "#00ffff"
+        );
+
         @SubscribeEvent
         public static void itemTooltip(final ItemTooltipEvent event) {
             List<Component> component = Lists.newArrayList(event.getToolTip());
@@ -44,52 +55,47 @@ public class ItemEvents{
             event.getToolTip().addAll(component);
         }
 
-        /** 等级 */
+        /**
+         * 等级
+         */
         private static void levelText(List<Component> tooltipComponents, ItemStack stack) {
             TagKey<Item> levelTags = EgoItem.getEgoLevelTag(stack);
-            MutableComponent mutableComponent = switch (AbnosEntity.AbnosType.getTypeByTag(levelTags)) {
+            MutableComponent mutableComponent = switch (getItemTag(levelTags)) {
                 case ZAYIN -> createColorText("ZAYIN", "#00ff00");
                 case TETH -> createColorText("TETH", "#1e90ff");
                 case HE -> createColorText("HE", "#ffff00");
                 case WAW -> createColorText("WAW", "#8a2be2");
                 case ALEPH -> createColorText("ALEPH", "#ff0000");
-                case null -> null;
             };
 
             tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 0, 1), mutableComponent);
         }
 
-        private static final Map<TagKey<Item>, String> COLOR_MAP = Map.of(
-                PHYSICS, "#ff0000",
-                SPIRIT, "#ffffff",
-                EROSION, "#8a2be2",
-                THE_SOUL, "#00ffff"
-        );
-
-        /** 伤害类型 */
+        /**
+         * 伤害类型
+         */
         private static void injuryType(List<Component> tooltipComponents, ItemStack stack) {
-            List<TagKey<Item>> damageTypesTags = EgoItem.egoDamageTypes(stack);
+            final List<TagKey<Item>> damageTypesTags = EgoItem.egoDamageTypes(stack);
             if (damageTypesTags.isEmpty()) {
-                // TODO
-                final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents()
-                                        .get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
-                        .modifiers()
-                        .stream()
-                        .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
+                final boolean isEmpty =
+                        Objects.requireNonNullElse(
+                                        stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
+                                .modifiers()
+                                .stream()
+                                .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
                 if (!isEmpty) {
                     return;
                 }
             }
 
-            final var listIn = damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList();
+            final var listIn = new java.util.ArrayList<>(damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList());
             if (listIn.isEmpty()) {
-                return;
+                listIn.add(PHYSICS);
             }
 
             tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe.damage_type", "#AAAAAA"));
-            listIn.forEach(it ->
-                            tooltipComponents.add(i18ColorText(MOD_ID + ".item.geo_describe." +
-                                    it.location().getPath(), COLOR_MAP.get(it))));
+            listIn.forEach(it -> tooltipComponents.add(
+                    i18ColorText(MOD_ID + ".item.geo_describe." + it.location().getPath(), COLOR_MAP.get(it))));
         }
 
         private static @NotNull MutableComponent createColorText(String text, String color) {

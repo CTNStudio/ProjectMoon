@@ -8,33 +8,39 @@ import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-/** 屏幕相关事件 */
+/**
+ * 屏幕相关事件
+ */
 public class ScreenEvents {
 
-    /** 渲染到hud */
+    /**
+     * 渲染到hud
+     */
     @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
-    public static class RenderHud{
+    public static class RenderHud {
         @SubscribeEvent
-        public static void renderGuiEventPre(RenderGuiEvent.Pre event){
+        public static void renderGuiEventPre(RenderGuiEvent.Pre event) {
 
         }
 
         @SubscribeEvent
-        public static void renderGuiEventPost(RenderGuiEvent.Post event){
+        public static void renderGuiEventPost(RenderGuiEvent.Post event) {
 
         }
     }
 
-    /** 拦截gui图层渲染 */
+    /**
+     * 拦截gui图层渲染
+     */
     @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
     public static class interceptGuiLayer {
         @SubscribeEvent
-        public static void renderGuiEventPre(RenderGuiLayerEvent.Pre event){
+        public static void renderGuiEventPre(RenderGuiLayerEvent.Pre event) {
 
         }
 
         @SubscribeEvent
-        public static void renderGuiEventPost(RenderGuiLayerEvent.Post event){
+        public static void renderGuiEventPost(RenderGuiLayerEvent.Post event) {
 
         }
     }

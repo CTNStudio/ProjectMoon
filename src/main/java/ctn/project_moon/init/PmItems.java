@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-public class PmItems{
+public class PmItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MOD_ID);
     public static final DeferredItem<Item> EGO_CURIOS_ICON = registerSimpleIconItem("ego_curios_icon");
     public static final DeferredItem<Item> EGO_SUIT_ICON = registerSimpleIconItem("ego_suit_icon");
@@ -33,7 +33,7 @@ public class PmItems{
     public static final DeferredItem<Item> LOVE_HATE = createItem("love_hate", LoveHateItem::new);
     public static final DeferredItem<Item> PARADISE_LOST = createItem("paradise_lost", ParadiseLostItem::new, EgoWeaponItem.EgoAttribute.builder());
 
-    public static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props){
+    public static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props) {
         return ITEMS.registerSimpleItem(name, props);
     }
 
@@ -41,31 +41,31 @@ public class PmItems{
         return ITEMS.registerSimpleBlockItem(name, block);
     }
 
-    public static DeferredItem<Item> registerSimpleIconItem(String name){
+    public static DeferredItem<Item> registerSimpleIconItem(String name) {
         return ITEMS.registerSimpleItem(name, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> creativeToolItem(String name){
+    public static DeferredItem<Item> creativeToolItem(String name) {
         return ITEMS.registerSimpleItem(name, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> creativeToolItem(String name, Function<Item.Properties, ? extends Item> item){
+    public static DeferredItem<Item> creativeToolItem(String name, Function<Item.Properties, ? extends Item> item) {
         return ITEMS.registerItem(name, item, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item, Item.Properties properties){
+    public static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item, Item.Properties properties) {
         return ITEMS.registerItem(name, item, properties.stacksTo(1));
     }
 
-    public static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item){
+    public static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item) {
         return ITEMS.registerItem(name, item, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> createItem(String name, BiFunction<Item.Properties, EgoWeaponItem.EgoAttribute, ? extends EgoWeaponItem> egoItem, EgoWeaponItem.EgoAttribute egoAttribute, Item.Properties properties){
+    public static DeferredItem<Item> createItem(String name, BiFunction<Item.Properties, EgoWeaponItem.EgoAttribute, ? extends EgoWeaponItem> egoItem, EgoWeaponItem.EgoAttribute egoAttribute, Item.Properties properties) {
         return createItem(name, (p) -> egoItem.apply(p, egoAttribute), properties);
     }
 
-    public static DeferredItem<Item> createItem(String name, BiFunction<Item.Properties, EgoWeaponItem.EgoAttribute, ? extends EgoWeaponItem> egoItem, EgoWeaponItem.EgoAttribute egoAttribute){
+    public static DeferredItem<Item> createItem(String name, BiFunction<Item.Properties, EgoWeaponItem.EgoAttribute, ? extends EgoWeaponItem> egoItem, EgoWeaponItem.EgoAttribute egoAttribute) {
         return createItem(name, (p) -> egoItem.apply(p, egoAttribute));
     }
 }

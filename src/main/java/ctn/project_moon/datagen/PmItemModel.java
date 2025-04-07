@@ -12,7 +12,10 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
@@ -73,7 +76,9 @@ public class PmItemModel extends ItemModelProvider {
         return Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)).withSuffix("_" + name);
     }
 
-    /** 用与给geo模型生成的 */
+    /**
+     * 用与给geo模型生成的
+     */
     public void geoItem(Item item) {
         getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile(parse("builtin/entity")));
     }
@@ -88,7 +93,7 @@ public class PmItemModel extends ItemModelProvider {
                 .texture("layer0", fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()));
     }
 
-    public ModelFile customModelFile(String name){
+    public ModelFile customModelFile(String name) {
         return new ModelFile.UncheckedModelFile(fromNamespaceAndPath(MOD_ID, name));
     }
 }

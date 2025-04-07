@@ -7,7 +7,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-/** 理智值相关 */
+/**
+ * 理智值相关
+ */
 public class SpiritEvents {
     public static final String SPIRIT = createAttribute("spirit");
     public static final String MAX_SPIRIT = createAttribute("max_spirit");
@@ -16,19 +18,19 @@ public class SpiritEvents {
     public static final float DEFAULT_MAX_SPIRIT_VALUE = 20;
     public static final float DEFAULT_MIN_SPIRIT_VALUE = DEFAULT_MAX_SPIRIT_VALUE * -1;
 
-    public static void setSpiritValue(LivingEntity entity, float value){
+    public static void setSpiritValue(LivingEntity entity, float value) {
         CompoundTag nbt = entity.getPersistentData();
         nbt.putFloat(SPIRIT, value);
         restrictSpirit(entity);
     }
 
-    public static void updateSpiritValue(LivingEntity entity, float value){
+    public static void updateSpiritValue(LivingEntity entity, float value) {
         CompoundTag nbt = entity.getPersistentData();
         nbt.putFloat(SPIRIT, getSpiritValue(entity) + value);
         restrictSpirit(entity);
     }
 
-    public static void setMaxSpiritValue(LivingEntity entity, float value){
+    public static void setMaxSpiritValue(LivingEntity entity, float value) {
         CompoundTag nbt = entity.getPersistentData();
         nbt.putFloat(MAX_SPIRIT, value);
         nbt.putFloat(MIN_SPIRIT, value * -1);
@@ -46,15 +48,15 @@ public class SpiritEvents {
         }
     }
 
-    public static float getSpiritValue(LivingEntity entity){
+    public static float getSpiritValue(LivingEntity entity) {
         return entity.getPersistentData().getFloat(SPIRIT);
     }
 
-    public static float getMaxSpiritValue(LivingEntity entity){
+    public static float getMaxSpiritValue(LivingEntity entity) {
         return entity.getPersistentData().getFloat(MAX_SPIRIT);
     }
 
-    public static float getMinSpiritValue(LivingEntity entity){
+    public static float getMinSpiritValue(LivingEntity entity) {
         return entity.getPersistentData().getFloat(MIN_SPIRIT);
     }
 

@@ -27,26 +27,26 @@ public class PmTab extends CreativeModeTabs {
                         output.accept(PmItems.BEAR_PAWS.get());
                         output.accept(PmItems.LOVE_HATE.get());
                         output.accept(PmItems.PARADISE_LOST.get());
-                    }, ()-> PmItems.EGO_WEAPON_ICON.get().getDefaultInstance()));
+                    }, () -> PmItems.EGO_WEAPON_ICON.get().getDefaultInstance()));
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_SUIT =
             register("ego_suit", (name) -> createCreativeModeTab(name,
                     (parameters, output) -> {
 
-                    }, ()-> PmItems.EGO_SUIT_ICON.get().getDefaultInstance()));
+                    }, () -> PmItems.EGO_SUIT_ICON.get().getDefaultInstance()));
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_CURIOS =
             register("ego_curios", (name) -> createCreativeModeTab(name,
                     (parameters, output) -> {
 
-                    }, ()-> PmItems.EGO_CURIOS_ICON.get().getDefaultInstance()));
+                    }, () -> PmItems.EGO_CURIOS_ICON.get().getDefaultInstance()));
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TOOL =
             register("creative_tool", (name) -> createCreativeModeTab(name,
                     (parameters, output) -> {
                         output.accept(PmItems.CREATIVE_SPIRIT_TOOL.get());
                         output.accept(PmItems.CHAOS_KNIFE.get());
-                    }, ()-> PmItems.CREATIVE_TOOL_ICON.get().getDefaultInstance()));
+                    }, () -> PmItems.CREATIVE_TOOL_ICON.get().getDefaultInstance()));
 
     public static DeferredHolder<CreativeModeTab, CreativeModeTab> register(String name, Function<String, CreativeModeTab.Builder> builder) {
         return PROJECT_MOON_TAB.register(name, builder.apply(name)::build);
@@ -56,18 +56,18 @@ public class PmTab extends CreativeModeTabs {
             String name,
             CreativeModeTab.DisplayItemsGenerator displayItemsGenerator,
             Supplier<ItemStack> icon,
-            ResourceKey<CreativeModeTab> withTabsBefore){
+            ResourceKey<CreativeModeTab> withTabsBefore) {
         return createCreativeModeTab(name, displayItemsGenerator, icon).withTabsBefore(withTabsBefore);
     }
 
     public static CreativeModeTab.Builder createCreativeModeTab(
             String name,
             CreativeModeTab.DisplayItemsGenerator displayItemsGenerator,
-            Supplier<ItemStack> icon){
+            Supplier<ItemStack> icon) {
         return createCreativeModeTab(name, displayItemsGenerator).icon(icon);
     }
 
-    public static CreativeModeTab.Builder createCreativeModeTab(String name, CreativeModeTab.DisplayItemsGenerator displayItemsGenerator){
+    public static CreativeModeTab.Builder createCreativeModeTab(String name, CreativeModeTab.DisplayItemsGenerator displayItemsGenerator) {
         return CreativeModeTab.builder().title(getComponent(name)).displayItems(displayItemsGenerator);
     }
 

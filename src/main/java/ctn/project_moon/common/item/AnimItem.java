@@ -12,6 +12,17 @@ import net.minecraft.world.entity.player.Player;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 public interface AnimItem {
+    static void createAnim(Player player, String animNameId, int layer) {
+        if (player instanceof AbstractClientPlayer clientPlayer) {
+            AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(clientPlayer);
+            ModifierLayer<IAnimation> playerAnimation = new ModifierLayer<>();
+            playerAnimation.setAnimation(PlayerAnimationRegistry
+                    .getAnimation(ResourceLocation.fromNamespaceAndPath(MOD_ID, animNameId))
+                    .playAnimation());
+            animationStack.addAnimLayer(layer, playerAnimation);
+        }
+    }
+
     default void executeLeftKeyEmpty() {
 
     }
@@ -58,16 +69,5 @@ public interface AnimItem {
 
     default boolean isRightKeyEntity() {
         return false;
-    }
-
-    static void createAnim(Player player, String animNameId, int layer) {
-        if (player instanceof AbstractClientPlayer clientPlayer) {
-            AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(clientPlayer);
-            ModifierLayer<IAnimation> playerAnimation = new ModifierLayer<>();
-            playerAnimation.setAnimation(PlayerAnimationRegistry
-                    .getAnimation(ResourceLocation.fromNamespaceAndPath(MOD_ID, animNameId))
-                    .playAnimation());
-            animationStack.addAnimLayer(layer, playerAnimation);
-        }
     }
 }

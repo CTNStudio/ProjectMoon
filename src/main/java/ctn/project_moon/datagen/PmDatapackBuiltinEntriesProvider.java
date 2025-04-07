@@ -19,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.init.PmDamageTypes.*;
 
-public class PmDatapackBuiltinEntriesProvider extends DatapackBuiltinEntriesProvider{
+public class PmDatapackBuiltinEntriesProvider extends DatapackBuiltinEntriesProvider {
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.DAMAGE_TYPE, context -> {
                 createDamageType(context, PHYSICS, 0.1f);
@@ -27,7 +27,7 @@ public class PmDatapackBuiltinEntriesProvider extends DatapackBuiltinEntriesProv
                 createDamageType(context, EROSION, 0.3f);
                 createDamageType(context, THE_SOUL, 0.4f);
                 createDamageType(context, ABNOS, 0.3f);
-                createDamageType(context, EGO,0.3f);
+                createDamageType(context, EGO, 0.3f);
             });
 
     public PmDatapackBuiltinEntriesProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {

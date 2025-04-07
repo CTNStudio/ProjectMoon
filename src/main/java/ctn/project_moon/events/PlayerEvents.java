@@ -15,22 +15,30 @@ import static ctn.project_moon.events.SpiritEvents.*;
  */
 public class PlayerEvents {
 
-    /** 玩家属性相关事件 */
+    /**
+     * 玩家属性相关事件
+     */
     @EventBusSubscriber(modid = MOD_ID)
-    public static class PlayerAttribute{
-        /** 保存玩家属性 */
+    public static class PlayerAttribute {
+        /**
+         * 保存玩家属性
+         */
         @SubscribeEvent
         public static void saveToAttribute(PlayerEvent.SaveToFile event) {
             processAttributeInformation(event);
         }
 
-        /** 加载玩家属性 */
+        /**
+         * 加载玩家属性
+         */
         @SubscribeEvent
         public static void loadFromAttribute(PlayerEvent.LoadFromFile event) {
             processAttributeInformation(event);
         }
 
-        /** 玩家死亡后重置精神值 */
+        /**
+         * 玩家死亡后重置精神值
+         */
         @SubscribeEvent
         public static void resetSpiritValue(PlayerEvent.PlayerRespawnEvent event) {
             CompoundTag nbt = event.getEntity().getPersistentData();
@@ -56,11 +64,14 @@ public class PlayerEvents {
     }
 
     @EventBusSubscriber(modid = MOD_ID)
-    public static class constantly{
+    public static class constantly {
         private static int timepiece;
-        /** 刷新精神值 */
+
+        /**
+         * 刷新精神值
+         */
         @SubscribeEvent
-        public static void refreshSpiritValue(EntityTickEvent.Pre event){
+        public static void refreshSpiritValue(EntityTickEvent.Pre event) {
             if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getPersistentData().contains(SPIRIT)) {
                 timepiece++;
                 if (timepiece < 20) {
@@ -68,7 +79,6 @@ public class PlayerEvents {
                 }
                 timepiece = 0;
                 if (getSpiritValue(livingEntity) < 0) {
-                    return;
                 }
 //            updateSpiritValue(livingEntity, 1);
             }

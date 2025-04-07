@@ -10,11 +10,13 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.events.SpiritEvents.SPIRIT;
 import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
 
-/**  */
+/**
+ *
+ */
 @EventBusSubscriber(modid = MOD_ID)
 public class LivingEvent {
     @SubscribeEvent
-    public static void damage(LivingIncomingDamageEvent event){
+    public static void damage(LivingIncomingDamageEvent event) {
         CompoundTag nbt = event.getEntity().getPersistentData();
         if (nbt.contains(SPIRIT)) {
             event.getEntity().sendSystemMessage(Component.literal("我当前的精神值为" + getSpiritValue(nbt)));

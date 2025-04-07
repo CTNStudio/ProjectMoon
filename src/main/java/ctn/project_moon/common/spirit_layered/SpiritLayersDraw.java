@@ -21,11 +21,10 @@ import static ctn.project_moon.PmMain.MOD_ID;
  */
 @OnlyIn(Dist.CLIENT)
 public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
-    private final Minecraft minecraft;
-
     private static final ResourceLocation DEFAULT_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/default");
     private static final ResourceLocation FULL_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/full");
     private static final ResourceLocation FEW_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/few");
+    private final Minecraft minecraft;
 
     public SpiritLayersDraw(GuiGraphics guiGraphics, DeltaTracker deltaTracker, Minecraft minecraft) {
         this.minecraft = minecraft;
@@ -42,13 +41,13 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
             return;
         }
         Player player = getCameraPlayer();
-        if (player == null){
+        if (player == null) {
             return;
         }
         int spriteWidth = 20;
         int spriteHeight = 20;
         int height = guiGraphics.guiHeight() - spriteHeight - 35;
-        int width = guiGraphics.guiWidth() / 2 - spriteWidth / 2 ;
+        int width = guiGraphics.guiWidth() / 2 - spriteWidth / 2;
         ResourceLocation currentTexture;
         float spiritValue = SpiritEvents.getSpiritValue(player);
         float maxSpiritValue = SpiritEvents.getMaxSpiritValue(player);
@@ -78,7 +77,7 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
             }
 
             if (entity instanceof LivingEntity) {
-                return (LivingEntity)entity;
+                return (LivingEntity) entity;
             }
         }
 
