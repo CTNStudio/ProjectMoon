@@ -72,7 +72,7 @@ public class SpiritEvents {
         return nbt.getFloat(MIN_SPIRIT);
     }
 
-    private static @NotNull String createAttribute(String name) {
+    public static @NotNull String createAttribute(String name) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_value").toString();
     }
 }

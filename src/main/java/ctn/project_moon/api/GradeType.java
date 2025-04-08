@@ -2,6 +2,7 @@ package ctn.project_moon.api;
 
 import ctn.project_moon.datagen.PmTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -9,12 +10,13 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import static ctn.project_moon.PmMain.LOGGER;
+import static ctn.project_moon.common.entity.abnos.AbnosEntity.ENTITY_LEVEL;
 
 public class GradeType {
     /**
      * 返回EGO之间的伤害倍数
      */
-    public static double damageMultiple(Level laval, Level laval2) {
+    public static float damageMultiple(Level laval, Level laval2) {
         return damageMultiple(leveDifferenceValue(laval, laval2));
     }
 
@@ -25,17 +27,17 @@ public class GradeType {
         return level.getLevel() - level2.getLevel();
     }
 
-    public static double damageMultiple(int i) {
+    public static float damageMultiple(int i) {
         return switch (i) {
-            case 4 -> 0.4;
-            case 3 -> 0.6;
-            case 2 -> 0.7;
-            case 1 -> 0.8;
-            case 0 -> 1.0;
-            case -1 -> 1.0;
-            case -2 -> 1.2;
-            case -3 -> 1.5;
-            case -4 -> 2.0;
+            case 4 -> 0.4F;
+            case 3 -> 0.6F;
+            case 2 -> 0.7F;
+            case 1 -> 0.8F;
+            case 0 -> 1.0F;
+            case -1 -> 1.0F;
+            case -2 -> 1.2F;
+            case -3 -> 1.5F;
+            case -4 -> 2.0F;
             default -> {
                 LOGGER.info("EgoItem difference error");
                 throw new IllegalArgumentException("EgoItem difference error");
@@ -68,22 +70,30 @@ public class GradeType {
             return level;
         }
 
-        public TagKey<Item> getItemTag() {
+        public TagKey<Item> getItemLevel() {
             return itemTag;
         }
 
         /** 返回EGO等级tga */
         public static TagKey<Item> getEgoLevelTag(ItemStack item){
             return item.getTags()
-                    .filter(it -> Objects.nonNull(Level.getItemTag(it)))
+                    .filter(it -> Objects.nonNull(Level.getItemLevel(it)))
                     .findFirst()
-                    .orElse(ZAYIN.getItemTag());
+                    .orElse(ZAYIN.getItemLevel());
         }
 
-        public static Level getItemTag(TagKey<Item> tag) {
+        public static Level getItemLevel(TagKey<Item> tag) {
             return Arrays.stream(Level.values())
                     .sorted((a, b) -> Integer.compare(b.getLevel(), a.getLevel()))
-                    .filter(it -> tag.equals(it.getItemTag()))
+                    .filter(it -> tag.equals(it.getItemLevel()))
+                    .findFirst()
+                    .orElse(ZAYIN);
+        }
+
+        public static Level getEntityLevel(Entity entity) {
+            return Arrays.stream(Level.values())
+                    .sorted((a, b) -> Integer.compare(b.getLevel(), a.getLevel()))
+                    .filter(it -> entity.getPersistentData().getString(ENTITY_LEVEL).equals(it.getName()))
                     .findFirst()
                     .orElse(ZAYIN);
         }
