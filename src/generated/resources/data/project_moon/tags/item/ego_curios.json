@@ -1,3 +1,18 @@
 {
-  "values": []
+  "values": [
+    "#project_moon:ego_curios_headwear",
+    "#project_moon:ego_curios_cheek",
+    "#project_moon:ego_curios_head",
+    "#project_moon:ego_curios_hindbrain",
+    "#project_moon:ego_curios_eye_area",
+    "#project_moon:ego_curios_face",
+    "#project_moon:ego_curios_mask",
+    "#project_moon:ego_curios_mouth",
+    "#project_moon:ego_curios_neck",
+    "#project_moon:ego_curios_chest",
+    "#project_moon:ego_curios_hand",
+    "#project_moon:ego_curios_glove",
+    "#project_moon:ego_curios_right_back",
+    "#project_moon:ego_curios_left_back"
+  ]
 }

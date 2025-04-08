@@ -37,5 +37,7 @@ public class PmDatagen {
 
         // 服务端数据生成
         generator.addProvider(event.includeServer(), new PmDatapackBuiltinEntriesProvider(output, lookupProvider));
+
+        event.getGenerator().addProvider(event.includeServer(), new CuriosTestProvider(event.getGenerator().getPackOutput(), event.getExistingFileHelper(), event.getLookupProvider()));
     }
 }

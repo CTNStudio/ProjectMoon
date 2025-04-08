@@ -1,0 +1,21 @@
+{
+  "entities": [
+    "minecraft:player"
+  ],
+  "slots": [
+    "ego_headwear",
+    "ego_head",
+    "ego_hindbrain",
+    "ego_eye_area",
+    "ego_face",
+    "ego_cheek",
+    "ego_mask",
+    "ego_mouth",
+    "ego_neck",
+    "ego_chest",
+    "ego_hand",
+    "ego_glove",
+    "ego_right_back",
+    "ego_left_back"
+  ]
+}

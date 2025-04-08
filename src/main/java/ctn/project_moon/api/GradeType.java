@@ -40,11 +40,11 @@ public class GradeType {
     }
 
     public enum Level {
-        ZAYIN("zayin", 1, PmTags.PmItem.ZAYIN),
-        TETH("teth", 2, PmTags.PmItem.TETH),
-        HE("he", 3, PmTags.PmItem.HE),
-        WAW("waw", 4, PmTags.PmItem.WAW),
-        ALEPH("aleph", 5, PmTags.PmItem.ALEPH);
+        ZAYIN("ZAYIN", 1, PmTags.PmItem.ZAYIN),
+        TETH("TETH", 2, PmTags.PmItem.TETH),
+        HE("HE", 3, PmTags.PmItem.HE),
+        WAW("WAW", 4, PmTags.PmItem.WAW),
+        ALEPH("ALEPH", 5, PmTags.PmItem.ALEPH);
 
         private final String name;
         private final int Level;
