@@ -3,6 +3,7 @@ package ctn.project_moon.events;
 import ctn.project_moon.common.entity.abnos.Abnos;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.common.item.EgoCloseCombat;
+import ctn.project_moon.common.item.SetInvulnerabilityTicks;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -20,7 +21,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.common.item.EgoItem.getEgoLevelTag;
+import static ctn.project_moon.api.GradeType.Level.getEgoLevelTag;
 import static ctn.project_moon.common.item.components.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.events.SpiritEvents.updateSpiritValue;
 import static ctn.project_moon.init.PmDamageTypes.*;
@@ -35,6 +36,16 @@ public class EntityEvents {
      */
     public static boolean isCloseCombatEgo(ItemStack itemStack) {
         return itemStack != null && itemStack.getItem() instanceof EgoCloseCombat;
+    }
+    @SubscribeEvent
+    public static void a3(LivingIncomingDamageEvent event){
+        ItemStack itemStack = event.getSource().getWeaponItem();
+        if (itemStack == null){
+            return;
+        }
+        if (itemStack.getItem() instanceof SetInvulnerabilityTicks item) {
+            event.setInvulnerabilityTicks(item.getTicks());
+        }
     }
     
     /**

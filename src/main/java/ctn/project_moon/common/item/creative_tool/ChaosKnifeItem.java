@@ -25,7 +25,7 @@ import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;
 
 public class ChaosKnifeItem extends EgoCloseCombat {
     public ChaosKnifeItem(Properties properties) {
-        super(properties, PHYSICS, new EgoAttribute().damage(1, 5));
+        super(properties, PHYSICS, 3, 7, -1.4F);
     }
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {

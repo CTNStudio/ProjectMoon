@@ -3,6 +3,10 @@ package ctn.project_moon.api;
 import ctn.project_moon.datagen.PmTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 import static ctn.project_moon.PmMain.LOGGER;
 
@@ -47,12 +51,12 @@ public class GradeType {
         ALEPH("ALEPH", 5, PmTags.PmItem.ALEPH);
 
         private final String name;
-        private final int Level;
+        private final int level;
         private final TagKey<Item> itemTag;
 
         Level(String name, int Level, TagKey<Item> itemTag) {
             this.name = name;
-            this.Level = Level;
+            this.level = Level;
             this.itemTag = itemTag;
         }
 
@@ -61,11 +65,27 @@ public class GradeType {
         }
 
         public int getLevel() {
-            return Level;
+            return level;
         }
 
         public TagKey<Item> getItemTag() {
             return itemTag;
+        }
+
+        /** 返回EGO等级tga */
+        public static TagKey<Item> getEgoLevelTag(ItemStack item){
+            return item.getTags()
+                    .filter(it -> Objects.nonNull(Level.getItemTag(it)))
+                    .findFirst()
+                    .orElse(ZAYIN.getItemTag());
+        }
+
+        public static Level getItemTag(TagKey<Item> tag) {
+            return Arrays.stream(Level.values())
+                    .sorted((a, b) -> Integer.compare(b.getLevel(), a.getLevel()))
+                    .filter(it -> tag.equals(it.getItemTag()))
+                    .findFirst()
+                    .orElse(ZAYIN);
         }
     }
 }

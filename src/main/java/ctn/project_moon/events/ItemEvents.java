@@ -5,6 +5,7 @@ import ctn.project_moon.api.GradeType;
 import ctn.project_moon.api.PmApi;
 import ctn.project_moon.api.PmColour;
 import ctn.project_moon.common.item.EgoItem;
+import ctn.project_moon.common.item.creative_tool.ChaosKnifeItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
@@ -18,14 +19,16 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.PmApi.createColorText;
 import static ctn.project_moon.api.PmApi.i18ColorText;
-import static ctn.project_moon.common.item.EgoItem.getItemTag;
+import static ctn.project_moon.common.item.EgoItem.getItemLevel;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
@@ -58,15 +61,13 @@ public class ItemEvents {
          * 等级
          */
         private static void levelText(List<Component> tooltipComponents, ItemStack stack) {
-            TagKey<Item> levelTags = EgoItem.getEgoLevelTag(stack);
-            MutableComponent mutableComponent = switch (getItemTag(levelTags)) {
+            MutableComponent mutableComponent = switch (getItemLevel(stack)) {
                 case ZAYIN -> createColorText(GradeType.Level.ZAYIN.getName(), PmColour.ZAYIN.getColour());
                 case TETH -> createColorText(GradeType.Level.TETH.getName(), PmColour.TETH.getColour());
                 case HE -> createColorText(GradeType.Level.HE.getName(), PmColour.HE.getColour());
                 case WAW -> createColorText(GradeType.Level.WAW.getName(), PmColour.WAW.getColour());
                 case ALEPH -> createColorText(GradeType.Level.ALEPH.getName(), PmColour.ALEPH.getColour());
             };
-
             tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 0, 1), mutableComponent);
         }
 
@@ -74,6 +75,9 @@ public class ItemEvents {
          * 伤害类型
          */
         private static void injuryType(List<Component> tooltipComponents, ItemStack stack) {
+            if (stack.getItem() instanceof ChaosKnifeItem) {
+                return;
+            }
             final List<TagKey<Item>> damageTypesTags = EgoItem.egoDamageTypes(stack);
             if (damageTypesTags.isEmpty()) {
                 final boolean isEmpty =
@@ -87,7 +91,7 @@ public class ItemEvents {
                 }
             }
 
-            final var listIn = new java.util.ArrayList<>(damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList());
+            final var listIn = new ArrayList<>(damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList());
             if (listIn.isEmpty()) {
                 listIn.add(PHYSICS);
             }

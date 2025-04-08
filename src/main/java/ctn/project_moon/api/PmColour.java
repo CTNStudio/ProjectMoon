@@ -1,7 +1,5 @@
 package ctn.project_moon.api;
 
-import ctn.project_moon.datagen.PmTags;
-
 public enum PmColour {
     PHYSICS("#ff0000", "physics"),
     SPIRIT("#ffffff", "spirit"),
@@ -14,18 +12,18 @@ public enum PmColour {
     ALEPH("#ff0000", "aleph"),
     ;
     private final String colour;
-    private final String text;
+    private final String colourText;
 
-    PmColour(String colour, String text) {
+    PmColour(String colour, String colourText) {
         this.colour = colour;
-        this.text = text;
+        this.colourText = colourText;
     }
 
     public String getColour() {
         return colour;
     }
 
-    public String getText() {
-        return text;
+    public String getColourText() {
+        return colourText;
     }
 }

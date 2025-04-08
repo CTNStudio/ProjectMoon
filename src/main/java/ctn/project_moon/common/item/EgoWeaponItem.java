@@ -3,8 +3,15 @@ package ctn.project_moon.common.item;
 import ctn.project_moon.common.renderers.PmGeoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -16,27 +23,34 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
 
+import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.api.PmApi.ENTITY_RANGE;
 import static ctn.project_moon.common.item.components.PmDataComponents.MODE_BOOLEAN;
 
 
 public abstract class EgoWeaponItem extends Item implements EgoItem, GeoItem, AnimItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final float maxDamage, minDamage;
+    /**
+     * 是否是特殊物品
+     */
     private final boolean isSpecialTemplate;
     private GeoModel<EgoWeaponItem> defaultModel;
 
-    public EgoWeaponItem(Properties properties, EgoAttribute egoAttribute) {
-        this(properties, false, egoAttribute.maxDamage, egoAttribute.minDamage);
-    }
-
     public EgoWeaponItem(Properties properties) {
-        this(properties, true, 0, 0);
+        this(properties, false, 0, 0, 0, 0);
     }
 
-    private EgoWeaponItem(Properties properties,
-                          Boolean isSpecialTemplate,
-                          float maxDamage, float minDamage) {
-        super(properties.component(MODE_BOOLEAN, false));
+    public EgoWeaponItem(Properties properties, float maxDamage, float minDamage, float attackSpeed) {
+        this(properties, false, maxDamage, minDamage, attackSpeed, 0);
+    }
+
+    public EgoWeaponItem(Properties properties, Boolean isSpecialTemplate, float maxDamage, float minDamage, float attackSpeed) {
+        this(properties, isSpecialTemplate, maxDamage, minDamage, attackSpeed, 0);
+    }
+
+    public EgoWeaponItem(Properties properties, Boolean isSpecialTemplate, float maxDamage, float minDamage, float attackSpeed, float attackDistance) {
+        super(properties.component(MODE_BOOLEAN, false).attributes(createAttributes(maxDamage, attackSpeed, attackDistance)));
         this.isSpecialTemplate = isSpecialTemplate;
         this.maxDamage = maxDamage;
         this.minDamage = minDamage;
@@ -61,40 +75,28 @@ public abstract class EgoWeaponItem extends Item implements EgoItem, GeoItem, An
         });
     }
 
-//    @Override
-//    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-//        return true;
-//    }
+    public static ItemAttributeModifiers createAttributes(float attackDamage, float attackSpeed){
+        return createAttributes(attackDamage, attackSpeed, 0);
+    }
 
-//    // TODO 未完成
-//    @Override
-//    public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-//        if (isSpecialTemplate) {
-//            return;
-//        }
-//        target.hurt(damageType.apply(target, attacker), 10);
-//    }
-
-//    public static ItemAttributeModifiers createAttributes(Tier tier, int attackDamage, float attackSpeed) {
-//        return createAttributes(tier, (float)attackDamage, attackSpeed);
-//    }
-//
-//    public static ItemAttributeModifiers createAttributes(Tier tier, float attackDamage, float attackSpeed) {
-//        return ItemAttributeModifiers.builder()
-//                .add(
-//                        Attributes.ATTACK_DAMAGE,
-//                        new AttributeModifier(
-//                                BASE_ATTACK_DAMAGE_ID, attackDamage + tier.getAttackDamageBonus(), AttributeModifier.Operation.ADD_VALUE
-//                        ),
-//                        EquipmentSlotGroup.MAINHAND
-//                )
-//                .add(
-//                        Attributes.ATTACK_SPEED,
-//                        new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE),
-//                        EquipmentSlotGroup.MAINHAND
-//                )
-//                .build();
-//    }
+    public static ItemAttributeModifiers createAttributes(float attackDamage, float attackSpeed, float attackDistance) {
+        return ItemAttributeModifiers.builder()
+                .add(
+                        Attributes.ATTACK_DAMAGE,
+                        new AttributeModifier(BASE_ATTACK_DAMAGE_ID, attackDamage, AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.HAND
+                )
+                .add(
+                        Attributes.ATTACK_SPEED,
+                        new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.HAND
+                ).add(
+                        Attributes.ENTITY_INTERACTION_RANGE,
+                        new AttributeModifier(ENTITY_RANGE, attackDistance, AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.HAND
+                )
+                .build();
+    }
 
     @Override
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
@@ -122,33 +124,4 @@ public abstract class EgoWeaponItem extends Item implements EgoItem, GeoItem, An
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
     }
-
-    public static class EgoAttribute {
-        private float maxDamage = 1, minDamage = 1;
-
-        public static EgoAttribute builder() {
-            return new EgoAttribute();
-        }
-
-        public EgoAttribute maxDamage(float maxDamage) {
-            this.maxDamage = maxDamage;
-            return this;
-        }
-
-        public EgoAttribute minDamage(float minDamage) {
-            this.minDamage = minDamage;
-            return this;
-        }
-
-        public EgoAttribute damage(float maxDamage, float minDamage) {
-            this.maxDamage = maxDamage;
-            this.minDamage = minDamage;
-            return this;
-        }
-
-        public EgoAttribute damage(float damage) {
-            return damage(damage, damage);
-        }
-    }
-
 }

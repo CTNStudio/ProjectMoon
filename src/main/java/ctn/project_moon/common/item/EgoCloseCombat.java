@@ -7,8 +7,8 @@ import static ctn.project_moon.common.item.components.PmDataComponents.CURRENT_D
 import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;
 
 public abstract class EgoCloseCombat extends EgoWeaponItem {
-    public EgoCloseCombat(Properties properties, PmDamageTypes.Types defaultDamageType, EgoAttribute egoAttribute) {
-        super(properties.component(CURRENT_DAMAGE_TYPE, getDamageTypeLocation(defaultDamageType)), egoAttribute);
+    public EgoCloseCombat(Properties properties, PmDamageTypes.Types defaultDamageType, float maxDamage, float minDamage, float attackSpeed) {
+        super(properties.component(CURRENT_DAMAGE_TYPE, getDamageTypeLocation(defaultDamageType)), maxDamage, minDamage, attackSpeed);
     }
 
     protected void setDamageType(ItemStack itemStack, PmDamageTypes.Types damageType) {

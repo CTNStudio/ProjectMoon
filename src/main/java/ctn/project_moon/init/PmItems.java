@@ -26,12 +26,12 @@ public class PmItems {
     public static final DeferredItem<Item> CREATIVE_SPIRIT_TOOL = creativeToolItem("creative_spirit_tool", CreativeSpiritToolItem::new);
     public static final DeferredItem<Item> CHAOS_KNIFE = creativeToolItem("chaos_knife", ChaosKnifeItem::new);
 
-    public static final DeferredItem<Item> DETONATING_BATON = createItem("detonating_baton", DetonatingBatonItem::new, EgoWeaponItem.EgoAttribute.builder());
-    public static final DeferredItem<Item> WRIST_CUTTER = createItem("wrist_cutter", WristCutterItem::new, EgoWeaponItem.EgoAttribute.builder());
-    public static final DeferredItem<Item> BEAR_PAWS = createItem("bear_paws", BearPawsItem::new, EgoWeaponItem.EgoAttribute.builder());
+    public static final DeferredItem<Item> DETONATING_BATON = createItem("detonating_baton", (p) -> new DetonatingBatonItem(p, 3, 4, -2.4F));
+    public static final DeferredItem<Item> WRIST_CUTTER = createItem("wrist_cutter", (p) -> new WristCutterItem(p, 2, 3, 0.2f));
+    public static final DeferredItem<Item> BEAR_PAWS = createItem("bear_paws", (p) -> new BearPawsItem(p, 7, 7, -1));
     // 原称 in the name of love and hate
-    public static final DeferredItem<Item> LOVE_HATE = createItem("love_hate", LoveHateItem::new);
-    public static final DeferredItem<Item> PARADISE_LOST = createItem("paradise_lost", ParadiseLostItem::new, EgoWeaponItem.EgoAttribute.builder());
+    public static final DeferredItem<Item> LOVE_HATE = createItem("love_hate", (p) -> new LoveHateItem(p, 3, 5, -2));
+    public static final DeferredItem<Item> PARADISE_LOST = createItem("paradise_lost", (p) -> new ParadiseLostItem(p, 12, 16, -2.3F));
 
     public static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props) {
         return ITEMS.registerSimpleItem(name, props);
@@ -61,11 +61,11 @@ public class PmItems {
         return ITEMS.registerItem(name, item, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> createItem(String name, BiFunction<Item.Properties, EgoWeaponItem.EgoAttribute, ? extends EgoWeaponItem> egoItem, EgoWeaponItem.EgoAttribute egoAttribute, Item.Properties properties) {
-        return createItem(name, (p) -> egoItem.apply(p, egoAttribute), properties);
+    public static DeferredItem<Item> createEgoItem(String name, Function<Item.Properties, ? extends EgoWeaponItem> egoItem, Item.Properties properties) {
+        return createItem(name, egoItem, properties);
     }
 
-    public static DeferredItem<Item> createItem(String name, BiFunction<Item.Properties, EgoWeaponItem.EgoAttribute, ? extends EgoWeaponItem> egoItem, EgoWeaponItem.EgoAttribute egoAttribute) {
-        return createItem(name, (p) -> egoItem.apply(p, egoAttribute));
+    public static DeferredItem<Item> createEgoItem(String name, Function<Item.Properties, ? extends EgoWeaponItem> egoItem) {
+        return createItem(name, egoItem);
     }
 }

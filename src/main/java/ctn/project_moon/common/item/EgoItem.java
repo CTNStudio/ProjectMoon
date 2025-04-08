@@ -10,7 +10,9 @@ import javax.annotation.CheckForNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
+import static ctn.project_moon.api.GradeType.Level.*;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 
 public interface EgoItem {
@@ -24,19 +26,6 @@ public interface EgoItem {
     }
 
     /**
-     * 物品等级tga
-     */
-    static TagKey<Item> getEgoLevelTag(ItemStack item) {
-        if (item.isEmpty()) {
-            return GradeType.Level.ZAYIN.getItemTag();
-        }
-        return item.getTags()
-                .filter(it -> Objects.nonNull(getItemTag(it)))
-                .findFirst()
-                .orElse(GradeType.Level.ZAYIN.getItemTag());
-    }
-
-    /**
      * 返回物品等级
      */
     static int getItemLevelValue(ItemStack item) {
@@ -47,7 +36,6 @@ public interface EgoItem {
     /**
      * @return {@link GradeType.Level}
      */
-    @CheckForNull
     static GradeType.Level getItemLevel(ItemStack item) {
         return getItemTag(getEgoLevelTag(item));
     }
@@ -58,17 +46,6 @@ public interface EgoItem {
     static int getItemLevelValue(TagKey<Item> itemLevelTag) {
         final var type = getItemTag(itemLevelTag);
         return Objects.nonNull(type) ? type.getLevel() : 0;
-    }
-
-    /**
-     * @return {@link GradeType.Level}
-     */
-    static GradeType.Level getItemTag(TagKey<Item> itemLevelTag) {
-        return Arrays.stream(GradeType.Level.values())
-                .sorted((a, b) -> Integer.compare(b.getLevel(), a.getLevel()))
-                .filter(it -> itemLevelTag.equals(it.getItemTag()))
-                .findFirst()
-                .orElse(GradeType.Level.ZAYIN);
     }
 
     /**
