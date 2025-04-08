@@ -30,6 +30,7 @@ import static ctn.project_moon.api.PmApi.createColorText;
 import static ctn.project_moon.api.PmApi.i18ColorText;
 import static ctn.project_moon.common.item.EgoItem.getItemLevel;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
+import static ctn.project_moon.init.PmDamageTypes.Types.egoDamageTypes;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 
@@ -78,14 +79,11 @@ public class ItemEvents {
             if (stack.getItem() instanceof ChaosKnifeItem) {
                 return;
             }
-            final List<TagKey<Item>> damageTypesTags = EgoItem.egoDamageTypes(stack);
+            final List<TagKey<Item>> damageTypesTags = egoDamageTypes(stack);
             if (damageTypesTags.isEmpty()) {
-                final boolean isEmpty =
-                        Objects.requireNonNullElse(
-                                        stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
-                                .modifiers()
-                                .stream()
-                                .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
+                final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
+                        .modifiers().stream()
+                        .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
                 if (!isEmpty) {
                     return;
                 }
