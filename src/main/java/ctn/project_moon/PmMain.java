@@ -22,6 +22,7 @@ import static ctn.project_moon.init.PmTab.PROJECT_MOON_TAB;
 import static top.theillusivec4.curios.api.CuriosApi.registerCurioPredicate;
 
 /**
+ * TODO - Packeg info
  * 本模组主类
  * <p>
  * 包类：{@link ctn.project_moon.api}-没有特定或固定内容
