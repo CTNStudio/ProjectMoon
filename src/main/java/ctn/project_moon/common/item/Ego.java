@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-import static ctn.project_moon.api.GradeType.Level.*;
+import static ctn.project_moon.api.GradeType.Level.getEgoLevelTag;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 
 public interface Ego {

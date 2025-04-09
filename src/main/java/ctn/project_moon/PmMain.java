@@ -1,7 +1,6 @@
 package ctn.project_moon;
 
 import com.mojang.logging.LogUtils;
-import ctn.project_moon.datagen.CuriosTestProvider;
 import ctn.project_moon.init.PmBlocks;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.resources.ResourceLocation;

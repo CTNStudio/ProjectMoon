@@ -6,12 +6,9 @@ import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.common.item.CloseCombatEgo;
 import ctn.project_moon.common.item.SetInvulnerabilityTicks;
 import ctn.project_moon.init.PmDamageTypes;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -130,18 +127,14 @@ public class EntityEvents {
                 case SPIRIT -> closeCombatEgo(event, itemLevel, PmDamageTypes.Types.SPIRIT, isAbnosEntity);
                 case EROSION -> closeCombatEgo(event, itemLevel, PmDamageTypes.Types.EROSION, isAbnosEntity);
                 case THE_SOUL -> closeCombatEgo(event, itemLevel, PmDamageTypes.Types.THE_SOUL, isAbnosEntity);
-                case null -> {
-                    event.setReturn(false);
-                }
+                case null -> {}
             }
         } else switch (getType(damageSource)) {
             case PHYSICS -> {}
             case SPIRIT -> {}
             case EROSION -> {}
             case THE_SOUL -> {}
-            case null -> {
-                event.setReturn(false);
-            }
+            case null -> {}
         }
     }
 
@@ -172,7 +165,7 @@ public class EntityEvents {
             case EROSION -> event.getEntity().getAttributeValue(EROSION_RESISTANCE);
             case THE_SOUL -> event.getEntity().getAttributeValue(THE_SOUL_RESISTANCE);
         };
-        event.setDamageAmount(damageAmount);
+        event.setNewDamageAmount(damageAmount);
     }
 
     private static GradeType.Level getItemLevel(TagKey<Item> egoLevelTag) {

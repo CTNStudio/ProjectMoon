@@ -7,8 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
-import javax.annotation.CheckForNull;
-
 /** 盔甲减伤逻辑
  * <p>
  * isReturn 变量决定是否返回处理的伤害到逻辑中
