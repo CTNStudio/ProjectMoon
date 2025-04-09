@@ -15,10 +15,11 @@ import net.neoforged.neoforge.event.entity.living.LivingEvent;
  * @see DamageContainer for more information on the damage sequence
  * */
 public abstract class ArmorAbsorptionEvent extends LivingEvent {
-    public float newDamageAmount;
-    public final ItemStack[] armorSlots;
-    public final DamageSource damageSource;
-    public final float damageAmount;
+    private boolean isReturn = true;
+    private float newDamageAmount;
+    private final ItemStack[] armorSlots;
+    private final DamageSource damageSource;
+    private final float damageAmount;
 
     public ArmorAbsorptionEvent(LivingEntity entity, DamageSource damageSource, float damageAmount) {
         super(entity);
@@ -52,6 +53,14 @@ public abstract class ArmorAbsorptionEvent extends LivingEvent {
 
     public ItemStack[] getArmorSlots() {
         return armorSlots;
+    }
+
+    public boolean isReturn() {
+        return isReturn;
+    }
+
+    public void setReturn(boolean aReturn) {
+        isReturn = aReturn;
     }
 
     /** 原版护甲处理前 */

@@ -17,6 +17,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static ctn.project_moon.events.PmCommonHooks.entityArmorAbsorptionPost;
+import static ctn.project_moon.events.PmCommonHooks.entityArmorAbsorptionPre;
+
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Attackable, net.neoforged.neoforge.common.extensions.ILivingEntityExtension {
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
@@ -28,8 +31,10 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, ne
     protected void getDamageAfterArmorAbsorb(DamageSource damageSource, float damageAmount, CallbackInfoReturnable<Float> cir) {
         final LivingEntity thiz = (LivingEntity) (Object) this;
 
-        final var pre = NeoForge.EVENT_BUS.post(new ArmorAbsorptionEvent.Pre(thiz, damageSource, damageAmount));
-        damageAmount = pre.getNewDamageAmount();
+        ArmorAbsorptionEvent pre = entityArmorAbsorptionPre(thiz, damageSource, damageAmount);
+        if (pre.isReturn()) {
+            damageAmount = pre.getNewDamageAmount();
+        }
 
         if (!damageSource.is(DamageTypeTags.BYPASSES_ARMOR)) {
             this.hurtArmor(damageSource, damageAmount);
@@ -37,8 +42,11 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, ne
                     (float) thiz.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
         }
 
-        final var post = NeoForge.EVENT_BUS.post(new ArmorAbsorptionEvent.Post(thiz, damageSource, damageAmount));
-        damageAmount = pre.getNewDamageAmount();
+        ArmorAbsorptionEvent post = entityArmorAbsorptionPost(thiz, damageSource, damageAmount);
+        if (post.isReturn()) {
+            damageAmount = post.getNewDamageAmount();
+
+        }
 
         cir.setReturnValue(damageAmount);
     }
