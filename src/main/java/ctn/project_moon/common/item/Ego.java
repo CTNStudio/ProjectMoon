@@ -6,12 +6,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.Objects;
 
 import static ctn.project_moon.api.GradeType.Level.*;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 
-public interface EgoItem {
+public interface Ego {
     List<TagKey<Item>> DAMAGE_TYPE = List.of(PHYSICS, SPIRIT, EROSION, THE_SOUL);
 
     /**

@@ -39,8 +39,8 @@ public class GradeType {
             case -3 -> 1.5F;
             case -4 -> 2.0F;
             default -> {
-                LOGGER.info("EgoItem difference error");
-                throw new IllegalArgumentException("EgoItem difference error");
+                LOGGER.info("Ego difference error");
+                throw new IllegalArgumentException("Ego difference error");
             }
         };
     }

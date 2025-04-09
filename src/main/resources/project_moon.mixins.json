@@ -2,6 +2,7 @@
   "required": true,
   "package": "ctn.project_moon.mixin",
   "mixins": [
+    "AttributeSupplier$BuilderMixin",
     "LivingEntityMixin"
   ],
   "client": [

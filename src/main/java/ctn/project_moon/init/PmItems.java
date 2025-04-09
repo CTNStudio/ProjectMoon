@@ -1,6 +1,6 @@
 package ctn.project_moon.init;
 
-import ctn.project_moon.common.item.EgoWeaponItem;
+import ctn.project_moon.common.item.EgoWeapon;
 import ctn.project_moon.common.item.creative_tool.ChaosKnifeItem;
 import ctn.project_moon.common.item.creative_tool.CreativeSpiritToolItem;
 import ctn.project_moon.common.item.weapon.*;
@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -61,11 +60,11 @@ public class PmItems {
         return ITEMS.registerItem(name, item, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> createEgoItem(String name, Function<Item.Properties, ? extends EgoWeaponItem> egoItem, Item.Properties properties) {
+    public static DeferredItem<Item> createEgoItem(String name, Function<Item.Properties, ? extends EgoWeapon> egoItem, Item.Properties properties) {
         return createItem(name, egoItem, properties);
     }
 
-    public static DeferredItem<Item> createEgoItem(String name, Function<Item.Properties, ? extends EgoWeaponItem> egoItem) {
+    public static DeferredItem<Item> createEgoItem(String name, Function<Item.Properties, ? extends EgoWeapon> egoItem) {
         return createItem(name, egoItem);
     }
 }

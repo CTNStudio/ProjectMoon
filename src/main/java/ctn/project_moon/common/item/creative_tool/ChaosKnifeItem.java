@@ -1,6 +1,6 @@
 package ctn.project_moon.common.item.creative_tool;
 
-import ctn.project_moon.common.item.EgoCloseCombat;
+import ctn.project_moon.common.item.CloseCombatEgo;
 import ctn.project_moon.common.item.components.PmDataComponents;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.network.chat.Component;
@@ -9,7 +9,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +22,7 @@ import static ctn.project_moon.common.item.components.PmDataComponents.CURRENT_D
 import static ctn.project_moon.init.PmDamageTypes.Types.*;
 import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;
 
-public class ChaosKnifeItem extends EgoCloseCombat {
+public class ChaosKnifeItem extends CloseCombatEgo {
     public ChaosKnifeItem(Properties properties) {
         super(properties, PHYSICS, 3, 7, -1.4F);
     }

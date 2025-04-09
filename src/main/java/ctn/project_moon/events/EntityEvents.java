@@ -3,12 +3,15 @@ package ctn.project_moon.events;
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.common.entity.abnos.Abnos;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
-import ctn.project_moon.common.item.EgoCloseCombat;
+import ctn.project_moon.common.item.CloseCombatEgo;
 import ctn.project_moon.common.item.SetInvulnerabilityTicks;
 import ctn.project_moon.init.PmDamageTypes;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -21,9 +24,10 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.GradeType.Level.getEgoLevelTag;
 import static ctn.project_moon.api.GradeType.damageMultiple;
 import static ctn.project_moon.common.entity.abnos.AbnosEntity.getEntityLevel;
-import static ctn.project_moon.common.item.EgoItem.getItemLevelValue;
+import static ctn.project_moon.common.item.Ego.getItemLevelValue;
 import static ctn.project_moon.common.item.components.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.events.SpiritEvents.updateSpiritValue;
+import static ctn.project_moon.init.PmAttributes.*;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
 
 /**
@@ -35,7 +39,7 @@ public class EntityEvents {
      * 判断是否为近战EGO物品
      */
     public static boolean isCloseCombatEgo(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItem() instanceof EgoCloseCombat;
+        return itemStack != null && itemStack.getItem() instanceof CloseCombatEgo;
     }
     @SubscribeEvent
     public static void a3(LivingIncomingDamageEvent event){
@@ -113,9 +117,9 @@ public class EntityEvents {
 
     }
 
-    /** 护甲处理 */
+    /** 原版护甲处理前 */
     @SubscribeEvent
-    public static void armorAbsorptionEvent(ArmorAbsorptionEvent event){
+    public static void armorAbsorptionEvent(ArmorAbsorptionEvent.Pre event){
         DamageSource damageSource = event.getDamageSource() ;
         ItemStack itemStack = damageSource.getWeaponItem(); // 获取伤害来源的武器
         boolean isAbnosEntity = event.getEntity() instanceof Abnos;
@@ -142,6 +146,7 @@ public class EntityEvents {
     }
 
     private static void closeCombatEgo(ArmorAbsorptionEvent event, GradeType.Level itemLevel, PmDamageTypes.Types damageTypes, boolean isAbnosEntity) {
+        float damageAmount = event.getDamageAmount();
         if (!isAbnosEntity){
             boolean isArmorItemStackEmpty = true;
             for (ItemStack armorItemStack : event.getArmorSlots()) {
@@ -156,14 +161,18 @@ public class EntityEvents {
                     armorItemStackLaval += getItemLevelValue(armorItemStack);
                 }
                 armorItemStackLaval /= 4;
-                event.setDamageAmount(event.getDamageAmount() * damageMultiple(armorItemStackLaval - itemLevel.getLevel()));
-            } else {
-                GradeType.Level entityLaval = getEntityLevel(event.getEntity());
-                event.setDamageAmount(event.getDamageAmount() * damageMultiple(entityLaval, itemLevel));
+                damageAmount *= damageMultiple(armorItemStackLaval - itemLevel.getLevel()) ;
             }
         }
-
-
+        GradeType.Level entityLaval = getEntityLevel(event.getEntity());
+        damageAmount *= damageMultiple(entityLaval, itemLevel);
+        damageAmount *= (float) switch (damageTypes){
+            case PHYSICS -> event.getEntity().getAttributeValue(PHYSICS_RESISTANCE);
+            case SPIRIT -> event.getEntity().getAttributeValue(SPIRIT_RESISTANCE);
+            case EROSION -> event.getEntity().getAttributeValue(EROSION_RESISTANCE);
+            case THE_SOUL -> event.getEntity().getAttributeValue(THE_SOUL_RESISTANCE);
+        };
+        event.setDamageAmount(damageAmount);
     }
 
     private static GradeType.Level getItemLevel(TagKey<Item> egoLevelTag) {

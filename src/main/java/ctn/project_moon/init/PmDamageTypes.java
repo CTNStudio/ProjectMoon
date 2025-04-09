@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.common.item.EgoItem.DAMAGE_TYPE;
+import static ctn.project_moon.common.item.Ego.DAMAGE_TYPE;
 
 public interface PmDamageTypes extends DamageTypes {
     /**

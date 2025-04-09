@@ -1,10 +1,7 @@
 package ctn.project_moon.events;
 
-import com.google.common.collect.Lists;
 import ctn.project_moon.api.GradeType;
-import ctn.project_moon.api.PmApi;
 import ctn.project_moon.api.PmColour;
-import ctn.project_moon.common.item.EgoItem;
 import ctn.project_moon.common.item.creative_tool.ChaosKnifeItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -17,18 +14,16 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.PmApi.createColorText;
 import static ctn.project_moon.api.PmApi.i18ColorText;
-import static ctn.project_moon.common.item.EgoItem.getItemLevel;
+import static ctn.project_moon.common.item.Ego.getItemLevel;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static ctn.project_moon.init.PmDamageTypes.Types.egoDamageTypes;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
