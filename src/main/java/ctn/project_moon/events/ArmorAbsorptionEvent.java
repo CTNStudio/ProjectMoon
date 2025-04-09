@@ -1,14 +1,13 @@
 package ctn.project_moon.events;
 
 import ctn.project_moon.common.entity.abnos.Abnos;
-import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
+
+import javax.annotation.CheckForNull;
 
 /** 盔甲减伤逻辑
  * <p>
@@ -18,54 +17,55 @@ import net.neoforged.neoforge.event.entity.living.LivingEvent;
  * @see DamageContainer for more information on the damage sequence
  * */
 public abstract class ArmorAbsorptionEvent extends LivingEvent {
-    private Iterable<ItemStack> armorSlots;
-    private final DamageSource damageSource;
-    private float damageAmount;
-    private boolean isReturn = true;
+    public float newDamageAmount;
+    public final ItemStack[] armorSlots;
+    public final DamageSource damageSource;
+    public final float damageAmount;
 
-    public ArmorAbsorptionEvent(Entity entity, DamageSource damageSource, float damageAmount) {
-        super((LivingEntity) entity);
-        if (!(entity instanceof Abnos)){
-            this.armorSlots = ((LivingEntity) entity).getArmorAndBodyArmorSlots();
-        }
+    public ArmorAbsorptionEvent(LivingEntity entity, DamageSource damageSource, float damageAmount) {
+        super(entity);
+        this.armorSlots = new ItemStack[4];
         this.damageSource = damageSource;
         this.damageAmount = damageAmount;
+        this.newDamageAmount = this.damageAmount;
+
+        final var flag = !(entity instanceof Abnos);
+        final var itor = entity.getArmorAndBodyArmorSlots().iterator();
+        for (int i = 0; i < 4; i++) {
+            this.armorSlots[i] = flag ? itor.next() : ItemStack.EMPTY;
+        }
     }
 
-    public DamageSource getDamageSource() {
-        return damageSource;
+    public float getNewDamageAmount() {
+        return newDamageAmount;
+    }
+
+    public void setNewDamageAmount(float newDamageAmount) {
+        this.newDamageAmount = newDamageAmount;
     }
 
     public float getDamageAmount() {
         return damageAmount;
     }
 
-    public void setDamageAmount(float damageAmount) {
-        this.damageAmount = damageAmount;
+    public DamageSource getDamageSource() {
+        return damageSource;
     }
 
-    public boolean isReturn() {
-        return isReturn;
-    }
-
-    public void setReturn(boolean bool) {
-        isReturn = bool;
-    }
-
-    public Iterable<ItemStack> getArmorSlots() {
+    public ItemStack[] getArmorSlots() {
         return armorSlots;
     }
 
     /** 原版护甲处理前 */
     public static class Pre extends ArmorAbsorptionEvent{
-        public Pre(Entity entity, DamageSource damageSource, float damageAmount) {
+        public Pre(LivingEntity entity, DamageSource damageSource, float damageAmount) {
             super(entity, damageSource, damageAmount);
         }
     }
 
     /** 原版护甲处理后 */
     public static class Post extends ArmorAbsorptionEvent{
-        public Post(Entity entity, DamageSource damageSource, float damageAmount) {
+        public Post(LivingEntity entity, DamageSource damageSource, float damageAmount) {
             super(entity, damageSource, damageAmount);
         }
     }

@@ -17,7 +17,7 @@ import static ctn.project_moon.init.PmAttributes.*;
 
 @Mixin(AttributeSupplier.Builder.class)
 public abstract class AttributeSupplier$BuilderMixin{
-    @Inject(method = "<init>", at = @At("TAIL"))
+    @Inject(method = "<init>*", at = @At("TAIL"))
     public void Builder(CallbackInfo ci) {
         create(PHYSICS_RESISTANCE);
         create(SPIRIT_RESISTANCE);
