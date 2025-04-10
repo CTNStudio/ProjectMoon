@@ -9,8 +9,6 @@ import net.minecraft.world.level.Level;
 
 import java.util.Objects;
 
-import static ctn.project_moon.events.SpiritEvents.createAttribute;
-
 public class AbnosEntity extends Mob implements Abnos {
     protected AbnosEntity(EntityType<? extends Mob> entityType, Level level, GradeType.Level entityLevel) {
         super(entityType, level);
