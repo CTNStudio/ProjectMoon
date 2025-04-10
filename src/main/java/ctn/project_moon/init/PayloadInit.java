@@ -1,11 +1,11 @@
-package ctn.project_moon.events;
+package ctn.project_moon.init;
 
 import ctn.project_moon.common.payload.SpiritValueDelivery;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-public class PayloadEvents {
+public class PayloadInit {
     @SubscribeEvent
     public static void spiritPayload(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");

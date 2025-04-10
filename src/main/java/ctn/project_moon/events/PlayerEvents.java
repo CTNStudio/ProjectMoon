@@ -63,25 +63,22 @@ public class PlayerEvents {
         }
     }
 
-    @EventBusSubscriber(modid = MOD_ID)
-    public static class constantly {
-        private static int timepiece;
+    private static int timepiece;
 
-        /**
-         * 刷新精神值
-         */
-        @SubscribeEvent
-        public static void refreshSpiritValue(EntityTickEvent.Pre event) {
-            if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getPersistentData().contains(SPIRIT)) {
-                timepiece++;
-                if (timepiece < 20) {
-                    return;
-                }
-                timepiece = 0;
-                if (getSpiritValue(livingEntity) < 0) {
-                }
-//            updateSpiritValue(livingEntity, 1);
+    /**
+     * 刷新精神值
+     */
+    @SubscribeEvent
+    public static void refreshSpiritValue(EntityTickEvent.Pre event) {
+        if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getPersistentData().contains(SPIRIT)) {
+            timepiece++;
+            if (timepiece < 20) {
+                return;
             }
+            timepiece = 0;
+            if (getSpiritValue(livingEntity) < 0) {
+            }
+//            updateSpiritValue(livingEntity, 1);
         }
     }
 }

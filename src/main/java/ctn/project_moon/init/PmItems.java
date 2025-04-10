@@ -1,14 +1,10 @@
 package ctn.project_moon.init;
 
-import ctn.project_moon.common.item.weapon.Weapon;
-import ctn.project_moon.common.item.weapon.ego.EgoWeapon;
-import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
 import ctn.project_moon.common.item.CreativeSpiritToolItem;
-import ctn.project_moon.common.item.weapon.ego.WristCutterItem;
-import ctn.project_moon.common.item.weapon.ego.BearPawsItem;
+import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
 import ctn.project_moon.common.item.weapon.DetonatingBatonItem;
-import ctn.project_moon.common.item.weapon.ego.LoveHateItem;
-import ctn.project_moon.common.item.weapon.ego.ParadiseLostItem;
+import ctn.project_moon.common.item.weapon.Weapon;
+import ctn.project_moon.common.item.weapon.ego.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
