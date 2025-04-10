@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import javax.annotation.CheckForNull;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -75,19 +76,20 @@ public class GradeType {
         }
 
         /** 返回EGO等级tga */
-        public static TagKey<Item> getEgoLevelTag(ItemStack item){
+        public static TagKey<Item> getEgoLevelTag(ItemStack item) {
             return item.getTags()
                     .filter(it -> Objects.nonNull(Level.getItemLevel(it)))
                     .findFirst()
                     .orElse(ZAYIN.getItemLevel());
         }
 
+        @CheckForNull
         public static Level getItemLevel(TagKey<Item> tag) {
             return Arrays.stream(Level.values())
                     .sorted((a, b) -> Integer.compare(b.getLevelValue(), a.getLevelValue()))
                     .filter(it -> tag.equals(it.getItemLevel()))
                     .findFirst()
-                    .orElse(ZAYIN);
+                    .orElse(null);
         }
 
         public static Level getEntityLevel(LivingEntity entity) {
