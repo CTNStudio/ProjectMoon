@@ -6,8 +6,10 @@ import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.common.item.weapon.ego.CloseCombatEgo;
 import ctn.project_moon.common.item.SetInvulnerabilityTicks;
 import ctn.project_moon.init.PmDamageTypes;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -16,6 +18,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.GradeType.Level.getEgoLevelTag;
@@ -26,6 +31,7 @@ import static ctn.project_moon.init.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.events.SpiritEvents.updateSpiritValue;
 import static ctn.project_moon.init.PmAttributes.*;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
+import static net.minecraft.world.damagesource.DamageTypes.*;
 
 /**
  * 实体事件
@@ -120,7 +126,12 @@ public class EntityEvents {
         DamageSource damageSource = event.getDamageSource() ;
         ItemStack itemStack = damageSource.getWeaponItem(); // 获取伤害来源的武器
         boolean isAbnosEntity = event.getEntity() instanceof Abnos;
-        if (isCloseCombatEgo(itemStack)) {
+        if (physicsDamageType(damageSource)){
+            if (itemStack != null && !itemStack.isEmpty()) {
+                GradeType.Level itemLevel = getItemLevel(getEgoLevelTag(itemStack));
+                closeCombatEgo(event, itemLevel, PmDamageTypes.Types.PHYSICS, isAbnosEntity);
+            }
+        } else if (isCloseCombatEgo(itemStack)) {
             GradeType.Level itemLevel = getItemLevel(getEgoLevelTag(itemStack));
             switch (getType(itemStack.get(CURRENT_DAMAGE_TYPE))) {
                 case PHYSICS -> closeCombatEgo(event, itemLevel, PmDamageTypes.Types.PHYSICS, isAbnosEntity);
@@ -138,6 +149,42 @@ public class EntityEvents {
         }
     }
 
+    private static boolean physicsDamageType(DamageSource damageSource){
+        List<ResourceKey<DamageType>> keys = new LinkedList<>(List.of(
+                CRAMMING,
+                FALLING_ANVIL,
+                FALLING_BLOCK,
+                FALLING_STALACTITE,
+                FIREWORKS,
+                FLY_INTO_WALL,
+                MOB_ATTACK,
+                MOB_ATTACK_NO_AGGRO,
+                MOB_PROJECTILE,
+                PLAYER_ATTACK,
+                SPIT,
+                STING,
+                SWEET_BERRY_BUSH,
+                THORNS,
+                THROWN,
+                TRIDENT,
+                UNATTRIBUTED_FIREBALL,
+                WITHER_SKULL,
+                WIND_CHARGE,
+                ARROW,
+                CACTUS,
+                BAD_RESPAWN_POINT,
+                FALL,
+                FIREBALL,
+                FLY_INTO_WALL
+        ));
+        for (ResourceKey<DamageType> key : keys) {
+            if (damageSource.is(key)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static void closeCombatEgo(ArmorAbsorptionEvent event, GradeType.Level itemLevel, PmDamageTypes.Types damageTypes, boolean isAbnosEntity) {
         float damageAmount = event.getDamageAmount();
         if (!isAbnosEntity){
@@ -150,10 +197,14 @@ public class EntityEvents {
             }
             if (!isArmorItemStackEmpty) {
                 int armorItemStackLaval = 0;
+                int number = 0;
                 for (ItemStack armorItemStack : event.getArmorSlots()) {
-                    armorItemStackLaval += getItemLevelValue(armorItemStack);
+                    if (!armorItemStack.isEmpty()){
+                        armorItemStackLaval += getItemLevelValue(armorItemStack);
+                        number++;
+                    }
                 }
-                armorItemStackLaval /= 4;
+                armorItemStackLaval /= number;
                 damageAmount *= damageMultiple(armorItemStackLaval - itemLevel.getLevelValue()) ;
             }
         }
