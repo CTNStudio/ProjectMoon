@@ -20,6 +20,7 @@ public abstract class AttributeSupplier$BuilderMixin{
         create(SPIRIT_RESISTANCE);
         create(EROSION_RESISTANCE);
         create(THE_SOUL_RESISTANCE);
+        create(ENTITY_LEVEL);
     }
 
     @Shadow protected abstract AttributeInstance create(Holder<Attribute> attribute);

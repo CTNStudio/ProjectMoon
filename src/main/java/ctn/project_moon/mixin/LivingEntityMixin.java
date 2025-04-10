@@ -45,7 +45,6 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, ne
         ArmorAbsorptionEvent post = entityArmorAbsorptionPost(thiz, damageSource, damageAmount);
         if (post.isReturn()) {
             damageAmount = post.getNewDamageAmount();
-
         }
 
         cir.setReturnValue(damageAmount);

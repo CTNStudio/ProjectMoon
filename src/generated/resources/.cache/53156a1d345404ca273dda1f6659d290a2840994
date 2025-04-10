@@ -1,9 +1,9 @@
-// 1.21.1	2025-04-07T03:56:31.2562119	Item Models: project_moon
-167c3ed9701bf4ff68387d51ea42352fba642774 assets/project_moon/models/item/chaos_knife.json
-e20b97d845e730be401981f68ae7fb80ed24e3f3 assets/project_moon/models/item/chaos_knife_erosion.json
-e027bf0d253f0846f36498d78e964ca5de13addb assets/project_moon/models/item/chaos_knife_physics.json
-62d5d2e9411ee7963df75a2fce9167068d39d69a assets/project_moon/models/item/chaos_knife_spirit.json
-9ae98abe96e508f94840b53eed540f463ad7a3e4 assets/project_moon/models/item/chaos_knife_the_soul.json
+// 1.21.1	2025-04-10T11:11:54.2521089	Item Models: project_moon
+9b8d9e4ee53f5ed07f836d15c25f722ede571888 assets/project_moon/models/item/chaos_sword.json
+6015d484f1ee05965dcc24003124de11aba4864f assets/project_moon/models/item/chaos_sword_erosion.json
+c1426f90474f63a968fec8ef32dd6724a5349e6a assets/project_moon/models/item/chaos_sword_physics.json
+971918ae3dad1faf3ceae854a58713d5e30c6c69 assets/project_moon/models/item/chaos_sword_spirit.json
+6cfdd2e0fab6c6eb517de30c6ebc3fb7cc0ab118 assets/project_moon/models/item/chaos_sword_the_soul.json
 e9e01b92785d9f22f035038752f1b8f2c9fb5062 assets/project_moon/models/item/creative_spirit_tool.json
 ac6dbc65e04dedb6b54b3e6394efd7bfed17ad05 assets/project_moon/models/item/creative_spirit_tool_add.json
 8061131e8b2606324e7de9292def38ecd884a43d assets/project_moon/models/item/creative_spirit_tool_decrease.json

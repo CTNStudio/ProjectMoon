@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "project_moon:item/chaos_knife_the_soul"
+    "layer0": "project_moon:item/chaos_sword_erosion"
   }
 }

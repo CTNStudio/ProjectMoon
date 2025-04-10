@@ -1,4 +1,4 @@
-package ctn.project_moon.common.item;
+package ctn.project_moon.common.item.weapon;
 
 import dev.kosmx.playerAnim.api.layered.AnimationStack;
 import dev.kosmx.playerAnim.api.layered.IAnimation;

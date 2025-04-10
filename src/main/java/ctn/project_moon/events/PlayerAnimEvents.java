@@ -1,6 +1,6 @@
 package ctn.project_moon.events;
 
-import ctn.project_moon.common.item.AnimItem;
+import ctn.project_moon.common.item.weapon.AnimItem;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 

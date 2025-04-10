@@ -1,37 +1,27 @@
 package ctn.project_moon.common.entity.abnos;
 
 import ctn.project_moon.api.GradeType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
+import ctn.project_moon.init.PmAttributes;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
+
+import java.util.Objects;
 
 import static ctn.project_moon.events.SpiritEvents.createAttribute;
 
 public class AbnosEntity extends Mob implements Abnos {
-    public static final String ENTITY_LEVEL = createAttribute("nbt.entity_level");
-    private final GradeType.Level entityLevel;
-
     protected AbnosEntity(EntityType<? extends Mob> entityType, Level level, GradeType.Level entityLevel) {
         super(entityType, level);
-        this.entityLevel = entityLevel;
+        setEntityLevel(this, entityLevel);
     }
 
-    public static GradeType.Level getEntityLevel(Entity entity) {
-        if (!(entity instanceof ctn.project_moon.common.entity.abnos.AbnosEntity)) {
-            return GradeType.Level.ZAYIN;
-        }
-        return ((ctn.project_moon.common.entity.abnos.AbnosEntity) entity).getEntityLevel();
+    public static void setEntityLevel(LivingEntity entity,GradeType.Level entityLevel) {
+        Objects.requireNonNull(entity.getAttribute(PmAttributes.ENTITY_LEVEL)).setBaseValue(entityLevel.getLevelValue());
     }
 
-    public GradeType.Level getEntityLevel() {
-        return GradeType.Level.getEntityLevel(this);
-    }
-
-    @Override
-    public void load(CompoundTag compound){
-        super.load(compound);
-        compound.putString(ENTITY_LEVEL, entityLevel.getName());
+    public static GradeType.Level getEntityLevel(LivingEntity entity) {
+        return GradeType.Level.getEntityLevel(entity);
     }
 }

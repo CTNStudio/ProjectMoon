@@ -2,7 +2,7 @@ package ctn.project_moon.events;
 
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.api.PmColour;
-import ctn.project_moon.common.item.creative_tool.ChaosKnifeItem;
+import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;

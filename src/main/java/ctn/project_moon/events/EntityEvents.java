@@ -3,7 +3,7 @@ package ctn.project_moon.events;
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.common.entity.abnos.Abnos;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
-import ctn.project_moon.common.item.CloseCombatEgo;
+import ctn.project_moon.common.item.weapon.ego.CloseCombatEgo;
 import ctn.project_moon.common.item.SetInvulnerabilityTicks;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.tags.TagKey;
@@ -22,7 +22,7 @@ import static ctn.project_moon.api.GradeType.Level.getEgoLevelTag;
 import static ctn.project_moon.api.GradeType.damageMultiple;
 import static ctn.project_moon.common.entity.abnos.AbnosEntity.getEntityLevel;
 import static ctn.project_moon.common.item.Ego.getItemLevelValue;
-import static ctn.project_moon.common.item.components.PmDataComponents.CURRENT_DAMAGE_TYPE;
+import static ctn.project_moon.init.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.events.SpiritEvents.updateSpiritValue;
 import static ctn.project_moon.init.PmAttributes.*;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
@@ -154,7 +154,7 @@ public class EntityEvents {
                     armorItemStackLaval += getItemLevelValue(armorItemStack);
                 }
                 armorItemStackLaval /= 4;
-                damageAmount *= damageMultiple(armorItemStackLaval - itemLevel.getLevel()) ;
+                damageAmount *= damageMultiple(armorItemStackLaval - itemLevel.getLevelValue()) ;
             }
         }
         GradeType.Level entityLaval = getEntityLevel(event.getEntity());

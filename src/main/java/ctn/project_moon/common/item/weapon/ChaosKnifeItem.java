@@ -1,7 +1,7 @@
-package ctn.project_moon.common.item.creative_tool;
+package ctn.project_moon.common.item.weapon;
 
-import ctn.project_moon.common.item.CloseCombatEgo;
-import ctn.project_moon.common.item.components.PmDataComponents;
+import ctn.project_moon.common.item.weapon.ego.CloseCombatEgo;
+import ctn.project_moon.init.PmDataComponents;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -18,13 +18,13 @@ import java.util.List;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.PmApi.createColorText;
 import static ctn.project_moon.api.PmApi.i18ColorText;
-import static ctn.project_moon.common.item.components.PmDataComponents.CURRENT_DAMAGE_TYPE;
+import static ctn.project_moon.init.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.init.PmDamageTypes.Types.*;
 import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;
 
 public class ChaosKnifeItem extends CloseCombatEgo {
     public ChaosKnifeItem(Properties properties) {
-        super(properties, PHYSICS, 3, 7, -1.4F);
+        super(new Weapon.Builder().minDamage(3).maxDamage(7).attackSpeed(-1.4F), PHYSICS);
     }
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {

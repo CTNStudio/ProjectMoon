@@ -1,6 +1,6 @@
 package ctn.project_moon.events.client;
 
-import ctn.project_moon.common.item.components.PmDataComponents;
+import ctn.project_moon.init.PmDataComponents;
 import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
@@ -39,7 +39,7 @@ public class ItemPropertyEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         createProperties(event, PmItems.CREATIVE_SPIRIT_TOOL.asItem(), MODE_BOOLEAN, PROPERTY_MODE_BOOLEAN);
-        createProperties(event, PmItems.CHAOS_KNIFE.asItem(), CURRENT_DAMAGE_TYPE, PROPERTY_CURRENT_DAMAGE_TYPE);
+        createProperties(event, PmItems.CHAOS_SWORD.asItem(), CURRENT_DAMAGE_TYPE, PROPERTY_CURRENT_DAMAGE_TYPE);
     }
 
     private static void createProperties(FMLClientSetupEvent event, Item item, ResourceLocation propertiesName, ClampedItemPropertyFunction propertyFunction) {

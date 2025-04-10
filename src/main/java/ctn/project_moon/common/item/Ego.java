@@ -40,6 +40,6 @@ public interface Ego {
      */
     static int getItemLevelValue(TagKey<Item> itemLevelTag) {
         final GradeType.Level type = GradeType.Level.getItemLevel(itemLevelTag);
-        return type.getLevel();
+        return type.getLevelValue();
     }
 }

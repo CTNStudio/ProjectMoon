@@ -1,4 +1,4 @@
-package ctn.project_moon.common.item.components;
+package ctn.project_moon.init;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
@@ -24,8 +24,8 @@ public class PmDataComponents {
     /**
      * 此组件用于近战EGO判断伤害类型
      */
-    public static final DataComponentType<String> CURRENT_DAMAGE_TYPE = recordComponent("current_damage_type");
-    static final EncoderCache ENCODER_CACHE = new EncoderCache(512);
+    public static final DataComponentType<String>  CURRENT_DAMAGE_TYPE = recordComponent("current_damage_type");
+    private static final EncoderCache ENCODER_CACHE = new EncoderCache(512);
 
     public static <T> DataComponentType<T> register(String name, UnaryOperator<DataComponentType.Builder<T>> builder) {
         return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE,

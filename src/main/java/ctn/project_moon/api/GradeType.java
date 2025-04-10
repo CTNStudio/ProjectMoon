@@ -1,8 +1,9 @@
 package ctn.project_moon.api;
 
 import ctn.project_moon.datagen.PmTags;
+import ctn.project_moon.init.PmAttributes;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -10,7 +11,6 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import static ctn.project_moon.PmMain.LOGGER;
-import static ctn.project_moon.common.entity.abnos.AbnosEntity.ENTITY_LEVEL;
 
 public class GradeType {
     /**
@@ -24,7 +24,7 @@ public class GradeType {
      * 返回之间的等级差值
      */
     public static int leveDifferenceValue(Level level, Level level2) {
-        return level.getLevel() - level2.getLevel();
+        return level.getLevelValue() - level2.getLevelValue();
     }
 
     public static float damageMultiple(int i) {
@@ -53,12 +53,12 @@ public class GradeType {
         ALEPH("ALEPH", 5, PmTags.PmItem.ALEPH);
 
         private final String name;
-        private final int level;
+        private final int levelValue;
         private final TagKey<Item> itemTag;
 
-        Level(String name, int Level, TagKey<Item> itemTag) {
+        Level(String name, int levelValue, TagKey<Item> itemTag) {
             this.name = name;
-            this.level = Level;
+            this.levelValue = levelValue;
             this.itemTag = itemTag;
         }
 
@@ -66,8 +66,8 @@ public class GradeType {
             return name;
         }
 
-        public int getLevel() {
-            return level;
+        public int getLevelValue() {
+            return levelValue;
         }
 
         public TagKey<Item> getItemLevel() {
@@ -84,16 +84,16 @@ public class GradeType {
 
         public static Level getItemLevel(TagKey<Item> tag) {
             return Arrays.stream(Level.values())
-                    .sorted((a, b) -> Integer.compare(b.getLevel(), a.getLevel()))
+                    .sorted((a, b) -> Integer.compare(b.getLevelValue(), a.getLevelValue()))
                     .filter(it -> tag.equals(it.getItemLevel()))
                     .findFirst()
                     .orElse(ZAYIN);
         }
 
-        public static Level getEntityLevel(Entity entity) {
+        public static Level getEntityLevel(LivingEntity entity) {
             return Arrays.stream(Level.values())
-                    .sorted((a, b) -> Integer.compare(b.getLevel(), a.getLevel()))
-                    .filter(it -> entity.getPersistentData().getString(ENTITY_LEVEL).equals(it.getName()))
+                    .sorted((a, b) -> Integer.compare(b.getLevelValue(), a.getLevelValue()))
+                    .filter(it -> (int) entity.getAttributeValue(PmAttributes.ENTITY_LEVEL) == it.getLevelValue())
                     .findFirst()
                     .orElse(ZAYIN);
         }

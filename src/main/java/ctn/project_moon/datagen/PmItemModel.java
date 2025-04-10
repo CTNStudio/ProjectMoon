@@ -43,7 +43,7 @@ public class PmItemModel extends ItemModelProvider {
         chaosKnife.put(0.2F, "erosion");
         chaosKnife.put(0.3F, "the_soul");
         createModelFile(PmItems.CREATIVE_SPIRIT_TOOL.get(), creativeSpiritTool, ItemPropertyEvents.MODE_BOOLEAN);
-        createModelFile(PmItems.CHAOS_KNIFE.get(), chaosKnife, ItemPropertyEvents.CURRENT_DAMAGE_TYPE);
+        createModelFile(PmItems.CHAOS_SWORD.get(), chaosKnife, ItemPropertyEvents.CURRENT_DAMAGE_TYPE);
     }
 
     public void createModelFile(Item item, Map<Float, String> texture, ResourceLocation... predicates) {

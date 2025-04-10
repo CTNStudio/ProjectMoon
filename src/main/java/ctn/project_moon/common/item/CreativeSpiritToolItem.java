@@ -1,4 +1,4 @@
-package ctn.project_moon.common.item.creative_tool;
+package ctn.project_moon.common.item;
 
 import ctn.project_moon.events.SpiritEvents;
 import net.minecraft.client.Minecraft;
@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import static ctn.project_moon.common.item.components.PmDataComponents.MODE_BOOLEAN;
+import static ctn.project_moon.init.PmDataComponents.MODE_BOOLEAN;
 import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
 
 public class CreativeSpiritToolItem extends Item {
