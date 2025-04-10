@@ -7,8 +7,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -16,6 +18,7 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.PmApi.createColorText;
@@ -23,6 +26,8 @@ import static ctn.project_moon.api.PmApi.i18ColorText;
 import static ctn.project_moon.common.item.Ego.getItemLevel;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static ctn.project_moon.init.PmDamageTypes.Types.egoDamageTypes;
+import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
+import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 
 /**
  * 物品事件
@@ -70,7 +75,6 @@ public class ItemEvents {
                 return;
             }
             final List<TagKey<Item>> damageTypesTags = egoDamageTypes(stack);
-            /*
             if (damageTypesTags.isEmpty()) {
                 final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
                         .modifiers().stream()
@@ -79,8 +83,6 @@ public class ItemEvents {
                     return;
                 }
             }
-            */
-
             final var listIn = new ArrayList<>(damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList());
             if (listIn.isEmpty()) {
                 listIn.add(PHYSICS);
