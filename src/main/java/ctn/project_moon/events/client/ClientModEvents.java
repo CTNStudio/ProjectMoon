@@ -1,10 +1,17 @@
 package ctn.project_moon.events.client;
 
+import c.DamageIndicatorParticle;
+import ctn.project_moon.client.particles.DamageParticle;
+import ctn.project_moon.init.PmParticleTypes;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 import static ctn.project_moon.PmMain.LOGGER;
 import static ctn.project_moon.PmMain.MOD_ID;
@@ -18,5 +25,10 @@ public class ClientModEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
         LOGGER.info("HELLO FROM CLIENT SETUP");
         LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+    }
+
+    @SubscribeEvent
+    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpecial(PmParticleTypes.DAMAGE_PARTICLE_TYPE.get(), new DamageParticle.Provider());
     }
 }

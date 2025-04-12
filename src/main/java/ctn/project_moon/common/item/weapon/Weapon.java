@@ -1,5 +1,6 @@
 package ctn.project_moon.common.item.weapon;
 
+import ctn.project_moon.common.item.RandomDamage;
 import ctn.project_moon.common.renderers.PmGeoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -23,9 +24,10 @@ import java.util.function.Consumer;
 import static ctn.project_moon.api.PmApi.ENTITY_RANGE;
 import static ctn.project_moon.init.PmDataComponents.MODE_BOOLEAN;
 
-public abstract class Weapon extends Item implements GeoItem{
+public abstract class Weapon extends Item implements GeoItem, RandomDamage {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private final float maxDamage, minDamage;
+    private final int maxDamage;
+    private final int minDamage;
     /**
      * 是否是特殊物品
      */
@@ -48,7 +50,7 @@ public abstract class Weapon extends Item implements GeoItem{
         this(properties.attributes(builder.getItemAttributeModifiers()), isSpecialTemplate, builder.maxDamage, builder.minDamage);
     }
 
-    private Weapon(Item.Properties properties, boolean isSpecialTemplate, float maxDamage, float minDamage) {
+    private Weapon(Item.Properties properties, boolean isSpecialTemplate, int maxDamage, int minDamage) {
         super(properties.component(MODE_BOOLEAN, false));
         this.isSpecialTemplate = isSpecialTemplate;
         this.maxDamage = maxDamage;
@@ -83,11 +85,13 @@ public abstract class Weapon extends Item implements GeoItem{
         return isSpecialTemplate;
     }
 
-    public float getMinDamage() {
+    @Override
+    public int getMinDamage() {
         return minDamage;
     }
 
-    public float getMaxDamage() {
+    @Override
+    public int getMaxDamage() {
         return maxDamage;
     }
 
@@ -101,35 +105,37 @@ public abstract class Weapon extends Item implements GeoItem{
         return cache;
     }
 
-    public static class Builder{
-        private float minDamage, maxDamage, attackSpeed, attackDistance;
+    public static class Builder {
+        private int minDamage, maxDamage;
+        private float attackSpeed, attackDistance;
         private int durability;
         private Item.Properties properties = new Item.Properties();
 
-        public Builder(){}
+        public Builder() {
+        }
 
-        public Builder(float minDamage, float maxDamage, float attackSpeed) {
+        public Builder(int minDamage, int maxDamage, float attackSpeed) {
             this.minDamage = minDamage;
             this.maxDamage = maxDamage;
             this.attackSpeed = attackSpeed;
         }
 
-        public Builder(float minDamage, float maxDamage, float attackSpeed, int durability) {
+        public Builder(int minDamage, int maxDamage, float attackSpeed, int durability) {
             this(minDamage, maxDamage, attackSpeed);
             this.durability = durability;
         }
 
-        public Builder(float minDamage, float maxDamage, float attackSpeed, float attackDistance) {
+        public Builder(int minDamage, int maxDamage, float attackSpeed, float attackDistance) {
             this(minDamage, maxDamage, attackSpeed);
             this.attackDistance = attackDistance;
         }
 
-        public Builder(float minDamage, float maxDamage, float attackSpeed, float attackDistance, int durability) {
+        public Builder(int minDamage, int maxDamage, float attackSpeed, float attackDistance, int durability) {
             this(minDamage, maxDamage, attackSpeed, attackDistance);
             this.durability = durability;
         }
 
-        public Item.Properties build(){
+        public Item.Properties build() {
             properties.attributes(getItemAttributeModifiers());
             if (durability > 0) {
                 properties.durability(durability);
@@ -141,7 +147,7 @@ public abstract class Weapon extends Item implements GeoItem{
             return ItemAttributeModifiers.builder()
                     .add(
                             Attributes.ATTACK_DAMAGE,
-                            new AttributeModifier(BASE_ATTACK_DAMAGE_ID, minDamage, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeModifier(BASE_ATTACK_DAMAGE_ID, maxDamage, AttributeModifier.Operation.ADD_VALUE),
                             EquipmentSlotGroup.HAND
                     ).add(
                             Attributes.ATTACK_SPEED,
@@ -159,17 +165,17 @@ public abstract class Weapon extends Item implements GeoItem{
             return this;
         }
 
-        public Builder minDamage(float minDamage) {
+        public Builder minDamage(int minDamage) {
             this.minDamage = minDamage;
             return this;
         }
 
-        public Builder maxDamage(float maxDamage) {
+        public Builder maxDamage(int maxDamage) {
             this.maxDamage = maxDamage;
             return this;
         }
 
-        public Builder damage(float damage){
+        public Builder damage(int damage) {
             this.maxDamage = damage;
             this.minDamage = damage;
             return this;

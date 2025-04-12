@@ -1,3 +1,8 @@
 {
-  "values": []
+  "values": [
+    {
+      "id": "project_moon:ego",
+      "required": false
+    }
+  ]
 }

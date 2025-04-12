@@ -9,12 +9,12 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.datagen.CuriosTestProvider.*;
+import static ctn.project_moon.datagen.CuriosTest.*;
 import static ctn.project_moon.init.PmDamageTypes.*;
 
 
-public class I18ZhCnDatagen extends LanguageProvider {
-    public I18ZhCnDatagen(PackOutput output) {
+public class I18ZhCn extends LanguageProvider {
+    public I18ZhCn(PackOutput output) {
         super(output, MOD_ID, "zh_cn");
     }
 

@@ -26,9 +26,10 @@ public class PmDatagen {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         // 客户端数据生成
-        generator.addProvider(event.includeClient(), new I18ZhCnDatagen(output));
+        generator.addProvider(event.includeClient(), new I18ZhCn(output));
         generator.addProvider(event.includeClient(), new PmItemModel(output, exFileHelper));
         generator.addProvider(event.includeClient(), new PmBlockState(output, exFileHelper));
+        generator.addProvider(event.includeClient(), new PmParticle(output, exFileHelper));
         PmTags.PmBlock pmPmBlockTags = new PmTags.PmBlock(output, lookupProvider, exFileHelper);
         generator.addProvider(event.includeClient(), pmPmBlockTags);
         generator.addProvider(event.includeClient(), new PmTags.PmItem(output, lookupProvider, pmPmBlockTags.contentsGetter(), exFileHelper));
@@ -36,8 +37,8 @@ public class PmDatagen {
         generator.addProvider(event.includeClient(), new PmTags.PmEntity(output, lookupProvider, exFileHelper));
 
         // 服务端数据生成
-        generator.addProvider(event.includeServer(), new PmDatapackBuiltinEntriesProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new PmDatapackBuiltinEntries(output, lookupProvider));
 
-        event.getGenerator().addProvider(event.includeServer(), new CuriosTestProvider(event.getGenerator().getPackOutput(), event.getExistingFileHelper(), event.getLookupProvider()));
+        event.getGenerator().addProvider(event.includeServer(), new CuriosTest(event.getGenerator().getPackOutput(), event.getExistingFileHelper(), event.getLookupProvider()));
     }
 }

@@ -15,14 +15,14 @@ import static ctn.project_moon.PmMain.LOGGER;
 
 public class GradeType {
     /**
-     * 返回EGO之间的伤害倍数
+     * 返回实体或物品的伤害倍数
      */
     public static float damageMultiple(Level laval, Level laval2) {
         return damageMultiple(leveDifferenceValue(laval, laval2));
     }
 
     /**
-     * 返回之间的等级差值
+     * 返回实体或物品之间的等级差值
      */
     public static int leveDifferenceValue(Level level, Level level2) {
         return level.getLevelValue() - level2.getLevelValue();

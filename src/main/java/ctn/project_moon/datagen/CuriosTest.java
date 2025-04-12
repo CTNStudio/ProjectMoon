@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static top.theillusivec4.curios.api.type.capability.ICurio.DropRule.ALWAYS_KEEP;
 
-public class CuriosTestProvider extends CuriosDataProvider {
+public class CuriosTest extends CuriosDataProvider {
     public static final String HEADWEAR_CURIOS = "ego_headwear";
     public static final String HEAD_CURIOS = "ego_head";
     public static final String HINDBRAIN_CURIOS = "ego_hindbrain";
@@ -45,7 +45,7 @@ public class CuriosTestProvider extends CuriosDataProvider {
     public static final ResourceLocation GLOVE_TAG = createTagId("glove");
     public static final ResourceLocation RIGHT_BACK_TAG = createTagId("right_back");
     public static final ResourceLocation LEFT_BACK_TAG = createTagId("left_back");
-    public CuriosTestProvider(PackOutput output, ExistingFileHelper fileHelper, CompletableFuture<HolderLookup.Provider> registries) {
+    public CuriosTest(PackOutput output, ExistingFileHelper fileHelper, CompletableFuture<HolderLookup.Provider> registries) {
         super(MOD_ID, output, fileHelper, registries);
     }
 

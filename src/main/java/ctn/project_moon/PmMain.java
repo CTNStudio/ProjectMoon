@@ -15,9 +15,10 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
-import static ctn.project_moon.datagen.CuriosTestProvider.*;
+import static ctn.project_moon.datagen.CuriosTest.*;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static ctn.project_moon.init.PmAttributes.PM_ATTRIBUTE;
+import static ctn.project_moon.init.PmParticleTypes.PARTICLE_TYPES;
 import static ctn.project_moon.init.PmTab.PROJECT_MOON_TAB;
 import static top.theillusivec4.curios.api.CuriosApi.registerCurioPredicate;
 
@@ -32,6 +33,7 @@ public class PmMain {
         PmItems.ITEMS.register(modEventBus);
         PROJECT_MOON_TAB.register(modEventBus);
         PM_ATTRIBUTE.register(modEventBus);
+        PARTICLE_TYPES.register(modEventBus);
 
         createValidators();
         NeoForge.EVENT_BUS.register(this);

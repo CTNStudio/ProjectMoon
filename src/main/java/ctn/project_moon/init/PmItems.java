@@ -26,12 +26,17 @@ public class PmItems {
     public static final DeferredItem<Item> CREATIVE_SPIRIT_TOOL = creativeToolItem("creative_spirit_tool", CreativeSpiritToolItem::new);
     public static final DeferredItem<Item> CHAOS_SWORD = creativeToolItem("chaos_sword", ChaosKnifeItem::new);
 
-    public static final DeferredItem<Item> DETONATING_BATON = createWeaponItem("detonating_baton", DetonatingBatonItem::new, new Weapon.Builder(3F, 4F, -2.4F));
-    public static final DeferredItem<Item> WRIST_CUTTER = createEgoWeaponItem("wrist_cutter", WristCutterItem::new, new Weapon.Builder(2F, 3F, 0.2f));
-    public static final DeferredItem<Item> BEAR_PAWS = createEgoWeaponItem("bear_paws", BearPawsItem::new, new Weapon.Builder(7F, 7F, -1F));
+    public static final DeferredItem<Item> DETONATING_BATON = createWeaponItem("detonating_baton",
+            DetonatingBatonItem::new, new Weapon.Builder(3, 4, -2.4F));
+    public static final DeferredItem<Item> WRIST_CUTTER = createEgoWeaponItem("wrist_cutter",
+            WristCutterItem::new, new Weapon.Builder(2, 3, 0.2F));
+    public static final DeferredItem<Item> BEAR_PAWS = createEgoWeaponItem("bear_paws",
+            BearPawsItem::new, new Weapon.Builder(7, 7, -1F));
     // 原称 in the name of love and hate
-    public static final DeferredItem<Item> LOVE_HATE = createEgoWeaponItem("love_hate", LoveHateItem::new, new Weapon.Builder(3F, 5F, -2F));
-    public static final DeferredItem<Item> PARADISE_LOST = createEgoWeaponItem("paradise_lost", ParadiseLostItem::new, new Weapon.Builder(12F, 16F, -2.3F));
+    public static final DeferredItem<Item> LOVE_HATE = createEgoWeaponItem("love_hate",
+            LoveHateItem::new, new Weapon.Builder(3, 5, -2F));
+    public static final DeferredItem<Item> PARADISE_LOST = createEgoWeaponItem("paradise_lost",
+            ParadiseLostItem::new, new Weapon.Builder(12, 16, -2.3F));
 
     public static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props) {
         return ITEMS.registerSimpleItem(name, props);

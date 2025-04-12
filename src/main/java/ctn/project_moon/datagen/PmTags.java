@@ -1,5 +1,6 @@
 package ctn.project_moon.datagen;
 
+import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -7,6 +8,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.DamageTypeTagsProvider;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -19,9 +21,15 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static ctn.project_moon.PmMain.MOD_ID;
+import static net.minecraft.world.damagesource.DamageTypes.*;
+import static net.minecraft.world.damagesource.DamageTypes.ARROW;
+import static net.minecraft.world.damagesource.DamageTypes.CACTUS;
+import static net.minecraft.world.damagesource.DamageTypes.TRIDENT;
+import static net.minecraft.world.damagesource.DamageTypes.WIND_CHARGE;
 import static net.minecraft.world.item.Items.*;
 
 public class PmTags {
@@ -151,6 +159,7 @@ public class PmTags {
     }
 
     public static class PmDamageType extends DamageTypeTagsProvider {
+        public static final List<ResourceKey<DamageType>> keys = List.of(CRAMMING, FALLING_ANVIL, FALLING_BLOCK, FALLING_STALACTITE, FIREWORKS, FLY_INTO_WALL, MOB_ATTACK, MOB_ATTACK_NO_AGGRO, MOB_PROJECTILE, PLAYER_ATTACK, SPIT, STING, SWEET_BERRY_BUSH, THORNS, THROWN, TRIDENT, UNATTRIBUTED_FIREBALL, WITHER_SKULL, WIND_CHARGE, ARROW, CACTUS, BAD_RESPAWN_POINT, FALL, FIREBALL, FLY_INTO_WALL);
         public static final TagKey<DamageType> PHYSICS = createTag("physics");
         public static final TagKey<DamageType> SPIRIT = createTag("spirit");
         public static final TagKey<DamageType> EROSION = createTag("erosion");
@@ -168,12 +177,19 @@ public class PmTags {
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
-            tag(PHYSICS);
-            tag(SPIRIT);
-            tag(EROSION);
-            tag(THE_SOUL);
-            tag(ABNOS);
-            tag(EGO);
+            tag(PHYSICS)
+                    .addOptional(PmDamageTypes.PHYSICS.location())
+                    .addAll(keys);
+            tag(SPIRIT)
+                    .addOptional(PmDamageTypes.SPIRIT.location());
+            tag(EROSION)
+                    .addOptional(PmDamageTypes.EROSION.location());
+            tag(THE_SOUL)
+                    .addOptional(PmDamageTypes.THE_SOUL.location());
+            tag(ABNOS)
+                    .addOptional(PmDamageTypes.ABNOS.location());
+            tag(EGO)
+                    .addOptional(PmDamageTypes.EGO.location());
         }
     }
 }

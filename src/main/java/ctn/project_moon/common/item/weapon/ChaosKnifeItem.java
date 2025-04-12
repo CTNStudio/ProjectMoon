@@ -24,8 +24,9 @@ import static ctn.project_moon.init.PmDataComponents.CURRENT_DAMAGE_TYPE;
 
 public class ChaosKnifeItem extends CloseCombatEgo {
     public ChaosKnifeItem(Properties properties) {
-        super(new Weapon.Builder().minDamage(3).maxDamage(7).attackSpeed(-1.4F), PHYSICS);
+        super(properties, new Weapon.Builder().minDamage(6).maxDamage(7).attackSpeed(-1.4F), PHYSICS);
     }
+
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
