@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
@@ -25,7 +26,7 @@ public class PlayerEvents {
          */
         @SubscribeEvent
         public static void saveToAttribute(PlayerEvent.SaveToFile event) {
-            processAttributeInformation(event);
+            processAttributeInformation(event.getEntity());
         }
 
         /**
@@ -33,7 +34,7 @@ public class PlayerEvents {
          */
         @SubscribeEvent
         public static void loadFromAttribute(PlayerEvent.LoadFromFile event) {
-            processAttributeInformation(event);
+            processAttributeInformation(event.getEntity());
         }
 
         /**
@@ -41,12 +42,16 @@ public class PlayerEvents {
          */
         @SubscribeEvent
         public static void resetSpiritValue(PlayerEvent.PlayerRespawnEvent event) {
-            CompoundTag nbt = event.getEntity().getPersistentData();
+            resetSpiritValue1(event.getEntity());
+        }
+
+        private static void resetSpiritValue1(LivingEntity entity) {
+            CompoundTag nbt = entity.getPersistentData();
             nbt.putFloat(SPIRIT, DEFAULT_SPIRIT_VALUE);
         }
 
-        private static void processAttributeInformation(PlayerEvent event) {
-            CompoundTag nbt = event.getEntity().getPersistentData();
+        private static void processAttributeInformation(LivingEntity entity) {
+            CompoundTag nbt = entity.getPersistentData();
 
             if (!nbt.contains(SPIRIT)) {
                 nbt.putFloat(SPIRIT, DEFAULT_SPIRIT_VALUE);

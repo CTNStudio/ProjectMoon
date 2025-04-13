@@ -91,7 +91,10 @@ public class PmTags {
         @Override
         protected void addTags(HolderLookup.Provider provider) {
             tag(ZAYIN)
-                    .add(PmItems.DETONATING_BATON.get());
+                    .add(PmItems.DETONATING_BATON.get())
+                    .add(PmItems.SUIT.get())
+                    .add(PmItems.DRESS_PANTS.get())
+                    .add(PmItems.LOAFERS.get());
             tag(TETH)
                     .add(PmItems.WRIST_CUTTER.get());
             tag(HE)

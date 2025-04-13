@@ -1,4 +1,4 @@
-// 1.21.1	2025-04-10T11:11:54.2541087	Tags for minecraft:item mod id project_moon
+// 1.21.1	2025-04-14T01:34:50.602694	Tags for minecraft:item mod id project_moon
 f7312800f04175a1d45843cc45df818f7f6cb487 data/project_moon/tags/item/aleph.json
 174d9e8594428112d6f5798b5f6433683efd74f7 data/project_moon/tags/item/ego.json
 51ccd035bcac683e59f049979035c5a525ba40a6 data/project_moon/tags/item/ego_curios.json
@@ -25,4 +25,4 @@ f133d04d820633e1b1e1e02dbe512e46553e0ff7 data/project_moon/tags/item/physics.jso
 7ee30ddc81e78ed2c0d436242bcf18a8184de0ca data/project_moon/tags/item/teth.json
 7c58447b2f29ac48ac9db443f5417775850a08de data/project_moon/tags/item/the_soul.json
 aa7a8eff665bc8dadf51c2364bf5a65e2451a0b3 data/project_moon/tags/item/waw.json
-11873a8683cd108a24a0e1e0ee9a29b939223c01 data/project_moon/tags/item/zayin.json
+b946db85756a18628ac4bfa75257c1cbabe48d34 data/project_moon/tags/item/zayin.json

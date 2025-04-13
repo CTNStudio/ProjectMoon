@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "minecraft:item/handheld",
   "overrides": [
     {
       "model": "project_moon:item/chaos_sword_physics",

@@ -1,6 +1,6 @@
 package ctn.project_moon.common.item.weapon.ego;
 
-import ctn.project_moon.common.item.SetInvulnerabilityTicks;
+import ctn.project_moon.common.item.weapon.SetInvulnerabilityTicks;
 import ctn.project_moon.common.item.weapon.Weapon;
 import ctn.project_moon.common.models.PmGeoItemModel;
 import ctn.project_moon.init.PmDamageTypes;

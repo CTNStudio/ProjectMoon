@@ -2,8 +2,8 @@ package ctn.project_moon.events;
 
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
-import ctn.project_moon.common.item.RandomDamageItem;
-import ctn.project_moon.common.item.SetInvulnerabilityTicks;
+import ctn.project_moon.common.item.weapon.RandomDamageItem;
+import ctn.project_moon.common.item.weapon.SetInvulnerabilityTicks;
 import ctn.project_moon.common.item.weapon.ego.CloseCombatEgo;
 import ctn.project_moon.datagen.PmTags;
 import ctn.project_moon.init.PmDamageTypes;
@@ -66,10 +66,11 @@ public class EntityEvents {
         if (!(event.getSource().getEntity().level() instanceof ServerLevel serverLevel && itemStack.getItem() instanceof RandomDamageItem item)) {
             return;
         }
+        // 获取增幅
         int damageScale = (int) (event.getAmount() - item.getMaxDamage());
         int maxDamage = damageScale + item.getMaxDamage();
         int minDamage = damageScale + item.getMinDamage();
-        if (minDamage <= maxDamage) {
+        if (minDamage < maxDamage) {
             event.setAmount(serverLevel.random.nextInt(minDamage, maxDamage + 1));
         }
     }
@@ -89,7 +90,6 @@ public class EntityEvents {
             PmDamageTypes.Types types;
             if (isCloseCombatEgo(itemStack)) {
                 types = getType(itemStack.get(CURRENT_DAMAGE_TYPE));
-                // 非近战EGO武器处理（射弹）
             } else {
                 types = getType(damageSource);
             }
@@ -100,6 +100,7 @@ public class EntityEvents {
                 case null, default -> {}
             }
         }
+        //TODO 添加负数/零数判断
     }
 
     /** 原版护甲处理前 */
@@ -111,16 +112,16 @@ public class EntityEvents {
         PmDamageTypes.Types damageTypes;
 
         // 根据伤害类型和武器类型设置等级和伤害类型
-        if (damageSource.is(PmTags.PmDamageType.PHYSICS)){
+        if (isCloseCombatEgo(itemStack)) {
+            level = getItemLevel(getEgoLevelTag(itemStack));
+            damageTypes = getType(itemStack.get(CURRENT_DAMAGE_TYPE));
+        } else if (damageSource.is(PmTags.PmDamageType.PHYSICS)) {
             if (itemStack != null && !itemStack.isEmpty()) {
                 level = getItemLevel(getEgoLevelTag(itemStack));
             }
             damageTypes = PmDamageTypes.Types.PHYSICS;
-        } else if (isCloseCombatEgo(itemStack)) {
-            level = getItemLevel(getEgoLevelTag(itemStack));
-            damageTypes = getType(itemStack.get(CURRENT_DAMAGE_TYPE));
         } else {
-            if (damageSource.getDirectEntity() instanceof LivingEntity livingEntity){
+            if (damageSource.getDirectEntity() instanceof LivingEntity livingEntity) {
                 level = getEntityLevel(livingEntity);
             }
             damageTypes = getType(damageSource);

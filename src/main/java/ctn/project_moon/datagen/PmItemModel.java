@@ -4,6 +4,7 @@ import ctn.project_moon.events.client.ItemPropertyEvents;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
@@ -37,13 +38,17 @@ public class PmItemModel extends ItemModelProvider {
         LinkedHashMap<Float, String> creativeSpiritTool = new LinkedHashMap<>();
         creativeSpiritTool.put(0F, "add");
         creativeSpiritTool.put(1F, "decrease");
+        createModelFile(PmItems.CREATIVE_SPIRIT_TOOL.get(), creativeSpiritTool, ItemPropertyEvents.MODE_BOOLEAN);
         LinkedHashMap<Float, String> chaosKnife = new LinkedHashMap<>();
         chaosKnife.put(0F, "physics");
         chaosKnife.put(0.1F, "spirit");
         chaosKnife.put(0.2F, "erosion");
         chaosKnife.put(0.3F, "the_soul");
-        createModelFile(PmItems.CREATIVE_SPIRIT_TOOL.get(), creativeSpiritTool, ItemPropertyEvents.MODE_BOOLEAN);
-        createModelFile(PmItems.CHAOS_SWORD.get(), chaosKnife, ItemPropertyEvents.CURRENT_DAMAGE_TYPE);
+        createModelFile(PmItems.CHAOS_SWORD.get(), chaosKnife, getParent("item/handheld"), ItemPropertyEvents.CURRENT_DAMAGE_TYPE);
+    }
+
+    private ModelFile.@NotNull UncheckedModelFile getParent(String name) {
+        return new ModelFile.UncheckedModelFile(ResourceLocation.withDefaultNamespace(name));
     }
 
     public void createModelFile(Item item, Map<Float, String> texture, ResourceLocation... predicates) {
@@ -58,9 +63,25 @@ public class PmItemModel extends ItemModelProvider {
             if (predicates.length > 1) {
                 predicate = predicates[i];
             }
-            mod.override().model(createModelFile(item, value))
-                    .predicate(predicate, key).end();
+            mod.override().model(createModelFile(item, value)).predicate(predicate, key).end();
             specialItem(item, value);
+        }
+    }
+
+    public void createModelFile(Item item, Map<Float, String> texture, ModelFile parent, ResourceLocation... predicates) {
+        var mod = basicItem(item).parent(parent);
+        var predicate = predicates[0];
+        Iterator<Float> iteratorKey = texture.keySet().iterator();
+        Float key;
+        String value;
+        for (int i = 0; i < texture.size(); i++) {
+            key = iteratorKey.next();
+            value = texture.get(key);
+            if (predicates.length > 1) {
+                predicate = predicates[i];
+            }
+            mod.override().model(createModelFile(item, value)).predicate(predicate, key).end();
+            specialItem(item, value).parent(parent);
         }
     }
 
@@ -70,6 +91,13 @@ public class PmItemModel extends ItemModelProvider {
 
     public ItemModelBuilder specialItem(Item item, String name) {
         return basicItem(getItemResourceLocation(item, name));
+    }
+
+    public ItemModelBuilder createModelItem(Item item, ModelFile parent){
+        ResourceLocation resourceLocation = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        return getBuilder(item.toString())
+                .parent(parent)
+                .texture("layer0", fromNamespaceAndPath(resourceLocation.getNamespace(), "item/" + resourceLocation.getPath()));
     }
 
     private @NotNull ResourceLocation getItemResourceLocation(Item item, String name) {

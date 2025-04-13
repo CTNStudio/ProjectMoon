@@ -1,4 +1,4 @@
-package ctn.project_moon.common.item;
+package ctn.project_moon.common.item.weapon;
 
 public interface RandomDamageItem {
     int getMaxDamage();

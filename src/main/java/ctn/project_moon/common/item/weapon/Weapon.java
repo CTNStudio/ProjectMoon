@@ -1,6 +1,5 @@
 package ctn.project_moon.common.item.weapon;
 
-import ctn.project_moon.common.item.RandomDamageItem;
 import ctn.project_moon.common.renderers.PmGeoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -51,7 +50,7 @@ public abstract class Weapon extends Item implements GeoItem, RandomDamageItem {
     }
 
     private Weapon(Item.Properties properties, boolean isSpecialTemplate, int maxDamage, int minDamage) {
-        super(properties.component(MODE_BOOLEAN, false));
+        super(properties.component(MODE_BOOLEAN, false).stacksTo(1));
         this.isSpecialTemplate = isSpecialTemplate;
         this.maxDamage = maxDamage;
         this.minDamage = minDamage;

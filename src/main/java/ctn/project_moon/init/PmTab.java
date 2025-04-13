@@ -32,7 +32,9 @@ public class PmTab extends CreativeModeTabs {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_SUIT =
             register("ego_suit", (name) -> createCreativeModeTab(name,
                     (parameters, output) -> {
-
+                        output.accept(PmItems.SUIT);
+                        output.accept(PmItems.DRESS_PANTS);
+                        output.accept(PmItems.LOAFERS);
                     }, () -> PmItems.EGO_SUIT_ICON.get().getDefaultInstance()));
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_CURIOS =
@@ -74,9 +76,5 @@ public class PmTab extends CreativeModeTabs {
 
     private static @NotNull MutableComponent getComponent(String imagePath) {
         return Component.translatable("itemGroup." + MOD_ID + "." + imagePath);
-    }
-
-    private static ResourceLocation createTabIcon(String name) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/gui/icon/" + name + ".png");
     }
 }

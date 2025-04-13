@@ -2,14 +2,17 @@ package ctn.project_moon.datagen;
 
 import ctn.project_moon.init.PmItems;
 import ctn.project_moon.init.PmTab;
+import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.datagen.CuriosTest.*;
+import static ctn.project_moon.init.PmAttributes.*;
 import static ctn.project_moon.init.PmDamageTypes.*;
 
 
@@ -51,6 +54,10 @@ public class I18ZhCn extends LanguageProvider {
         addItem(PmItems.LOVE_HATE, "以爱与恨之名");
         addItem(PmItems.PARADISE_LOST, "失乐园");
 
+        addItem(PmItems.SUIT, "西装");
+        addItem(PmItems.DRESS_PANTS, "西裤");
+        addItem(PmItems.LOAFERS, "便鞋");
+
         addCurios(HEADWEAR_CURIOS, "头饰");
         addCurios(HEAD_CURIOS, "头部");
         addCurios(HINDBRAIN_CURIOS, "后脑");
@@ -65,6 +72,16 @@ public class I18ZhCn extends LanguageProvider {
         addCurios(GLOVE_CURIOS, "手套");
         addCurios(RIGHT_BACK_CURIOS, "右背");
         addCurios(LEFT_BACK_CURIOS, "左背");
+
+        addAttribute(PHYSICS_RESISTANCE, "受物理伤害倍率");
+        addAttribute(SPIRIT_RESISTANCE, "受精神伤害倍率");
+        addAttribute(EROSION_RESISTANCE, "受侵蚀伤害倍率");
+        addAttribute(THE_SOUL_RESISTANCE, "受灵魂伤害倍率");
+        addAttribute(ENTITY_LEVEL, "生物级别");
+    }
+
+    public void addAttribute(Holder<Attribute> attributeHolder, String name) {
+        add(attributeHolder.value().getDescriptionId(), name);
     }
 
     /**

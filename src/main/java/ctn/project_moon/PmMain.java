@@ -17,8 +17,10 @@ import org.slf4j.Logger;
 
 import static ctn.project_moon.datagen.CuriosTest.*;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
+import static ctn.project_moon.init.PmArmorMaterials.ARMOR_MATERIALS_TYPES;
 import static ctn.project_moon.init.PmAttributes.PM_ATTRIBUTE;
 import static ctn.project_moon.init.PmParticleTypes.PARTICLE_TYPES;
+import static ctn.project_moon.init.PmSoundEvents.SOUND_EVENT_TYPES;
 import static ctn.project_moon.init.PmTab.PROJECT_MOON_TAB;
 import static top.theillusivec4.curios.api.CuriosApi.registerCurioPredicate;
 
@@ -34,6 +36,8 @@ public class PmMain {
         PROJECT_MOON_TAB.register(modEventBus);
         PM_ATTRIBUTE.register(modEventBus);
         PARTICLE_TYPES.register(modEventBus);
+        ARMOR_MATERIALS_TYPES.register(modEventBus);
+        SOUND_EVENT_TYPES.register(modEventBus);
 
         createValidators();
         NeoForge.EVENT_BUS.register(this);
@@ -48,6 +52,7 @@ public class PmMain {
         LOGGER.info("HELLO from server starting");
     }
 
+    // 饰品
     public void createValidators() {
         createValidators(EGO_CURIOS_TAG, EGO_CURIOS);
         createValidators(HEADWEAR_TAG, EGO_CURIOS_HEADWEAR);
