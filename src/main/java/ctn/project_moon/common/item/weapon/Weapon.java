@@ -1,6 +1,6 @@
 package ctn.project_moon.common.item.weapon;
 
-import ctn.project_moon.common.item.RandomDamage;
+import ctn.project_moon.common.item.RandomDamageItem;
 import ctn.project_moon.common.renderers.PmGeoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 import static ctn.project_moon.api.PmApi.ENTITY_RANGE;
 import static ctn.project_moon.init.PmDataComponents.MODE_BOOLEAN;
 
-public abstract class Weapon extends Item implements GeoItem, RandomDamage {
+public abstract class Weapon extends Item implements GeoItem, RandomDamageItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final int maxDamage;
     private final int minDamage;

@@ -1,21 +1,18 @@
 package ctn.project_moon.events;
 
 import ctn.project_moon.api.GradeType;
-import ctn.project_moon.client.particles.DamageParticle;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
-import ctn.project_moon.common.item.RandomDamage;
+import ctn.project_moon.common.item.RandomDamageItem;
 import ctn.project_moon.common.item.SetInvulnerabilityTicks;
 import ctn.project_moon.common.item.weapon.ego.CloseCombatEgo;
 import ctn.project_moon.datagen.PmTags;
 import ctn.project_moon.init.PmDamageTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -53,21 +50,30 @@ public class EntityEvents {
             return;
         }
 
-        // ps:不支持小数（懒）
-        if (event.getEntity().level() instanceof ServerLevel serverLevel && itemStack.getItem() instanceof RandomDamage item) {
-            int damageScale = (int) (event.getAmount() - item.getMaxDamage());
-            int maxDamage = damageScale + item.getMaxDamage();
-            int minDamage = damageScale + item.getMinDamage();
-            if (minDamage <= maxDamage) {
-                event.setAmount(serverLevel.random.nextInt(minDamage, maxDamage + 1));
-            }
-        }
+        randomDamage(event, itemStack);
 
+        // 修改生物无敌帧
         if (itemStack.getItem() instanceof SetInvulnerabilityTicks item) {
             event.setInvulnerabilityTicks(item.getTicks());
         }
     }
-    
+
+    /** 随机伤害处理
+     * <p>
+     * ps:不支持小数（懒）
+     * */
+    private static void randomDamage(LivingIncomingDamageEvent event, ItemStack itemStack) {
+        if (!(event.getSource().getEntity().level() instanceof ServerLevel serverLevel && itemStack.getItem() instanceof RandomDamageItem item)) {
+            return;
+        }
+        int damageScale = (int) (event.getAmount() - item.getMaxDamage());
+        int maxDamage = damageScale + item.getMaxDamage();
+        int minDamage = damageScale + item.getMinDamage();
+        if (minDamage <= maxDamage) {
+            event.setAmount(serverLevel.random.nextInt(minDamage, maxDamage + 1));
+        }
+    }
+
     /**
      * 已处理完等待扣除事件和效果处理
      */
@@ -159,16 +165,16 @@ public class EntityEvents {
     /** 已应用伤害至实体事件 */
     @SubscribeEvent
     public static void appliedDamageToEntityEvent(LivingDamageEvent.Post event) {
-        LivingEntity entity = event.getEntity();
-        if (!(entity.level() instanceof ServerLevel serverLevel)) {
-            return;
-        }
-        Vec3 pos = entity.position();
-        double x = pos.x;
-        double y = entity.getBoundingBoxForCulling().maxY;
-        double z = pos.z;
-        Component text = Component.literal(String.valueOf(event.getNewDamage()));
-        serverLevel.sendParticles(new DamageParticle.Options(text), x, y, z, 1, 0, 0, 0,10);
+//        LivingEntity entity = event.getEntity();
+//        if (!(entity.level() instanceof ServerLevel serverLevel)) {
+//            return;
+//        }
+//        Vec3 pos = entity.position();
+//        double x = pos.x;
+//        double y = entity.getBoundingBoxForCulling().maxY;
+//        double z = pos.z;
+//        Component text = Component.literal(String.valueOf(event.getNewDamage()));
+//        serverLevel.sendParticles(new DamageParticle.Options(text), x, y, z, 1, 0, 0, 0,10);
 //        serverLevel.sendParticles(new c.DamageIndicatorOptions(
 //                text,
 //                false,

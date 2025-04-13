@@ -2,6 +2,7 @@ package ctn.project_moon.events;
 
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.api.PmColour;
+import ctn.project_moon.common.item.RandomDamageItem;
 import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -15,10 +16,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.PmApi.createColorText;
@@ -47,10 +45,33 @@ public class ItemEvents {
 
         @SubscribeEvent
         public static void itemTooltip(final ItemTooltipEvent event) {
-            List<Component> component = event.getToolTip();
+            List<Component> componentList = event.getToolTip();
             ItemStack stack = event.getItemStack();
-            levelText(component, stack);
-            injuryType(component, stack);
+            levelText(componentList, stack);
+            injuryType(componentList, stack);
+            randomDamageText(event, componentList);
+        }
+
+        /** 添加随机伤害文本*/
+        private static void randomDamageText(ItemTooltipEvent event, List<Component> componentList) {
+            if (!(event.getItemStack().getItem() instanceof RandomDamageItem item)) {
+                return;
+            }
+            int maxDamage = item.getMaxDamage();
+            int minDamage = item.getMinDamage();
+            if (maxDamage == minDamage) {
+                return;
+            }
+            for (Component damageTexts : componentList) {
+                if (!(damageTexts.contains(Component.keybind(Attributes.ATTACK_DAMAGE.value().getDescriptionId())))){
+                    continue;
+                }
+                int damage = 0;
+                for (Component c2 : damageTexts.getSiblings()) {
+                    damage = Integer.parseInt((c2.getString().split(" ")[0]));
+                }
+                damageTexts.getSiblings().addFirst(Component.keybind(minDamage + (damage - maxDamage) + "~"));
+            }
         }
 
         /**
@@ -75,20 +96,23 @@ public class ItemEvents {
                 return;
             }
             final List<TagKey<Item>> damageTypesTags = egoDamageTypes(stack);
+            final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
+                    .modifiers().stream()
+                    .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
             if (damageTypesTags.isEmpty()) {
-                final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
-                        .modifiers().stream()
-                        .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
                 if (!isEmpty) {
                     return;
                 }
+            }
+            if (isEmpty){
+
             }
             final var listIn = new ArrayList<>(damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList());
             if (listIn.isEmpty()) {
                 listIn.add(PHYSICS);
             }
 
-            tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 1, 2),i18ColorText(MOD_ID + ".item.geo_describe.damage_type", "#AAAAAA"));
+            tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 1, 2), i18ColorText(MOD_ID + ".item.geo_describe.damage_type", "#AAAAAA"));
             listIn.forEach(it -> tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 2, 3),
                     i18ColorText(MOD_ID + ".item.geo_describe." + it.location().getPath(), COLOR_MAP.get(it))));
         }

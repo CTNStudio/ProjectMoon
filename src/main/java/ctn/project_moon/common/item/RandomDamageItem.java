@@ -1,6 +1,6 @@
 package ctn.project_moon.common.item;
 
-public interface RandomDamage {
+public interface RandomDamageItem {
     int getMaxDamage();
     int getMinDamage();
 }

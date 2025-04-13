@@ -35,8 +35,8 @@
   "itemGroup.project_moon.ego_suit": "E.G.O 护甲",
   "itemGroup.project_moon.ego_weapon": "E.G.O 武器",
   "project_moon.item.geo_describe.damage_type": "伤害类型",
-  "project_moon.item.geo_describe.erosion": " 侵蚀",
-  "project_moon.item.geo_describe.physics": " 物理",
-  "project_moon.item.geo_describe.spirit": " 精神",
-  "project_moon.item.geo_describe.the_soul": " 灵魂"
+  "project_moon.item.geo_describe.erosion": "§f§r 侵蚀",
+  "project_moon.item.geo_describe.physics": "§f§r 物理",
+  "project_moon.item.geo_describe.spirit": "§f§r 精神",
+  "project_moon.item.geo_describe.the_soul": "§f§r 灵魂"
 }

@@ -26,10 +26,10 @@ public class I18ZhCn extends LanguageProvider {
         addTab(PmTab.CREATIVE_TOOL, "奇点科技");
 
         add(MOD_ID + ".item.geo_describe.damage_type", "伤害类型");
-        add(MOD_ID + ".item.geo_describe.physics", " 物理");
-        add(MOD_ID + ".item.geo_describe.spirit", " 精神");
-        add(MOD_ID + ".item.geo_describe.erosion", " 侵蚀");
-        add(MOD_ID + ".item.geo_describe.the_soul", " 灵魂");
+        add(MOD_ID + ".item.geo_describe.physics", "§f\ue001§r 物理");
+        add(MOD_ID + ".item.geo_describe.spirit", "§f\ue002§r 精神");
+        add(MOD_ID + ".item.geo_describe.erosion", "§f\ue003§r 侵蚀");
+        add(MOD_ID + ".item.geo_describe.the_soul", "§f\ue004§r 灵魂");
 
         addPlayerDeathMessage(PHYSICS, "%s死于%s的造成的§4§l物理§r伤害");
         addPlayerDeathMessage(SPIRIT, "%s死于%s的造成的§l精神§r污染");
