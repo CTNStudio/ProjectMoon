@@ -20,10 +20,8 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.GradeType.Level.ZAYIN;
-import static ctn.project_moon.api.GradeType.Level.getEgoLevelTag;
+import static ctn.project_moon.api.GradeType.Level.*;
 import static ctn.project_moon.api.GradeType.damageMultiple;
-import static ctn.project_moon.common.entity.abnos.AbnosEntity.getEntityLevel;
 import static ctn.project_moon.common.item.Ego.getItemLevelValue;
 import static ctn.project_moon.events.SpiritEvents.updateSpiritValue;
 import static ctn.project_moon.init.PmAttributes.*;
@@ -96,11 +94,23 @@ public class EntityEvents {
             switch (types) {
                 case SPIRIT -> executeSpiritDamage(event, entity);
                 case EROSION -> executeErosionDamage(event, entity);
-                case THE_SOUL -> executeTheSoulDamage(event, entity);
+                case THE_SOUL -> {
+                    executeTheSoulDamage(event, entity);
+                    return;
+                }
                 case null, default -> {}
             }
         }
-        //TODO 添加负数/零数判断
+        reply(event, entity);
+    }
+
+    private static boolean reply(LivingDamageEvent.Pre event, LivingEntity entity) {
+        float newDamage = event.getNewDamage();
+        if (newDamage < 0) {
+            entity.heal(newDamage);
+            return true;
+        }
+        return false;
     }
 
     /** 原版护甲处理前 */
@@ -115,16 +125,20 @@ public class EntityEvents {
         if (isCloseCombatEgo(itemStack)) {
             level = getItemLevel(getEgoLevelTag(itemStack));
             damageTypes = getType(itemStack.get(CURRENT_DAMAGE_TYPE));
-        } else if (damageSource.is(PmTags.PmDamageType.PHYSICS)) {
-            if (itemStack != null && !itemStack.isEmpty()) {
-                level = getItemLevel(getEgoLevelTag(itemStack));
-            }
-            damageTypes = PmDamageTypes.Types.PHYSICS;
         } else {
-            if (damageSource.getDirectEntity() instanceof LivingEntity livingEntity) {
-                level = getEntityLevel(livingEntity);
+            if (damageSource.is(PmTags.PmDamageType.PHYSICS)){
+                if (itemStack != null && !itemStack.isEmpty()) {
+                    level = getItemLevel(getEgoLevelTag(itemStack));
+                }else if (damageSource.getDirectEntity() instanceof LivingEntity livingEntity) {
+                    level = getEntityLevel(livingEntity);
+                }
+                damageTypes = PmDamageTypes.Types.PHYSICS;
+            } else {
+                if (damageSource.getDirectEntity() instanceof LivingEntity livingEntity) {
+                    level = getEntityLevel(livingEntity);
+                }
+                damageTypes = getType(damageSource);
             }
-            damageTypes = getType(damageSource);
         }
 
         // 根据伤害类型处理抗性
@@ -140,26 +154,29 @@ public class EntityEvents {
 
     /** 百分百扣生命 */
     public static void executeTheSoulDamage(LivingDamageEvent.Pre event, LivingEntity entity) {
+        if(reply(event, entity)) return;
         float max = entity.getMaxHealth();
         event.setNewDamage(max * (event.getNewDamage() / 100));
     }
 
     /** 如果受伤者没有理智，则仅减少理智 */
     public static void executeSpiritDamage(LivingDamageEvent.Pre event, LivingEntity entity) {
-        if (entity.getPersistentData().contains(SpiritEvents.SPIRIT)) {
-            handleRationally(event, entity);
-            event.setNewDamage(0);
+        if (!(entity.getPersistentData().contains(SpiritEvents.SPIRIT))) {
+            return;
         }
+        handleRationally(event, entity);
+        event.setNewDamage(0);
     }
 
     /** 如果受伤者没有理智，则理智和生命同时减少 */
     public static void executeErosionDamage(LivingDamageEvent.Pre event, LivingEntity entity) {
-        if (entity.getPersistentData().contains(SpiritEvents.SPIRIT)) {
-            handleRationally(event, entity);
-        }
+        handleRationally(event, entity);
     }
 
     private static void handleRationally(LivingDamageEvent.Pre event, LivingEntity entity) {
+        if (!(entity.getPersistentData().contains(SpiritEvents.SPIRIT))) {
+            return;
+        }
         updateSpiritValue(entity, -event.getNewDamage());
     }
 

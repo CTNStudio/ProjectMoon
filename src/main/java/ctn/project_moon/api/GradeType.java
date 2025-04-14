@@ -6,6 +6,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.CheckForNull;
 import java.util.Arrays;
@@ -47,20 +49,24 @@ public class GradeType {
     }
 
     public enum Level {
-        ZAYIN("ZAYIN", 1, PmTags.PmItem.ZAYIN),
-        TETH("TETH", 2, PmTags.PmItem.TETH),
-        HE("HE", 3, PmTags.PmItem.HE),
-        WAW("WAW", 4, PmTags.PmItem.WAW),
-        ALEPH("ALEPH", 5, PmTags.PmItem.ALEPH);
+        ZAYIN("ZAYIN", 1, PmTags.PmItem.ZAYIN, PmTags.PmBlock.ZAYIN, PmColour.ZAYIN),
+        TETH("TETH", 2, PmTags.PmItem.TETH, PmTags.PmBlock.TETH, PmColour.TETH),
+        HE("HE", 3, PmTags.PmItem.HE, PmTags.PmBlock.HE, PmColour.HE),
+        WAW("WAW", 4, PmTags.PmItem.WAW, PmTags.PmBlock.WAW, PmColour.WAW),
+        ALEPH("ALEPH", 5, PmTags.PmItem.ALEPH, PmTags.PmBlock.ALEPH, PmColour.ALEPH);
 
         private final String name;
         private final int levelValue;
         private final TagKey<Item> itemTag;
+        private final TagKey<Block> blockTag;
+        private final PmColour colour;
 
-        Level(String name, int levelValue, TagKey<Item> itemTag) {
+        Level(String name, int levelValue, TagKey<Item> itemTag, TagKey<Block> blockTag, PmColour colour) {
             this.name = name;
             this.levelValue = levelValue;
             this.itemTag = itemTag;
+            this.blockTag = blockTag;
+            this.colour = colour;
         }
 
         public String getName() {
@@ -75,12 +81,26 @@ public class GradeType {
             return itemTag;
         }
 
-        /** 返回EGO等级tga */
+
+        public TagKey<Block> getBlockLevel() {
+            return blockTag;
+        }
+
+        /**
+         * 返回EGO等级tga
+         */
         public static TagKey<Item> getEgoLevelTag(ItemStack item) {
             return item.getTags()
                     .filter(it -> Objects.nonNull(Level.getItemLevel(it)))
                     .findFirst()
                     .orElse(ZAYIN.getItemLevel());
+        }
+
+        public static TagKey<Block> getEgoLevelTag(BlockState block) {
+            return block.getTags()
+                    .filter(it -> Objects.nonNull(Level.getBlockLevel(it)))
+                    .findFirst()
+                    .orElse(ZAYIN.getBlockLevel());
         }
 
         @CheckForNull
@@ -92,12 +112,29 @@ public class GradeType {
                     .orElse(null);
         }
 
+        @CheckForNull
+        public static Level getBlockLevel(TagKey<Block> tag) {
+            return Arrays.stream(Level.values())
+                    .sorted((a, b) -> Integer.compare(b.getLevelValue(), a.getLevelValue()))
+                    .filter(it -> tag.equals(it.getBlockLevel()))
+                    .findFirst()
+                    .orElse(null);
+        }
+
         public static Level getEntityLevel(LivingEntity entity) {
             return Arrays.stream(Level.values())
                     .sorted((a, b) -> Integer.compare(b.getLevelValue(), a.getLevelValue()))
                     .filter(it -> (int) entity.getAttributeValue(PmAttributes.ENTITY_LEVEL) == it.getLevelValue())
                     .findFirst()
                     .orElse(ZAYIN);
+        }
+
+        public PmColour getColour() {
+            return colour;
+        }
+
+        public String getColourText() {
+            return colour.getColour();
         }
     }
 }

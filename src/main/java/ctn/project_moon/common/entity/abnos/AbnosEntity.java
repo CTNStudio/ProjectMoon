@@ -18,8 +18,4 @@ public class AbnosEntity extends Mob implements Abnos {
     public static void setEntityLevel(LivingEntity entity,GradeType.Level entityLevel) {
         Objects.requireNonNull(entity.getAttribute(PmAttributes.ENTITY_LEVEL)).setBaseValue(entityLevel.getLevelValue());
     }
-
-    public static GradeType.Level getEntityLevel(LivingEntity entity) {
-        return GradeType.Level.getEntityLevel(entity);
-    }
 }

@@ -42,18 +42,10 @@ public class Armor extends ArmorItem implements Equipable {
         private ItemAttributeModifiers getItemAttributeModifiers(ArmorItem.Type type) {
             EquipmentSlotGroup dropLocation = EquipmentSlotGroup.bySlot(type.getSlot());
             ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-            if (physicsResistance!=0){
-                builder.add(PmAttributes.PHYSICS_RESISTANCE, new AttributeModifier(getLocation("physics_resistance.", type), physicsResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
-            }
-            if (spiritResistance!=0){
-                builder.add(PmAttributes.SPIRIT_RESISTANCE, new AttributeModifier(getLocation("spirit_resistance.", type), spiritResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
-            }
-            if (erosionResistance!=0){
-                builder.add(PmAttributes.EROSION_RESISTANCE, new AttributeModifier(getLocation("erosion_resistance.", type), erosionResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
-            }
-            if (theSoulResistance!=0){
-                builder.add(PmAttributes.THE_SOUL_RESISTANCE, new AttributeModifier(getLocation("the_soul_resistance.", type), theSoulResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
-            }
+            builder.add(PmAttributes.PHYSICS_RESISTANCE, new AttributeModifier(getLocation("physics_resistance.", type), physicsResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
+            builder.add(PmAttributes.SPIRIT_RESISTANCE, new AttributeModifier(getLocation("spirit_resistance.", type), spiritResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
+            builder.add(PmAttributes.EROSION_RESISTANCE, new AttributeModifier(getLocation("erosion_resistance.", type), erosionResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
+            builder.add(PmAttributes.THE_SOUL_RESISTANCE, new AttributeModifier(getLocation("the_soul_resistance.", type), theSoulResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
             originalArmorAttributes(type, builder, dropLocation);
             return builder.build();
         }
@@ -62,12 +54,8 @@ public class Armor extends ArmorItem implements Equipable {
             int i = material.value().getDefense(type);
             float f = material.value().toughness();
             ResourceLocation resourcelocation = ResourceLocation.withDefaultNamespace("armor." + type.getName());
-            if (i!=0){
-                builder.add(Attributes.ARMOR, new AttributeModifier(resourcelocation, i, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
-            }
-            if (f!=0){
-                builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(resourcelocation, f, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
-            }
+            builder.add(Attributes.ARMOR, new AttributeModifier(resourcelocation, i, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(resourcelocation, f, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);
             float f1 = material.value().knockbackResistance();
             if (f1 > 0.0F) {
                 builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(resourcelocation, f1, AttributeModifier.Operation.ADD_VALUE), equipmentslotgroup);

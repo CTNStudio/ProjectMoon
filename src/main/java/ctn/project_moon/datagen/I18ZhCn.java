@@ -14,6 +14,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.datagen.CuriosTest.*;
 import static ctn.project_moon.init.PmAttributes.*;
 import static ctn.project_moon.init.PmDamageTypes.*;
+import static ctn.project_moon.linkage_mod.jade.MobEntityProvider.*;
 
 
 public class I18ZhCn extends LanguageProvider {
@@ -78,6 +79,12 @@ public class I18ZhCn extends LanguageProvider {
         addAttribute(EROSION_RESISTANCE, "受侵蚀伤害倍率");
         addAttribute(THE_SOUL_RESISTANCE, "受灵魂伤害倍率");
         addAttribute(ENTITY_LEVEL, "生物级别");
+
+        add(ATTRIBUTE_DESCRIPTION_KEY, "抗性（值越大越抗性越低）");
+        add(PHYSICS_KEY, "物理");
+        add(SPIRIT_KEY, "精神");
+        add(EROSION_KEY, "侵蚀");
+        add(THE_SOUL_KEY, "灵魂");
     }
 
     public void addAttribute(Holder<Attribute> attributeHolder, String name) {

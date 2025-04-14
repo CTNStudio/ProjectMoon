@@ -3,6 +3,7 @@ package ctn.project_moon.common.item.weapon;
 import ctn.project_moon.common.renderers.PmGeoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -20,10 +21,12 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
 
-import static ctn.project_moon.api.PmApi.ENTITY_RANGE;
+import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.init.PmDataComponents.MODE_BOOLEAN;
 
 public abstract class Weapon extends Item implements GeoItem, RandomDamageItem {
+    public static final ResourceLocation ENTITY_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "entity_range");
+    public static final ResourceLocation BLOCK_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "block_range");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final int maxDamage;
     private final int minDamage;
@@ -143,20 +146,12 @@ public abstract class Weapon extends Item implements GeoItem, RandomDamageItem {
         }
 
         public ItemAttributeModifiers getItemAttributeModifiers() {
-            return ItemAttributeModifiers.builder()
-                    .add(
-                            Attributes.ATTACK_DAMAGE,
-                            new AttributeModifier(BASE_ATTACK_DAMAGE_ID, maxDamage, AttributeModifier.Operation.ADD_VALUE),
-                            EquipmentSlotGroup.HAND
-                    ).add(
-                            Attributes.ATTACK_SPEED,
-                            new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE),
-                            EquipmentSlotGroup.HAND
-                    ).add(
-                            Attributes.ENTITY_INTERACTION_RANGE,
-                            new AttributeModifier(ENTITY_RANGE, attackDistance, AttributeModifier.Operation.ADD_VALUE),
-                            EquipmentSlotGroup.HAND
-                    ).build();
+            ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+            builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, maxDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
+            builder.add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
+            builder.add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(ENTITY_RANGE, attackDistance, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
+            builder.add(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(BLOCK_RANGE, attackDistance, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
+            return builder.build();
         }
 
         public Builder durability(int durability) {

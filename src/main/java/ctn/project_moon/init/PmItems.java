@@ -35,9 +35,9 @@ public class PmItems {
     public static final DeferredItem<Item> DETONATING_BATON = createWeaponItem("detonating_baton",
             DetonatingBatonItem::new, new Weapon.Builder(3, 4, -2.4F));
     public static final DeferredItem<Item> WRIST_CUTTER = createEgoWeaponItem("wrist_cutter",
-            WristCutterItem::new, new Weapon.Builder(2, 3, 0.2F));
+            WristCutterItem::new, new Weapon.Builder(2, 3, 0.2F, -2));
     public static final DeferredItem<Item> BEAR_PAWS = createEgoWeaponItem("bear_paws",
-            BearPawsItem::new, new Weapon.Builder(7, 7, -1F));
+            BearPawsItem::new, new Weapon.Builder(7, 7, -1F, -3));
     // 原称 in the name of love and hate
     public static final DeferredItem<Item> LOVE_HATE = createEgoWeaponItem("love_hate",
             LoveHateItem::new, new Weapon.Builder(3, 5, -2F));
@@ -45,53 +45,56 @@ public class PmItems {
             ParadiseLostItem::new, new Weapon.Builder(12, 16, -2.3F));
 
     // 护甲
-    public static final DeferredItem<Item> SUIT = createArmorItem("suit", Armor::new, new Armor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.CHESTPLATE));
-    public static final DeferredItem<Item> DRESS_PANTS = createArmorItem("dress_pants", Armor::new, new Armor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.LEGGINGS));
-    public static final DeferredItem<Item> LOAFERS = createArmorItem("loafers", Armor::new, new Armor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
+    public static final DeferredItem<Item> SUIT = createArmorItem("suit",
+            Armor::new, new Armor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.CHESTPLATE));
+    public static final DeferredItem<Item> DRESS_PANTS = createArmorItem("dress_pants",
+            Armor::new, new Armor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.LEGGINGS));
+    public static final DeferredItem<Item> LOAFERS = createArmorItem("loafers",
+            Armor::new, new Armor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
 
     // 饰品
 
 
-    public static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props) {
+    private static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props) {
         return ITEMS.registerSimpleItem(name, props);
     }
 
-    public static DeferredItem<BlockItem> registerSimpleBlockItem(String name, Supplier<? extends Block> block) {
+    private static DeferredItem<BlockItem> registerSimpleBlockItem(String name, Supplier<? extends Block> block) {
         return ITEMS.registerSimpleBlockItem(name, block);
     }
 
-    public static DeferredItem<Item> registerSimpleIconItem(String name) {
+    private static DeferredItem<Item> registerSimpleIconItem(String name) {
         return ITEMS.registerSimpleItem(name, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> creativeToolItem(String name) {
+    private static DeferredItem<Item> creativeToolItem(String name) {
         return ITEMS.registerSimpleItem(name, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> creativeToolItem(String name, Function<Item.Properties, ? extends Item> item) {
+    private static DeferredItem<Item> creativeToolItem(String name, Function<Item.Properties, ? extends Item> item) {
         return ITEMS.registerItem(name, item, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item, Item.Properties properties) {
+    private static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item, Item.Properties properties) {
         return ITEMS.registerItem(name, item, properties.stacksTo(1));
     }
 
-    public static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item) {
+    private static DeferredItem<Item> createItem(String name, Function<Item.Properties, ? extends Item> item) {
         return ITEMS.registerItem(name, item, new Item.Properties().stacksTo(1));
     }
 
-    public static DeferredItem<Item> createArmorItem(String name, Function<Armor.Builder, ? extends Armor> armorItem, Armor.Builder builder){
+    private static DeferredItem<Item> createArmorItem(String name, Function<Armor.Builder, ? extends Armor> armorItem, Armor.Builder builder){
         return ITEMS.register(name, () -> armorItem.apply(builder));
     }
-    public static DeferredItem<Item> createEgoArmorItem(String name, Function<Armor.Builder, ? extends EgoArmor> armorItem, Armor.Builder builder){
+    private static DeferredItem<Item> createEgoArmorItem(String name, Function<Armor.Builder, ? extends EgoArmor> armorItem, Armor.Builder builder){
         return ITEMS.register(name, () -> armorItem.apply(builder));
     }
 
-    public static DeferredItem<Item> createWeaponItem(String name, Function<Weapon.Builder, ? extends Weapon> weaponItem, Weapon.Builder builder) {
+    private static DeferredItem<Item> createWeaponItem(String name, Function<Weapon.Builder, ? extends Weapon> weaponItem, Weapon.Builder builder) {
         return ITEMS.register(name, () -> weaponItem.apply(builder));
     }
 
-    public static DeferredItem<Item> createEgoWeaponItem(String name, Function<Weapon.Builder, ? extends EgoWeapon> weaponItem, Weapon.Builder builder) {
+    private static DeferredItem<Item> createEgoWeaponItem(String name, Function<Weapon.Builder, ? extends EgoWeapon> weaponItem, Weapon.Builder builder) {
         return ITEMS.register(name, () -> weaponItem.apply(builder));
     }
 }

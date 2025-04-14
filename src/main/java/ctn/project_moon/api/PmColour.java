@@ -5,12 +5,12 @@ public enum PmColour {
     SPIRIT("#ffffff", "spirit"),
     EROSION("#8a2be2", "erosion"),
     THE_SOUL("#00ffff", "the_soul"),
-    ZAYIN("#00ff00","zayin"),
-    TETH("#1e90ff","teth"),
-    HE("#ffff00","he"),
-    WAW("#8a2be2","waw"),
-    ALEPH("#ff0000", "aleph"),
-    ;
+    ZAYIN("#00ff00","ZAYIN"),
+    TETH("#1e90ff","TETH"),
+    HE("#ffff00","HE"),
+    WAW("#8a2be2","WAW"),
+    ALEPH("#ff0000", "ALEPH");
+
     private final String colour;
     private final String colourText;
 
@@ -21,6 +21,10 @@ public enum PmColour {
 
     public String getColour() {
         return colour;
+    }
+
+    public int getColourRGB(){
+        return PmApi.colorConversion(getColour());
     }
 
     public String getColourText() {
