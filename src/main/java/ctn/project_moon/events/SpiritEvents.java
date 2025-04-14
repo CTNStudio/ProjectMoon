@@ -1,8 +1,11 @@
 package ctn.project_moon.events;
 
+import ctn.project_moon.common.payload.SpiritValueDelivery;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
@@ -46,6 +49,10 @@ public class SpiritEvents {
         } else if (spirit < minSpirit) {
             setSpiritValue(entity, minSpirit);
         }
+        if (!(entity instanceof ServerPlayer serverPlayer)){
+            return;
+        }
+        PacketDistributor.sendToPlayer(serverPlayer, SpiritValueDelivery.create(serverPlayer));
     }
 
     public static float getSpiritValue(LivingEntity entity) {

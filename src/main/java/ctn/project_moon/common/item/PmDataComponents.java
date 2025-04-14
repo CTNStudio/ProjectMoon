@@ -1,4 +1,4 @@
-package ctn.project_moon.init;
+package ctn.project_moon.common.item;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;

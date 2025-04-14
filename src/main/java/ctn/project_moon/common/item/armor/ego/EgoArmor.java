@@ -1,10 +1,8 @@
 package ctn.project_moon.common.item.armor.ego;
 
 import ctn.project_moon.common.item.armor.Armor;
-import net.minecraft.core.Holder;
-import net.minecraft.world.item.ArmorMaterial;
 
-import static ctn.project_moon.init.PmDataComponents.IS_RESTRAIN;
+import static ctn.project_moon.common.item.PmDataComponents.IS_RESTRAIN;
 
 public class EgoArmor extends Armor {
 

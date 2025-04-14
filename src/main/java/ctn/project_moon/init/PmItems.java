@@ -1,6 +1,7 @@
 package ctn.project_moon.init;
 
 import ctn.project_moon.common.item.CreativeSpiritToolItem;
+import ctn.project_moon.common.item.PmArmorMaterials;
 import ctn.project_moon.common.item.armor.Armor;
 import ctn.project_moon.common.item.armor.ego.EgoArmor;
 import ctn.project_moon.common.item.weapon.ChaosKnifeItem;

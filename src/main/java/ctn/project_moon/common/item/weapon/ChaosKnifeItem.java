@@ -2,7 +2,7 @@ package ctn.project_moon.common.item.weapon;
 
 import ctn.project_moon.common.item.weapon.ego.CloseCombatEgo;
 import ctn.project_moon.init.PmDamageTypes;
-import ctn.project_moon.init.PmDataComponents;
+import ctn.project_moon.common.item.PmDataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -20,7 +20,7 @@ import static ctn.project_moon.api.PmApi.createColorText;
 import static ctn.project_moon.api.PmApi.i18ColorText;
 import static ctn.project_moon.init.PmDamageTypes.Types.*;
 import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;
-import static ctn.project_moon.init.PmDataComponents.CURRENT_DAMAGE_TYPE;
+import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 
 public class ChaosKnifeItem extends CloseCombatEgo {
     public ChaosKnifeItem(Properties properties) {

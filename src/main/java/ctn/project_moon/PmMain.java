@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 
 import static ctn.project_moon.datagen.CuriosTest.*;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
-import static ctn.project_moon.init.PmArmorMaterials.ARMOR_MATERIALS_TYPES;
+import static ctn.project_moon.common.item.PmArmorMaterials.ARMOR_MATERIALS_TYPES;
 import static ctn.project_moon.init.PmAttributes.PM_ATTRIBUTE;
 import static ctn.project_moon.init.PmParticleTypes.PARTICLE_TYPES;
 import static ctn.project_moon.init.PmSoundEvents.SOUND_EVENT_TYPES;

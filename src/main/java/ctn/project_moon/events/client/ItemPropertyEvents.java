@@ -1,7 +1,7 @@
 package ctn.project_moon.events.client;
 
 import ctn.project_moon.init.PmDamageTypes;
-import ctn.project_moon.init.PmDataComponents;
+import ctn.project_moon.common.item.PmDataComponents;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;

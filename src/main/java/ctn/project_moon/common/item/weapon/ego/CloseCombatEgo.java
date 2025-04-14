@@ -4,7 +4,7 @@ import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.world.item.ItemStack;
 
 import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;
-import static ctn.project_moon.init.PmDataComponents.CURRENT_DAMAGE_TYPE;
+import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 
 public abstract class CloseCombatEgo extends EgoWeapon {
     public CloseCombatEgo(ctn.project_moon.common.item.weapon.Weapon.Builder builder, PmDamageTypes.Types defaultDamageType) {

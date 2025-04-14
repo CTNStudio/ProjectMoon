@@ -26,7 +26,7 @@ import static ctn.project_moon.common.item.Ego.getItemLevelValue;
 import static ctn.project_moon.events.SpiritEvents.updateSpiritValue;
 import static ctn.project_moon.init.PmAttributes.*;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
-import static ctn.project_moon.init.PmDataComponents.CURRENT_DAMAGE_TYPE;
+import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 
 /**
  * 实体事件

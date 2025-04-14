@@ -3,7 +3,7 @@ package ctn.project_moon.common.item.weapon.ego;
 import ctn.project_moon.common.item.Ego;
 import ctn.project_moon.common.item.weapon.Weapon;
 
-import static ctn.project_moon.init.PmDataComponents.IS_RESTRAIN;
+import static ctn.project_moon.common.item.PmDataComponents.IS_RESTRAIN;
 
 
 public class EgoWeapon extends Weapon implements Ego{
