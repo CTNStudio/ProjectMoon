@@ -69,8 +69,9 @@ public class DourColorDamageEvents {
     /** 扣除生命 */
     public static boolean reply(LivingDamageEvent.Pre event, LivingEntity entity) {
         float newDamage = event.getNewDamage();
-        if (newDamage < 0) {
-            entity.heal(newDamage);
+        if (newDamage <= 0) {
+            entity.heal(-newDamage);
+            event.getContainer().setPostAttackInvulnerabilityTicks(0);
             return true;
         }
         return false;
