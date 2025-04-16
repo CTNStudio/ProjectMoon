@@ -36,9 +36,9 @@ public class PmItems {
     public static final DeferredItem<Item> DETONATING_BATON = createWeaponItem("detonating_baton",
             DetonatingBatonItem::new, new Weapon.Builder(3, 4, -2.4F));
     public static final DeferredItem<Item> WRIST_CUTTER = createEgoWeaponItem("wrist_cutter",
-            WristCutterItem::new, new Weapon.Builder(2, 3, 0.2F, -2));
+            WristCutterItem::new, new Weapon.Builder(2, 3, 0.2F, -0.1F));
     public static final DeferredItem<Item> BEAR_PAWS = createEgoWeaponItem("bear_paws",
-            BearPawsItem::new, new Weapon.Builder(7, 7, -1F, -3));
+            BearPawsItem::new, new Weapon.Builder(7, 7, -1F, -0.3F));
     // 原称 in the name of love and hate
     public static final DeferredItem<Item> LOVE_HATE = createEgoWeaponItem("love_hate",
             LoveHateItem::new, new Weapon.Builder(3, 5, -2F));
