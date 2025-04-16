@@ -46,11 +46,11 @@ public class Armor extends ArmorItem implements Equipable {
             builder.add(PmAttributes.SPIRIT_RESISTANCE, new AttributeModifier(getLocation("spirit_resistance.", type), spiritResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
             builder.add(PmAttributes.EROSION_RESISTANCE, new AttributeModifier(getLocation("erosion_resistance.", type), erosionResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
             builder.add(PmAttributes.THE_SOUL_RESISTANCE, new AttributeModifier(getLocation("the_soul_resistance.", type), theSoulResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
-            originalArmorAttributes(type, builder, dropLocation);
+            vanillaArmorAttributes(type, builder, dropLocation);
             return builder.build();
         }
 
-        private void originalArmorAttributes(Type type, ItemAttributeModifiers.Builder builder, EquipmentSlotGroup equipmentslotgroup) {
+        private void vanillaArmorAttributes(Type type, ItemAttributeModifiers.Builder builder, EquipmentSlotGroup equipmentslotgroup) {
             int i = material.value().getDefense(type);
             float f = material.value().toughness();
             ResourceLocation resourcelocation = ResourceLocation.withDefaultNamespace("armor." + type.getName());

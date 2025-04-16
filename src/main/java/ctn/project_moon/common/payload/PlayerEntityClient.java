@@ -1,4 +1,4 @@
-package ctn.project_moon.client;
+package ctn.project_moon.common.payload;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;

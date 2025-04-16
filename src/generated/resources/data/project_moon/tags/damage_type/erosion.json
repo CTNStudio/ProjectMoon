@@ -1,5 +1,7 @@
 {
   "values": [
+    "minecraft:wither_skull",
+    "minecraft:wither",
     {
       "id": "project_moon:erosion",
       "required": false

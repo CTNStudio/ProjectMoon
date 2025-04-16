@@ -1,5 +1,6 @@
 package ctn.project_moon.datagen;
 
+import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.PmItems;
 import ctn.project_moon.init.PmTab;
 import net.minecraft.core.Holder;
@@ -14,7 +15,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.datagen.CuriosTest.*;
 import static ctn.project_moon.init.PmAttributes.*;
 import static ctn.project_moon.init.PmDamageTypes.*;
-import static ctn.project_moon.linkage_mod.jade.MobEntityProvider.*;
+import static ctn.project_moon.linkage.jade.MobEntityResistance.*;
 
 
 public class I18ZhCn extends LanguageProvider {
@@ -85,8 +86,42 @@ public class I18ZhCn extends LanguageProvider {
         add(SPIRIT_KEY, "精神");
         add(EROSION_KEY, "侵蚀");
         add(THE_SOUL_KEY, "灵魂");
+
+        add("config.jade.plugin_project_moon.level", "生物/方块等级");
+        add("config.jade.plugin_project_moon.resistance", "实体抗性");
+
+        add(PmConfig.translationKey("enable_four_color_damage"), "四色伤害（物理、精神、侵蚀、灵魂）");
+        add(PmConfig.commentKey("enable_four_color_damage"), "同时也会禁用对应的抗性，以及对应的效果");
+        add(PmConfig.translationKey("enable_spirit_damage"), "精神伤害");
+        add(PmConfig.commentKey("enable_spirit_damage"), "不会受到精神伤害但仍然会被EGO扣除理智值");
+        add(PmConfig.translationKey("enable_rationality"), "理智值");
+        add(PmConfig.commentKey("enable_rationality"), "禁用理智相关的所有的并判断为物理属性");
+        add(PmConfig.translationKey("enable_natural_rationality_spirit"), "自然恢复理智值");
+        add(PmConfig.commentKey("enable_natural_rationality_spirit"), "生物是否可以自然恢复理智值");
+        add(PmConfig.translationKey("enable_low_rationality_negative_effect"), "玩家低理智负面效果");
+        add(PmConfig.commentKey("enable_low_rationality_negative_effect"), "关闭这个玩家将不会在低理智的时候获得负面效果以及EGO侵蚀，或低理智触发的任何事情");
+        add(PmConfig.translationKey("enable_the_soul_damage"), "灵魂伤害");
+        add(PmConfig.commentKey("enable_the_soul_damage"), "禁用灵魂相关的所有的并判断为物理属性");
+        add(PmConfig.translationKey("the_soul_affect_abominations"), "灵魂伤害对异想体生效");
+        add(PmConfig.commentKey("the_soul_affect_abominations"), "开启将时灵魂伤害将会对异想体造成百分比伤害");
+        add(PmConfig.translationKey("the_soul_affect_players"), "灵魂伤害对玩家生效");
+        add(PmConfig.commentKey("the_soul_affect_players"), "关闭将时灵魂伤害将不会对玩家造成百分比伤害");
+        add(PmConfig.translationKey("the_soul_affect_entities"), "灵魂伤害对非异想体的生物生效");
+        add(PmConfig.commentKey("the_soul_affect_entities"), "开启将时灵魂伤害将会对非异想体的生物造成百分比伤害");
+        add(PmConfig.translationKey("enable_low_rationality_filter"), "玩家低理智滤镜");
+        add(PmConfig.commentKey("enable_low_rationality_filter"), "低理智的滤镜");
+        add(PmConfig.translationKey("enable_four_color_damage_filter"), "遭受四色伤害滤镜");
+        add(PmConfig.commentKey("enable_four_color_damage_filter"), "遭受四色伤害时会有的滤镜");
+        add("project_moon.configuration.title", "月亮计划配置");
+        add("project_moon.configuration.section.project.moon.server.toml", "服务端设置");
+        add("project_moon.configuration.section.project.moon.server.toml.title", "服务端设置 · 这些仅会修改游戏内容不会修改视觉效果");
+        add("project_moon.configuration.section.project.moon.common.toml", "通用/双端设置");
+        add("project_moon.configuration.section.project.moon.common.toml.title", "通用/双端设置 · 这些会修改游戏内容和修改视觉效果");
+        add("project_moon.configuration.section.project.moon.client.toml", "客户端设置");
+        add("project_moon.configuration.section.project.moon.client.toml.title", "客户端设置 · 这些仅会修改视觉效果不会修改游戏内容");
     }
 
+    /** 生物属性翻译 */
     public void addAttribute(Holder<Attribute> attributeHolder, String name) {
         add(attributeHolder.value().getDescriptionId(), name);
     }

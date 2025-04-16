@@ -1,4 +1,4 @@
-package ctn.project_moon.linkage_mod.jade;
+package ctn.project_moon.linkage.jade;
 
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.api.PmApi;
@@ -12,7 +12,7 @@ import snownee.jade.api.config.IPluginConfig;
 import static ctn.project_moon.api.GradeType.Level.getBlockLevel;
 import static ctn.project_moon.api.GradeType.Level.getEgoLevelTag;
 
-public enum BlockProvider implements IBlockComponentProvider {
+public enum BlockLevel implements IBlockComponentProvider {
     INSTANCE;
 
     @Override

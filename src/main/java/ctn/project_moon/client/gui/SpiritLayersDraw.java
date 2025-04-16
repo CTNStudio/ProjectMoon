@@ -1,4 +1,4 @@
-package ctn.project_moon.common.spirit_layered;
+package ctn.project_moon.client.gui;
 
 import ctn.project_moon.events.SpiritEvents;
 import net.minecraft.client.DeltaTracker;
@@ -50,8 +50,8 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
         int width = guiGraphics.guiWidth() / 2 - spriteWidth / 2;
         ResourceLocation currentTexture;
         float spiritValue = SpiritEvents.getSpiritValue(player);
-        float maxSpiritValue = SpiritEvents.getMaxSpiritValue(player);
-        float minSpiritValue = SpiritEvents.getMinSpiritValue(player);
+        double maxSpiritValue = SpiritEvents.getMaxSpiritValue(player);
+        double minSpiritValue = SpiritEvents.getMinSpiritValue(player);
         if (spiritValue >= maxSpiritValue * 0.7) {
             currentTexture = FULL_SPIRIT_TEXTURE;
         } else if (spiritValue <= minSpiritValue * 0.7) {

@@ -35,6 +35,11 @@ public interface Ego {
         return GradeType.Level.getItemLevel(getEgoLevelTag(item));
     }
 
+    /** 获取武器等级 */
+    static GradeType.Level getItemLevel(TagKey<Item> egoLevelTag) {
+        return GradeType.Level.getItemLevel(egoLevelTag);
+    }
+
     /**
      * 返回物品等级
      */
@@ -42,4 +47,6 @@ public interface Ego {
         final GradeType.Level type = GradeType.Level.getItemLevel(itemLevelTag);
         return type.getLevelValue();
     }
+
+
 }

@@ -1,7 +1,5 @@
-package ctn.project_moon.linkage_mod.jade;
+package ctn.project_moon.linkage.jade;
 
-import ctn.project_moon.api.GradeType;
-import ctn.project_moon.api.PmApi;
 import ctn.project_moon.api.PmColour;
 import ctn.project_moon.init.PmAttributes;
 import net.minecraft.core.Holder;
@@ -15,11 +13,13 @@ import snownee.jade.api.EntityAccessor;
 import snownee.jade.api.IEntityComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.api.ui.IElement;
+import snownee.jade.api.ui.IElementHelper;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.GradeType.Level.*;
+import static snownee.jade.JadeInternals.getElementHelper;
 
-public enum MobEntityProvider implements IEntityComponentProvider {
+public enum MobEntityResistance implements IEntityComponentProvider {
     INSTANCE;
 
     public static final String ATTRIBUTE_DESCRIPTION_KEY = getResourceLocation("entity.attribute_description").toLanguageKey();
@@ -33,14 +33,38 @@ public enum MobEntityProvider implements IEntityComponentProvider {
         if (!(entityAccessor.getEntity() instanceof LivingEntity entity)) {
             return;
         }
-        GradeType.Level level = getEntityLevel(entity);
-        iTooltip.add(1, Component.literal(level.getName()).withColor(PmApi.colorConversion(level.getColourText())));
-        iTooltip.add(2, Component.translatable(ATTRIBUTE_DESCRIPTION_KEY));
-        iTooltip.add(3, getComponent(entity, PHYSICS_KEY, PmColour.PHYSICS.getColourRGB(), PmAttributes.PHYSICS_RESISTANCE)
-                .append("   ").append(getComponent(entity, SPIRIT_KEY, PmColour.SPIRIT.getColourRGB(), PmAttributes.SPIRIT_RESISTANCE))
-        );
-        iTooltip.add(4, getComponent(entity, EROSION_KEY, PmColour.EROSION.getColourRGB(), PmAttributes.EROSION_RESISTANCE)
-                .append("   ").append(getComponent(entity, THE_SOUL_KEY, PmColour.THE_SOUL.getColourRGB(), PmAttributes.THE_SOUL_RESISTANCE)));
+        IElementHelper elements = getElementHelper();
+        iTooltip.add(Component.translatable(ATTRIBUTE_DESCRIPTION_KEY));
+
+        iTooltip.add(getSprite(elements, "physics8x"));
+        empty(iTooltip);
+        iTooltip.append(getComponent(entity, PHYSICS_KEY, PmColour.PHYSICS.getColourRGB(), PmAttributes.PHYSICS_RESISTANCE));
+        emptys(iTooltip);
+        iTooltip.append(getSprite(elements, "spirit8x"));
+        empty(iTooltip);
+        iTooltip.append(getComponent(entity, SPIRIT_KEY, PmColour.SPIRIT.getColourRGB(), PmAttributes.SPIRIT_RESISTANCE));
+
+        iTooltip.add(getSprite(elements, "erosion8x"));
+        empty(iTooltip);
+        iTooltip.append(getComponent(entity, EROSION_KEY, PmColour.EROSION.getColourRGB(), PmAttributes.EROSION_RESISTANCE));
+        emptys(iTooltip);
+        iTooltip.append(getSprite(elements, "the_soul8x"));
+        empty(iTooltip);
+        iTooltip.append(getComponent(entity, THE_SOUL_KEY, PmColour.THE_SOUL.getColourRGB(), PmAttributes.THE_SOUL_RESISTANCE));
+    }
+
+    /** 插入N个空格 */
+    private static void emptys(ITooltip iTooltip) {
+        iTooltip.append(Component.literal("   "));
+    }
+
+    /** 插入一个空格 */
+    private static void empty(ITooltip iTooltip) {
+        iTooltip.append(Component.literal(" "));
+    }
+
+    private static IElement getSprite(IElementHelper elements, String physics8x) {
+        return elements.sprite(ResourceLocation.fromNamespaceAndPath(MOD_ID, physics8x), 8, 8);
     }
 
     private static @NotNull MutableComponent getComponent(LivingEntity entity, String key, int color, Holder<Attribute> attribute) {
@@ -54,7 +78,7 @@ public enum MobEntityProvider implements IEntityComponentProvider {
 
     @Override
     public ResourceLocation getUid() {
-        return PmPlugin.LEVEL;
+        return PmPlugin.RESISTANCE;
     }
 
     private static @NotNull ResourceLocation getResourceLocation(String path) {

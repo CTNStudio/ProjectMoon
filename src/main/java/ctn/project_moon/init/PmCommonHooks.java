@@ -1,5 +1,6 @@
-package ctn.project_moon.events;
+package ctn.project_moon.init;
 
+import ctn.project_moon.events.ArmorAbsorptionEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.common.NeoForge;

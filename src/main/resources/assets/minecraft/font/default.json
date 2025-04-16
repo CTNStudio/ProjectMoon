@@ -2,10 +2,31 @@
   "providers": [
     {
       "type": "bitmap",
-      "file": "project_moon:font/damage_type_font.png",
+      "file": "project_moon:gui/sprites/physics8x.png",
       "ascent": 8,
       "height": 8,
-      "chars": ["\ue001\ue002\ue003\ue004\ue000\ue000\ue000\ue000\ue000\ue000\ue000\ue000"]
+      "chars": ["\ue001"]
+    },
+    {
+      "type": "bitmap",
+      "file": "project_moon:gui/sprites/spirit8x.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\ue002"]
+    },
+    {
+      "type": "bitmap",
+      "file": "project_moon:gui/sprites/erosion8x.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\ue003"]
+    },
+    {
+      "type": "bitmap",
+      "file": "project_moon:gui/sprites/the_soul8x.png",
+      "ascent": 8,
+      "height": 8,
+      "chars": ["\ue004"]
     }
   ]
 }

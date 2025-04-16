@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static ctn.project_moon.events.PmCommonHooks.entityArmorAbsorptionPost;
-import static ctn.project_moon.events.PmCommonHooks.entityArmorAbsorptionPre;
+import static ctn.project_moon.init.PmCommonHooks.entityArmorAbsorptionPost;
+import static ctn.project_moon.init.PmCommonHooks.entityArmorAbsorptionPre;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Attackable, net.neoforged.neoforge.common.extensions.ILivingEntityExtension {

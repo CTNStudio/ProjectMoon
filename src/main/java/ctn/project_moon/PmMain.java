@@ -1,6 +1,7 @@
 package ctn.project_moon;
 
 import com.mojang.logging.LogUtils;
+import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.PmBlocks;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.resources.ResourceLocation;
@@ -10,14 +11,17 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
+import static ctn.project_moon.common.item.PmArmorMaterials.ARMOR_MATERIALS_TYPES;
 import static ctn.project_moon.datagen.CuriosTest.*;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
-import static ctn.project_moon.common.item.PmArmorMaterials.ARMOR_MATERIALS_TYPES;
 import static ctn.project_moon.init.PmAttributes.PM_ATTRIBUTE;
 import static ctn.project_moon.init.PmParticleTypes.PARTICLE_TYPES;
 import static ctn.project_moon.init.PmSoundEvents.SOUND_EVENT_TYPES;
@@ -31,6 +35,10 @@ public class PmMain {
 
     public PmMain(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
+        modContainer.registerConfig(ModConfig.Type.COMMON, PmConfig.COMMON_SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, PmConfig.SERVER_SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, PmConfig.CLIENT_SPEC);
+        modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
         PmBlocks.BLOCKS.register(modEventBus);
         PmItems.ITEMS.register(modEventBus);
         PROJECT_MOON_TAB.register(modEventBus);
@@ -44,12 +52,12 @@ public class PmMain {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        LOGGER.info("HELLO FROM COMMON SETUP");
+        LOGGER.info("ProjectMoon from common setup");
     }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        LOGGER.info("HELLO from server starting");
+        LOGGER.info("ProjectMoon from server starting");
     }
 
     // 饰品

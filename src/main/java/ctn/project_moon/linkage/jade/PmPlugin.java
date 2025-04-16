@@ -1,4 +1,4 @@
-package ctn.project_moon.linkage_mod.jade;
+package ctn.project_moon.linkage.jade;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
@@ -13,7 +13,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 @WailaPlugin
 public class PmPlugin implements IWailaPlugin {
     public static final ResourceLocation LEVEL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "level");
-
+    public static final ResourceLocation RESISTANCE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "resistance");
 
     @Override
     public void register(IWailaCommonRegistration registration) {
@@ -21,7 +21,8 @@ public class PmPlugin implements IWailaPlugin {
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
-        registration.registerBlockComponent(BlockProvider.INSTANCE, Block.class);
-        registration.registerEntityComponent(MobEntityProvider.INSTANCE, Mob.class);
+        registration.registerBlockComponent(BlockLevel.INSTANCE, Block.class);
+        registration.registerEntityComponent(MobEntityLevel.INSTANCE, Mob.class);
+        registration.registerEntityComponent(MobEntityResistance.INSTANCE, Mob.class);
     }
 }

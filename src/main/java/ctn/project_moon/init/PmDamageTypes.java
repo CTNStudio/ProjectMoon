@@ -45,11 +45,11 @@ public interface PmDamageTypes extends DamageTypes {
      */
     ResourceKey<DamageType> EGO = create("ego");
 
-    static ResourceKey<DamageType> create(String name) {
+    static ResourceKey<DamageType> create(final String name) {
         return ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
     }
 
-    static String getDamageTypeLocation(PmDamageTypes.Types damageType) {
+    static String getDamageTypeLocation(final PmDamageTypes.Types damageType) {
         return damageType.getKey().location().toString();
     }
 
@@ -83,7 +83,7 @@ public interface PmDamageTypes extends DamageTypes {
             this.damageTypeTag = damageTypeTag;
         }
 
-        public static PmDamageTypes.Types getType(DamageSource damageSource) {
+        public static PmDamageTypes.Types getType(final DamageSource damageSource) {
             return Arrays.stream(PmDamageTypes.Types.values())
                     .filter(it -> damageSource.is(it.getDamageTypeTag()))
                     .findFirst()
@@ -91,7 +91,7 @@ public interface PmDamageTypes extends DamageTypes {
         }
 
         @CheckForNull
-        public static PmDamageTypes.Types getType(ResourceKey<DamageType> key) {
+        public static PmDamageTypes.Types getType(final ResourceKey<DamageType> key) {
             return Arrays.stream(PmDamageTypes.Types.values())
                     .filter(it -> key.equals(it.getKey()))
                     .findFirst()
@@ -99,7 +99,7 @@ public interface PmDamageTypes extends DamageTypes {
         }
 
         @CheckForNull
-        public static PmDamageTypes.Types getType(String keyString) {
+        public static PmDamageTypes.Types getType(final String keyString) {
             return Arrays.stream(PmDamageTypes.Types.values())
                     .filter(it -> keyString.equals(it.getLocationString()))
                     .findFirst()
@@ -126,7 +126,7 @@ public interface PmDamageTypes extends DamageTypes {
         /**
          * 返回EGO伤害类型 仅物品描述用
          */
-        public static List<TagKey<Item>> egoDamageTypes(ItemStack item) {
+        public static List<TagKey<Item>> egoDamageTypes(final ItemStack item) {
             return item.getTags().filter(DAMAGE_TYPE::contains).toList();
         }
     }

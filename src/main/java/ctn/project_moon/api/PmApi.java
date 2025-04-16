@@ -4,11 +4,8 @@ import ctn.project_moon.init.PmDamageSources;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
-
-import static ctn.project_moon.PmMain.MOD_ID;
 
 public class PmApi {
     public static int colorConversion(String color) {

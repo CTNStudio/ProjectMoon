@@ -15,7 +15,7 @@ public record PmConfigurationTask(ServerConfigurationPacketListener listener) im
 
     @Override
     public void run(final Consumer<CustomPacketPayload> sender) {
-        sender.accept(new SpiritValueDelivery(1, 1));
+        sender.accept(new SpiritValueDelivery(1));
         this.listener().finishCurrentTask(this.type());
     }
 

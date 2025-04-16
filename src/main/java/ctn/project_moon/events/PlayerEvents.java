@@ -1,12 +1,11 @@
 package ctn.project_moon.events;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.LivingEntity;
+import ctn.project_moon.config.PmConfig;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.events.SpiritEvents.*;
@@ -14,76 +13,29 @@ import static ctn.project_moon.events.SpiritEvents.*;
 /**
  * 玩家相关事件
  */
+@EventBusSubscriber(modid = MOD_ID)
 public class PlayerEvents {
-
     /**
-     * 玩家属性相关事件
-     */
-    @EventBusSubscriber(modid = MOD_ID)
-    public static class PlayerAttribute {
-        /**
-         * 保存玩家属性
-         */
-        @SubscribeEvent
-        public static void saveToAttribute(PlayerEvent.SaveToFile event) {
-            processAttributeInformation(event.getEntity());
-        }
-
-        /**
-         * 加载玩家属性
-         */
-        @SubscribeEvent
-        public static void loadFromAttribute(PlayerEvent.LoadFromFile event) {
-            processAttributeInformation(event.getEntity());
-        }
-
-        /**
-         * 玩家死亡后重置精神值
-         */
-        @SubscribeEvent
-        public static void resetSpiritValue(PlayerEvent.PlayerRespawnEvent event) {
-            resetSpiritValue1(event.getEntity());
-        }
-
-        private static void resetSpiritValue1(LivingEntity entity) {
-            CompoundTag nbt = entity.getPersistentData();
-            nbt.putFloat(SPIRIT, DEFAULT_SPIRIT_VALUE);
-        }
-
-        private static void processAttributeInformation(LivingEntity entity) {
-            CompoundTag nbt = entity.getPersistentData();
-
-            if (!nbt.contains(SPIRIT)) {
-                nbt.putFloat(SPIRIT, DEFAULT_SPIRIT_VALUE);
-            }
-            if (!nbt.contains(MAX_SPIRIT)) {
-                nbt.putFloat(MAX_SPIRIT, DEFAULT_MAX_SPIRIT_VALUE);
-            }
-            if (!nbt.contains(MIN_SPIRIT)) {
-                nbt.putFloat(MIN_SPIRIT, DEFAULT_MIN_SPIRIT_VALUE);
-            }
-            nbt.putFloat(SPIRIT, getSpiritValue(nbt));
-            nbt.putFloat(MAX_SPIRIT, getMaxSpiritValue(nbt));
-            nbt.putFloat(MIN_SPIRIT, getMinSpiritValue(nbt));
-        }
-    }
-
-    private static int timepiece;
-
-    /**
-     * 刷新精神值
+     * 保存玩家属性
      */
     @SubscribeEvent
-    public static void refreshSpiritValue(EntityTickEvent.Pre event) {
-        if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getPersistentData().contains(SPIRIT)) {
-            timepiece++;
-            if (timepiece < 20) {
-                return;
-            }
-            timepiece = 0;
-            if (getSpiritValue(livingEntity) < 0) {
-            }
-//            updateSpiritValue(livingEntity, 1);
-        }
+    public static void saveToAttribute(PlayerEvent.SaveToFile event) {
+        processAttributeInformation(event.getEntity());
+    }
+
+    /**
+     * 加载玩家属性
+     */
+    @SubscribeEvent
+    public static void loadFromAttribute(PlayerEvent.LoadFromFile event) {
+        processAttributeInformation(event.getEntity());
+    }
+
+    /**
+     * 玩家死亡后重置精神值
+     */
+    @SubscribeEvent
+    public static void resetSpiritValue(PlayerEvent.PlayerRespawnEvent event) {
+        SpiritEvents.resetSpiritValue(event.getEntity());
     }
 }

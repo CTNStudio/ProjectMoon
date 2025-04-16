@@ -12,8 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
 import static ctn.project_moon.common.item.PmDataComponents.MODE_BOOLEAN;
+import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
 
 public class CreativeSpiritToolItem extends Item {
     public CreativeSpiritToolItem(Properties properties) {
@@ -29,7 +29,7 @@ public class CreativeSpiritToolItem extends Item {
                 return InteractionResultHolder.success(itemStack);
             }
             if (!level.isClientSide()) {
-                SpiritEvents.updateSpiritValue(player, itemStack.get(MODE_BOOLEAN) ? -1 : 1);
+                SpiritEvents.incrementSpiritValue(player, itemStack.get(MODE_BOOLEAN) ? -1 : 1);
                 return InteractionResultHolder.success(itemStack);
             }
         }

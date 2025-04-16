@@ -180,7 +180,7 @@ public class PmTags {
     }
 
     public static class PmDamageType extends DamageTypeTagsProvider {
-        public static final List<ResourceKey<DamageType>> keys = List.of(CRAMMING, FALLING_ANVIL, FALLING_BLOCK, FALLING_STALACTITE, FIREWORKS, FLY_INTO_WALL, MOB_ATTACK, MOB_ATTACK_NO_AGGRO, MOB_PROJECTILE, PLAYER_ATTACK, SPIT, STING, SWEET_BERRY_BUSH, THORNS, THROWN, TRIDENT, UNATTRIBUTED_FIREBALL, WITHER_SKULL, WIND_CHARGE, ARROW, CACTUS, BAD_RESPAWN_POINT, FALL, FIREBALL, FLY_INTO_WALL);
+        private static final List<ResourceKey<DamageType>> VANILLA_PHYSICS_KEYS = List.of(CRAMMING, FALLING_ANVIL, FALLING_BLOCK, FALLING_STALACTITE, FIREWORKS, FLY_INTO_WALL, MOB_ATTACK, MOB_ATTACK_NO_AGGRO, MOB_PROJECTILE, PLAYER_ATTACK, SPIT, STING, SWEET_BERRY_BUSH, THORNS, THROWN, TRIDENT, UNATTRIBUTED_FIREBALL, WIND_CHARGE, ARROW, CACTUS, BAD_RESPAWN_POINT, FALL, FIREBALL, FLY_INTO_WALL);
         public static final TagKey<DamageType> PHYSICS = createTag("physics");
         public static final TagKey<DamageType> SPIRIT = createTag("spirit");
         public static final TagKey<DamageType> EROSION = createTag("erosion");
@@ -200,10 +200,12 @@ public class PmTags {
         protected void addTags(HolderLookup.Provider provider) {
             tag(PHYSICS)
                     .addOptional(PmDamageTypes.PHYSICS.location())
-                    .addAll(keys);
+                    .addAll(VANILLA_PHYSICS_KEYS);
             tag(SPIRIT)
                     .addOptional(PmDamageTypes.SPIRIT.location());
             tag(EROSION)
+                    .add(WITHER_SKULL)
+                    .add(WITHER)
                     .addOptional(PmDamageTypes.EROSION.location());
             tag(THE_SOUL)
                     .add(SONIC_BOOM)
