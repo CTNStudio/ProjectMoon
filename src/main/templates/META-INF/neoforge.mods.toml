@@ -25,3 +25,24 @@ type = "required"
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "geckolib"
+type = "required"
+versionRange = "${geckolib_version}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "playeranimator"
+type = "required"
+versionRange = "${player_anim_version}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "curios"
+type = "required"
+versionRange = "${curios_api_version}"
+ordering = "NONE"
+side = "BOTH"

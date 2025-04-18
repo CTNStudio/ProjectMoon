@@ -1,6 +1,6 @@
 package ctn.project_moon.mixin;
 
-import ctn.project_moon.events.ArmorAbsorptionEvent;
+import ctn.project_moon.events.entity.ArmorAbsorptionEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
@@ -37,15 +37,14 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, ne
 
         if (!damageSource.is(DamageTypeTags.BYPASSES_ARMOR)) {
             this.hurtArmor(damageSource, damageAmount);
-            damageAmount = CombatRules.getDamageAfterAbsorb(thiz, damageAmount, damageSource, thiz.getArmorValue(),
-                    (float) thiz.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+            damageAmount = CombatRules.getDamageAfterAbsorb(thiz, damageAmount, damageSource,
+                    thiz.getArmorValue(), (float) thiz.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
         }
 
         ArmorAbsorptionEvent post = entityArmorAbsorptionPost(thiz, damageSource, damageAmount);
         if (post.isReturn()) {
             damageAmount = post.getNewDamageAmount();
+            cir.setReturnValue(damageAmount);
         }
-
-        cir.setReturnValue(damageAmount);
     }
 }

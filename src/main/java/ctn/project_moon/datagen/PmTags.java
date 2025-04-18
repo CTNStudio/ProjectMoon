@@ -202,10 +202,13 @@ public class PmTags {
                     .addOptional(PmDamageTypes.PHYSICS.location())
                     .addAll(VANILLA_PHYSICS_KEYS);
             tag(SPIRIT)
+                    .add(MOB_PROJECTILE)
                     .addOptional(PmDamageTypes.SPIRIT.location());
             tag(EROSION)
                     .add(WITHER_SKULL)
                     .add(WITHER)
+                    .add(MAGIC)
+                    .add(INDIRECT_MAGIC)
                     .addOptional(PmDamageTypes.EROSION.location());
             tag(THE_SOUL)
                     .add(SONIC_BOOM)

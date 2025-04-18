@@ -6,14 +6,14 @@ import software.bernie.geckolib.model.GeoModel;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-public class PmGeoItemModel<T extends GeoAnimatable> extends GeoModel<T> {
+public class PmGeoEntityModel<T extends GeoAnimatable> extends GeoModel<T> {
     private String path;
 
-    public PmGeoItemModel(String path) {
+    public PmGeoEntityModel(String path) {
         this.path = path;
     }
 
-    public PmGeoItemModel() {
+    public PmGeoEntityModel() {
     }
 
     public static ResourceLocation fromNamespaceAndPath(String path) {
@@ -21,15 +21,15 @@ public class PmGeoItemModel<T extends GeoAnimatable> extends GeoModel<T> {
     }
 
     public static ResourceLocation modelPath(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "geo/item/" + path + ".geo.json");
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "geo/entity/" + path + ".geo.json");
     }
 
     public static ResourceLocation texturePath(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/geo/item/" + path + ".png");
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/geo/entity/" + path + ".png");
     }
 
     public static ResourceLocation animationsPath(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "animations/item/" + path + ".json");
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "animations/entity/" + path + ".json");
     }
 
     @Override

@@ -23,6 +23,7 @@ import static ctn.project_moon.common.item.PmArmorMaterials.ARMOR_MATERIALS_TYPE
 import static ctn.project_moon.datagen.CuriosTest.*;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static ctn.project_moon.init.PmAttributes.PM_ATTRIBUTE;
+import static ctn.project_moon.init.PmEntitys.ENTITY_TYPE;
 import static ctn.project_moon.init.PmParticleTypes.PARTICLE_TYPES;
 import static ctn.project_moon.init.PmSoundEvents.SOUND_EVENT_TYPES;
 import static ctn.project_moon.init.PmTab.PROJECT_MOON_TAB;
@@ -46,6 +47,7 @@ public class PmMain {
         PARTICLE_TYPES.register(modEventBus);
         ARMOR_MATERIALS_TYPES.register(modEventBus);
         SOUND_EVENT_TYPES.register(modEventBus);
+        ENTITY_TYPE.register(modEventBus);
 
         createValidators();
         NeoForge.EVENT_BUS.register(this);

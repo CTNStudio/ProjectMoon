@@ -7,7 +7,10 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
+import static ctn.project_moon.PmMain.MOD_ID;
+
 public class PmApi {
+
     public static int colorConversion(String color) {
         return TextColor.parseColor(color).getOrThrow().getValue();
     }
