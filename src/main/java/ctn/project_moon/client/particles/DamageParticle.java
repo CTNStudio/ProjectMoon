@@ -30,10 +30,9 @@ import static ctn.project_moon.init.PmParticleTypes.DAMAGE_PARTICLE_TYPE;
 
 public class DamageParticle extends TextureSheetParticle {
     private final Component text;
-    private float factor=0;
-    private float factorOld=0;
-    private int transparency=0x11;
-    private int transparencyOld=0x11;
+    private final float factorOld = 0.025f;
+    private final float factor = 0;
+    private double tickIn = 0;
 
     protected DamageParticle(ClientLevel level, double x, double y, double z, Component text) {
         super(level, x, y, z);
@@ -58,7 +57,9 @@ public class DamageParticle extends TextureSheetParticle {
         poseStack.translate(dx, dy, dz);
         poseStack.mulPose(camera.rotation());
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
-        float f = Mth.lerp(pPartialTicks, factorOld,factor);
+
+        tickIn += 0.05;
+        final float f = tickIn >= 1 ? 0 : Math.max(0, 1 - (float) smoothEntryFactor(tickIn)) * 0.15f;
         poseStack.scale(f, f, f);  // 文本大小
         int width = minecraft.font.width(text);
         Matrix4f matrix = new Matrix4f(poseStack.last().pose());
@@ -69,6 +70,10 @@ public class DamageParticle extends TextureSheetParticle {
         matrix.translate(0, 0, 0.03f);
         bufferSource.endBatch();
         poseStack.popPose();
+    }
+
+    private static double smoothEntryFactor(double tickIn) {
+        return Math.pow(Math.pow((-2 + tickIn), 2) * tickIn, 2);
     }
 
     @Override

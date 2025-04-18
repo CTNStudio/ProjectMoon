@@ -1,10 +1,13 @@
 package ctn.project_moon.events.entity;
 
+import ctn.project_moon.client.particles.DamageParticle;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.events.DourColorDamageTypesEvents;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,6 +17,7 @@ import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.EvokerFangs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -138,27 +142,18 @@ public class DourColorDamageEvents {
                 setSpiritRecoveryCount(entity, 0);
             }
         }
-//        LivingEntity entity = event.getEntity();
-//        if (!(entity.level() instanceof ServerLevel serverLevel)) {
-//            return;
-//        }
-//        Vec3 pos = entity.position();
-//        double x = pos.x;
-//        double y = entity.getBoundingBoxForCulling().maxY;
-//        double z = pos.z;
-//        Component text = Component.literal(String.valueOf(event.getNewDamage()));
-//        serverLevel.sendParticles(new DamageParticle.Options(text), x, y, z, 1, 0, 0, 0,10);
-//        serverLevel.sendParticles(new c.DamageIndicatorOptions(
-//                text,
-//                false,
-//                c.DamageIndicatorOptions.Type.DAMAGE),
-//                x,
-//                y,
-//                z,
-//                1,
-//                0.1F,
-//                0.1F,
-//                0.1F,
-//                1);
-    }
+
+        var world = entity.level();
+        if (world.isClientSide()) {
+            return;
+        }
+
+        Vec3 pos = entity.position();
+        double x = pos.x;
+        double y = entity.getBoundingBoxForCulling().maxY;
+        double z = pos.z;
+        Component text = Component.literal(String.valueOf(event.getNewDamage()));
+        ((ServerLevel) world)
+                .sendParticles(new DamageParticle.Options(text), x, y, z, 1, 0.1, 0.0, 0.1, 0.2);
+  }
 }
