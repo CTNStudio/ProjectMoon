@@ -1,5 +1,7 @@
 package ctn.project_moon.events.client;
 
+import ctn.project_moon.client.particles.DamageParticle;
+import ctn.project_moon.init.PmParticleTypes;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,6 +25,6 @@ public class ClientModEvents {
 
     @SubscribeEvent
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
-//        event.registerSpecial(PmParticleTypes.DAMAGE_PARTICLE_TYPE.get(), new DamageParticle.Provider());
+       event.registerSpecial(PmParticleTypes.DAMAGE_PARTICLE_TYPE.get(), new DamageParticle.Provider());
     }
 }

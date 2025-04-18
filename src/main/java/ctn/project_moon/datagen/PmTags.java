@@ -26,11 +26,11 @@ import java.util.concurrent.CompletableFuture;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static net.minecraft.tags.DamageTypeTags.ALWAYS_HURTS_ENDER_DRAGONS;
-import static net.minecraft.world.damagesource.DamageTypes.*;
 import static net.minecraft.world.damagesource.DamageTypes.ARROW;
 import static net.minecraft.world.damagesource.DamageTypes.CACTUS;
 import static net.minecraft.world.damagesource.DamageTypes.TRIDENT;
 import static net.minecraft.world.damagesource.DamageTypes.WIND_CHARGE;
+import static net.minecraft.world.damagesource.DamageTypes.*;
 import static net.minecraft.world.item.Items.*;
 
 public class PmTags {

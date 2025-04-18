@@ -17,7 +17,6 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.events.SpiritEvents.*;
-import static ctn.project_moon.events.SpiritEvents.incrementSpiritValue;
 
 /**
  * 实体事件
