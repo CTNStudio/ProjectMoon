@@ -10,5 +10,5 @@ public interface AnimAttackItem extends AnimItem{
     /** 多久后执行效果 */
     int triggerTick();
     /** 效果 */
-    void trigger(Level level, LivingEntity livingEntity, ItemStack stack);
+    void tick(Level level, LivingEntity livingEntity, ItemStack stack);
 }

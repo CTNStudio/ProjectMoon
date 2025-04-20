@@ -1,7 +1,7 @@
 package ctn.project_moon.init;
 
-import ctn.project_moon.events.entity.ArmorAbsorptionEvent;
 import ctn.project_moon.events.DourColorDamageTypesEvents;
+import ctn.project_moon.events.entity.ArmorAbsorptionEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.common.NeoForge;

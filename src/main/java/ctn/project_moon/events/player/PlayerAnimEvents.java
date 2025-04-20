@@ -77,22 +77,22 @@ public class PlayerAnimEvents {
 
     @SubscribeEvent
     public static void cancel(MovementInputUpdateEvent event){
-        Player player = event.getEntity();
-        if (player instanceof AbstractClientPlayer clientPlayer) {
-            Input input = event.getInput();
-            if (!getInput(input)) {
-                return;
-            }
-            CompoundTag nbt = player.getPersistentData();
-            if (!(player.getWeaponItem().getItem() instanceof AnimAttackItem item)) {
-                return;
-            }
-            if (!(nbt.getInt(TemporaryAttribute.PLAYER_USE_ITEM_TICK) >= item.freMovementTick())) {
-                return;
-            }
-            AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(clientPlayer);
-            animationStack.removeLayer(0);
-        }
+//        Player player = event.getEntity();
+//        if (player instanceof AbstractClientPlayer clientPlayer) {
+//            Input input = event.getInput();
+//            if (!getInput(input)) {
+//                return;
+//            }
+//            CompoundTag nbt = player.getPersistentData();
+//            if (!(player.getWeaponItem().getItem() instanceof AnimAttackItem item)) {
+//                return;
+//            }
+//            if (!(nbt.getInt(TemporaryAttribute.PLAYER_USE_ITEM_TICK) >= item.freMovementTick())) {
+//                return;
+//            }
+//            AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(clientPlayer);
+//            animationStack.removeLayer(0);
+//        }
     }
 
     private static @NotNull Item getItem(Player event) {
@@ -101,8 +101,7 @@ public class PlayerAnimEvents {
 
     public static void restorePlayerSpeed(Player player) {
         CompoundTag nbt = player.getPersistentData();
-         nbt.putBoolean(TemporaryAttribute.PLAYER_SPECIAL_WEAPON_ATTACK, false);
-        nbt.putInt(TemporaryAttribute.PLAYER_USE_ITEM_TICK, 0);
+        nbt.putBoolean(TemporaryAttribute.PLAYER_SPECIAL_WEAPON_ATTACK, false);
         float playerSpeed = player.getPersistentData().getFloat(PLAYER_RECORD_SPEED);
         if (playerSpeed == 0) {
             playerSpeed = 0.1F;
@@ -110,7 +109,19 @@ public class PlayerAnimEvents {
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(playerSpeed);
     }
 
+    public static void restoreTick(Player player) {
+        CompoundTag nbt = player.getPersistentData();
+        nbt.putInt(TemporaryAttribute.PLAYER_USE_ITEM_TICK, 0);
+    }
+
     public static boolean getInput(Input input) {
         return input.up || input.down || input.left || input.right || input.jumping;
+    }
+
+    public static void cancelAnimation(Player player) {
+        if (player instanceof AbstractClientPlayer clientPlayer) {
+            AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(clientPlayer);
+            animationStack.removeLayer(0);
+        }
     }
 }

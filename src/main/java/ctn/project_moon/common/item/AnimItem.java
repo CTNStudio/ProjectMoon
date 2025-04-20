@@ -13,13 +13,14 @@ import static ctn.project_moon.PmMain.MOD_ID;
 
 public interface AnimItem {
     static void createAnim(Player player, String animNameId, int layer) {
-        if (player instanceof AbstractClientPlayer clientPlayer) {
-            AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(clientPlayer);
-            ModifierLayer<IAnimation> playerAnimation = new ModifierLayer<>();
-            playerAnimation.setAnimation(PlayerAnimationRegistry
-                    .getAnimation(ResourceLocation.fromNamespaceAndPath(MOD_ID, animNameId)).playAnimation());
-            animationStack.addAnimLayer(layer, playerAnimation);
+        if (!(player instanceof AbstractClientPlayer clientPlayer)) {
+            return;
         }
+        AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(clientPlayer);
+        ModifierLayer<IAnimation> playerAnimation = new ModifierLayer<>();
+        playerAnimation.setAnimation(PlayerAnimationRegistry
+                .getAnimation(ResourceLocation.fromNamespaceAndPath(MOD_ID, animNameId)).playAnimation());
+        animationStack.addAnimLayer(layer, playerAnimation);
     }
     default void executeLeftKeyEmpty(Player player) {}
     default void executeLeftKeyBlock(Player player) {}
