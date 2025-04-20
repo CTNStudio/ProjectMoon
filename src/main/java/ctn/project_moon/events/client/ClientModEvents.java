@@ -3,6 +3,7 @@ package ctn.project_moon.events.client;
 import ctn.project_moon.client.particles.DamageParticle;
 import ctn.project_moon.init.PmParticleTypes;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -17,10 +18,13 @@ import static ctn.project_moon.PmMain.MOD_ID;
  */
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
+
+    /**
+     * 注册实体渲染器
+     */
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        LOGGER.info("HELLO FROM CLIENT SETUP");
-        LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        EntityRenderers.register(PmEntitys.TRAINING_RABBITS.get(), TrainingRabbits.TrainingRabbitsRenderer::new);
     }
 
     @SubscribeEvent

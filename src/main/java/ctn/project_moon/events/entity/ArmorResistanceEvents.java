@@ -3,7 +3,7 @@ package ctn.project_moon.events.entity;
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.datagen.PmTags;
-import ctn.project_moon.events.ArmorAbsorptionEvent;
+import ctn.project_moon.events.DourColorDamageTypesEvents;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +18,7 @@ import static ctn.project_moon.common.item.Ego.getItemLevelValue;
 import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
 import static ctn.project_moon.init.PmAttributes.*;
+import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
 
 @EventBusSubscriber(modid = MOD_ID)
@@ -28,25 +29,27 @@ public class ArmorResistanceEvents {
         DamageSource damageSource = event.getDamageSource();
         ItemStack itemStack = damageSource.getWeaponItem(); // 获取伤害来源的武器
         GradeType.Level level = ZAYIN;
-        PmDamageTypes.Types damageTypes;
+        PmDamageTypes.Types damageTypes = null;
 
         // 根据伤害类型和武器类型设置等级和伤害类型
         if (isCloseCombatEgo(itemStack)) {
             level = getItemLevel(getEgoLevelTag(itemStack));
             damageTypes = getType(itemStack.get(CURRENT_DAMAGE_TYPE));
         } else {
-            if (damageSource.is(PmTags.PmDamageType.PHYSICS)){
-                if (itemStack != null && !itemStack.isEmpty()) {
-                    level = getItemLevel(getEgoLevelTag(itemStack));
-                }else if (damageSource.getDirectEntity() instanceof LivingEntity livingEntity) {
-                    level = getEntityLevel(livingEntity);
-                }
-                damageTypes = PmDamageTypes.Types.PHYSICS;
+            if (itemStack != null && !itemStack.isEmpty()) {
+                level = getItemLevel(getEgoLevelTag(itemStack));
+            }else if (damageSource.getDirectEntity() instanceof LivingEntity livingEntity) {
+                level = getEntityLevel(livingEntity);
+            }
+            DourColorDamageTypesEvents dourColorEvents = dourColorDamageType(event.getEntity(), damageSource);
+            if (dourColorEvents.getDamageTypes() != null) {
+                damageTypes = dourColorEvents.getDamageTypes();
             } else {
-                if (damageSource.getDirectEntity() instanceof LivingEntity livingEntity) {
-                    level = getEntityLevel(livingEntity);
+                if (damageSource.is(PmTags.PmDamageType.PHYSICS)) {
+                    damageTypes = PmDamageTypes.Types.PHYSICS;
+                } else {
+                    damageTypes = getType(damageSource);
                 }
-                damageTypes = getType(damageSource);
             }
         }
 

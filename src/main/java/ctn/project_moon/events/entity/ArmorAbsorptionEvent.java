@@ -1,4 +1,4 @@
-package ctn.project_moon.events;
+package ctn.project_moon.events.entity;
 
 import ctn.project_moon.common.entity.abnos.Abnos;
 import net.minecraft.world.damagesource.DamageSource;

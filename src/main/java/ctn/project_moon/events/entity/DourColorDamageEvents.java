@@ -3,13 +3,19 @@ package ctn.project_moon.events.entity;
 import ctn.project_moon.client.particles.DamageParticle;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.config.PmConfig;
+import ctn.project_moon.events.DourColorDamageTypesEvents;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.monster.*;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.EvokerFangs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -20,10 +26,34 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
 import static ctn.project_moon.events.SpiritEvents.*;
-import static ctn.project_moon.init.PmDamageTypes.Types.getType;
+import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
+import static ctn.project_moon.init.PmDamageTypes.Types.*;
 
 @EventBusSubscriber(modid = MOD_ID)
 public class DourColorDamageEvents {
+    @SubscribeEvent
+    public static void dourColorDamageTypesEvents(DourColorDamageTypesEvents events){
+        PmDamageTypes.Types types;
+        DamageSource source =  events.getSource();
+        Entity entity = source.getEntity();
+        switch (entity) {
+            case EvokerFangs ignored -> types = THE_SOUL;
+            case Endermite ignored -> types = EROSION;
+            case WitherSkeleton ignored -> types = EROSION;
+            case MagmaCube ignored -> types = EROSION;
+            case Slime ignored -> types = EROSION;
+            case Warden ignored -> types = THE_SOUL;
+            case EnderMan ignored -> types = SPIRIT;
+            case Shulker ignored -> types = SPIRIT;
+            case Silverfish ignored -> types = SPIRIT;
+            case WitherBoss ignored -> types = EROSION;
+            case null, default -> {
+                types = null;
+            }
+        }
+        events.setDourColorDamageTypes(types);
+    }
+
     /**
      * 处理伤害效果
      */
@@ -35,12 +65,20 @@ public class DourColorDamageEvents {
         LivingEntity entity = event.getEntity();
         ItemStack itemStack = event.getSource().getWeaponItem();
         DamageSource damageSource = event.getSource();
-        PmDamageTypes.Types types;
+        PmDamageTypes.Types types = null;
         if (isCloseCombatEgo(itemStack)) {
             types = getType(itemStack.get(CURRENT_DAMAGE_TYPE));
         } else {
+            DourColorDamageTypesEvents dourColorEvents = dourColorDamageType(entity, damageSource, event.getContainer());
+            if (dourColorEvents.getDamageTypes() != null) {
+                types = dourColorEvents.getDamageTypes();
+            }
+        }
+        if (types == null) {
             types = getType(damageSource);
         }
+
+
         switch (types) {
             case SPIRIT -> executeSpiritDamage(event, entity);
             case EROSION -> executeErosionDamage(event, entity);
