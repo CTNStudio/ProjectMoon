@@ -12,19 +12,19 @@ import javax.annotation.Nullable;
 /**
  * {@link ICancellableEvent} 用于防止其他继续覆盖伤害类型
  */
-public class DourColorDamageTypesEvents extends LivingEvent implements ICancellableEvent {
+public class DourColorDamageTypesEvent extends LivingEvent implements ICancellableEvent {
     @Nullable
     private final DamageContainer container;
     private final DamageSource source;
     private PmDamageTypes.Types dourColorDamageTypes;
 
-    public DourColorDamageTypesEvents(LivingEntity entity, DamageSource source, DamageContainer container) {
+    public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source, DamageContainer container) {
         super(entity);
         this.source = source;
         this.container = container;
     }
 
-    public DourColorDamageTypesEvents(LivingEntity entity, DamageSource source) {
+    public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source) {
         super(entity);
         this.source = source;
         this.container = null;

@@ -1,8 +1,8 @@
 package ctn.project_moon.events.player;
 
 import ctn.project_moon.api.TemporaryAttribute;
-import ctn.project_moon.common.item.AnimAttackItem;
-import ctn.project_moon.events.SpiritEvents;
+import ctn.project_moon.api.SpiritApi;
+import ctn.project_moon.events.StopUsingItemEvent;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.events.player.PlayerAnimEvents.*;
+import static ctn.project_moon.events.player.PlayerAnimEvents.restorePlayerSpeed;
 
 /**
  * 玩家相关事件
@@ -23,7 +24,7 @@ public class PlayerEvents {
      */
     @SubscribeEvent
     public static void save(PlayerEvent.SaveToFile event) {
-        SpiritEvents.processAttributeInformation(event.getEntity());
+        SpiritApi.processAttributeInformation(event.getEntity());
     }
 
     /**
@@ -32,7 +33,7 @@ public class PlayerEvents {
     @SubscribeEvent
     public static void loading(PlayerEvent.LoadFromFile event) {
         Player player = event.getEntity();
-        SpiritEvents.processAttributeInformation(player);
+        SpiritApi.processAttributeInformation(player);
         TemporaryAttribute.resetTemporaryAttribute(player);
     }
 
@@ -41,18 +42,25 @@ public class PlayerEvents {
      */
     @SubscribeEvent
     public static void reset(PlayerEvent.PlayerRespawnEvent event) {
-        Player player = getEntity(event);
-        SpiritEvents.resetSpiritValue(player);
+        Player player = event.getEntity();
+        SpiritApi.resetSpiritValue(player);
         TemporaryAttribute.resetTemporaryAttribute(player);
-        restoreTick(player);
-        restorePlayerSpeed(player);
-    }
-
-    private static @NotNull Player getEntity(PlayerEvent.PlayerRespawnEvent event) {
-        return event.getEntity();
     }
 
     @SubscribeEvent
     public static void tick(PlayerTickEvent.Pre event){
+//        if ()
+    }
+
+    @SubscribeEvent
+    public static void stopUsingItemEvent(StopUsingItemEvent event){
+        Player player = event.getEntity();
+//        if (player.getWeaponItem()!=null){
+//            return;
+//        }
+        completeAttack(player);
+        cancelAnimationLayer(player);
+        restoreItemTick(player);
+        restorePlayerSpeed(player);
     }
 }

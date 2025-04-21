@@ -1,39 +1,25 @@
 package ctn.project_moon.common.item.weapon.ego;
 
-import ctn.project_moon.api.TemporaryAttribute;
 import ctn.project_moon.common.item.AnimAttackItem;
 import ctn.project_moon.common.item.weapon.Weapon;
 import ctn.project_moon.common.models.PmGeoItemModel;
 import ctn.project_moon.events.player.PlayerAnimEvents;
-import dev.kosmx.playerAnim.api.TransformType;
 import dev.kosmx.playerAnim.api.layered.AnimationStack;
-import dev.kosmx.playerAnim.api.layered.IAnimation;
-import dev.kosmx.playerAnim.api.layered.ModifierLayer;
-import dev.kosmx.playerAnim.api.layered.modifier.AbstractFadeModifier;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
-import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.HitResult;
 
-import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.TemporaryAttribute.*;
 import static ctn.project_moon.common.item.AnimItem.createAnim;
 import static ctn.project_moon.events.player.PlayerAnimEvents.*;
@@ -46,14 +32,11 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
     }
 
     @Override
-    public int freMovementTick() {
-        return 9;
-    }
-
-    public int triggerTick(){
+    public int getTriggerTick(){
         return 8;
     }
 
+    // TODO 仍然有问题：玩家在移动或跳跃之后长按无法触发动画
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getWeaponItem();
@@ -64,26 +47,19 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
             return InteractionResultHolder.fail(itemstack);
         }
         CompoundTag nbt = player.getPersistentData();
+        if (nbt.getBoolean(PLAYER_IS_USE_ITEM)){
+            return InteractionResultHolder.fail(itemstack);
+        }
         createAnim(player, "animation.project_moon.paradise_lost.attack", 0);
         nbt.putFloat(PLAYER_RECORD_SPEED, player.getSpeed());
-        nbt.putBoolean(PLAYER_SPECIAL_WEAPON_ATTACK, true);
+        nbt.putBoolean(PLAYER_IS_USE_ITEM, true);
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0);
         player.startUsingItem(hand);
-        return InteractionResultHolder.success(itemstack);
+        return InteractionResultHolder.pass(itemstack);
     }
 
     @Override
     public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int remainingUseDuration) {
-//        if (level.isClientSide){
-//            System.out.print("<8>");
-//        }else {
-//            System.out.print("{8}");
-//        }
-//        if (!(entity instanceof Player player)){
-//            return;
-//        }
-//        tick(level, player, stack);
-//        super.onUseTick(level, entity, stack, 1000);
         if (!(entity instanceof Player player)){
             return;
         }
@@ -91,54 +67,55 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
         if (!(stack.getItem() instanceof AnimAttackItem item)){
             return;
         }
-        nbt.putInt(PLAYER_USE_ITEM_TICK, nbt.getInt(PLAYER_USE_ITEM_TICK) + 1);
-        if (!(nbt.getInt(PLAYER_USE_ITEM_TICK) >= item.triggerTick())){
+        nbt.putInt(PLAYER_ITEM_TICK, nbt.getInt(PLAYER_ITEM_TICK) + 1);
+        nbt.putInt(PLAYER_USE_TICK, nbt.getInt(PLAYER_USE_TICK) + 1);
+        if (!(nbt.getInt(PLAYER_ITEM_TICK) >= item.getTriggerTick())){
             return;
         }
-        if (nbt.getBoolean(PLAYER_SPECIAL_WEAPON_ATTACK)){
-            createAnim(player, "animation.project_moon.paradise_lost.attack1", 0);
-            nbt.putBoolean(PLAYER_SPECIAL_WEAPON_ATTACK, false);
+        if (nbt.getBoolean(PLAYER_IS_USE_ITEM)){
+            createAnim(player, "animation.project_moon.paradise_lost.attack1", 1);
+            nbt.putBoolean(PLAYER_IS_USE_ITEM, false);
         }
-        if (!canSupportCenter(level, player.getOnPos(), Direction.DOWN)) {
-            extracted(player);
-            return;
-        }
+        if (jumpCancellation(level, player)) return;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player != null) {
             if (minecraft.player.input.jumping) {
-                extracted(player);
+                restore(player);
                 return;
             }
         }
-        if (!(nbt.getInt(PLAYER_USE_ITEM_TICK) >= item.triggerTick())) {
-            return;
-        }
         if (!player.level().isClientSide){
-            entity.sendSystemMessage(Component.literal("触发了"));
+            entity.sendSystemMessage(Component.literal("触发了蓄力效果"));
         }
-        restoreTick(player);
-//        restorePlayerSpeed(player);
+        restoreItemTick(player);
+    }
+
+    @Override
+    public boolean onDroppedByPlayer(ItemStack item, Player player) {
+        restore(player);
+        return super.onDroppedByPlayer(item, player);
     }
 
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int time) {
-//        time
-//        if (level.isClientSide){
-//            System.out.print("<9>");
-//        }else {
-//            System.out.print("{9}");
-//        }
-        if (!(entity instanceof Player player)){
+        if (!(entity instanceof Player player)) {
+            return;
+        }
+        CompoundTag nbt = player.getPersistentData();
+        if (!(stack.getItem() instanceof AnimAttackItem item)) {
+            return;
+        }
+        if (!(nbt.getInt(PLAYER_USE_TICK) >= item.getTriggerTick())){
             return;
         }
         if (player instanceof AbstractClientPlayer clientPlayer) {
             AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(clientPlayer);
-            animationStack.removeLayer(0);
             animationStack.removeLayer(1);
-            createAnim(player, "animation.project_moon.paradise_lost.attack2", 1);
+            createAnim(player, "animation.project_moon.paradise_lost.attack2", 2);
         }
-        restoreTick(player);
+        restoreItemTick(player);
         restorePlayerSpeed(player);
+        restoreUseTick(player);
     }
 
     @Override
@@ -146,41 +123,61 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
         return 666;
     }
 
-    @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (isSelected){
-        }
-//        if (!(entity instanceof AbstractClientPlayer clientPlayer)) {
-//            return;
-//        }
-//        removeAnimation(clientPlayer);
-//        restorePlayerSpeed(clientPlayer);
-    }
-
-    private static void extracted(Player player) {
-        cancelAnimation(player);
-        restoreTick(player);
+    /** 恢复 */
+    private static void restore(Player player) {
+        completeAttack(player);
+        cancelAnimationLayer(player);
+        restoreItemTick(player);
         restorePlayerSpeed(player);
         player.releaseUsingItem();
     }
 
-    private static void removeAnimation(AbstractClientPlayer clientPlayer) {
-        AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(clientPlayer);
-        animationStack.removeLayer(0);
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+        if (!isSelected){
+            return;
+        }
+        if (!(entity instanceof Player player)){
+            return;
+        }
+        if (player.isUsingItem()) {
+            return;
+        }
+        if (jumpCancellation(level, player)) return;
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft != null && minecraft.player != null && minecraft.player.input != null) {
+            if (minecraft.player.input.jumping) {
+                restore(player);
+                return;
+            }
+        }
+        CompoundTag nbt = player.getPersistentData();
+        if (!(stack.getItem() instanceof AnimAttackItem item)){
+            return;
+        }
+        if (!nbt.getBoolean(PLAYER_IS_USE_ITEM)){
+            return;
+        }
+        nbt.putInt(PLAYER_ITEM_TICK, nbt.getInt(PLAYER_ITEM_TICK) + 1);
+        if (!(nbt.getInt(PLAYER_ITEM_TICK) >= item.getTriggerTick())){
+            return;
+        }
+        if (!player.level().isClientSide){
+            player.sendSystemMessage(Component.literal("触发了普通效果"));
+        }
+        restorePlayerSpeed(player);
+        restoreItemTick(player);
+        completeAttack(player);
+        restoreUseTick(player);
+        removeLayer1(player);
     }
 
-    @Override
-    public void tick(Level level, LivingEntity livingEntity, ItemStack stack) {
-
-    }
-
-    @Override
-    public boolean isRightKeyEmpty(){
-        return true;
-    }
-
-    @Override
-    public void executeRightKeyEmpty(Player player) {
-
+    /** 跳跃取消 */
+    private static boolean jumpCancellation(Level level, Player player) {
+        if (!canSupportCenter(level, player.getOnPos(), Direction.DOWN)) {
+            restore(player);
+            return true;
+        }
+        return false;
     }
 }

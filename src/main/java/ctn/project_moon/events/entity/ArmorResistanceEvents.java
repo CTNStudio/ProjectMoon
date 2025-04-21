@@ -3,7 +3,7 @@ package ctn.project_moon.events.entity;
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.datagen.PmTags;
-import ctn.project_moon.events.DourColorDamageTypesEvents;
+import ctn.project_moon.events.DourColorDamageTypesEvent;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,7 +41,7 @@ public class ArmorResistanceEvents {
             }else if (damageSource.getDirectEntity() instanceof LivingEntity livingEntity) {
                 level = getEntityLevel(livingEntity);
             }
-            DourColorDamageTypesEvents dourColorEvents = dourColorDamageType(event.getEntity(), damageSource);
+            DourColorDamageTypesEvent dourColorEvents = dourColorDamageType(event.getEntity(), damageSource);
             if (dourColorEvents.getDamageTypes() != null) {
                 damageTypes = dourColorEvents.getDamageTypes();
             } else {

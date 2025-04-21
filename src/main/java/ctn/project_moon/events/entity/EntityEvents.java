@@ -16,7 +16,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.events.SpiritEvents.*;
+import static ctn.project_moon.api.SpiritApi.*;
 
 /**
  * 实体事件

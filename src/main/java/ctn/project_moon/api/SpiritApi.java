@@ -1,4 +1,4 @@
-package ctn.project_moon.events;
+package ctn.project_moon.api;
 
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.PmAttributes;
@@ -14,7 +14,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 /**
  * 理智值相关
  */
-public class SpiritEvents {
+public class SpiritApi {
     public static final String SPIRIT_VALUE = createAttribute("entity.spirit_value");
     public static final String SPIRIT_RECOVERY_COUNT = createAttribute("entity.spirit_recovery_count");
     public static final String INJURY_COUNT = createAttribute("entity.injury_count");
@@ -137,7 +137,7 @@ public class SpiritEvents {
     }
 
     public static boolean isRationality(LivingEntity entity) {
-        return !(entity.getPersistentData().contains(SpiritEvents.SPIRIT_VALUE) && PmConfig.SERVER.ENABLE_SPIRIT_DAMAGE.get() && PmConfig.COMMON.ENABLE_RATIONALITY.get());
+        return !(entity.getPersistentData().contains(SpiritApi.SPIRIT_VALUE) && PmConfig.SERVER.ENABLE_SPIRIT_DAMAGE.get() && PmConfig.COMMON.ENABLE_RATIONALITY.get());
     }
 
     /** 生物遭受精神伤害 */

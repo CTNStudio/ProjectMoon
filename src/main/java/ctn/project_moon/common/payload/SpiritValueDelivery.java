@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.events.SpiritEvents.getSpiritValue;
+import static ctn.project_moon.api.SpiritApi.getSpiritValue;
 
 public record SpiritValueDelivery(float spiritValue) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SpiritValueDelivery> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_value_delivery"));

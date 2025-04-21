@@ -3,7 +3,7 @@ package ctn.project_moon.events.entity;
 import ctn.project_moon.client.particles.DamageParticle;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.config.PmConfig;
-import ctn.project_moon.events.DourColorDamageTypesEvents;
+import ctn.project_moon.events.DourColorDamageTypesEvent;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,14 +25,14 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
-import static ctn.project_moon.events.SpiritEvents.*;
+import static ctn.project_moon.api.SpiritApi.*;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.*;
 
 @EventBusSubscriber(modid = MOD_ID)
 public class DourColorDamageEvents {
     @SubscribeEvent
-    public static void dourColorDamageTypesEvents(DourColorDamageTypesEvents events){
+    public static void dourColorDamageTypesEvents(DourColorDamageTypesEvent events){
         PmDamageTypes.Types types;
         DamageSource source =  events.getSource();
         Entity entity = source.getEntity();
@@ -69,7 +69,7 @@ public class DourColorDamageEvents {
         if (isCloseCombatEgo(itemStack)) {
             types = getType(itemStack.get(CURRENT_DAMAGE_TYPE));
         } else {
-            DourColorDamageTypesEvents dourColorEvents = dourColorDamageType(entity, damageSource, event.getContainer());
+            DourColorDamageTypesEvent dourColorEvents = dourColorDamageType(entity, damageSource, event.getContainer());
             if (dourColorEvents.getDamageTypes() != null) {
                 types = dourColorEvents.getDamageTypes();
             }

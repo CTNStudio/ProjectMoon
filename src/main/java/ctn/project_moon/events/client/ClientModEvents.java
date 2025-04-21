@@ -1,8 +1,9 @@
 package ctn.project_moon.events.client;
 
 import ctn.project_moon.client.particles.DamageParticle;
+import ctn.project_moon.common.entity.abnos.TrainingRabbits;
+import ctn.project_moon.init.PmEntitys;
 import ctn.project_moon.init.PmParticleTypes;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -10,7 +11,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
-import static ctn.project_moon.PmMain.LOGGER;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 /**
