@@ -3,7 +3,6 @@
   "package": "ctn.project_moon.mixin",
   "mixins": [
     "AttributeSupplier$BuilderMixin",
-    "LivingEntityMixin",
     "ServerGamePacketListenerImplMixin"
   ],
   "client": [

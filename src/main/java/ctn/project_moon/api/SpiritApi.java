@@ -16,45 +16,54 @@ import static ctn.project_moon.PmMain.MOD_ID;
  */
 public class SpiritApi {
     public static final String SPIRIT_VALUE = createAttribute("entity.spirit_value");
-    public static final String SPIRIT_RECOVERY_COUNT = createAttribute("entity.spirit_recovery_count");
-    public static final String INJURY_COUNT = createAttribute("entity.injury_count");
+    public static final String SPIRIT_RECOVERY_TICK = createAttribute("entity.spirit_recovery_tick");
+    public static final String INJURY_TICK = createAttribute("entity.injury_tick");
+
+    /** 设置生物当前理智 */
     public static void setSpiritValue(LivingEntity entity, float value) {
         CompoundTag nbt = entity.getPersistentData();
         nbt.putFloat(SPIRIT_VALUE, value);
         restrictSpirit(entity);
     }
 
+    /** 设置生物恢复理智tick每次成功恢复理智重置 */
     public static void setSpiritRecoveryCount(LivingEntity entity, float value) {
         CompoundTag nbt = entity.getPersistentData();
-        nbt.putFloat(SPIRIT_RECOVERY_COUNT, value);
+        nbt.putFloat(SPIRIT_RECOVERY_TICK, value);
     }
 
+    /** 设置生物受伤tick */
     public static void setInjuryCount(LivingEntity entity, float value) {
         CompoundTag nbt = entity.getPersistentData();
-        nbt.putFloat(INJURY_COUNT, value);
+        nbt.putFloat(INJURY_TICK, value);
     }
 
+    /** 增加生物当前理智 */
     public static void incrementSpiritValue(LivingEntity entity, float value) {
         CompoundTag nbt = entity.getPersistentData();
         nbt.putFloat(SPIRIT_VALUE, getSpiritValue(entity) + value);
         restrictSpirit(entity);
     }
 
+    /** 增加生物恢复理智tick */
     public static void incrementSpiritRecoveryTicks(LivingEntity entity, int value) {
         CompoundTag nbt = entity.getPersistentData();
-        nbt.putInt(SPIRIT_RECOVERY_COUNT, getSpiritRecoveryTicks(entity) + value);
+        nbt.putInt(SPIRIT_RECOVERY_TICK, getSpiritRecoveryTicks(entity) + value);
     }
 
+    /** 增加生物受伤tick */
     public static void incrementInjuryCount(LivingEntity entity, int value) {
         CompoundTag nbt = entity.getPersistentData();
-        nbt.putInt(INJURY_COUNT, getInjuryCount(entity) + value);
+        nbt.putInt(INJURY_TICK, getInjuryCount(entity) + value);
     }
 
+    /** 设置生物最大理智 */
     public static void setMaxSpiritValue(LivingEntity entity, double value) {
         entity.getAttribute(PmAttributes.MAX_SPIRIT).setBaseValue(value);
         restrictSpirit(entity);
     }
 
+    /** 减少生物最大理智 */
     private static void restrictSpirit(LivingEntity entity) {
         float spirit = getSpiritValue(entity);
         double maxSpirit = getMaxSpiritValue(entity);
@@ -82,15 +91,15 @@ public class SpiritApi {
         if (!nbt.contains(SPIRIT_VALUE)) {
             nbt.putFloat(SPIRIT_VALUE, 0);
         }
-        if (!nbt.contains(SPIRIT_RECOVERY_COUNT)) {
-            nbt.putInt(SPIRIT_RECOVERY_COUNT, 0);
+        if (!nbt.contains(SPIRIT_RECOVERY_TICK)) {
+            nbt.putInt(SPIRIT_RECOVERY_TICK, 0);
         }
-        if (!nbt.contains(INJURY_COUNT)) {
-            nbt.putInt(INJURY_COUNT, 0);
+        if (!nbt.contains(INJURY_TICK)) {
+            nbt.putInt(INJURY_TICK, 0);
         }
         nbt.putFloat(SPIRIT_VALUE, getSpiritValue(nbt));
-        nbt.putInt(SPIRIT_RECOVERY_COUNT, getSpiritRecoveryTicks(nbt));
-        nbt.putInt(INJURY_COUNT, getInjuryCount(nbt));
+        nbt.putInt(SPIRIT_RECOVERY_TICK, getSpiritRecoveryTicks(nbt));
+        nbt.putInt(INJURY_TICK, getInjuryCount(nbt));
     }
 
     public static float getSpiritValue(LivingEntity entity) {
@@ -98,11 +107,11 @@ public class SpiritApi {
     }
 
     public static int getSpiritRecoveryTicks(LivingEntity entity) {
-        return entity.getPersistentData().getInt(SPIRIT_RECOVERY_COUNT);
+        return entity.getPersistentData().getInt(SPIRIT_RECOVERY_TICK);
     }
 
     public static int getInjuryCount(LivingEntity entity) {
-        return entity.getPersistentData().getInt(INJURY_COUNT);
+        return entity.getPersistentData().getInt(INJURY_TICK);
     }
 
     public static double getMaxSpiritValue(LivingEntity entity) {
@@ -118,24 +127,25 @@ public class SpiritApi {
     }
 
     public static int getSpiritRecoveryTicks(CompoundTag nbt) {
-        return nbt.getInt(SPIRIT_RECOVERY_COUNT);
+        return nbt.getInt(SPIRIT_RECOVERY_TICK);
     }
 
     public static int getInjuryCount(CompoundTag nbt) {
-        return nbt.getInt(INJURY_COUNT);
+        return nbt.getInt(INJURY_TICK);
     }
 
     public static @NotNull String createAttribute(String name) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, name).toString();
     }
 
-    /** 如果受伤者没有理智，则仅减少理智 */
+    /** 如果受伤者有理智，则仅减少理智 */
     public static void executeSpiritDamage(LivingDamageEvent.Pre event, LivingEntity entity) {
         if (isRationality(entity)) return;
         handleRationally(event, entity);
         event.setNewDamage(0);
     }
 
+    /** 判断是否为有理智值 */
     public static boolean isRationality(LivingEntity entity) {
         return !(entity.getPersistentData().contains(SpiritApi.SPIRIT_VALUE) && PmConfig.SERVER.ENABLE_SPIRIT_DAMAGE.get() && PmConfig.COMMON.ENABLE_RATIONALITY.get());
     }

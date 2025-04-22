@@ -1,11 +1,18 @@
 package ctn.project_moon.events.entity;
 
-import ctn.project_moon.common.item.weapon.RandomDamageItem;
-import ctn.project_moon.common.item.weapon.SetInvulnerabilityTicks;
+import ctn.project_moon.api.GradeType;
+import ctn.project_moon.common.entity.abnos.Abnos;
+import ctn.project_moon.common.item.weapon.RandomDamageProcessor;
+import ctn.project_moon.common.item.weapon.SetInvulnerabilityTick;
 import ctn.project_moon.config.PmConfig;
+import ctn.project_moon.datagen.PmTags;
+import ctn.project_moon.events.DourColorDamageTypesEvent;
 import ctn.project_moon.init.PmAttributes;
+import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,7 +23,17 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.api.GradeType.Level.*;
+import static ctn.project_moon.api.GradeType.Level.getEntityLevel;
+import static ctn.project_moon.api.GradeType.damageMultiple;
 import static ctn.project_moon.api.SpiritApi.*;
+import static ctn.project_moon.common.item.Ego.getItemLevelValue;
+import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
+import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
+import static ctn.project_moon.init.PmAttributes.*;
+import static ctn.project_moon.init.PmAttributes.THE_SOUL_RESISTANCE;
+import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
+import static ctn.project_moon.init.PmDamageTypes.Types.getType;
 
 /**
  * 实体事件
@@ -25,32 +42,120 @@ import static ctn.project_moon.api.SpiritApi.*;
 public class EntityEvents {
     /** 即将受到伤害但还没处理 */
     @SubscribeEvent
-    public static void livingIncomingDamageEvent(LivingIncomingDamageEvent event){
-        ItemStack itemStack = event.getSource().getWeaponItem();
-        if (itemStack == null){
-            return;
-        }
-
-        /// 随机伤害处理
-        /// ps:不支持小数（懒）
-        {
+    public static void livingIncomingDamageEvent(LivingIncomingDamageEvent event) {
+        DamageSource damageSource = event.getSource();
+        ItemStack itemStack = damageSource.getWeaponItem(); // 获取伤害来源的武器
+        if (itemStack != null) {
+            // 随机伤害处理
             if (!(event.getSource().getEntity().level() instanceof ServerLevel serverLevel &&
-                    itemStack.getItem() instanceof RandomDamageItem item)) {
+                    itemStack.getItem() instanceof RandomDamageProcessor randomDamageitem)) {
                 return;
             }
-            // 获取增幅
-            int damageScale = (int) (event.getAmount() - item.getMaxDamage());
-            int maxDamage = damageScale + item.getMaxDamage();
-            int minDamage = damageScale + item.getMinDamage();
-            if (minDamage < maxDamage) {
-                event.setAmount(serverLevel.random.nextInt(minDamage, maxDamage + 1));
+            float damageScale = (event.getAmount() - randomDamageitem.getMaxDamage());
+            event.setAmount(randomDamageitem.getDamage(serverLevel.getRandom()) + damageScale);
+
+            // 修改生物无敌帧
+            if (itemStack.getItem() instanceof SetInvulnerabilityTick item) {
+                event.setInvulnerabilityTicks(item.getTicks());
             }
         }
 
-        // 修改生物无敌帧
-        if (itemStack.getItem() instanceof SetInvulnerabilityTicks item) {
-            event.setInvulnerabilityTicks(item.getTicks());
+        // 获取等级
+        GradeType.Level level = ZAYIN;
+        if (itemStack != null && !itemStack.isEmpty()) {
+            level = getItemLevel(getEgoLevelTag(itemStack));
+        } else {
+            Entity directEntity = damageSource.getDirectEntity();
+            Entity entity = damageSource.getEntity();
+            if (entity instanceof LivingEntity livingEntity) {
+                level = getEntityLevel(livingEntity);
+            } else if (directEntity instanceof LivingEntity livingEntity) {
+                level = getEntityLevel(livingEntity);
+            }
         }
+
+        // 获取四色伤害类型
+        PmDamageTypes.Types damageTypes;
+        if (isCloseCombatEgo(itemStack)) {
+            damageTypes = getType(itemStack.get(CURRENT_DAMAGE_TYPE));
+        } else {
+            DourColorDamageTypesEvent dourColorEvents = dourColorDamageType(event.getEntity(), damageSource);
+            if (dourColorEvents.getDamageTypes() != null) {
+                damageTypes = dourColorEvents.getDamageTypes();
+            } else {
+                if (damageSource.is(PmTags.PmDamageType.PHYSICS)) {
+                    damageTypes = PmDamageTypes.Types.PHYSICS;
+                } else {
+                    damageTypes = getType(damageSource);
+                }
+            }
+        }
+
+        // 根据四色伤害类型处理抗性
+        switch (damageTypes) {
+            case PHYSICS -> resistanceTreatment(event, level, PmDamageTypes.Types.PHYSICS);
+            case SPIRIT -> resistanceTreatment(event, level, PmDamageTypes.Types.SPIRIT);
+            case EROSION -> resistanceTreatment(event, level, PmDamageTypes.Types.EROSION);
+            case THE_SOUL -> resistanceTreatment(event, level, PmDamageTypes.Types.THE_SOUL);
+            case null -> resistanceTreatment(event, level, null);
+        }
+    }
+
+    /** 伤害计算 */
+    private static void resistanceTreatment(LivingIncomingDamageEvent event, GradeType.Level level, PmDamageTypes.Types damageTypes) {
+        float newDamageAmount = event.getAmount();
+        int armorItemStackLaval = 0; // 盔甲等级
+        int number = 0;
+        boolean isArmorItemStackEmpty = true;
+        var flag = !(event.getEntity() instanceof Abnos);
+        var itor = event.getEntity().getArmorAndBodyArmorSlots().iterator();
+        ItemStack[] armorSlots = new ItemStack[4];
+        for (int i = 0; i < 4; i++) {
+            armorSlots[i] = flag ? itor.next() : ItemStack.EMPTY;
+        }
+        for (ItemStack armorItemStack : armorSlots) {
+            if (armorItemStack != null && !armorItemStack.isEmpty()) {
+                isArmorItemStackEmpty = false;
+                armorItemStackLaval += getItemLevelValue(armorItemStack);
+                number++;
+            }
+        }
+
+        /// 等级处理
+        /// 判断实体是否有护甲如果没有就用实体的等级
+        if (!isArmorItemStackEmpty) {
+            armorItemStackLaval /= number;
+            newDamageAmount *= damageMultiple(armorItemStackLaval - level.getLevelValue());
+        } else {
+            GradeType.Level entityLaval = getEntityLevel(event.getEntity());
+            newDamageAmount *= damageMultiple(entityLaval, level);
+        }
+
+        if (damageTypes != null&&(PmConfig.SERVER.ENABLE_FOUR_COLOR_DAMAGE.get())){
+            if (configImpact(damageTypes)) {
+                damageTypes = PmDamageTypes.Types.PHYSICS;
+            }
+
+            /// 抗性处理
+            newDamageAmount *= (float) switch (damageTypes) {
+                case PHYSICS -> event.getEntity().getAttributeValue(PHYSICS_RESISTANCE);
+                case SPIRIT -> event.getEntity().getAttributeValue(SPIRIT_RESISTANCE);
+                case EROSION -> event.getEntity().getAttributeValue(EROSION_RESISTANCE);
+                case THE_SOUL -> event.getEntity().getAttributeValue(THE_SOUL_RESISTANCE);
+            };
+        }
+
+        event.setAmount(newDamageAmount);
+    }
+
+    private static boolean configImpact(PmDamageTypes.Types damageTypes) {
+        if (!PmConfig.SERVER.ENABLE_THE_SOUL_DAMAGE.get() && damageTypes.equals(PmDamageTypes.Types.THE_SOUL)) {
+            return true;
+        }
+        if (!(PmConfig.SERVER.ENABLE_SPIRIT_DAMAGE.get() || PmConfig.COMMON.ENABLE_RATIONALITY.get() && damageTypes.equals(PmDamageTypes.Types.SPIRIT))) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -63,7 +168,7 @@ public class EntityEvents {
 
     @SubscribeEvent
     public static void addSpirtAttyibute(EntityJoinLevelEvent event){
-        if (event.getEntity() instanceof LivingEntity entity && entity.getAttributes().hasAttribute(PmAttributes.MAX_SPIRIT)){
+        if (event.getEntity() instanceof LivingEntity entity && entity.getAttributes().hasAttribute(MAX_SPIRIT)){
             processAttributeInformation(entity);
         }
     }
@@ -77,7 +182,7 @@ public class EntityEvents {
             return;
         }
         CompoundTag nbt = entity.getPersistentData();
-        if (!nbt.contains(INJURY_COUNT)){
+        if (!nbt.contains(INJURY_TICK)){
             return;
         }
         if (getInjuryCount(entity) != 0) {
@@ -86,7 +191,7 @@ public class EntityEvents {
         if (!PmConfig.SERVER.ENABLE_LOW_RATIONALITY_NEGATIVE_EFFECT.get()){
             return;
         }
-        if (!(nbt.contains(SPIRIT_VALUE) && nbt.contains(SPIRIT_RECOVERY_COUNT))) {
+        if (!(nbt.contains(SPIRIT_VALUE) && nbt.contains(SPIRIT_RECOVERY_TICK))) {
             return;
         }
         if (getSpiritValue(entity) < 0 || getInjuryCount(entity) != 0) {
@@ -94,10 +199,10 @@ public class EntityEvents {
         }
         incrementSpiritRecoveryTicks(entity, 1);
         int ticks =  getSpiritRecoveryTicks(entity);
-        if (ticks < (int) (20 / entity.getAttributeValue(PmAttributes.SPIRIT_NATURAL_RECOVERY_RATE))) {
+        if (ticks < (int) (20 / entity.getAttributeValue(SPIRIT_NATURAL_RECOVERY_RATE))) {
             return;
         }
-        incrementSpiritValue(entity, (int) entity.getAttributeValue(PmAttributes.SPIRIT_RECOVERY_AMOUNT));
+        incrementSpiritValue(entity, (int) entity.getAttributeValue(SPIRIT_RECOVERY_AMOUNT));
         setSpiritRecoveryCount(entity, 0);
     }
 }

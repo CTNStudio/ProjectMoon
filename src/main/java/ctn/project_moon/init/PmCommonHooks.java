@@ -1,8 +1,7 @@
 package ctn.project_moon.init;
 
 import ctn.project_moon.events.DourColorDamageTypesEvent;
-import ctn.project_moon.events.StopUsingItemEvent;
-import ctn.project_moon.events.entity.ArmorAbsorptionEvent;
+import ctn.project_moon.events.player.StopUsingItemEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,14 +13,6 @@ import org.apache.logging.log4j.Logger;
 public class PmCommonHooks {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static ArmorAbsorptionEvent.Pre entityArmorAbsorptionPre(LivingEntity entity, DamageSource damageSource, float damageAmount) {
-        return NeoForge.EVENT_BUS.post(new ArmorAbsorptionEvent.Pre(entity, damageSource, damageAmount));
-    }
-
-    public static ArmorAbsorptionEvent.Post entityArmorAbsorptionPost(LivingEntity entity, DamageSource damageSource, float damageAmount) {
-        return NeoForge.EVENT_BUS.post(new ArmorAbsorptionEvent.Post(entity, damageSource, damageAmount));
-    }
-
     public static DourColorDamageTypesEvent dourColorDamageType(LivingEntity entity, DamageSource source, DamageContainer container) {
         return NeoForge.EVENT_BUS.post(new DourColorDamageTypesEvent(entity, source, container));
     }
@@ -30,7 +21,7 @@ public class PmCommonHooks {
         return NeoForge.EVENT_BUS.post(new DourColorDamageTypesEvent(entity, source));
     }
 
-    public static StopUsingItemEvent stopUsingItem(Player player){
-        return NeoForge.EVENT_BUS.post(new StopUsingItemEvent(player));
+    public static void stopUsingItem(Player player){
+        NeoForge.EVENT_BUS.post(new StopUsingItemEvent(player));
     }
 }

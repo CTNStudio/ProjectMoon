@@ -2,6 +2,7 @@ package ctn.project_moon.events.client;
 
 import ctn.project_moon.client.particles.DamageParticle;
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
+import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
 import ctn.project_moon.init.PmEntitys;
 import ctn.project_moon.init.PmParticleTypes;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -25,8 +26,10 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         EntityRenderers.register(PmEntitys.TRAINING_RABBITS.get(), TrainingRabbits.TrainingRabbitsRenderer::new);
+        EntityRenderers.register(PmEntitys.PARADISE_LOST_SPIKEWEED.get(), ParadiseLostSpikeweed.TrainingRabbitsRenderer::new);
     }
 
+    /** 注册粒子渲染器*/
     @SubscribeEvent
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
        event.registerSpecial(PmParticleTypes.DAMAGE_PARTICLE_TYPE.get(), new DamageParticle.Provider());

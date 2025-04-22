@@ -1,4 +1,4 @@
-package ctn.project_moon.events;
+package ctn.project_moon.events.player;
 
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;

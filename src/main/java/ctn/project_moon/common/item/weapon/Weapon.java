@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.common.item.PmDataComponents.MODE_BOOLEAN;
 
-public abstract class Weapon extends Item implements GeoItem, RandomDamageItem {
+public abstract class Weapon extends Item implements GeoItem, RandomDamageProcessor {
     public static final ResourceLocation ENTITY_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "entity_range");
     public static final ResourceLocation BLOCK_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "block_range");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);

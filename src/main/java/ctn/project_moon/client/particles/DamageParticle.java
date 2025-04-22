@@ -28,6 +28,9 @@ import org.joml.Matrix4f;
 
 import static ctn.project_moon.init.PmParticleTypes.DAMAGE_PARTICLE_TYPE;
 
+/**
+ * 本文件参考汇流来世的伤害显示粒子制作
+ */
 public class DamageParticle extends TextureSheetParticle {
     private final Component text;
     private final float factorOld = 0.025f;
@@ -58,7 +61,7 @@ public class DamageParticle extends TextureSheetParticle {
         poseStack.mulPose(camera.rotation());
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
 
-        tickIn += 0.05;
+        tickIn += 0.005;
         final float f = tickIn >= 1 ? 0 : Math.max(0, 1 - (float) smoothEntryFactor(tickIn)) * 0.15f;
         poseStack.scale(f, f, f);  // 文本大小
         int width = minecraft.font.width(text);

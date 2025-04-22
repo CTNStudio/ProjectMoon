@@ -3,7 +3,7 @@ package ctn.project_moon.events;
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.api.PmColour;
 import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
-import ctn.project_moon.common.item.weapon.RandomDamageItem;
+import ctn.project_moon.common.item.weapon.RandomDamageProcessor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
@@ -93,7 +93,7 @@ public class ItemTooltipEvents {
 
     /** 添加随机伤害处理文本*/
     private static void randomDamageText(ItemTooltipEvent event, List<Component> componentList) {
-        if (!(event.getItemStack().getItem() instanceof RandomDamageItem item)) {
+        if (!(event.getItemStack().getItem() instanceof RandomDamageProcessor item)) {
             return;
         }
         int maxDamage = item.getMaxDamage();

@@ -11,7 +11,7 @@ public class TemporaryAttribute {
     private static final String PREFIX = MOD_ID + ".temporary";
     /** 当前速度 */
     public static final String PLAYER_RECORD_SPEED = PREFIX + ".player.record_speed";
-    /** 是否使用武器 同时代表攻击是否完成 */
+    /** 是否使用武器 同时代表攻击是否完成 TODO 此处功能过多需要分离 */
     public static final String PLAYER_IS_USE_ITEM = PREFIX + ".player.is_use_item";
     /** 使用物品后播放tick */
     public static final String PLAYER_ITEM_TICK = PREFIX + ".player.item_tick";

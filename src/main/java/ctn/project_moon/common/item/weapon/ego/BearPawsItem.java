@@ -1,10 +1,10 @@
 package ctn.project_moon.common.item.weapon.ego;
 
-import ctn.project_moon.common.item.weapon.SetInvulnerabilityTicks;
+import ctn.project_moon.common.item.weapon.SetInvulnerabilityTick;
 import ctn.project_moon.common.item.weapon.Weapon;
 import ctn.project_moon.init.PmDamageTypes;
 
-public class BearPawsItem extends CloseCombatEgo implements SetInvulnerabilityTicks {
+public class BearPawsItem extends CloseCombatEgo implements SetInvulnerabilityTick {
     public BearPawsItem(Weapon.Builder builder) {
         super(builder, PmDamageTypes.Types.PHYSICS);
     }

@@ -2,6 +2,7 @@ package ctn.project_moon.events.entity;
 
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
+import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
 import ctn.project_moon.init.PmAttributes;
 import ctn.project_moon.init.PmEntitys;
 import net.minecraft.world.entity.Entity;
@@ -21,7 +22,7 @@ import static net.neoforged.fml.common.EventBusSubscriber.Bus.MOD;
 public class EntityAttributeEvents {
 
     /**
-     * 注册实体
+     * 注册实体属性
      */
     @SubscribeEvent
     public static void entityAttribute(EntityAttributeCreationEvent event){
@@ -49,7 +50,6 @@ public class EntityAttributeEvents {
         setFourColorResistanceAttributes(event, VINDICATOR, HE, 0.8, 1.2, 1.3, 1.3);
         setFourColorResistanceAttributes(event, WITCH, HE, 1.2, 1.1, 1.0, 1.3);
         setFourColorResistanceAttributes(event, WITHER_SKELETON, HE, 0.8, 0.8, -1.0, 1.1);
-        setLevelAttributes(event, (EntityType<? extends LivingEntity>) (EntityType<? extends Entity>) SHULKER_BULLET, HE);
         setFourColorResistanceAttributes(event, BLAZE, TETH, 0.7, 0.8, 1.3, 1.2);
         setFourColorResistanceAttributes(event, BOGGED, TETH, 1.0, 0.5, 0.7, 1.0);
         setFourColorResistanceAttributes(event, SKELETON, TETH, 0.9, 0.6, 0.8, 1.0);

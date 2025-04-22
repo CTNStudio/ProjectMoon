@@ -54,6 +54,7 @@ public class DourColorDamageEvents {
         events.setDourColorDamageTypes(types);
     }
 
+    // TODO 需要添加抗性大于1.0导致的减速
     /**
      * 处理伤害效果
      */
@@ -136,9 +137,9 @@ public class DourColorDamageEvents {
     public static void appliedDamageToEntityEvent(LivingDamageEvent.Post event) {
         LivingEntity entity = event.getEntity();
         CompoundTag nbt = entity.getPersistentData();
-        if (nbt.contains(INJURY_COUNT)){
+        if (nbt.contains(INJURY_TICK)){
             setInjuryCount(entity, 200);
-            if (nbt.contains(SPIRIT_RECOVERY_COUNT)){
+            if (nbt.contains(SPIRIT_RECOVERY_TICK)){
                 setSpiritRecoveryCount(entity, 0);
             }
         }

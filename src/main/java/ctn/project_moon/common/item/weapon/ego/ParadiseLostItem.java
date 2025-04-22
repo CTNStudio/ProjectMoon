@@ -8,7 +8,9 @@ import dev.kosmx.playerAnim.api.layered.AnimationStack;
 import dev.kosmx.playerAnim.minecraftApi.PlayerAnimationAccess;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import static ctn.project_moon.api.TemporaryAttribute.*;
 import static ctn.project_moon.common.item.AnimItem.createAnim;
@@ -75,6 +78,9 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
         if (nbt.getBoolean(PLAYER_IS_USE_ITEM)){
             createAnim(player, "animation.project_moon.paradise_lost.attack1", 1);
             nbt.putBoolean(PLAYER_IS_USE_ITEM, false);
+            normalAttack(level, entity, stack);
+            restoreItemTick(player);
+            return;
         }
         if (jumpCancellation(level, player)) return;
         Minecraft minecraft = Minecraft.getInstance();
@@ -87,6 +93,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
         if (!player.level().isClientSide){
             entity.sendSystemMessage(Component.literal("触发了蓄力效果"));
         }
+        chargingAttack(level, entity, stack);
         restoreItemTick(player);
     }
 
@@ -165,6 +172,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
         if (!player.level().isClientSide){
             player.sendSystemMessage(Component.literal("触发了普通效果"));
         }
+        normalAttack(level, entity, stack);
         restorePlayerSpeed(player);
         restoreItemTick(player);
         completeAttack(player);
@@ -179,5 +187,15 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
             return true;
         }
         return false;
+    }
+
+    public static void normalAttack(Level level, Entity entity, ItemStack stack){
+        Vec3 vec3 = entity.getLookAngle();
+//        new Vec3i(vec3.x, vec3.y, vec3.z);
+//        new BlockPos()
+    }
+
+    public static void chargingAttack(Level level, Entity entity, ItemStack stack){
+
     }
 }

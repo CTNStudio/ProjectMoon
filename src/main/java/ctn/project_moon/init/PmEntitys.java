@@ -1,6 +1,7 @@
 package ctn.project_moon.init;
 
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
+import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -23,7 +24,13 @@ public class PmEntitys {
                     .updateInterval(2)
                     .canSpawnFarFromPlayer());
 
-    public static  <I extends Entity> DeferredHolder<EntityType<?>, EntityType<I>> registerEntity(final String name, final EntityType.Builder<I> sup) {
+    public static final Supplier<EntityType<ParadiseLostSpikeweed>> PARADISE_LOST_SPIKEWEED = registerEntity("paradise_lost_spikeweed",
+                    EntityType.Builder.of(ParadiseLostSpikeweed::new, MobCategory.MISC)
+                            .sized(2F, 2.5F)
+                            .clientTrackingRange(6)
+                            .updateInterval(2));
+
+    public static <I extends Entity> Supplier<EntityType<I>> registerEntity(final String name, final EntityType.Builder<I> sup) {
         return register(name, () -> sup.build(name));
     }
 
