@@ -1,4 +1,4 @@
-package ctn.project_moon.api;
+package ctn.project_moon.tool;
 
 import ctn.project_moon.datagen.PmTags;
 import ctn.project_moon.init.PmAttributes;
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 import static ctn.project_moon.PmMain.LOGGER;
 
-public class GradeType {
+public class GradeTypeTool {
     /**
      * 返回实体或物品的伤害倍数
      */
@@ -49,19 +49,19 @@ public class GradeType {
     }
 
     public enum Level {
-        ZAYIN("ZAYIN", 1, PmTags.PmItem.ZAYIN, PmTags.PmBlock.ZAYIN, PmColour.ZAYIN),
-        TETH("TETH", 2, PmTags.PmItem.TETH, PmTags.PmBlock.TETH, PmColour.TETH),
-        HE("HE", 3, PmTags.PmItem.HE, PmTags.PmBlock.HE, PmColour.HE),
-        WAW("WAW", 4, PmTags.PmItem.WAW, PmTags.PmBlock.WAW, PmColour.WAW),
-        ALEPH("ALEPH", 5, PmTags.PmItem.ALEPH, PmTags.PmBlock.ALEPH, PmColour.ALEPH);
+        ZAYIN("ZAYIN", 1, PmTags.PmItem.ZAYIN, PmTags.PmBlock.ZAYIN, PmColourTool.ZAYIN),
+        TETH("TETH", 2, PmTags.PmItem.TETH, PmTags.PmBlock.TETH, PmColourTool.TETH),
+        HE("HE", 3, PmTags.PmItem.HE, PmTags.PmBlock.HE, PmColourTool.HE),
+        WAW("WAW", 4, PmTags.PmItem.WAW, PmTags.PmBlock.WAW, PmColourTool.WAW),
+        ALEPH("ALEPH", 5, PmTags.PmItem.ALEPH, PmTags.PmBlock.ALEPH, PmColourTool.ALEPH);
 
         private final String name;
         private final int levelValue;
         private final TagKey<Item> itemTag;
         private final TagKey<Block> blockTag;
-        private final PmColour colour;
+        private final PmColourTool colour;
 
-        Level(String name, int levelValue, TagKey<Item> itemTag, TagKey<Block> blockTag, PmColour colour) {
+        Level(String name, int levelValue, TagKey<Item> itemTag, TagKey<Block> blockTag, PmColourTool colour) {
             this.name = name;
             this.levelValue = levelValue;
             this.itemTag = itemTag;
@@ -129,7 +129,7 @@ public class GradeType {
                     .orElse(ZAYIN);
         }
 
-        public PmColour getColour() {
+        public PmColourTool getColour() {
             return colour;
         }
 

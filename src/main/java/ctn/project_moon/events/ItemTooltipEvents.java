@@ -1,9 +1,9 @@
 package ctn.project_moon.events;
 
-import ctn.project_moon.api.GradeType;
-import ctn.project_moon.api.PmColour;
-import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
+import ctn.project_moon.tool.GradeTypeTool;
+import ctn.project_moon.tool.PmColourTool;
 import ctn.project_moon.common.RandomDamageProcessor;
+import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.PmApi.createColorText;
-import static ctn.project_moon.api.PmApi.i18ColorText;
+import static ctn.project_moon.tool.PmTool.createColorText;
+import static ctn.project_moon.tool.PmTool.i18ColorText;
 import static ctn.project_moon.common.item.Ego.getItemLevel;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static ctn.project_moon.init.PmDamageTypes.Types.egoDamageTypes;
@@ -36,10 +36,10 @@ import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 @EventBusSubscriber(modid = MOD_ID)
 public class ItemTooltipEvents {
     private static final Map<TagKey<Item>, String> COLOR_MAP = Map.of(
-            PHYSICS, PmColour.PHYSICS.getColour(),
-            SPIRIT, PmColour.SPIRIT.getColour(),
-            EROSION, PmColour.EROSION.getColour(),
-            THE_SOUL, PmColour.THE_SOUL.getColour()
+            PHYSICS, PmColourTool.PHYSICS.getColour(),
+            SPIRIT, PmColourTool.SPIRIT.getColour(),
+            EROSION, PmColourTool.EROSION.getColour(),
+            THE_SOUL, PmColourTool.THE_SOUL.getColour()
     );
 
     @SubscribeEvent
@@ -56,11 +56,11 @@ public class ItemTooltipEvents {
      */
     private static void levelText(List<Component> tooltipComponents, ItemStack stack) {
         MutableComponent mutableComponent = switch (getItemLevel(stack)) {
-            case ZAYIN -> createColorText(GradeType.Level.ZAYIN.getName(), PmColour.ZAYIN.getColour());
-            case TETH -> createColorText(GradeType.Level.TETH.getName(), PmColour.TETH.getColour());
-            case HE -> createColorText(GradeType.Level.HE.getName(), PmColour.HE.getColour());
-            case WAW -> createColorText(GradeType.Level.WAW.getName(), PmColour.WAW.getColour());
-            case ALEPH -> createColorText(GradeType.Level.ALEPH.getName(), PmColour.ALEPH.getColour());
+            case ZAYIN -> createColorText(GradeTypeTool.Level.ZAYIN.getName(), PmColourTool.ZAYIN.getColour());
+            case TETH -> createColorText(GradeTypeTool.Level.TETH.getName(), PmColourTool.TETH.getColour());
+            case HE -> createColorText(GradeTypeTool.Level.HE.getName(), PmColourTool.HE.getColour());
+            case WAW -> createColorText(GradeTypeTool.Level.WAW.getName(), PmColourTool.WAW.getColour());
+            case ALEPH -> createColorText(GradeTypeTool.Level.ALEPH.getName(), PmColourTool.ALEPH.getColour());
         };
         tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 0, 1), mutableComponent);
     }

@@ -1,6 +1,6 @@
 package ctn.project_moon.common.entity.projectile;
 
-import ctn.project_moon.api.SpiritApi;
+import ctn.project_moon.tool.SpiritTool;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.SetInvulnerabilityTick;
 import ctn.project_moon.common.models.PmGeoEntityModel;
@@ -15,10 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.TraceableEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -34,11 +31,9 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
-import static ctn.project_moon.api.GradeType.Level.ALEPH;
-import static ctn.project_moon.init.PmDamageSources.theSoulDamage;
+import static ctn.project_moon.tool.GradeTypeTool.Level.ALEPH;
 import static ctn.project_moon.init.PmEntitys.PARADISE_LOST_SPIKEWEED;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
@@ -92,6 +87,9 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
                     if (entity instanceof ItemEntity) {
                         return false;
                     }
+                    if (entity instanceof ExperienceOrb) {
+                        return false;
+                    }
                     if (entity instanceof ParadiseLostSpikeweed){
                         return false;
                     }
@@ -130,7 +128,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
         }
         int value = livingentity.getRandom().nextInt(2, 4 + 1);
         livingentity.heal(value);
-        SpiritApi.incrementSpiritValue(livingentity, value);
+        SpiritTool.incrementSpiritValue(livingentity, value);
     }
 
     private boolean dealDamageTo(Entity target) {
@@ -138,12 +136,12 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
         float damage = getDamage(target.getRandom());
         final ResourceKey<DamageType> THE_SOUL = PmDamageTypes.THE_SOUL;
         if (livingentity == null && !(target.isAlive() && !target.isInvulnerable() && target.getUUID().equals(livingentity.getUUID()))) {
-            return target.hurt(damageSources().source(THE_SOUL, null, this), damage);
+            return target.hurt(damageSources().source(THE_SOUL, this, null), damage);
         } else {
             if (livingentity.isAlliedTo(target)) {
                 return false;
             }
-            return target.hurt(damageSources().source(THE_SOUL, livingentity, this), damage);
+            return target.hurt(damageSources().source(THE_SOUL, this, livingentity), damage);
         }
     }
 

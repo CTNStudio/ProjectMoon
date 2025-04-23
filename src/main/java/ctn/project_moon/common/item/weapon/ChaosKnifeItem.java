@@ -16,8 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.PmApi.createColorText;
-import static ctn.project_moon.api.PmApi.i18ColorText;
+import static ctn.project_moon.tool.PmTool.createColorText;
+import static ctn.project_moon.tool.PmTool.i18ColorText;
 import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.init.PmDamageTypes.Types.*;
 import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;

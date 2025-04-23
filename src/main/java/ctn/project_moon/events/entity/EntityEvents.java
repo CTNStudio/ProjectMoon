@@ -1,9 +1,9 @@
 package ctn.project_moon.events.entity;
 
-import ctn.project_moon.api.GradeType;
-import ctn.project_moon.common.entity.abnos.Abnos;
+import ctn.project_moon.tool.GradeTypeTool;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.SetInvulnerabilityTick;
+import ctn.project_moon.common.entity.abnos.Abnos;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.datagen.PmTags;
 import ctn.project_moon.events.DourColorDamageTypesEvent;
@@ -22,15 +22,13 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.GradeType.Level.*;
-import static ctn.project_moon.api.GradeType.Level.getEntityLevel;
-import static ctn.project_moon.api.GradeType.damageMultiple;
-import static ctn.project_moon.api.SpiritApi.*;
+import static ctn.project_moon.tool.GradeTypeTool.Level.*;
+import static ctn.project_moon.tool.GradeTypeTool.damageMultiple;
+import static ctn.project_moon.tool.SpiritTool.*;
 import static ctn.project_moon.common.item.Ego.getItemLevelValue;
 import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
 import static ctn.project_moon.init.PmAttributes.*;
-import static ctn.project_moon.init.PmAttributes.THE_SOUL_RESISTANCE;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
 
@@ -43,13 +41,18 @@ public class EntityEvents {
     @SubscribeEvent
     public static void livingIncomingDamageEvent(LivingIncomingDamageEvent event) {
         DamageSource damageSource = event.getSource();
-        ItemStack itemStack = damageSource.getWeaponItem(); // 获取伤害来源的武器
+        ItemStack itemStack = damageSource.getWeaponItem();
+        if (itemStack == null && damageSource.getEntity() != null) {
+            itemStack = damageSource.getEntity().getWeaponItem();
+        }
+
+        // 修改生物无敌帧
         if (damageSource.getDirectEntity() instanceof SetInvulnerabilityTick entity) {
             event.setInvulnerabilityTicks(entity.getTicks());
         } else if (damageSource.getEntity() instanceof SetInvulnerabilityTick entity) {
             event.setInvulnerabilityTicks(entity.getTicks());
         } else if (itemStack != null) {
-            // 随机伤害处理
+            // 随物品机伤害处理
             if (!(event.getSource().getEntity().level() instanceof ServerLevel serverLevel &&
                     itemStack.getItem() instanceof RandomDamageProcessor randomDamageitem)) {
                 return;
@@ -57,14 +60,13 @@ public class EntityEvents {
             float damageScale = (event.getAmount() - randomDamageitem.getMaxDamage());
             event.setAmount(randomDamageitem.getDamage(serverLevel.getRandom()) + damageScale);
 
-            // 修改生物无敌帧
             if (itemStack.getItem() instanceof SetInvulnerabilityTick item) {
                 event.setInvulnerabilityTicks(item.getTicks());
             }
         }
 
         // 获取等级
-        GradeType.Level level = ZAYIN;
+        GradeTypeTool.Level level = ZAYIN;
         if (itemStack != null && !itemStack.isEmpty()) {
             level = getItemLevel(getEgoLevelTag(itemStack));
         } else {
@@ -105,7 +107,7 @@ public class EntityEvents {
     }
 
     /** 伤害计算 */
-    private static void resistanceTreatment(LivingIncomingDamageEvent event, GradeType.Level level, PmDamageTypes.Types damageTypes) {
+    private static void resistanceTreatment(LivingIncomingDamageEvent event, GradeTypeTool.Level level, PmDamageTypes.Types damageTypes) {
         float newDamageAmount = event.getAmount();
         int armorItemStackLaval = 0; // 盔甲等级
         int number = 0;
@@ -130,11 +132,11 @@ public class EntityEvents {
             armorItemStackLaval /= number;
             newDamageAmount *= damageMultiple(armorItemStackLaval - level.getLevelValue());
         } else {
-            GradeType.Level entityLaval = getEntityLevel(event.getEntity());
+            GradeTypeTool.Level entityLaval = getEntityLevel(event.getEntity());
             newDamageAmount *= damageMultiple(entityLaval, level);
         }
 
-        if (damageTypes != null&&(PmConfig.SERVER.ENABLE_FOUR_COLOR_DAMAGE.get())){
+        if (damageTypes != null && (PmConfig.SERVER.ENABLE_FOUR_COLOR_DAMAGE.get())) {
             if (configImpact(damageTypes)) {
                 damageTypes = PmDamageTypes.Types.PHYSICS;
             }

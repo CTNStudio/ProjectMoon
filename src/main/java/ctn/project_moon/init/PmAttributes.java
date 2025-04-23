@@ -7,8 +7,8 @@ import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.GradeType.Level.ALEPH;
-import static ctn.project_moon.api.GradeType.Level.ZAYIN;
+import static ctn.project_moon.tool.GradeTypeTool.Level.ALEPH;
+import static ctn.project_moon.tool.GradeTypeTool.Level.ZAYIN;
 
 public class PmAttributes {
     public static final DeferredRegister<Attribute> PM_ATTRIBUTE = DeferredRegister.create(Registries.ATTRIBUTE, MOD_ID);

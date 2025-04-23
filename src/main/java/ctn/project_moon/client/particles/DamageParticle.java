@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import ctn.project_moon.api.PmApi;
+import ctn.project_moon.tool.PmTool;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -68,8 +68,8 @@ public class DamageParticle extends TextureSheetParticle {
         Matrix4f matrix = new Matrix4f(poseStack.last().pose());
         matrix.translate(0, 0, 0.03f);
         minecraft.font.drawInBatch(
-                text, -width / 2f, 0, PmApi.colorConversion("#ff0000"), true,
-                matrix, bufferSource, Font.DisplayMode.NORMAL, PmApi.colorConversion("#ff0000"), PmApi.colorConversion("#ff0000"));
+                text, -width / 2f, 0, PmTool.colorConversion("#ff0000"), true,
+                matrix, bufferSource, Font.DisplayMode.NORMAL, PmTool.colorConversion("#ff0000"), PmTool.colorConversion("#ff0000"));
         matrix.translate(0, 0, 0.03f);
         bufferSource.endBatch();
         poseStack.popPose();

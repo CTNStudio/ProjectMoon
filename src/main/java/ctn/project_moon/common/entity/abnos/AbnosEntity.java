@@ -1,6 +1,6 @@
 package ctn.project_moon.common.entity.abnos;
 
-import ctn.project_moon.api.GradeType;
+import ctn.project_moon.tool.GradeTypeTool;
 import ctn.project_moon.init.PmAttributes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +14,7 @@ import java.util.Objects;
 import static net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE;
 
 public abstract class AbnosEntity extends Mob implements Abnos, GeoEntity {
-    protected AbnosEntity(EntityType<? extends Mob> entityType, Level level, GradeType.Level entityLevel) {
+    protected AbnosEntity(EntityType<? extends Mob> entityType, Level level, GradeTypeTool.Level entityLevel) {
         super(entityType, level);
         setEntityLevel(this, entityLevel);
     }
@@ -23,7 +23,7 @@ public abstract class AbnosEntity extends Mob implements Abnos, GeoEntity {
         return createMobAttributes().add(KNOCKBACK_RESISTANCE, 1);
     }
 
-    public static void setEntityLevel(LivingEntity entity,GradeType.Level entityLevel) {
+    public static void setEntityLevel(LivingEntity entity, GradeTypeTool.Level entityLevel) {
         Objects.requireNonNull(entity.getAttribute(PmAttributes.ENTITY_LEVEL)).setBaseValue(entityLevel.getLevelValue());
     }
 }

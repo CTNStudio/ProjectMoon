@@ -1,6 +1,6 @@
-package ctn.project_moon.api;
+package ctn.project_moon.tool;
 
-public enum PmColour {
+public enum PmColourTool {
     PHYSICS("#ff0000", "physics"),
     SPIRIT("#ffffff", "spirit"),
     EROSION("#8a2be2", "erosion"),
@@ -14,7 +14,7 @@ public enum PmColour {
     private final String colour;
     private final String colourText;
 
-    PmColour(String colour, String colourText) {
+    PmColourTool(String colour, String colourText) {
         this.colour = colour;
         this.colourText = colourText;
     }
@@ -24,7 +24,7 @@ public enum PmColour {
     }
 
     public int getColourRGB(){
-        return PmApi.colorConversion(getColour());
+        return PmTool.colorConversion(getColour());
     }
 
     public String getColourText() {

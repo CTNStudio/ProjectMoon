@@ -1,6 +1,6 @@
 package ctn.project_moon.init;
 
-import ctn.project_moon.api.PmApi;
+import ctn.project_moon.tool.PmTool;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -89,7 +89,7 @@ public class PmDamageSources extends DamageSources {
     }
 
     public static BiFunction<LivingEntity, LivingEntity, ? extends PmDamageSources> getDamageSource() {
-        return (attacker, target) -> PmApi.getDamageSource(attacker);
+        return (attacker, target) -> PmTool.getDamageSource(attacker);
     }
 
     public DamageSource physics() {

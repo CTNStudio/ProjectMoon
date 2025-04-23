@@ -1,4 +1,4 @@
-package ctn.project_moon.api;
+package ctn.project_moon.tool;
 
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.PmAttributes;
@@ -14,7 +14,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 /**
  * 理智值相关
  */
-public class SpiritApi {
+public class SpiritTool {
     public static final String SPIRIT_VALUE = createAttribute("entity.spirit_value");
     public static final String SPIRIT_RECOVERY_TICK = createAttribute("entity.spirit_recovery_tick");
     public static final String INJURY_TICK = createAttribute("entity.injury_tick");
@@ -63,7 +63,7 @@ public class SpiritApi {
         restrictSpirit(entity);
     }
 
-    /** 减少生物最大理智 */
+    /** 限制生物最大理智 */
     private static void restrictSpirit(LivingEntity entity) {
         float spirit = getSpiritValue(entity);
         double maxSpirit = getMaxSpiritValue(entity);
@@ -147,7 +147,7 @@ public class SpiritApi {
 
     /** 判断是否为有理智值 */
     public static boolean isRationality(LivingEntity entity) {
-        return !(entity.getPersistentData().contains(SpiritApi.SPIRIT_VALUE) && PmConfig.SERVER.ENABLE_SPIRIT_DAMAGE.get() && PmConfig.COMMON.ENABLE_RATIONALITY.get());
+        return !(entity.getPersistentData().contains(SpiritTool.SPIRIT_VALUE) && PmConfig.SERVER.ENABLE_SPIRIT_DAMAGE.get() && PmConfig.COMMON.ENABLE_RATIONALITY.get());
     }
 
     /** 生物遭受精神伤害 */

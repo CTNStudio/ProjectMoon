@@ -1,13 +1,13 @@
 package ctn.project_moon.common.item;
 
-import ctn.project_moon.api.GradeType;
+import ctn.project_moon.tool.GradeTypeTool;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-import static ctn.project_moon.api.GradeType.Level.getEgoLevelTag;
+import static ctn.project_moon.tool.GradeTypeTool.Level.getEgoLevelTag;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 
 public interface Ego {
@@ -29,22 +29,22 @@ public interface Ego {
     }
 
     /**
-     * @return {@link GradeType.Level}
+     * @return {@link GradeTypeTool.Level}
      */
-    static GradeType.Level getItemLevel(ItemStack item) {
-        return GradeType.Level.getItemLevel(getEgoLevelTag(item));
+    static GradeTypeTool.Level getItemLevel(ItemStack item) {
+        return GradeTypeTool.Level.getItemLevel(getEgoLevelTag(item));
     }
 
     /** 获取武器等级 */
-    static GradeType.Level getItemLevel(TagKey<Item> egoLevelTag) {
-        return GradeType.Level.getItemLevel(egoLevelTag);
+    static GradeTypeTool.Level getItemLevel(TagKey<Item> egoLevelTag) {
+        return GradeTypeTool.Level.getItemLevel(egoLevelTag);
     }
 
     /**
      * 返回物品等级
      */
     static int getItemLevelValue(TagKey<Item> itemLevelTag) {
-        final GradeType.Level type = GradeType.Level.getItemLevel(itemLevelTag);
+        final GradeTypeTool.Level type = GradeTypeTool.Level.getItemLevel(itemLevelTag);
         return type.getLevelValue();
     }
 

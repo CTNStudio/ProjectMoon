@@ -1,11 +1,9 @@
 package ctn.project_moon.events.entity;
 
-import ctn.project_moon.api.GradeType;
+import ctn.project_moon.tool.GradeTypeTool;
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
-import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
 import ctn.project_moon.init.PmAttributes;
 import ctn.project_moon.init.PmEntitys;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -14,7 +12,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.GradeType.Level.*;
+import static ctn.project_moon.tool.GradeTypeTool.Level.*;
 import static net.minecraft.world.entity.EntityType.*;
 import static net.neoforged.fml.common.EventBusSubscriber.Bus.MOD;
 
@@ -72,7 +70,7 @@ public class EntityAttributeEvents {
         setFourColorResistanceAttributes(event, CAVE_SPIDER, TETH, 0.7, 1.1, 1.0, 1.1);
     }
 
-    private static void setFourColorResistanceAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, GradeType.Level level, double physics, double spirit, double erosion, double theSoul) {
+    private static void setFourColorResistanceAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, GradeTypeTool.Level level, double physics, double spirit, double erosion, double theSoul) {
         setLevelAttributes(event, entityType, level);
         setFourColorResistanceAttributes(event, entityType, physics, spirit, erosion, theSoul);
     }
@@ -90,7 +88,7 @@ public class EntityAttributeEvents {
         event.add(entityType, PmAttributes.THE_SOUL_RESISTANCE, theSoul);
     }
 
-    private static void setLevelAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, GradeType.Level level){
+    private static void setLevelAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, GradeTypeTool.Level level){
         event.add(entityType, PmAttributes.ENTITY_LEVEL, level.getLevelValue());
     }
 }

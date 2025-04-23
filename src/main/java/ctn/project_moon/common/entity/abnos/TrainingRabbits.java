@@ -1,6 +1,6 @@
 package ctn.project_moon.common.entity.abnos;
 
-import ctn.project_moon.api.GradeType;
+import ctn.project_moon.tool.GradeTypeTool;
 import ctn.project_moon.common.models.PmGeoEntityModel;
 import ctn.project_moon.init.PmAttributes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -18,7 +18,7 @@ public class TrainingRabbits extends AbnosEntity{
     private final AnimatableInstanceCache ANIMS = GeckoLibUtil.createInstanceCache(this);
 
     public TrainingRabbits(EntityType<? extends Mob> entityType, Level level) {
-        super(entityType, level, GradeType.Level.ZAYIN);
+        super(entityType, level, GradeTypeTool.Level.ZAYIN);
     }
 
     public static AttributeSupplier.Builder createAttributes(){
