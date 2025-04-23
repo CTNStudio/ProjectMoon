@@ -1,5 +1,6 @@
 package ctn.project_moon.common.item.weapon.ego;
 
+import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
 import ctn.project_moon.common.item.AnimAttackItem;
 import ctn.project_moon.common.item.weapon.Weapon;
 import ctn.project_moon.common.models.PmGeoItemModel;
@@ -13,6 +14,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -21,7 +23,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
+import java.util.Objects;
 
 import static ctn.project_moon.api.TemporaryAttribute.*;
 import static ctn.project_moon.common.item.AnimItem.createAnim;
@@ -40,6 +46,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
     }
 
     // TODO 仍然有问题：玩家在移动或跳跃之后长按无法触发动画
+    // TODO 其他玩家无法看到动画
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getWeaponItem();
@@ -78,7 +85,9 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
         if (nbt.getBoolean(PLAYER_IS_USE_ITEM)){
             createAnim(player, "animation.project_moon.paradise_lost.attack1", 1);
             nbt.putBoolean(PLAYER_IS_USE_ITEM, false);
-            normalAttack(level, entity, stack);
+            if (level instanceof ServerLevel serverLevel) {
+                chargingAttack(serverLevel, player);
+            }
             restoreItemTick(player);
             return;
         }
@@ -90,10 +99,9 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
                 return;
             }
         }
-        if (!player.level().isClientSide){
-            entity.sendSystemMessage(Component.literal("触发了蓄力效果"));
+        if (level instanceof ServerLevel serverLevel){
+            chargingAttack(serverLevel, player);
         }
-        chargingAttack(level, entity, stack);
         restoreItemTick(player);
     }
 
@@ -152,6 +160,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
         }
         if (jumpCancellation(level, player)) return;
         Minecraft minecraft = Minecraft.getInstance();
+        // 因为不知名BUG因此这么写
         if (minecraft != null && minecraft.player != null && minecraft.player.input != null) {
             if (minecraft.player.input.jumping) {
                 restore(player);
@@ -169,10 +178,13 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
         if (!(nbt.getInt(PLAYER_ITEM_TICK) >= item.getTriggerTick())){
             return;
         }
-        if (!player.level().isClientSide){
-            player.sendSystemMessage(Component.literal("触发了普通效果"));
+        if (level instanceof ServerLevel serverLevel) {
+            normalAttack(serverLevel, player);
         }
-        normalAttack(level, entity, stack);
+        restoreStatus(player);
+    }
+
+    private static void restoreStatus(Player player) {
         restorePlayerSpeed(player);
         restoreItemTick(player);
         completeAttack(player);
@@ -189,13 +201,66 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements AnimAttackItem
         return false;
     }
 
-    public static void normalAttack(Level level, Entity entity, ItemStack stack){
-        Vec3 vec3 = entity.getLookAngle();
-//        new Vec3i(vec3.x, vec3.y, vec3.z);
-//        new BlockPos()
+    /** 召唤一个 */
+    public static void normalAttack(ServerLevel level, LivingEntity entity){
+        final Vec3 position = entity.getEyePosition();
+        double x = 0;
+        int y = 0;
+        double z = 0;
+        for (int scale = 0; scale <= 30; scale++) {
+            Vec3 vec3 = position.add(entity.getLookAngle().scale(scale));
+            x = vec3.x;
+            y =(int) vec3.y;
+            z = vec3.z;
+            double v = 1;
+            AABB aabb = new AABB(x - v, y - v, z - v, x + v, y + v, z + v);
+            List<LivingEntity> entityList = level.getEntitiesOfClass(LivingEntity.class, aabb, (livingEntity) -> !livingEntity.getUUID().equals(entity.getUUID()));
+            int i = entityList.size();
+            if (i > 0) {
+                LivingEntity livingEntity = entityList.get(entity.level().getRandom().nextInt(i));
+                if (livingEntity != null) {
+                    x = livingEntity.position().x;
+                    y = livingEntity.blockPosition().getY();
+                    z = livingEntity.position().z;
+                    break;
+                }
+            } else if (!level.getBlockState(new BlockPos((int) x, y - 1, (int) z)).isAir()) {
+                break;
+            }
+            while (level.getBlockState(new BlockPos((int) x, y - 1, (int) z)).isAir()) {
+                y--;
+                if (y < -64) {
+                    y = (int) vec3.y;
+                    break;
+                }
+            }
+        }
+        level.addFreshEntityWithPassengers(ParadiseLostSpikeweed.create(level, x, y, z, 1, entity));
     }
 
-    public static void chargingAttack(Level level, Entity entity, ItemStack stack){
-
+    /** 召唤多个 */
+    public static void chargingAttack(ServerLevel level, LivingEntity entity){
+        double x = entity.position().x;
+        int y = entity.blockPosition().getY();
+        double z = entity.position().z;
+        double v = 10;
+        AABB aabb = new AABB(x - v, y - 3, z - v, x + v, y + 3, z + v);
+        List<LivingEntity> entityList = level.getEntitiesOfClass(LivingEntity.class, aabb, (livingEntity) -> !livingEntity.getUUID().equals(entity.getUUID()));
+        int i = entityList.size();
+        if (i > 0) {
+            for (LivingEntity livingEntity : entityList){
+                x = livingEntity.position().x;
+                y = livingEntity.blockPosition().getY();
+                z = livingEntity.position().z;
+                while (level.getBlockState(new BlockPos((int) x, y - 1, (int) z)).isAir()) {
+                    y--;
+                    if (y < -64) {
+                        y = (int) livingEntity.position().y;
+                        break;
+                    }
+                }
+                level.addFreshEntityWithPassengers(ParadiseLostSpikeweed.create(level, x, y, z, i, entity));
+            }
+        }
     }
 }

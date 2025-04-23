@@ -2,6 +2,7 @@ package ctn.project_moon.events.player;
 
 import ctn.project_moon.api.TemporaryAttribute;
 import ctn.project_moon.api.SpiritApi;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -9,6 +10,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.api.TemporaryAttribute.PLAYER_RECORD_SPEED;
 import static ctn.project_moon.events.player.PlayerAnimEvents.*;
 import static ctn.project_moon.events.player.PlayerAnimEvents.restorePlayerSpeed;
 

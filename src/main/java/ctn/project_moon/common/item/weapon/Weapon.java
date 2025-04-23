@@ -1,5 +1,6 @@
 package ctn.project_moon.common.item.weapon;
 
+import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.renderers.PmGeoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;

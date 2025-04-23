@@ -2,12 +2,11 @@ package ctn.project_moon.events.entity;
 
 import ctn.project_moon.api.GradeType;
 import ctn.project_moon.common.entity.abnos.Abnos;
-import ctn.project_moon.common.item.weapon.RandomDamageProcessor;
-import ctn.project_moon.common.item.weapon.SetInvulnerabilityTick;
+import ctn.project_moon.common.RandomDamageProcessor;
+import ctn.project_moon.common.SetInvulnerabilityTick;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.datagen.PmTags;
 import ctn.project_moon.events.DourColorDamageTypesEvent;
-import ctn.project_moon.init.PmAttributes;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -45,7 +44,11 @@ public class EntityEvents {
     public static void livingIncomingDamageEvent(LivingIncomingDamageEvent event) {
         DamageSource damageSource = event.getSource();
         ItemStack itemStack = damageSource.getWeaponItem(); // 获取伤害来源的武器
-        if (itemStack != null) {
+        if (damageSource.getDirectEntity() instanceof SetInvulnerabilityTick entity) {
+            event.setInvulnerabilityTicks(entity.getTicks());
+        } else if (damageSource.getEntity() instanceof SetInvulnerabilityTick entity) {
+            event.setInvulnerabilityTicks(entity.getTicks());
+        } else if (itemStack != null) {
             // 随机伤害处理
             if (!(event.getSource().getEntity().level() instanceof ServerLevel serverLevel &&
                     itemStack.getItem() instanceof RandomDamageProcessor randomDamageitem)) {

@@ -1,4 +1,4 @@
-package ctn.project_moon.common.item.weapon;
+package ctn.project_moon.common;
 
 import net.minecraft.util.RandomSource;
 

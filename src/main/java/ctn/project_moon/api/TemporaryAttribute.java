@@ -1,6 +1,7 @@
 package ctn.project_moon.api;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
 import static ctn.project_moon.PmMain.MOD_ID;
@@ -26,5 +27,6 @@ public class TemporaryAttribute {
         nbt.putBoolean(PLAYER_IS_USE_ITEM, false);
         nbt.putInt(PLAYER_ITEM_TICK, 0);
         nbt.putInt(PLAYER_USE_TICK, 0);
+        player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(nbt.getFloat(PLAYER_RECORD_SPEED));
     }
 }

@@ -1,7 +1,8 @@
 package ctn.project_moon.common.entity.projectile;
 
 import ctn.project_moon.api.SpiritApi;
-import ctn.project_moon.common.item.weapon.RandomDamageProcessor;
+import ctn.project_moon.common.RandomDamageProcessor;
+import ctn.project_moon.common.SetInvulnerabilityTick;
 import ctn.project_moon.common.models.PmGeoEntityModel;
 import ctn.project_moon.init.PmAttributes;
 import ctn.project_moon.init.PmDamageTypes;
@@ -12,8 +13,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -21,8 +20,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -32,16 +34,15 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static ctn.project_moon.api.GradeType.Level.ALEPH;
 import static ctn.project_moon.init.PmDamageSources.theSoulDamage;
 import static ctn.project_moon.init.PmEntitys.PARADISE_LOST_SPIKEWEED;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
-import static net.minecraft.world.item.alchemy.Potions.SLOWNESS;
-import static org.openjdk.nashorn.internal.runtime.regexp.joni.SearchAlgorithm.SLOW;
 
-public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, GeoEntity, RandomDamageProcessor {
+public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, GeoEntity, RandomDamageProcessor, SetInvulnerabilityTick {
     private final AnimatableInstanceCache ANIMS = GeckoLibUtil.createInstanceCache(this);
     @Nullable
     private LivingEntity owner;
@@ -64,6 +65,14 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
         return entity;
     }
 
+    public static ParadiseLostSpikeweed create(Level level, Vec3 vec3, int targetNumber, LivingEntity owner) {
+        ParadiseLostSpikeweed entity = new ParadiseLostSpikeweed(PARADISE_LOST_SPIKEWEED.get(), level);
+        entity.targetNumber = targetNumber == 0 ? 1 : targetNumber;
+        entity.setPos(vec3);
+        entity.setOwner(owner);
+        return entity;
+    }
+
     public static AttributeSupplier.Builder createAttributes() {
         return AttributeSupplier.builder().add(PmAttributes.ENTITY_LEVEL, ALEPH.getLevelValue());
     }
@@ -79,11 +88,22 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
         if (level().isClientSide) {
         } else {
             if (!isAttack && tickCount < 2) {
-                List<LivingEntity> entityList = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox());
+                List<Entity> entityList = level().getEntitiesOfClass(Entity.class, getBoundingBox(),(entity) ->{
+                    if (entity instanceof ItemEntity) {
+                        return false;
+                    }
+                    if (entity instanceof ParadiseLostSpikeweed){
+                        return false;
+                    }
+                    if (entity instanceof Projectile){
+                        return false;
+                    }
+                    return getOwner() != null && !entity.getUUID().equals(getOwner().getUUID());
+                } );
                 int i = entityList.size();
-                if (i > 0){
+                if (i > 0) {
                     for (int j = 0; j < i; j++) {
-                        LivingEntity livingEntity = entityList.get(level().getRandom().nextInt(i));
+                        Entity livingEntity = entityList.get(level().getRandom().nextInt(i));
                         if (!dealDamageTo(livingEntity)) {
                             continue;
                         }
@@ -100,8 +120,10 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
         }
     }
 
-    public void hit(LivingEntity livingEntity){
-        livingEntity.addEffect(new MobEffectInstance(MOVEMENT_SLOWDOWN, 10, 3));
+    public void hit(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity) {
+            livingEntity.addEffect(new MobEffectInstance(MOVEMENT_SLOWDOWN, 10, 3));
+        }
         LivingEntity livingentity = getOwner();
         if (livingentity == null) {
             return;
@@ -111,21 +133,23 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
         SpiritApi.incrementSpiritValue(livingentity, value);
     }
 
-    private boolean dealDamageTo(LivingEntity target) {
+    private boolean dealDamageTo(Entity target) {
         LivingEntity livingentity = getOwner();
         float damage = getDamage(target.getRandom());
-        if (!(target.isAlive() && !target.isInvulnerable() && target != livingentity)) {
-            return false;
-        }
         final ResourceKey<DamageType> THE_SOUL = PmDamageTypes.THE_SOUL;
-        if (livingentity == null) {
-            return target.hurt(damageSources().source(THE_SOUL, this, null), damage);
+        if (livingentity == null && !(target.isAlive() && !target.isInvulnerable() && target.getUUID().equals(livingentity.getUUID()))) {
+            return target.hurt(damageSources().source(THE_SOUL, null, this), damage);
         } else {
             if (livingentity.isAlliedTo(target)) {
                 return false;
             }
-            return target.hurt(damageSources().source(THE_SOUL, this, livingentity), damage);
+            return target.hurt(damageSources().source(THE_SOUL, livingentity, this), damage);
         }
+    }
+
+    @Override
+    public @Nullable ItemStack getWeaponItem() {
+        return owner != null ? owner.getMainHandItem() : null;
     }
 
     @Override
@@ -175,6 +199,11 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
     }
 
     @Override
+    public int getTicks() {
+        return 10;
+    }
+
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
     }
@@ -220,7 +249,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
     }
 
     public void setOwner(@Nullable LivingEntity owner) {
-        owner = owner;
+        this.owner = owner;
         ownerUUID = owner == null ? null : owner.getUUID();
     }
 
