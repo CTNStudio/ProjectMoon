@@ -12,20 +12,21 @@
 
 贡献者
 
-| 名称                                               | 贡献内容  |
-|--------------------------------------------------|-------|
-| [原木Log_ym](https://space.bilibili.com/138986403) | 失乐园地刺 |
+| 名称                                               | 贡献内容       |
+|--------------------------------------------------|------------|
+| [原木Log_ym](https://space.bilibili.com/138986403) | 大部分模型及模型贴图 |
 
 
 <hr>
 
 本MOD前置
 
-| 前置链接及名称                                                            | 功能     |
-|--------------------------------------------------------------------|--------|
-| [PlayerAnimator](https://github.com/KosmX/minecraftPlayerAnimator) | 玩家动作   |
-| [GeckoLib](https://github.com/bernie-g/geckolib)                   | 基岩版模型库 |
-| [Curios API](https://github.com/TheIllusiveC4/Curios)              | 饰品     |
+| 前置链接及名称                                                                             | 功能           |
+|-------------------------------------------------------------------------------------|--------------|
+| [PlayerAnimator](https://github.com/KosmX/minecraftPlayerAnimator)                  | 玩家动作         |
+| [Zigy's Player Animator API](https://github.com/ZigyTheBird/ZigysPlayerAnimatorAPI) | Zigy的玩家动作API |
+| [GeckoLib](https://github.com/bernie-g/geckolib)                                    | 基岩版模型库       |
+| [Curios API](https://github.com/TheIllusiveC4/Curios)                               | 饰品           |
 
 <hr>
 

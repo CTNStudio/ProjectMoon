@@ -2,6 +2,8 @@
   "values": [
     "minecraft:wither_skull",
     "minecraft:wither",
+    "minecraft:magic",
+    "minecraft:indirect_magic",
     {
       "id": "project_moon:erosion",
       "required": false

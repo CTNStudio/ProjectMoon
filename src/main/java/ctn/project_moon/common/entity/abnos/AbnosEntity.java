@@ -1,7 +1,7 @@
 package ctn.project_moon.common.entity.abnos;
 
 import ctn.project_moon.tool.GradeTypeTool;
-import ctn.project_moon.init.PmAttributes;
+import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -24,6 +24,6 @@ public abstract class AbnosEntity extends Mob implements Abnos, GeoEntity {
     }
 
     public static void setEntityLevel(LivingEntity entity, GradeTypeTool.Level entityLevel) {
-        Objects.requireNonNull(entity.getAttribute(PmAttributes.ENTITY_LEVEL)).setBaseValue(entityLevel.getLevelValue());
+        Objects.requireNonNull(entity.getAttribute(PmEntityAttributes.ENTITY_LEVEL)).setBaseValue(entityLevel.getLevelValue());
     }
 }

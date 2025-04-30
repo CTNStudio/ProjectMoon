@@ -1,7 +1,7 @@
 package ctn.project_moon.tool;
 
 import ctn.project_moon.config.PmConfig;
-import ctn.project_moon.init.PmAttributes;
+import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -59,7 +59,7 @@ public class SpiritTool {
 
     /** 设置生物最大理智 */
     public static void setMaxSpiritValue(LivingEntity entity, double value) {
-        entity.getAttribute(PmAttributes.MAX_SPIRIT).setBaseValue(value);
+        entity.getAttribute(PmEntityAttributes.MAX_SPIRIT).setBaseValue(value);
         restrictSpirit(entity);
     }
 
@@ -115,11 +115,11 @@ public class SpiritTool {
     }
 
     public static double getMaxSpiritValue(LivingEntity entity) {
-        return entity.getAttributeValue(PmAttributes.MAX_SPIRIT);
+        return entity.getAttributeValue(PmEntityAttributes.MAX_SPIRIT);
     }
 
     public static double getMinSpiritValue(LivingEntity entity) {
-        return -(entity.getAttributeValue(PmAttributes.MAX_SPIRIT));
+        return -(entity.getAttributeValue(PmEntityAttributes.MAX_SPIRIT));
     }
 
     public static float getSpiritValue(CompoundTag nbt) {

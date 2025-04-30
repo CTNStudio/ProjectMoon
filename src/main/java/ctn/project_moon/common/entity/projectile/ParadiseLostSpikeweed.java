@@ -4,7 +4,7 @@ import ctn.project_moon.tool.SpiritTool;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.SetInvulnerabilityTick;
 import ctn.project_moon.common.models.PmGeoEntityModel;
-import ctn.project_moon.init.PmAttributes;
+import ctn.project_moon.init.PmEntityAttributes;
 import ctn.project_moon.init.PmDamageTypes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.nbt.CompoundTag;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static ctn.project_moon.tool.GradeTypeTool.Level.ALEPH;
-import static ctn.project_moon.init.PmEntitys.PARADISE_LOST_SPIKEWEED;
+import static ctn.project_moon.init.PmEntity.PARADISE_LOST_SPIKEWEED;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
 public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, GeoEntity, RandomDamageProcessor, SetInvulnerabilityTick {
@@ -69,7 +69,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return AttributeSupplier.builder().add(PmAttributes.ENTITY_LEVEL, ALEPH.getLevelValue());
+        return AttributeSupplier.builder().add(PmEntityAttributes.ENTITY_LEVEL, ALEPH.getLevelValue());
     }
 
     @Override

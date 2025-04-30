@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -22,13 +23,14 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.events.entity.player.PlayerEvents.resetAfterDeath;
 import static ctn.project_moon.tool.GradeTypeTool.Level.*;
 import static ctn.project_moon.tool.GradeTypeTool.damageMultiple;
 import static ctn.project_moon.tool.SpiritTool.*;
 import static ctn.project_moon.common.item.Ego.getItemLevelValue;
 import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
-import static ctn.project_moon.init.PmAttributes.*;
+import static ctn.project_moon.init.PmEntityAttributes.*;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
 
@@ -52,16 +54,18 @@ public class EntityEvents {
         } else if (damageSource.getEntity() instanceof SetInvulnerabilityTick entity) {
             event.setInvulnerabilityTicks(entity.getTicks());
         } else if (itemStack != null) {
-            // 随物品机伤害处理
-            if (!(event.getSource().getEntity().level() instanceof ServerLevel serverLevel &&
-                    itemStack.getItem() instanceof RandomDamageProcessor randomDamageitem)) {
-                return;
-            }
-            float damageScale = (event.getAmount() - randomDamageitem.getMaxDamage());
-            event.setAmount(randomDamageitem.getDamage(serverLevel.getRandom()) + damageScale);
+            // 随机物品伤害处理
+            randomDamageLogic: {
+                if (!(event.getSource().getEntity().level() instanceof ServerLevel serverLevel &&
+                        itemStack.getItem() instanceof RandomDamageProcessor randomDamageitem)) {
+                    break randomDamageLogic;
+                }
+                float damageScale = (event.getAmount() - randomDamageitem.getMaxDamage());
+                event.setAmount(randomDamageitem.getDamage(serverLevel.getRandom()) + damageScale);
 
-            if (itemStack.getItem() instanceof SetInvulnerabilityTick item) {
-                event.setInvulnerabilityTicks(item.getTicks());
+                if (itemStack.getItem() instanceof SetInvulnerabilityTick item) {
+                    event.setInvulnerabilityTicks(item.getTicks());
+                }
             }
         }
 
@@ -153,6 +157,7 @@ public class EntityEvents {
         event.setAmount(newDamageAmount);
     }
 
+    /** 配置影响 */
     private static boolean configImpact(PmDamageTypes.Types damageTypes) {
         if (!PmConfig.SERVER.ENABLE_THE_SOUL_DAMAGE.get() && damageTypes.equals(PmDamageTypes.Types.THE_SOUL)) {
             return true;
@@ -168,7 +173,10 @@ public class EntityEvents {
      */
     @SubscribeEvent
     public static void deathEvent(LivingDeathEvent event) {
-
+        LivingEntity livingEntity = event.getEntity();
+        if (livingEntity instanceof Player player){
+            resetAfterDeath(player);
+        }
     }
 
     @SubscribeEvent

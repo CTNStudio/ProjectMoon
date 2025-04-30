@@ -20,13 +20,13 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
 import static ctn.project_moon.common.item.PmArmorMaterials.ARMOR_MATERIALS_TYPES;
-import static ctn.project_moon.datagen.CuriosTest.*;
+import static ctn.project_moon.datagen.DatagenCuriosTest.*;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
-import static ctn.project_moon.init.PmAttributes.PM_ATTRIBUTE;
-import static ctn.project_moon.init.PmEntitys.ENTITY_TYPE;
+import static ctn.project_moon.init.PmEntityAttributes.PM_ATTRIBUTE;
+import static ctn.project_moon.init.PmEntity.ENTITY_TYPE;
 import static ctn.project_moon.init.PmParticleTypes.PARTICLE_TYPES;
 import static ctn.project_moon.init.PmSoundEvents.SOUND_EVENT_TYPES;
-import static ctn.project_moon.init.PmTab.PROJECT_MOON_TAB;
+import static ctn.project_moon.init.PmCreativeModeTab.PROJECT_MOON_TAB;
 import static top.theillusivec4.curios.api.CuriosApi.registerCurioPredicate;
 
 @Mod(PmMain.MOD_ID)

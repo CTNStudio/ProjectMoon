@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static ctn.project_moon.init.PmAttributes.*;
+import static ctn.project_moon.init.PmEntityAttributes.*;
 
 @Mixin(AttributeSupplier.Builder.class)
 public abstract class AttributeSupplier$BuilderMixin{

@@ -1,6 +1,6 @@
 package ctn.project_moon.common.item.armor;
 
-import ctn.project_moon.init.PmAttributes;
+import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -42,10 +42,10 @@ public class Armor extends ArmorItem implements Equipable {
         private ItemAttributeModifiers getItemAttributeModifiers(ArmorItem.Type type) {
             EquipmentSlotGroup dropLocation = EquipmentSlotGroup.bySlot(type.getSlot());
             ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-            builder.add(PmAttributes.PHYSICS_RESISTANCE, new AttributeModifier(getLocation("physics_resistance.", type), physicsResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
-            builder.add(PmAttributes.SPIRIT_RESISTANCE, new AttributeModifier(getLocation("spirit_resistance.", type), spiritResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
-            builder.add(PmAttributes.EROSION_RESISTANCE, new AttributeModifier(getLocation("erosion_resistance.", type), erosionResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
-            builder.add(PmAttributes.THE_SOUL_RESISTANCE, new AttributeModifier(getLocation("the_soul_resistance.", type), theSoulResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
+            builder.add(PmEntityAttributes.PHYSICS_RESISTANCE, new AttributeModifier(getLocation("physics_resistance.", type), physicsResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
+            builder.add(PmEntityAttributes.SPIRIT_RESISTANCE, new AttributeModifier(getLocation("spirit_resistance.", type), spiritResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
+            builder.add(PmEntityAttributes.EROSION_RESISTANCE, new AttributeModifier(getLocation("erosion_resistance.", type), erosionResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
+            builder.add(PmEntityAttributes.THE_SOUL_RESISTANCE, new AttributeModifier(getLocation("the_soul_resistance.", type), theSoulResistance, AttributeModifier.Operation.ADD_VALUE), dropLocation);
             vanillaArmorAttributes(type, builder, dropLocation);
             return builder.build();
         }

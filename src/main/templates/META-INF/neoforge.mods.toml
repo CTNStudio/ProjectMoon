@@ -41,6 +41,13 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${ mod_id }]]
+modId = "zigysmultiloaderutils"
+type = "required"
+versionRange = "${playeranimatorapi_version}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
 modId = "curios"
 type = "required"
 versionRange = "${curios_api_version}"

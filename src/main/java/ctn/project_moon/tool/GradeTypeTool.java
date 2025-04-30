@@ -1,7 +1,7 @@
 package ctn.project_moon.tool;
 
 import ctn.project_moon.datagen.PmTags;
-import ctn.project_moon.init.PmAttributes;
+import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -124,7 +124,7 @@ public class GradeTypeTool {
         public static Level getEntityLevel(LivingEntity entity) {
             return Arrays.stream(Level.values())
                     .sorted((a, b) -> Integer.compare(b.getLevelValue(), a.getLevelValue()))
-                    .filter(it -> (int) entity.getAttributeValue(PmAttributes.ENTITY_LEVEL) == it.getLevelValue())
+                    .filter(it -> (int) entity.getAttributeValue(PmEntityAttributes.ENTITY_LEVEL) == it.getLevelValue())
                     .findFirst()
                     .orElse(ZAYIN);
         }

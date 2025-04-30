@@ -1,7 +1,7 @@
 package ctn.project_moon.linkage.jade;
 
 import ctn.project_moon.tool.PmColourTool;
-import ctn.project_moon.init.PmAttributes;
+import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -38,19 +38,19 @@ public enum MobEntityResistance implements IEntityComponentProvider {
 
         iTooltip.add(getSprite(elements, "physics8x"));
         empty(iTooltip);
-        iTooltip.append(getComponent(entity, PHYSICS_KEY, PmColourTool.PHYSICS.getColourRGB(), PmAttributes.PHYSICS_RESISTANCE));
+        iTooltip.append(getComponent(entity, PHYSICS_KEY, PmColourTool.PHYSICS.getColourRGB(), PmEntityAttributes.PHYSICS_RESISTANCE));
         emptys(iTooltip);
         iTooltip.append(getSprite(elements, "spirit8x"));
         empty(iTooltip);
-        iTooltip.append(getComponent(entity, SPIRIT_KEY, PmColourTool.SPIRIT.getColourRGB(), PmAttributes.SPIRIT_RESISTANCE));
+        iTooltip.append(getComponent(entity, SPIRIT_KEY, PmColourTool.SPIRIT.getColourRGB(), PmEntityAttributes.SPIRIT_RESISTANCE));
 
         iTooltip.add(getSprite(elements, "erosion8x"));
         empty(iTooltip);
-        iTooltip.append(getComponent(entity, EROSION_KEY, PmColourTool.EROSION.getColourRGB(), PmAttributes.EROSION_RESISTANCE));
+        iTooltip.append(getComponent(entity, EROSION_KEY, PmColourTool.EROSION.getColourRGB(), PmEntityAttributes.EROSION_RESISTANCE));
         emptys(iTooltip);
         iTooltip.append(getSprite(elements, "the_soul8x"));
         empty(iTooltip);
-        iTooltip.append(getComponent(entity, THE_SOUL_KEY, PmColourTool.THE_SOUL.getColourRGB(), PmAttributes.THE_SOUL_RESISTANCE));
+        iTooltip.append(getComponent(entity, THE_SOUL_KEY, PmColourTool.THE_SOUL.getColourRGB(), PmEntityAttributes.THE_SOUL_RESISTANCE));
     }
 
     /** 插入N个空格 */

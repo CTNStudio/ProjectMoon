@@ -3,9 +3,12 @@
   "package": "ctn.project_moon.mixin",
   "mixins": [
     "AttributeSupplier$BuilderMixin",
-    "ServerGamePacketListenerImplMixin"
+    "InventoryMixin",
+    "KeyboardInputMixin"
   ],
   "client": [
+    "MinecraftMixin",
+    "MultiPlayerGameModeMixin"
   ],
   "server": [],
   "minVersion": "0.8.7"
