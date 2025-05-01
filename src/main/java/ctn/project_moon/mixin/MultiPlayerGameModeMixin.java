@@ -20,7 +20,7 @@ import static net.minecraft.world.InteractionResult.FAIL;
 public abstract class MultiPlayerGameModeMixin {
 
     @Inject(method = "interactAt", at = @At("HEAD"), cancellable = true)
-    public void interactAt(Player player, Entity target, EntityHitResult ray, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    public void projectMoon$interactAt(Player player, Entity target, EntityHitResult ray, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         if (!player.getPersistentData().getBoolean(PLAYER_ATTACK)) {
             return;
         }
@@ -28,7 +28,7 @@ public abstract class MultiPlayerGameModeMixin {
     }
 
     @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
-    public void useItemOn(LocalPlayer player, InteractionHand hand, BlockHitResult result, CallbackInfoReturnable<InteractionResult> cir) {
+    public void projectMoon$useItemOn(LocalPlayer player, InteractionHand hand, BlockHitResult result, CallbackInfoReturnable<InteractionResult> cir) {
         if (!player.getPersistentData().getBoolean(PLAYER_ATTACK)) {
             return;
         }

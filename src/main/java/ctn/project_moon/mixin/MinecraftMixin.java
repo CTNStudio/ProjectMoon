@@ -26,7 +26,7 @@ public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnabl
     @Shadow public LocalPlayer player;
 
     @Inject(method = "handleKeybinds", at = @At("HEAD"), cancellable = true)
-    protected void handleKeybinds(CallbackInfo ci){
+    protected void projectMoon$handleKeybinds(CallbackInfo ci){
         if (!player.getPersistentData().getBoolean(CANNOT_PLAYER_SWITCH_ITEMS) || this.player.isSpectator()) {
             return;
         }
@@ -47,7 +47,7 @@ public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnabl
     }
 
     @Inject(method = "startAttack", at = @At("HEAD"), cancellable = true)
-    private void startAttack(CallbackInfoReturnable<Boolean> cir) {
+    private void projectMoon$startAttack(CallbackInfoReturnable<Boolean> cir) {
         if (!player.getPersistentData().getBoolean(PLAYER_ATTACK)) {
             return;
         }
@@ -55,7 +55,7 @@ public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnabl
     }
 
     @Inject(method = "pickBlock", at = @At("HEAD"), cancellable = true)
-    private void pickBlock(CallbackInfo ci) {
+    private void projectMoon$pickBlock(CallbackInfo ci) {
         if (!player.getPersistentData().getBoolean(CANNOT_PLAYER_SWITCH_ITEMS)) {
             return;
         }

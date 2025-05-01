@@ -16,7 +16,7 @@ public abstract class MouseHandlerMixin {
     @Shadow @Final private Minecraft minecraft;
 
     @Inject(method = "turnPlayer", at = @At("HEAD"), cancellable = true)
-    private void turnPlayer(CallbackInfo ci) {
+    private void projectMoon$turnPlayer(CallbackInfo ci) {
         if (!(minecraft.player != null && minecraft.player.getPersistentData().getBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE))) {
             return;
         }

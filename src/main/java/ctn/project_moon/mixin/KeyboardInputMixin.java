@@ -18,7 +18,7 @@ public abstract class KeyboardInputMixin extends Input {
     @Final @Shadow private Options options;
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    public void tick(boolean isSneaking, float sneakingSpeedMultiplier, CallbackInfo ci) {
+    public void projectMoon$tick(boolean isSneaking, float sneakingSpeedMultiplier, CallbackInfo ci) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player != null && minecraft.player.getPersistentData().getBoolean(CANNOT_PLAYER_MOVED)) {
             this.up = false;

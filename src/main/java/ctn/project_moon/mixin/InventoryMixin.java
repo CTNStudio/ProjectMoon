@@ -18,7 +18,7 @@ public abstract class InventoryMixin implements Container, Nameable {
     @Final @Shadow public Player player;
 
     @Inject(method = "swapPaint", at = @At("HEAD"), cancellable = true)
-    protected void swapPaint(double direction, CallbackInfo ci){
+    protected void projectMoon$swapPaint(double direction, CallbackInfo ci){
         if (player.getPersistentData().getBoolean(CANNOT_PLAYER_SWITCH_ITEMS)) {
             ci.cancel();
         }
