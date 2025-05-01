@@ -1,9 +1,9 @@
 package ctn.project_moon.registrar;
 
-import ctn.project_moon.init.PmEntityAttributes;
-import ctn.project_moon.init.PmEntity;
-import ctn.project_moon.tool.GradeTypeTool;
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
+import ctn.project_moon.init.PmEntity;
+import ctn.project_moon.init.PmEntityAttributes;
+import ctn.project_moon.tool.GradeTypeTool;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;

@@ -1,8 +1,8 @@
 package ctn.project_moon.datagen;
 
 import ctn.project_moon.config.PmConfig;
-import ctn.project_moon.init.PmItems;
 import ctn.project_moon.init.PmCreativeModeTab;
+import ctn.project_moon.init.PmItems;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -13,8 +13,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.datagen.DatagenCuriosTest.*;
-import static ctn.project_moon.init.PmEntityAttributes.*;
 import static ctn.project_moon.init.PmDamageTypes.*;
+import static ctn.project_moon.init.PmEntityAttributes.*;
 import static ctn.project_moon.linkage.jade.MobEntityResistance.*;
 
 

@@ -12,8 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import static ctn.project_moon.tool.SpiritTool.getSpiritValue;
 import static ctn.project_moon.common.item.PmDataComponents.MODE_BOOLEAN;
+import static ctn.project_moon.tool.SpiritTool.getSpiritValue;
 
 public class CreativeSpiritToolItem extends Item {
     public CreativeSpiritToolItem(Properties properties) {

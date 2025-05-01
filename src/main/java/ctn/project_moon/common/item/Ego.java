@@ -7,8 +7,8 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-import static ctn.project_moon.tool.GradeTypeTool.Level.getEgoLevelTag;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
+import static ctn.project_moon.tool.GradeTypeTool.Level.getEgoLevelTag;
 
 public interface Ego {
     List<TagKey<Item>> DAMAGE_TYPE = List.of(PHYSICS, SPIRIT, EROSION, THE_SOUL);

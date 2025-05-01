@@ -1,9 +1,9 @@
 package ctn.project_moon.events;
 
-import ctn.project_moon.tool.GradeTypeTool;
-import ctn.project_moon.tool.PmColourTool;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
+import ctn.project_moon.tool.GradeTypeTool;
+import ctn.project_moon.tool.PmColourTool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.tool.PmTool.createColorText;
-import static ctn.project_moon.tool.PmTool.i18ColorText;
 import static ctn.project_moon.common.item.Ego.getItemLevel;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static ctn.project_moon.init.PmDamageTypes.Types.egoDamageTypes;
+import static ctn.project_moon.tool.PmTool.createColorText;
+import static ctn.project_moon.tool.PmTool.i18ColorText;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 

@@ -1,17 +1,12 @@
 package ctn.project_moon.events.entity.player;
 
-import ctn.project_moon.common.payload.data.TempNbtAttrData;
-import ctn.project_moon.tool.SpiritTool;
 import ctn.project_moon.api.TempNbtAttr;
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.level.ServerPlayer;
+import ctn.project_moon.tool.SpiritTool;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingSwapItemsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 

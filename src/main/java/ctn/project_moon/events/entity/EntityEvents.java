@@ -1,6 +1,5 @@
 package ctn.project_moon.events.entity;
 
-import ctn.project_moon.tool.GradeTypeTool;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.SetInvulnerabilityTick;
 import ctn.project_moon.common.entity.abnos.Abnos;
@@ -8,6 +7,7 @@ import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.datagen.PmTags;
 import ctn.project_moon.events.DourColorDamageTypesEvent;
 import ctn.project_moon.init.PmDamageTypes;
+import ctn.project_moon.tool.GradeTypeTool;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -23,16 +23,16 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.events.entity.player.PlayerEvents.resetAfterDeath;
-import static ctn.project_moon.tool.GradeTypeTool.Level.*;
-import static ctn.project_moon.tool.GradeTypeTool.damageMultiple;
-import static ctn.project_moon.tool.SpiritTool.*;
 import static ctn.project_moon.common.item.Ego.getItemLevelValue;
 import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
-import static ctn.project_moon.init.PmEntityAttributes.*;
+import static ctn.project_moon.events.entity.player.PlayerEvents.resetAfterDeath;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
+import static ctn.project_moon.init.PmEntityAttributes.*;
+import static ctn.project_moon.tool.GradeTypeTool.Level.*;
+import static ctn.project_moon.tool.GradeTypeTool.damageMultiple;
+import static ctn.project_moon.tool.SpiritTool.*;
 
 /**
  * 实体事件

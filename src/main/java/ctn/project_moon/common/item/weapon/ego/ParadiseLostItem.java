@@ -2,9 +2,8 @@ package ctn.project_moon.common.item.weapon.ego;
 
 import com.zigythebird.playeranimatorapi.API.PlayerAnimAPI;
 import com.zigythebird.playeranimatorapi.data.PlayerParts;
-import ctn.project_moon.common.item.PlayerAnim;
-import ctn.project_moon.tool.PlayerAnimTool;
 import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
+import ctn.project_moon.common.item.PlayerAnim;
 import ctn.project_moon.common.item.weapon.Weapon;
 import ctn.project_moon.common.models.PmGeoItemModel;
 import ctn.project_moon.tool.PmTool;
@@ -47,7 +46,6 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim {
         return 666;
     }
 
-    // TODO 其他玩家无法看到动画
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = super.use(level, player, hand).getObject();
@@ -63,7 +61,6 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim {
         }
         enterAttackState(level, player, ATTACK);
         nbt.putBoolean(CANNOT_PLAYER_SWITCH_ITEMS, true);
-        nbt.putBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE, true);
         nbt.putBoolean(CANNOT_PLAYER_MOVED, true);
         player.startUsingItem(hand);
         return InteractionResultHolder.success(itemstack);
@@ -81,9 +78,6 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim {
         if (!nbt.getBoolean(CANNOT_PLAYER_SWITCH_ITEMS)){
             nbt.putBoolean(CANNOT_PLAYER_SWITCH_ITEMS, true);
         }
-        if (!nbt.getBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE)){
-            nbt.putBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE, true);
-        }
         if (!nbt.getBoolean(CANNOT_PLAYER_MOVED)){
             nbt.putBoolean(CANNOT_PLAYER_MOVED, true);
         }
@@ -95,6 +89,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim {
                 PlayerAnimAPI.playPlayerAnim(serverLevel, player, PlayerAnim.getAnimationID(CONTINUOUS_ATTACK),
                         PlayerParts.allExceptHeadRot(), null, 2000);
             }
+            nbt.putBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE, true);
             chargingAttack(level, player);
             nbt.putInt(ITEM_TICK, 0);
         }
@@ -178,6 +173,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim {
         }
     }
 
+    // TODO 待优化：尖刺会锁定创造玩家，会被各种各样的方块拦住，有时会同时锁定同一个生物攻击
     /** 召唤一个 */
     public static void normalAttack(Level level, LivingEntity entity){
         if (!(level instanceof ServerLevel serverLevel)) {

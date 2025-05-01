@@ -23,11 +23,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.tool.SpiritTool.*;
 import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.*;
+import static ctn.project_moon.tool.SpiritTool.*;
 
 @EventBusSubscriber(modid = MOD_ID)
 public class DourColorDamageEvents {
