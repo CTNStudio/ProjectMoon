@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -23,16 +22,16 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.api.MobGeneralAttr.*;
+import static ctn.project_moon.api.SpiritAttr.*;
 import static ctn.project_moon.common.item.Ego.getItemLevelValue;
-import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
-import static ctn.project_moon.events.entity.player.PlayerEvents.resetAfterDeath;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
 import static ctn.project_moon.init.PmEntityAttributes.*;
+import static ctn.project_moon.init.PmItemDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.tool.GradeTypeTool.Level.*;
 import static ctn.project_moon.tool.GradeTypeTool.damageMultiple;
-import static ctn.project_moon.tool.SpiritTool.*;
 
 /**
  * 实体事件
@@ -173,16 +172,12 @@ public class EntityEvents {
      */
     @SubscribeEvent
     public static void deathEvent(LivingDeathEvent event) {
-        LivingEntity livingEntity = event.getEntity();
-        if (livingEntity instanceof Player player){
-            resetAfterDeath(player);
-        }
     }
 
     @SubscribeEvent
     public static void addSpirtAttyibute(EntityJoinLevelEvent event){
         if (event.getEntity() instanceof LivingEntity entity && entity.getAttributes().hasAttribute(MAX_SPIRIT)){
-            processAttributeInformation(entity);
+            addSpiritAttr(entity);
         }
     }
 
@@ -190,7 +185,11 @@ public class EntityEvents {
      * 自然恢复理智值
      */
     @SubscribeEvent
-    public static void refreshSpiritValue(EntityTickEvent.Pre event) {
+    public static void entityTickEvent(EntityTickEvent.Pre event) {
+        refreshSpiritValue(event);
+    }
+
+    private static void refreshSpiritValue(EntityTickEvent.Pre event) {
         if (!(event.getEntity() instanceof LivingEntity entity)) {
             return;
         }
@@ -201,18 +200,14 @@ public class EntityEvents {
         if (getInjuryCount(entity) != 0) {
             incrementInjuryCount(entity, -1);
         }
-        if (!PmConfig.SERVER.ENABLE_LOW_RATIONALITY_NEGATIVE_EFFECT.get()){
-            return;
-        }
-        if (!(nbt.contains(SPIRIT_VALUE) && nbt.contains(SPIRIT_RECOVERY_TICK))) {
-            return;
-        }
-        if (getSpiritValue(entity) < 0 || getInjuryCount(entity) != 0) {
+        if (!PmConfig.SERVER.ENABLE_LOW_RATIONALITY_NEGATIVE_EFFECT.get() ||
+                !(nbt.contains(SPIRIT_VALUE) && nbt.contains(SPIRIT_RECOVERY_TICK))||
+                getSpiritValue(entity) < 0 ||
+                getInjuryCount(entity) != 0) {
             return;
         }
         incrementSpiritRecoveryTicks(entity, 1);
-        int ticks =  getSpiritRecoveryTicks(entity);
-        if (ticks < (int) (20 / entity.getAttributeValue(SPIRIT_NATURAL_RECOVERY_RATE))) {
+        if (getSpiritRecoveryTicks(entity) < (int) (20 / entity.getAttributeValue(SPIRIT_NATURAL_RECOVERY_RATE))) {
             return;
         }
         incrementSpiritValue(entity, (int) entity.getAttributeValue(SPIRIT_RECOVERY_AMOUNT));

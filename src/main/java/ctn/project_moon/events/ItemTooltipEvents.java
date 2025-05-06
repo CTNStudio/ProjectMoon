@@ -1,9 +1,15 @@
 package ctn.project_moon.events;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import ctn.project_moon.common.RandomDamageProcessor;
+import ctn.project_moon.common.item.RequestItems;
+import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
 import ctn.project_moon.tool.GradeTypeTool;
 import ctn.project_moon.tool.PmColourTool;
+import ctn.project_moon.tool.PmTool;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.TagKey;
@@ -11,6 +17,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Fireworks;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -25,10 +32,14 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.common.item.Ego.getItemLevel;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static ctn.project_moon.init.PmDamageTypes.Types.egoDamageTypes;
-import static ctn.project_moon.tool.PmTool.createColorText;
-import static ctn.project_moon.tool.PmTool.i18ColorText;
+import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
+import static ctn.project_moon.tool.PmTool.*;
+import static net.minecraft.client.gui.screens.Screen.hasControlDown;
+import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_CONTROL;
 
 /**
  * 物品提示/描述处理
@@ -46,15 +57,65 @@ public class ItemTooltipEvents {
     public static void itemTooltip(final ItemTooltipEvent event) {
         List<Component> componentList = event.getToolTip();
         ItemStack stack = event.getItemStack();
+        if (stack.getItem() instanceof RequestItems && !Minecraft.ON_OSX ?
+                InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_LEFT_CONTROL) :
+                InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_RIGHT_CONTROL)) {
+            detailedText(event, stack, componentList);
+            return;
+        }
         levelText(componentList, stack);
-        injuryType(componentList, stack);
         randomDamageText(event, componentList);
+        if (stack.getItem() instanceof RequestItems) {
+            componentList.add(2, Component.translatable(MOD_ID + ".item_tooltip.press_the_key",
+                    Component.literal(Minecraft.ON_OSX ? "COMMAND" : "CTRL").withColor(colorConversion("#FFFFFF")))
+                    .withColor(colorConversion("#AAAAAA")));
+        }
+    }
+
+    /** 详细描述文本 */
+    private static void detailedText(ItemTooltipEvent event, ItemStack stack, List<Component> components){
+        components.clear();
+        // 伤害类型文本
+        damageTypeText:{
+            if (stack.getItem() instanceof ChaosKnifeItem) {
+                components.add(i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA"));
+                components.add(Component.literal(" ").append(createColorText(" ????", "#ffb638")));
+                break damageTypeText;
+            }
+            final List<TagKey<Item>> damageTypesTags = egoDamageTypes(stack);
+            final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
+                    .modifiers().stream()
+                    .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
+            if (damageTypesTags.isEmpty()) {
+                if (!isEmpty) {
+                    break damageTypeText;
+                }
+            }
+            final var listIn = new ArrayList<>(damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList());
+            if (listIn.isEmpty()) {
+                listIn.add(PHYSICS);
+            }
+
+            components.add(i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA"));
+            listIn.forEach(it -> components.add(Component.literal(" ").append(i18ColorText(MOD_ID + ".item_tooltip.geo_describe." + it.location().getPath(), COLOR_MAP.get(it)))));
+        }
+
+        // 使用条件
+        conditionsOfUse:{
+            if (stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get())) {
+                ItemColorUsageReq itemColorUsageReq = stack.get(ITEM_COLOR_USAGE_REQ);
+                if (itemColorUsageReq != null) {
+                    itemColorUsageReq.addToTooltip(event.getContext(), components, event.getFlags());
+                }
+            }
+        }
+
     }
 
     /**
      * 等级文本
      */
-    private static void levelText(List<Component> tooltipComponents, ItemStack stack) {
+    private static void levelText(List<Component> components, ItemStack stack) {
         MutableComponent mutableComponent = switch (getItemLevel(stack)) {
             case ZAYIN -> createColorText(GradeTypeTool.Level.ZAYIN.getName(), PmColourTool.ZAYIN.getColour());
             case TETH -> createColorText(GradeTypeTool.Level.TETH.getName(), PmColourTool.TETH.getColour());
@@ -62,37 +123,11 @@ public class ItemTooltipEvents {
             case WAW -> createColorText(GradeTypeTool.Level.WAW.getName(), PmColourTool.WAW.getColour());
             case ALEPH -> createColorText(GradeTypeTool.Level.ALEPH.getName(), PmColourTool.ALEPH.getColour());
         };
-        tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 0, 1), mutableComponent);
-    }
-
-    /**
-     * 伤害类型文本
-     */
-    private static void injuryType(List<Component> tooltipComponents, ItemStack stack) {
-        if (stack.getItem() instanceof ChaosKnifeItem) {
-            return;
-        }
-        final List<TagKey<Item>> damageTypesTags = egoDamageTypes(stack);
-        final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
-                .modifiers().stream()
-                .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
-        if (damageTypesTags.isEmpty()) {
-            if (!isEmpty) {
-                return;
-            }
-        }
-        final var listIn = new ArrayList<>(damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList());
-        if (listIn.isEmpty()) {
-            listIn.add(PHYSICS);
-        }
-
-        tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 1, 2), i18ColorText(MOD_ID + ".item.geo_describe.damage_type", "#AAAAAA"));
-        listIn.forEach(it -> tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 2, 3),
-                i18ColorText(MOD_ID + ".item.geo_describe." + it.location().getPath(), COLOR_MAP.get(it))));
+        components.add(Mth.clamp(components.size(), 0, 1), mutableComponent);
     }
 
     /** 添加随机伤害处理文本*/
-    private static void randomDamageText(ItemTooltipEvent event, List<Component> componentList) {
+    private static void randomDamageText(ItemTooltipEvent event, List<Component> components) {
         if (!(event.getItemStack().getItem() instanceof RandomDamageProcessor item)) {
             return;
         }
@@ -102,7 +137,7 @@ public class ItemTooltipEvents {
         if (maxDamage == minDamage) {
             return;
         }
-        for (Component damageTexts : componentList) {
+        for (Component damageTexts : components) {
             if (!(damageTexts.contains(Component.keybind(Attributes.ATTACK_DAMAGE.value().getDescriptionId())))){
                 continue;
             }

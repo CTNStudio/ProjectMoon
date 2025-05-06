@@ -1,6 +1,4 @@
-这是一个1.21.1的neoForged MOD
-<p>
-这些MOD链接都是github的但大部分在MCMOD百科或者其他MOD发布平台也有（搜名称）
+这是一个我的世界1.21.1版本的NeoForged RPG冒险 MOD
 <hr>
 开发人员
 
@@ -9,6 +7,7 @@
 | [爱玩的小尽](https://space.bilibili.com/1082533225)           | 主程序、策划 |
 | [AmarokIce](https://space.bilibili.com/171428397)        | 程序     |
 | [小史龙吖Slime_Dragon](https://space.bilibili.com/569400746) | 主美     |
+| [星零大队长](https://space.bilibili.com/489185984)            | 美术     |
 
 贡献者
 
@@ -20,6 +19,8 @@
 <hr>
 
 本MOD前置
+<p>
+这些MOD链接都是github的但大部分在MCMOD百科或者其他MOD发布平台也有（搜名称）
 
 | 前置链接及名称                                                                             | 功能           |
 |-------------------------------------------------------------------------------------|--------------|

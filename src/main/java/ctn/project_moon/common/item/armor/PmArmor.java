@@ -15,13 +15,13 @@ import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-public class Armor extends ArmorItem implements Equipable {
+public class PmArmor extends ArmorItem implements Equipable {
 
-    public Armor(Builder builder) {
+    public PmArmor(Builder builder) {
         this(builder.build(), builder);
     }
 
-    public Armor(Properties properties, Builder builder) {
+    public PmArmor(Properties properties, Builder builder) {
         super(builder.material, builder.type, properties.stacksTo(1));
     }
 

@@ -7,15 +7,12 @@ import software.bernie.geckolib.model.GeoModel;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 public class PmGeoItemModel<T extends GeoAnimatable> extends GeoModel<T> {
-    private String path;
+    protected final String path;
 
     public PmGeoItemModel(String path) {
         this.path = path;
     }
-
-    public PmGeoItemModel() {
-    }
-
+    
     public static ResourceLocation fromNamespaceAndPath(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }

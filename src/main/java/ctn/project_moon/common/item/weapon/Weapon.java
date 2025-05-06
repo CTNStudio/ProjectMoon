@@ -1,8 +1,7 @@
 package ctn.project_moon.common.item.weapon;
 
+import ctn.project_moon.client.geo.GeoItemRenderProvider;
 import ctn.project_moon.common.RandomDamageProcessor;
-import ctn.project_moon.common.renderers.PmGeoItemRenderer;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -23,7 +22,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.function.Consumer;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.common.item.PmDataComponents.MODE_BOOLEAN;
+import static ctn.project_moon.init.PmItemDataComponents.MODE_BOOLEAN;
 
 public abstract class Weapon extends Item implements GeoItem, RandomDamageProcessor {
     public static final ResourceLocation ENTITY_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "entity_range");
@@ -35,7 +34,8 @@ public abstract class Weapon extends Item implements GeoItem, RandomDamageProces
      * 是否是特殊物品
      */
     private final boolean isSpecialTemplate;
-    private GeoModel<Weapon> defaultModel;
+    protected GeoModel<Weapon> defaultModel;
+    protected GeoModel<Weapon> guiModel;
 
     public Weapon(Builder builder) {
         this(builder.build(), false, builder.maxDamage, builder.minDamage);
@@ -64,19 +64,13 @@ public abstract class Weapon extends Item implements GeoItem, RandomDamageProces
         this.defaultModel = defaultModel;
     }
 
+    public void setGuiModel(GeoModel<Weapon> guiModel) {
+        this.guiModel = guiModel;
+    }
+
     @Override
     public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-        consumer.accept(new GeoRenderProvider() {
-            private PmGeoItemRenderer<Weapon> renderer;
-
-            @Override
-            public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
-                if (this.renderer == null)
-                    this.renderer = new PmGeoItemRenderer<>(defaultModel);
-
-                return this.renderer;
-            }
-        });
+        consumer.accept(new GeoItemRenderProvider(defaultModel, guiModel));
     }
 
     @Override
@@ -99,9 +93,7 @@ public abstract class Weapon extends Item implements GeoItem, RandomDamageProces
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
-    }
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {}
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

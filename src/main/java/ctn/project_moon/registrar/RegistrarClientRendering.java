@@ -14,9 +14,6 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-/**
- * 没什么特有的客户端事件
- */
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class RegistrarClientRendering {
 

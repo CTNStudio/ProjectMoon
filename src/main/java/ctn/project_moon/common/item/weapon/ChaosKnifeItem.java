@@ -1,8 +1,8 @@
 package ctn.project_moon.common.item.weapon;
 
-import ctn.project_moon.common.item.PmDataComponents;
 import ctn.project_moon.common.item.weapon.ego.CloseCombatEgo;
 import ctn.project_moon.init.PmDamageTypes;
+import ctn.project_moon.init.PmItemDataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -16,9 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.common.item.PmDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.init.PmDamageTypes.Types.*;
 import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;
+import static ctn.project_moon.init.PmItemDataComponents.CURRENT_DAMAGE_TYPE;
 import static ctn.project_moon.tool.PmTool.createColorText;
 import static ctn.project_moon.tool.PmTool.i18ColorText;
 
@@ -30,7 +30,7 @@ public class ChaosKnifeItem extends CloseCombatEgo {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
-        PmDamageTypes.Types s = switch (getType(itemStack.get(PmDataComponents.CURRENT_DAMAGE_TYPE))) {
+        PmDamageTypes.Types s = switch (getType(itemStack.get(PmItemDataComponents.CURRENT_DAMAGE_TYPE))) {
             case PHYSICS -> THE_SOUL;
             case SPIRIT -> PHYSICS;
             case EROSION -> SPIRIT;
@@ -44,7 +44,5 @@ public class ChaosKnifeItem extends CloseCombatEgo {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-        tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 1, 2), i18ColorText(MOD_ID + ".item.geo_describe.damage_type", "#AAAAAA"));
-        tooltipComponents.add(Mth.clamp(tooltipComponents.size(), 2, 3), createColorText(" ????", "#ffb638"));
     }
 }

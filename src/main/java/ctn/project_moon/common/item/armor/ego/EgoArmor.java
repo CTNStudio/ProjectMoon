@@ -1,10 +1,10 @@
 package ctn.project_moon.common.item.armor.ego;
 
-import ctn.project_moon.common.item.armor.Armor;
+import ctn.project_moon.common.item.armor.PmArmor;
 
-import static ctn.project_moon.common.item.PmDataComponents.IS_RESTRAIN;
+import static ctn.project_moon.init.PmItemDataComponents.IS_RESTRAIN;
 
-public class EgoArmor extends Armor {
+public class EgoArmor extends PmArmor {
 
     public EgoArmor(Builder builder) {
         this(builder.build(), builder);

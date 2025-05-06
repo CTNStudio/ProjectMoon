@@ -16,6 +16,7 @@ import java.util.function.Supplier;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+/** 创造模式物品栏 */
 public class PmCreativeModeTab extends CreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> PROJECT_MOON_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_WEAPON =

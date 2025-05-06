@@ -1,9 +1,11 @@
 package ctn.project_moon.datagen;
 
+import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.config.PmConfig;
-import ctn.project_moon.init.PmCreativeModeTab;
-import ctn.project_moon.init.PmItems;
+import ctn.project_moon.init.*;
+import ctn.project_moon.linkage.jade.MobEntityResistance;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -11,11 +13,9 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
+import java.util.function.Supplier;
+
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.datagen.DatagenCuriosTest.*;
-import static ctn.project_moon.init.PmDamageTypes.*;
-import static ctn.project_moon.init.PmEntityAttributes.*;
-import static ctn.project_moon.linkage.jade.MobEntityResistance.*;
 
 
 public class DatagenI18ZhCn extends LanguageProvider {
@@ -25,28 +25,28 @@ public class DatagenI18ZhCn extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        addTab(PmCreativeModeTab.EGO_WEAPON, "E.G.O 武器");
-        addTab(PmCreativeModeTab.EGO_SUIT, "E.G.O 护甲");
-        addTab(PmCreativeModeTab.EGO_CURIOS, "E.G.O 饰品");
-        addTab(PmCreativeModeTab.CREATIVE_TOOL, "奇点科技");
+        add(PmCreativeModeTab.EGO_WEAPON, "E.G.O 武器");
+        add(PmCreativeModeTab.EGO_SUIT, "E.G.O 护甲");
+        add(PmCreativeModeTab.EGO_CURIOS, "E.G.O 饰品");
+        add(PmCreativeModeTab.CREATIVE_TOOL, "奇点科技");
 
-        add(MOD_ID + ".item.geo_describe.damage_type", "伤害类型");
-        add(MOD_ID + ".item.geo_describe.physics", "§f\ue001§r 物理");
-        add(MOD_ID + ".item.geo_describe.spirit", "§f\ue002§r 精神");
-        add(MOD_ID + ".item.geo_describe.erosion", "§f\ue003§r 侵蚀");
-        add(MOD_ID + ".item.geo_describe.the_soul", "§f\ue004§r 灵魂");
+        add(MOD_ID + ".item_tooltip.geo_describe.damage_type", "伤害类型");
+        add(MOD_ID + ".item_tooltip.geo_describe.physics", "§f\ue001§r 物理");
+        add(MOD_ID + ".item_tooltip.geo_describe.spirit", "§f\ue002§r 精神");
+        add(MOD_ID + ".item_tooltip.geo_describe.erosion", "§f\ue003§r 侵蚀");
+        add(MOD_ID + ".item_tooltip.geo_describe.the_soul", "§f\ue004§r 灵魂");
+        add(MOD_ID + ".item_tooltip.press_the_key", "按下 %s 查看详细");
 
-        addPlayerDeathMessage(PHYSICS, "%s死于%s的造成的§4§l物理§r伤害");
-        addPlayerDeathMessage(SPIRIT, "%s死于%s的造成的§l精神§r污染");
-        addPlayerDeathMessage(EROSION, "%s死于%s的造成的§5§l侵蚀§r伤害");
-        addPlayerDeathMessage(THE_SOUL, "%s死于%s的造成的§b§l灵魂§r伤害");
-        addPlayerDeathMessage(EGO, "%s死于%s的§lEGO§r");
-
-        addDeathMessage(PHYSICS, "%s被剁成肉沫了");
-        addDeathMessage(SPIRIT, "%s精神崩溃而死");
-        addDeathMessage(EROSION, "%s因腐蚀而亡");
-        addDeathMessage(THE_SOUL, "%s的灵魂被超度了");
-        addDeathMessage(EGO, "%s死于§lEGO§r");
+        addPlayerDeathMessage(PmDamageTypes.PHYSICS, "%s死于%s的造成的物理伤害");
+        addPlayerDeathMessage(PmDamageTypes.SPIRIT, "%s死于%s的造成的精神污染");
+        addPlayerDeathMessage(PmDamageTypes.EROSION, "%s死于%s的造成的侵蚀伤害");
+        addPlayerDeathMessage(PmDamageTypes.THE_SOUL, "%s死于%s的造成的灵魂伤害");
+        addPlayerDeathMessage(PmDamageTypes.EGO, "%s死于%s的§lEGO");
+        addDeathMessage(PmDamageTypes.PHYSICS, "%s被剁成肉沫了");
+        addDeathMessage(PmDamageTypes.SPIRIT, "%s精神崩溃而死");
+        addDeathMessage(PmDamageTypes.EROSION, "%s因腐蚀而亡");
+        addDeathMessage(PmDamageTypes.THE_SOUL, "%s的灵魂被超度了");
+        addDeathMessage(PmDamageTypes.EGO, "%s死于§lEGO");
 
         addItem(PmItems.CREATIVE_SPIRIT_TOOL, "精神控制工具");
         addItem(PmItems.CHAOS_SWORD, "混沌剑");
@@ -60,35 +60,65 @@ public class DatagenI18ZhCn extends LanguageProvider {
         addItem(PmItems.DRESS_PANTS, "西裤");
         addItem(PmItems.LOAFERS, "便鞋");
 
-        addCurios(HEADWEAR_CURIOS, "头饰");
-        addCurios(HEAD_CURIOS, "头部");
-        addCurios(HINDBRAIN_CURIOS, "后脑");
-        addCurios(EYE_AREA_CURIOS, "眼部");
-        addCurios(FACE_CURIOS, "面部");
-        addCurios(CHEEK_CURIOS, "脸颊");
-        addCurios(MASK_CURIOS, "口罩");
-        addCurios(MOUTH_CURIOS, "口部");
-        addCurios(NECK_CURIOS, "颈部");
-        addCurios(CHEST_CURIOS, "胸部");
-        addCurios(HAND_CURIOS, "手部");
-        addCurios(GLOVE_CURIOS, "手套");
-        addCurios(RIGHT_BACK_CURIOS, "右背");
-        addCurios(LEFT_BACK_CURIOS, "左背");
+        addCurios(DatagenCuriosTest.HEADWEAR_CURIOS, "头饰");
+        addCurios(DatagenCuriosTest.HEAD_CURIOS, "头部");
+        addCurios(DatagenCuriosTest.HINDBRAIN_CURIOS, "后脑");
+        addCurios(DatagenCuriosTest.EYE_AREA_CURIOS, "眼部");
+        addCurios(DatagenCuriosTest.FACE_CURIOS, "面部");
+        addCurios(DatagenCuriosTest.CHEEK_CURIOS, "脸颊");
+        addCurios(DatagenCuriosTest.MASK_CURIOS, "口罩");
+        addCurios(DatagenCuriosTest.MOUTH_CURIOS, "口部");
+        addCurios(DatagenCuriosTest.NECK_CURIOS, "颈部");
+        addCurios(DatagenCuriosTest.CHEST_CURIOS, "胸部");
+        addCurios(DatagenCuriosTest.HAND_CURIOS, "手部");
+        addCurios(DatagenCuriosTest.GLOVE_CURIOS, "手套");
+        addCurios(DatagenCuriosTest.RIGHT_BACK_CURIOS, "右背");
+        addCurios(DatagenCuriosTest.LEFT_BACK_CURIOS, "左背");
 
-        addAttribute(PHYSICS_RESISTANCE, "受物理伤害倍率");
-        addAttribute(SPIRIT_RESISTANCE, "受精神伤害倍率");
-        addAttribute(EROSION_RESISTANCE, "受侵蚀伤害倍率");
-        addAttribute(THE_SOUL_RESISTANCE, "受灵魂伤害倍率");
-        addAttribute(ENTITY_LEVEL, "生物级别");
+        add(PmEntityAttributes.PHYSICS_RESISTANCE, "受物理伤害倍率");
+        add(PmEntityAttributes.SPIRIT_RESISTANCE, "受精神伤害倍率");
+        add(PmEntityAttributes.EROSION_RESISTANCE, "受侵蚀伤害倍率");
+        add(PmEntityAttributes.THE_SOUL_RESISTANCE, "受灵魂伤害倍率");
+        add(PmEntityAttributes.ENTITY_LEVEL, "生物等级");
+        add(PmEntityAttributes.MAX_FORTITUDE, "勇气最大点数");
+        add(PmEntityAttributes.MAX_PRUDENCE, "谨慎最大点数");
+        add(PmEntityAttributes.MAX_TEMPERANCE, "自律最大点数");
+        add(PmEntityAttributes.MAX_JUSTICE, "正义最大点数");
+        add(PmEntityAttributes.COMPOSITE_RATING, "综合评级");
 
-        add(ATTRIBUTE_DESCRIPTION_KEY, "抗性（值越大越抗性越低）");
-        add(PHYSICS_KEY, "物理");
-        add(SPIRIT_KEY, "精神");
-        add(EROSION_KEY, "侵蚀");
-        add(THE_SOUL_KEY, "灵魂");
+        add(MobEntityResistance.ATTRIBUTE_DESCRIPTION_KEY, "抵抗能力");
+        add(MobEntityResistance.PHYSICS_KEY, "物理");
+        add(MobEntityResistance.SPIRIT_KEY, "精神");
+        add(MobEntityResistance.EROSION_KEY, "侵蚀");
+        add(MobEntityResistance.THE_SOUL_KEY, "灵魂");
+
+        addEntityType(PmEntity.TRAINING_RABBITS, "教学兔兔");
+        addEntityType(PmEntity.PARADISE_LOST_SPIKEWEED, "失乐园尖刺");
 
         add("config.jade.plugin_project_moon.level", "生物/方块等级");
         add("config.jade.plugin_project_moon.resistance", "实体抗性");
+
+        add(ItemColorUsageReq.USE_CONDITION, "使用条件");
+        add(ItemColorUsageReq.All, "无");
+        add(ItemColorUsageReq.REQUIREMENT, "只能为");
+        add(ItemColorUsageReq.INTERVAL, "只能为 %d 至 %d ");
+        add(ItemColorUsageReq.NOT_TO_EXCEED, "不能高于");
+        add(ItemColorUsageReq.NOT_LOWER_THAN, "至少为");
+        add(ItemColorUsageReq.Type.FORTITUDE.getSerializedName(), "勇气");
+        add(ItemColorUsageReq.Type.PRUDENCE.getSerializedName(), "谨慎");
+        add(ItemColorUsageReq.Type.TEMPERANCE.getSerializedName(), "自律");
+        add(ItemColorUsageReq.Type.JUSTICE.getSerializedName(), "正义");
+        add(ItemColorUsageReq.Type.COMPOSITE_RATING.getSerializedName(), "综合评级");
+        add(ItemColorUsageReq.Rating.I.getName(), "I");
+        add(ItemColorUsageReq.Rating.II.getName(), "II");
+        add(ItemColorUsageReq.Rating.III.getName(), "III");
+        add(ItemColorUsageReq.Rating.IV.getName(), "IV");
+        add(ItemColorUsageReq.Rating.V.getName(), "V");
+        add(ItemColorUsageReq.Rating.EX.getName(), "EX");
+
+        add(PmItemDataComponents.MODE_BOOLEAN, "模式开关");
+        add(PmItemDataComponents.IS_RESTRAIN, "抑制器影响");
+        add(PmItemDataComponents.CURRENT_DAMAGE_TYPE, "伤害类型");
 
         add(PmConfig.translationKey("enable_four_color_damage"), "四色伤害（物理、精神、侵蚀、灵魂）");
         add(PmConfig.commentKey("enable_four_color_damage"), "同时也会禁用对应的抗性，以及对应的效果");
@@ -121,8 +151,12 @@ public class DatagenI18ZhCn extends LanguageProvider {
         add("project_moon.configuration.section.project.moon.client.toml.title", "客户端设置 · 这些仅会修改视觉效果不会修改游戏内容");
     }
 
+    public <T> void add(Supplier<DataComponentType<T>> dataComponentType, String name) {
+        add(dataComponentType.get().toString(), name);
+    }
+
     /** 生物属性翻译 */
-    public void addAttribute(Holder<Attribute> attributeHolder, String name) {
+    public void add(Holder<Attribute> attributeHolder, String name) {
         add(attributeHolder.value().getDescriptionId(), name);
     }
 
@@ -143,7 +177,7 @@ public class DatagenI18ZhCn extends LanguageProvider {
     /**
      * 创造模式物品栏名称翻译
      */
-    public <R, T extends R> void addTab(DeferredHolder<R, T> itemGroup, String name) {
+    public <R, T extends R> void add(DeferredHolder<R, T> itemGroup, String name) {
         add("itemGroup." + itemGroup.getId().toString().replace(":", "."), name);
     }
 

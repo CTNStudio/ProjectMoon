@@ -18,19 +18,6 @@ import static ctn.project_moon.api.TempNbtAttr.PLAYER_ATTACK;
 import static ctn.project_moon.api.TempNbtAttr.PLAYER_USE_ITEM;
 
 public interface PlayerAnim {
-    default void executeLeftKeyEmpty(Player player) {}
-    default void executeLeftKeyBlock(Player player) {}
-    default void executeLeftKeyEntity(Player player) {}
-    default void executeRightKeyEmpty(Player player) {}
-    default void executeRightKeyBlock(Player player) {}
-    default void executeRightKeyEntity(Player player) {}
-    default boolean isLeftKeyEmpty() {return false;}
-    default boolean isLeftKeyBlock() {return false;}
-    default boolean isLeftKeyEntity() {return false;}
-    default boolean isRightKeyEmpty() {return false;}
-    default boolean isRightKeyBlock() {return false;}
-    default boolean isRightKeyEntity() {return false;}
-
     /** 强制打断 */
     void forcedInterruption(Level level, Player player);
 

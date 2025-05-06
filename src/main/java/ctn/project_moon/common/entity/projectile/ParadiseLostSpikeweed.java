@@ -1,11 +1,11 @@
 package ctn.project_moon.common.entity.projectile;
 
+import ctn.project_moon.api.SpiritAttr;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.SetInvulnerabilityTick;
 import ctn.project_moon.common.models.PmGeoEntityModel;
 import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.init.PmEntityAttributes;
-import ctn.project_moon.tool.SpiritTool;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -128,7 +128,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
         }
         int value = livingentity.getRandom().nextInt(2, 4 + 1);
         livingentity.heal(value);
-        SpiritTool.incrementSpiritValue(livingentity, value);
+        SpiritAttr.incrementSpiritValue(livingentity, value);
     }
 
     private boolean dealDamageTo(Entity target) {

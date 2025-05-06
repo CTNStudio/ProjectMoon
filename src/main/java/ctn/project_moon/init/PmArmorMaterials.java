@@ -1,6 +1,5 @@
-package ctn.project_moon.common.item;
+package ctn.project_moon.init;
 
-import ctn.project_moon.init.PmSoundEvents;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;

@@ -1,6 +1,6 @@
 package ctn.project_moon.common.item;
 
-import ctn.project_moon.tool.SpiritTool;
+import ctn.project_moon.api.SpiritAttr;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -12,8 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import static ctn.project_moon.common.item.PmDataComponents.MODE_BOOLEAN;
-import static ctn.project_moon.tool.SpiritTool.getSpiritValue;
+import static ctn.project_moon.api.SpiritAttr.getSpiritValue;
+import static ctn.project_moon.init.PmItemDataComponents.MODE_BOOLEAN;
 
 public class CreativeSpiritToolItem extends Item {
     public CreativeSpiritToolItem(Properties properties) {
@@ -29,7 +29,7 @@ public class CreativeSpiritToolItem extends Item {
                 return InteractionResultHolder.success(itemStack);
             }
             if (!level.isClientSide()) {
-                SpiritTool.incrementSpiritValue(player, itemStack.get(MODE_BOOLEAN) ? -1 : 1);
+                SpiritAttr.incrementSpiritValue(player, itemStack.get(MODE_BOOLEAN) ? -1 : 1);
                 return InteractionResultHolder.success(itemStack);
             }
         }

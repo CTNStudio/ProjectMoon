@@ -8,9 +8,14 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.regex.Pattern;
+
 public class PmTool {
 
     public static int colorConversion(String color) {
+        if (color == null){
+            throw new RuntimeException("The input color value cannot be empty. ");
+        }
         return TextColor.parseColor(color).getOrThrow().getValue();
     }
 
@@ -19,10 +24,19 @@ public class PmTool {
     }
 
     public static @NotNull MutableComponent createColorText(String text, String color) {
+        color = handleColor(color);
         return Component.literal(text).withColor(PmTool.colorConversion(color));
     }
 
+    private static @NotNull String handleColor(String color) {
+        if (color == null || Pattern.matches(color, "^#[a-zA-Z\\d]{6}")) {
+            color = "#ffffff";
+        }
+        return color;
+    }
+
     public static @NotNull MutableComponent i18ColorText(String text, String color) {
+        color = handleColor(color);
         return Component.translatable(text).withColor(PmTool.colorConversion(color));
     }
 

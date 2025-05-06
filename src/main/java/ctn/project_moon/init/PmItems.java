@@ -1,8 +1,7 @@
 package ctn.project_moon.init;
 
 import ctn.project_moon.common.item.CreativeSpiritToolItem;
-import ctn.project_moon.common.item.PmArmorMaterials;
-import ctn.project_moon.common.item.armor.Armor;
+import ctn.project_moon.common.item.armor.PmArmor;
 import ctn.project_moon.common.item.armor.ego.EgoArmor;
 import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
 import ctn.project_moon.common.item.weapon.DetonatingBatonItem;
@@ -47,11 +46,11 @@ public class PmItems {
 
     // 护甲
     public static final DeferredItem<Item> SUIT = createArmorItem("suit",
-            Armor::new, new Armor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.CHESTPLATE));
+            PmArmor::new, new PmArmor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.CHESTPLATE));
     public static final DeferredItem<Item> DRESS_PANTS = createArmorItem("dress_pants",
-            Armor::new, new Armor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.LEGGINGS));
+            PmArmor::new, new PmArmor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.LEGGINGS));
     public static final DeferredItem<Item> LOAFERS = createArmorItem("loafers",
-            Armor::new, new Armor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
+            PmArmor::new, new PmArmor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
 
     // 饰品
 
@@ -84,10 +83,10 @@ public class PmItems {
         return ITEMS.registerItem(name, item, new Item.Properties().stacksTo(1));
     }
 
-    private static DeferredItem<Item> createArmorItem(String name, Function<Armor.Builder, ? extends Armor> armorItem, Armor.Builder builder){
+    private static DeferredItem<Item> createArmorItem(String name, Function<PmArmor.Builder, ? extends PmArmor> armorItem, PmArmor.Builder builder){
         return ITEMS.register(name, () -> armorItem.apply(builder));
     }
-    private static DeferredItem<Item> createEgoArmorItem(String name, Function<Armor.Builder, ? extends EgoArmor> armorItem, Armor.Builder builder){
+    private static DeferredItem<Item> createEgoArmorItem(String name, Function<PmArmor.Builder, ? extends EgoArmor> armorItem, PmArmor.Builder builder){
         return ITEMS.register(name, () -> armorItem.apply(builder));
     }
 

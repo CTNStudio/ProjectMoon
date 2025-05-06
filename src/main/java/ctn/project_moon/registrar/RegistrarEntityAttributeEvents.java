@@ -30,7 +30,7 @@ public class RegistrarEntityAttributeEvents {
     /** 添加或修改属性 */
     @SubscribeEvent
     public static void add(EntityAttributeModificationEvent event) {
-        addSpiritAttributes(event, PLAYER);
+        addAttributes(event, PLAYER);
         setFourColorResistanceAttributes(event, WARDEN, ALEPH, 0.6, 1.2, 0.8, 0.2);
         setFourColorResistanceAttributes(event, ENDER_DRAGON, ALEPH, 0.5, 0.5, 0.5, 0.5);
         setFourColorResistanceAttributes(event, WITHER, ALEPH, 0.5, 0.7, -1.0, 1.0);
@@ -75,10 +75,16 @@ public class RegistrarEntityAttributeEvents {
         setFourColorResistanceAttributes(event, entityType, physics, spirit, erosion, theSoul);
     }
 
-    private static void addSpiritAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType) {
+    private static void addAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType) {
         event.add(entityType, PmEntityAttributes.MAX_SPIRIT);
         event.add(entityType, PmEntityAttributes.SPIRIT_NATURAL_RECOVERY_RATE);
         event.add(entityType, PmEntityAttributes.SPIRIT_RECOVERY_AMOUNT);
+        event.add(entityType, PmEntityAttributes.MAX_FORTITUDE);
+        event.add(entityType, PmEntityAttributes.MAX_PRUDENCE);
+        event.add(entityType, PmEntityAttributes.MAX_TEMPERANCE);
+        event.add(entityType, PmEntityAttributes.MAX_JUSTICE);
+        event.add(entityType, PmEntityAttributes.COMPOSITE_RATING);
+        event.add(entityType, PmEntityAttributes.ID_ACT);
     }
 
     private static void setFourColorResistanceAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, double physics, double spirit, double erosion, double theSoul) {
