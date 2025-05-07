@@ -108,7 +108,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
                 int i = entityList.size();
                 if (i > 0) {
                     for (int j = 0; j < i; j++) {
-                        Entity livingEntity = (targetEntity != NULL && targetEntity.isAlive() && targetEntity.isAttackable())?
+                        Entity livingEntity = (targetEntity != null && targetEntity.isAlive() && targetEntity.isAttackable())?
                                 targetEntity:entityList.get(level().getRandom().nextInt(i));
                         if (!dealDamageTo(livingEntity)) {
                             continue;
