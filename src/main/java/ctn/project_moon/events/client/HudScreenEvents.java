@@ -4,22 +4,18 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
-import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-/**
- * 屏幕相关事件
- */
 @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
-public class ScreenEvents {
+public class HudScreenEvents {
     @SubscribeEvent
-    public static void renderGuiEventPre(RenderGuiLayerEvent.Pre event) {
+    public static void renderGuiEventPre(RenderGuiEvent.Pre event) {
 
     }
 
     @SubscribeEvent
-    public static void renderGuiEventPost(RenderGuiLayerEvent.Post event) {
+    public static void renderGuiEventPost(RenderGuiEvent.Post event) {
 
     }
 }

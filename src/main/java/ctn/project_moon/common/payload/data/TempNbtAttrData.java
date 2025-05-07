@@ -17,7 +17,7 @@ public record TempNbtAttrData(boolean isPlayerUseItem, boolean isPlayerAttack , 
                               int playerUseItemTick, int playerUseTick) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<TempNbtAttrData> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "temp_nbt_attr_data"));
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "data.temp_nbt_attr"));
 
     public static final StreamCodec<ByteBuf, TempNbtAttrData> CODEC = NeoForgeStreamCodecs.composite(
             ByteBufCodecs.BOOL, TempNbtAttrData::isPlayerUseItem,

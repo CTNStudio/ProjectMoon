@@ -18,7 +18,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
  * 物品组件
  */
 public class PmItemDataComponents {
-    public static final DeferredRegister<DataComponentType<?>> ITEM_DATA_COMPONENTS = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, MOD_ID);
+    public static final DeferredRegister<DataComponentType<?>> ITEM_DATA_COMPONENT_REGISTER = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, MOD_ID);
 
     public static final Supplier<DataComponentType<Boolean>> MODE_BOOLEAN = recordBoolean("mode_boolean");
     /**
@@ -48,6 +48,6 @@ public class PmItemDataComponents {
     }
 
     public static <B extends DataComponentType<?>> DeferredHolder<DataComponentType<?>, B> register(String name, Supplier<? extends B> builder) {
-        return ITEM_DATA_COMPONENTS.register("data_components." + name, builder);
+        return ITEM_DATA_COMPONENT_REGISTER.register("data_components." + name, builder);
     }
 }

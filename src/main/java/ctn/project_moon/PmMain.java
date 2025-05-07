@@ -2,8 +2,6 @@ package ctn.project_moon;
 
 import com.mojang.logging.LogUtils;
 import ctn.project_moon.config.PmConfig;
-import ctn.project_moon.init.PmBlocks;
-import ctn.project_moon.init.PmItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -21,13 +19,16 @@ import org.slf4j.Logger;
 
 import static ctn.project_moon.datagen.DatagenCuriosTest.*;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
-import static ctn.project_moon.init.PmArmorMaterials.ARMOR_MATERIALS_TYPES;
-import static ctn.project_moon.init.PmCreativeModeTab.PROJECT_MOON_TAB;
-import static ctn.project_moon.init.PmEntity.ENTITY_TYPE;
-import static ctn.project_moon.init.PmEntityAttributes.PM_ATTRIBUTE;
-import static ctn.project_moon.init.PmItemDataComponents.ITEM_DATA_COMPONENTS;
-import static ctn.project_moon.init.PmParticleTypes.PARTICLE_TYPES;
-import static ctn.project_moon.init.PmSoundEvents.SOUND_EVENT_TYPES;
+import static ctn.project_moon.init.PmArmorMaterials.ARMOR_MATERIALS_TYPE_REGISTER;
+import static ctn.project_moon.init.PmBlocks.BLOCK_REGISTER;
+import static ctn.project_moon.init.PmCreativeModeTab.PROJECT_MOON_TAB_REGISTER;
+import static ctn.project_moon.init.PmEntity.ENTITY_TYPE_REGISTER;
+import static ctn.project_moon.init.PmEntityAttributes.PM_ATTRIBUTE_REGISTER;
+import static ctn.project_moon.init.PmItemDataComponents.ITEM_DATA_COMPONENT_REGISTER;
+import static ctn.project_moon.init.PmItems.ITEM_REGISTER;
+import static ctn.project_moon.init.PmMenuType.MENU_TYPE_REGISTER;
+import static ctn.project_moon.init.PmParticleTypes.PARTICLE_TYPE_REGISTER;
+import static ctn.project_moon.init.PmSoundEvents.SOUND_EVENT_TYPE_REGISTER;
 import static top.theillusivec4.curios.api.CuriosApi.registerCurioPredicate;
 
 @Mod(PmMain.MOD_ID)
@@ -41,15 +42,17 @@ public class PmMain {
         modContainer.registerConfig(ModConfig.Type.SERVER, PmConfig.SERVER_SPEC);
         modContainer.registerConfig(ModConfig.Type.CLIENT, PmConfig.CLIENT_SPEC);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-        PmBlocks.BLOCKS.register(modEventBus);
-        PmItems.ITEMS.register(modEventBus);
-        PROJECT_MOON_TAB.register(modEventBus);
-        PM_ATTRIBUTE.register(modEventBus);
-        PARTICLE_TYPES.register(modEventBus);
-        ARMOR_MATERIALS_TYPES.register(modEventBus);
-        SOUND_EVENT_TYPES.register(modEventBus);
-        ENTITY_TYPE.register(modEventBus);
-        ITEM_DATA_COMPONENTS.register(modEventBus);
+
+        BLOCK_REGISTER.register(modEventBus);
+        ITEM_REGISTER.register(modEventBus);
+        PROJECT_MOON_TAB_REGISTER.register(modEventBus);
+        PM_ATTRIBUTE_REGISTER.register(modEventBus);
+        PARTICLE_TYPE_REGISTER.register(modEventBus);
+        ARMOR_MATERIALS_TYPE_REGISTER.register(modEventBus);
+        SOUND_EVENT_TYPE_REGISTER.register(modEventBus);
+        ENTITY_TYPE_REGISTER.register(modEventBus);
+        ITEM_DATA_COMPONENT_REGISTER.register(modEventBus);
+        MENU_TYPE_REGISTER.register(modEventBus);
 
         createValidators();
         NeoForge.EVENT_BUS.register(this);

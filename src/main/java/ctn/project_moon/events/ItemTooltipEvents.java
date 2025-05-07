@@ -55,61 +55,64 @@ public class ItemTooltipEvents {
 
     @SubscribeEvent
     public static void itemTooltip(final ItemTooltipEvent event) {
-        List<Component> componentList = event.getToolTip();
+        List<Component> components = event.getToolTip();
         ItemStack stack = event.getItemStack();
-        if (stack.getItem() instanceof RequestItems && !Minecraft.ON_OSX ?
-                InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_LEFT_CONTROL) :
-                InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_RIGHT_CONTROL)) {
-            detailedText(event, stack, componentList);
+        levelText(components, stack);
+        randomDamageText(event, components);
+        damageTypeText(stack, components);
+
+        itemReminderText(stack, components);
+        detailedText(event, stack, components);
+    }
+
+    /** 提示文本 */
+    private static void itemReminderText(ItemStack stack, List<Component> components) {
+        if (!(stack.getItem() instanceof RequestItems)) {
             return;
         }
-        levelText(componentList, stack);
-        randomDamageText(event, componentList);
-        if (stack.getItem() instanceof RequestItems) {
-            componentList.add(2, Component.translatable(MOD_ID + ".item_tooltip.press_the_key",
-                    Component.literal(Minecraft.ON_OSX ? "COMMAND" : "CTRL").withColor(colorConversion("#FFFFFF")))
-                    .withColor(colorConversion("#AAAAAA")));
+        components.add(2, Component.translatable(MOD_ID + ".item_tooltip.press_the_key",
+                        Component.literal(Minecraft.ON_OSX ? "COMMAND" : "CTRL").withColor(colorConversion("#FFFFFF")))
+                .withColor(colorConversion("#AAAAAA")));
+    }
+
+    /** 伤害类型文本 */
+    private static void damageTypeText(ItemStack stack, List<Component> components) {
+        if (stack.getItem() instanceof ChaosKnifeItem) {
+            components.add(i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA"));
+            components.add(Component.literal(" ").append(createColorText(" ????", "#ffb638")));
+            return;
         }
+        final List<TagKey<Item>> damageTypesTags = egoDamageTypes(stack);
+        final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
+                .modifiers().stream()
+                .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
+        if (damageTypesTags.isEmpty()) {
+            if (!isEmpty) {
+                return;
+            }
+        }
+        final var listIn = new ArrayList<>(damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList());
+        if (listIn.isEmpty()) {
+            listIn.add(PHYSICS);
+        }
+
+        components.add(Mth.clamp(components.size(), 1, 2),i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA"));
+        listIn.forEach(it -> components.add(Mth.clamp(components.size(), 2, 3), Component.literal(" ").append(i18ColorText(MOD_ID + ".item_tooltip.geo_describe." + it.location().getPath(), COLOR_MAP.get(it)))));
     }
 
     /** 详细描述文本 */
     private static void detailedText(ItemTooltipEvent event, ItemStack stack, List<Component> components){
+        if (stack.getItem() instanceof RequestItems && !Minecraft.ON_OSX ? !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_LEFT_CONTROL) : !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_RIGHT_CONTROL)) {
+            return;
+        }
         components.clear();
-        // 伤害类型文本
-        damageTypeText:{
-            if (stack.getItem() instanceof ChaosKnifeItem) {
-                components.add(i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA"));
-                components.add(Component.literal(" ").append(createColorText(" ????", "#ffb638")));
-                break damageTypeText;
-            }
-            final List<TagKey<Item>> damageTypesTags = egoDamageTypes(stack);
-            final boolean isEmpty = Objects.requireNonNullElse(stack.getComponents().get(ATTRIBUTE_MODIFIERS), ItemAttributeModifiers.EMPTY)
-                    .modifiers().stream()
-                    .anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
-            if (damageTypesTags.isEmpty()) {
-                if (!isEmpty) {
-                    break damageTypeText;
-                }
-            }
-            final var listIn = new ArrayList<>(damageTypesTags.stream().filter(COLOR_MAP::containsKey).toList());
-            if (listIn.isEmpty()) {
-                listIn.add(PHYSICS);
-            }
-
-            components.add(i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA"));
-            listIn.forEach(it -> components.add(Component.literal(" ").append(i18ColorText(MOD_ID + ".item_tooltip.geo_describe." + it.location().getPath(), COLOR_MAP.get(it)))));
-        }
-
         // 使用条件
-        conditionsOfUse:{
-            if (stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get())) {
-                ItemColorUsageReq itemColorUsageReq = stack.get(ITEM_COLOR_USAGE_REQ);
-                if (itemColorUsageReq != null) {
-                    itemColorUsageReq.addToTooltip(event.getContext(), components, event.getFlags());
-                }
+        if (stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get())) {
+            ItemColorUsageReq itemColorUsageReq = stack.get(ITEM_COLOR_USAGE_REQ);
+            if (itemColorUsageReq != null) {
+                itemColorUsageReq.addToTooltip(event.getContext(), components, event.getFlags());
             }
         }
-
     }
 
     /**

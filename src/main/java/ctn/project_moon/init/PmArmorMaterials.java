@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 public class PmArmorMaterials {
-    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS_TYPES = DeferredRegister.create(BuiltInRegistries.ARMOR_MATERIAL, MOD_ID);
+    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS_TYPE_REGISTER = DeferredRegister.create(BuiltInRegistries.ARMOR_MATERIAL, MOD_ID);
 
     // EGO护甲
     public static final Holder<ArmorMaterial> ZAYIN = register("zayin",1,2,3,1,3 ,9,
@@ -91,6 +91,6 @@ public class PmArmorMaterials {
         for (ArmorItem.Type armoritem$type : ArmorItem.Type.values()) {
             enummap.put(armoritem$type, defense.get(armoritem$type));
         }
-        return ARMOR_MATERIALS_TYPES.register(name, () -> new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngridient, layers, toughness, knockbackResistance));
+        return ARMOR_MATERIALS_TYPE_REGISTER.register(name, () -> new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngridient, layers, toughness, knockbackResistance));
     }
 }

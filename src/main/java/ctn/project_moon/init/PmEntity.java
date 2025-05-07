@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 public class PmEntity {
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPE = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPE_REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MOD_ID);
 
     public static final Supplier<EntityType<TrainingRabbits>> TRAINING_RABBITS = registerEntity("training_rabbits",
             EntityType.Builder.of(TrainingRabbits::new, MobCategory.MISC)
@@ -35,6 +35,6 @@ public class PmEntity {
     }
 
     public static  <I extends EntityType<?>> DeferredHolder<EntityType<?>, I> register(final String name, final Supplier<? extends I> sup) {
-        return ENTITY_TYPE.register(name, sup);
+        return ENTITY_TYPE_REGISTER.register(name, sup);
     }
 }

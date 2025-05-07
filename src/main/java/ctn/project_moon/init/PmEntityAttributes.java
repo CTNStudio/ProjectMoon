@@ -12,7 +12,7 @@ import static ctn.project_moon.tool.GradeTypeTool.Level.ALEPH;
 import static ctn.project_moon.tool.GradeTypeTool.Level.ZAYIN;
 
 public class PmEntityAttributes {
-    public static final DeferredRegister<Attribute> PM_ATTRIBUTE = DeferredRegister.create(Registries.ATTRIBUTE, MOD_ID);
+    public static final DeferredRegister<Attribute> PM_ATTRIBUTE_REGISTER = DeferredRegister.create(Registries.ATTRIBUTE, MOD_ID);
     /// 伤害抵抗能力 越大越受到的伤害越高 1.0是不做出任何改变
     /** 物理伤害抵抗能力 */
     public static final Holder<Attribute> PHYSICS_RESISTANCE = registerRangedAttribute("generic.physics_resistance", "attribute.name.generic.physics_resistance", 1.0, -1024, 1024);
@@ -59,10 +59,10 @@ public class PmEntityAttributes {
 
 
     public static Holder<Attribute> registerRangedAttribute(String name, String descriptionId, double defaultValue, double min, double max){
-        return PM_ATTRIBUTE.register(name, () -> new RangedAttribute(MOD_ID + "." + descriptionId, defaultValue, min, max).setSyncable(true));
+        return PM_ATTRIBUTE_REGISTER.register(name, () -> new RangedAttribute(MOD_ID + "." + descriptionId, defaultValue, min, max).setSyncable(true));
     }
 
     public static Holder<Attribute> registerBooleanAttribute(String name, String descriptionId, boolean defaultValue){
-        return PM_ATTRIBUTE.register(name, () -> new BooleanAttribute(MOD_ID + "." + descriptionId, defaultValue).setSyncable(true));
+        return PM_ATTRIBUTE_REGISTER.register(name, () -> new BooleanAttribute(MOD_ID + "." + descriptionId, defaultValue).setSyncable(true));
     }
 }

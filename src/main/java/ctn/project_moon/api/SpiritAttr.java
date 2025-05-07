@@ -20,6 +20,9 @@ public class SpiritAttr {
     /** 同步理智值 */
     public static void syncSpiritValue(ServerPlayer player) {
         restrictSpirit(player);
+        if (player instanceof ServerPlayer serverPlayer) {
+            PacketDistributor.sendToPlayer(serverPlayer, new SpiritValueData(serverPlayer.getPersistentData().getDouble(SPIRIT_VALUE)));
+        }
     }
 
     /** 设置生物当前理智 */
@@ -76,10 +79,6 @@ public class SpiritAttr {
         } else if (spirit < minSpirit) {
             setSpiritValue(entity, minSpirit);
         }
-        // TODO 数据包异常
-//        if (entity instanceof ServerPlayer serverPlayer) {
-//            PacketDistributor.sendToPlayer(serverPlayer, new SpiritValueData(serverPlayer.getPersistentData().getDouble(SPIRIT_VALUE)));
-//        }
     }
 
     public static double getSpiritValue(LivingEntity entity) {

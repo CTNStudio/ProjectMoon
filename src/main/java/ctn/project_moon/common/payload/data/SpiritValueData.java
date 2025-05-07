@@ -14,12 +14,12 @@ import static ctn.project_moon.api.SpiritAttr.getSpiritValue;
 
 public record SpiritValueData(double spiritValue) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SpiritValueData> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_value_delivery"));
+            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "data.spirit_value"));
     public static final StreamCodec<FriendlyByteBuf, SpiritValueData> CODEC =
             CustomPacketPayload.codec(SpiritValueData::write, SpiritValueData::of);
 
     public static SpiritValueData of(FriendlyByteBuf buf) {
-        return new SpiritValueData(buf.readInt());
+        return new SpiritValueData(buf.readDouble());
     }
 
     public static SpiritValueData create(ServerPlayer serverPlayer){

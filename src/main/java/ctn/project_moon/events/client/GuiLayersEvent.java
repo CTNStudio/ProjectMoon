@@ -12,7 +12,6 @@ import static ctn.project_moon.PmMain.MOD_ID;
  */
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class GuiLayersEvent {
-
     /**
      * 添加gui渲染图层及渲染事件
      */

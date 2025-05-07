@@ -18,7 +18,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 
 /** 创造模式物品栏 */
 public class PmCreativeModeTab extends CreativeModeTabs {
-    public static final DeferredRegister<CreativeModeTab> PROJECT_MOON_TAB = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> PROJECT_MOON_TAB_REGISTER = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_WEAPON =
             register("ego_weapon", (name) -> createCreativeModeTab(name,
                     (parameters, output) -> {
@@ -52,7 +52,7 @@ public class PmCreativeModeTab extends CreativeModeTabs {
 
 
     public static DeferredHolder<CreativeModeTab, CreativeModeTab> register(String name, Function<String, CreativeModeTab.Builder> builder) {
-        return PROJECT_MOON_TAB.register(name, builder.apply(name)::build);
+        return PROJECT_MOON_TAB_REGISTER.register(name, builder.apply(name)::build);
     }
 
     public static CreativeModeTab.Builder createCreativeModeTab(

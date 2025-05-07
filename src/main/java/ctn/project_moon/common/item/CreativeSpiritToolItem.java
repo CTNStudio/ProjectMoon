@@ -1,6 +1,7 @@
 package ctn.project_moon.common.item;
 
 import ctn.project_moon.api.SpiritAttr;
+import ctn.project_moon.common.menu.PlayerAttributeMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -23,6 +24,7 @@ public class CreativeSpiritToolItem extends Item {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
+        PlayerAttributeMenu.createScreen(player);
         if (player.isCreative()) {
             if (player.isShiftKeyDown()) {
                 itemStack.set(MODE_BOOLEAN, !itemStack.get(MODE_BOOLEAN));
