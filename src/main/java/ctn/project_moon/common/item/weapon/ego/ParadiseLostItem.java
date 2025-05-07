@@ -21,8 +21,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -191,16 +193,17 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
         }
         final Vec3 position = entity.getEyePosition();
         double x = 0;
-        int y = 0;
+        double y = 0;
         double z = 0;
-        for (int scale = 0; scale <= 30; scale++) {
-            Vec3 vec3 = position.add(entity.getLookAngle().scale(scale));
+        int accuracy = 5;//探测精度（每1距离检测碰撞次数）
+        for (int scale = 0; scale <= 30 * accuracy; scale++) {
+            Vec3 vec3 = position.add(entity.getLookAngle().scale((double) scale /accuracy));
             x = vec3.x;
-            y =(int) vec3.y;
+            y = vec3.y;
             z = vec3.z;
             double v = 2;
             AABB aabb = new AABB(x - v, y - v, z - v, x + v, y + v, z + v);
-            List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, aabb, (livingEntity) -> !livingEntity.getUUID().equals(entity.getUUID()) && livingEntity.isAlive());
+            List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, aabb, (livingEntity) -> !livingEntity.getUUID().equals(entity.getUUID()) && livingEntity.isAlive()&& livingEntity.isAttackable());
             int i = entityList.size();
             if (i > 0) {
                 LivingEntity livingEntity = entityList.get(entity.level().getRandom().nextInt(i));
@@ -210,13 +213,13 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
                     z = livingEntity.position().z;
                     break;
                 }
-            } else if (!serverLevel.getBlockState(new BlockPos((int) x, y - 1, (int) z)).isAir()) {
+            } else if (!isArrivable(x, y, z, serverLevel)) {
                 break;
             }
-            while (serverLevel.getBlockState(new BlockPos((int) x, y - 1, (int) z)).isAir()) {
-                y--;
+            while (isArrivable(x, y, z, serverLevel)) {
+                y --;
                 if (y < -64) {
-                    y = (int) vec3.y;
+                    y = vec3.y;
                     break;
                 }
             }
@@ -234,7 +237,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
         double z = entity.position().z;
         double v = 8;
         AABB aabb = new AABB(x - v, y - 3, z - v, x + v, y + 3, z + v);
-        List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, aabb, (livingEntity) -> !livingEntity.getUUID().equals(entity.getUUID()) && livingEntity.isAlive());
+        List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, aabb, (livingEntity) -> !livingEntity.getUUID().equals(entity.getUUID()) && livingEntity.isAlive() && livingEntity.isAttackable());
         int i = entityList.size();
         if (i > 0) {
             for (LivingEntity livingEntity : entityList){
@@ -248,9 +251,31 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
                         break;
                     }
                 }
-                serverLevel.addFreshEntityWithPassengers(ParadiseLostSpikeweed.create(serverLevel, x, y, z, i, entity));
+                serverLevel.addFreshEntityWithPassengers(ParadiseLostSpikeweed.create(serverLevel, x, y, z, i, entity, livingEntity));
             }
         }
+    }
+
+    //延伸限制
+    private static boolean isArrivable(double x,double y,double z, Level level){
+        BlockPos pos = new BlockPos((int) x, (int)y - 1, (int) z);
+        return !isPointColliding(level, pos, x, y, z);
+    }
+
+    public static boolean isPointColliding(Level level, BlockPos pos, double worldX, double worldY, double worldZ){
+        BlockState state = level.getBlockState(pos);
+        VoxelShape shape = state.getCollisionShape(level, pos);
+
+        if (shape.isEmpty()){ return false;}
+
+        double x = worldX - pos.getX();
+        double y = worldY - pos.getY();
+        double z = worldZ - pos.getZ();
+
+        for (AABB aabb: shape.toAabbs()){
+            if (aabb.contains(x, y, z)){ return true;}
+        }
+        return false;
     }
 
     /**

@@ -48,6 +48,8 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
     private int targetNumber = 1;
     private boolean isAttack = false;
 
+    private LivingEntity targetEntity;
+
     public ParadiseLostSpikeweed(EntityType<?> entityType, Level level) {
         super(entityType, level);
     }
@@ -57,6 +59,11 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
         entity.targetNumber = targetNumber == 0 ? 1 : targetNumber;
         entity.setPos(x, y, z);
         entity.setOwner(owner);
+        return entity;
+    }
+    public static ParadiseLostSpikeweed create(Level level, double x, double y, double z, int targetNumber, LivingEntity owner, LivingEntity targetEntity) {
+        ParadiseLostSpikeweed entity = create(level, x, y, z, targetNumber, owner);
+        entity.targetEntity = targetEntity;
         return entity;
     }
 
@@ -101,7 +108,8 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
                 int i = entityList.size();
                 if (i > 0) {
                     for (int j = 0; j < i; j++) {
-                        Entity livingEntity = entityList.get(level().getRandom().nextInt(i));
+                        Entity livingEntity = (targetEntity != NULL && targetEntity.isAlive() && targetEntity.isAttackable())?
+                                targetEntity:entityList.get(level().getRandom().nextInt(i));
                         if (!dealDamageTo(livingEntity)) {
                             continue;
                         }
