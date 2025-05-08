@@ -42,7 +42,7 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
             return;
         }
         Player player = getCameraPlayer();
-        if (player == null) {
+        if (player == null || player.isCreative() || player.isSpectator()) {
             return;
         }
         int spriteWidth = 20;
@@ -53,19 +53,44 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
         double spiritValue = SpiritAttribute.getSpiritValue(player);
         double maxSpiritValue = SpiritAttribute.getMaxSpiritValue(player);
         double minSpiritValue = SpiritAttribute.getMinSpiritValue(player);
+
+        int textColor;//经验数字颜色
+
         if (spiritValue >= maxSpiritValue * 0.7) {
             currentTexture = FULL_SPIRIT_TEXTURE;
+            textColor = 0x4f6175;
         } else if (spiritValue <= minSpiritValue * 0.7) {
             currentTexture = FEW_SPIRIT_TEXTURE;
+            textColor = 0x962c2a;
         } else {
             currentTexture = DEFAULT_SPIRIT_TEXTURE;
+            textColor = 0x878e91;
         }
         guiGraphics.blitSprite(currentTexture, width, height, spriteWidth, spriteHeight);
-
+        renderSpiritValue(guiGraphics, player, height, textColor);
     }
 
     private Player getCameraPlayer() {
         return this.minecraft.getCameraEntity() instanceof Player player ? player : null;
+    }
+
+    /**
+     *理智数值显示
+     */
+    private void renderSpiritValue(GuiGraphics guiGraphics, Player player, int spiritHudHeight, int color) {
+        double spiritValue = SpiritAttribute.getSpiritValue(player);
+        int spiritValueInt = (int) ( spiritValue >= 0 || spiritValue - (int)spiritValue == 0?spiritValue : spiritValue - 1);
+
+        int screenWidth = guiGraphics.guiWidth();
+
+        int spiritValueX = screenWidth / 2;
+        int spiritValueY = spiritHudHeight + 6;
+
+        String text = Integer.toString(spiritValueInt);
+        int x= spiritValueX - minecraft.font.width(text) / 2;
+
+
+        guiGraphics.drawString(minecraft.font, text, x, spiritValueY, color, false);
     }
 
     @Nullable
