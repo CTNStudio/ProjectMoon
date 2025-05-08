@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
@@ -43,7 +44,7 @@ public class TrainingRabbits extends AbnosEntity{
         }
 
         @Override
-        public ResourceLocation getTextureLocation(TrainingRabbits animatable) {
+        public @NotNull ResourceLocation getTextureLocation(@NotNull TrainingRabbits animatable) {
             return PmGeoEntityModel.texturePath("training_rabbits");
         }
     }

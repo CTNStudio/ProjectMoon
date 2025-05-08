@@ -80,7 +80,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
 
     }
 
@@ -88,42 +88,44 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
     public void tick() {
         super.tick();
         if (level().isClientSide) {
-        } else {
-            if (!isAttack && tickCount < 2) {
-                List<Entity> entityList = level().getEntitiesOfClass(Entity.class, getBoundingBox(),(entity) ->{
-                    if (entity instanceof ItemEntity) {
-                        return false;
+            // TODO 之后写入动画
+            return;
+        }
+        if (!isAttack && tickCount < 2) {
+            List<Entity> entityList = level().getEntitiesOfClass(Entity.class, getBoundingBox(),(entity) ->{
+                if (entity instanceof ItemEntity) {
+                    return false;
+                }
+                if (entity instanceof ExperienceOrb) {
+                    return false;
+                }
+                if (entity instanceof ParadiseLostSpikeweed){
+                    return false;
+                }
+                if (entity instanceof Projectile){
+                    return false;
+                }
+                return getOwner() != null && !entity.getUUID().equals(getOwner().getUUID());
+            } );
+            int i = entityList.size();
+            if (i > 0) {
+                for (int j = 0; j < i; j++) {
+                    Entity livingEntity = (targetEntity != null && targetEntity.isAlive() && targetEntity.isAttackable())?
+                            targetEntity:entityList.get(level().getRandom().nextInt(i));
+                    if (!dealDamageTo(livingEntity)) {
+                        continue;
                     }
-                    if (entity instanceof ExperienceOrb) {
-                        return false;
-                    }
-                    if (entity instanceof ParadiseLostSpikeweed){
-                        return false;
-                    }
-                    if (entity instanceof Projectile){
-                        return false;
-                    }
-                    return getOwner() != null && !entity.getUUID().equals(getOwner().getUUID());
-                } );
-                int i = entityList.size();
-                if (i > 0) {
-                    for (int j = 0; j < i; j++) {
-                        Entity livingEntity = (targetEntity != null && targetEntity.isAlive() && targetEntity.isAttackable())?
-                                targetEntity:entityList.get(level().getRandom().nextInt(i));
-                        if (!dealDamageTo(livingEntity)) {
-                            continue;
-                        }
-                        hit(livingEntity);
-                        isAttack = true;
-                        break;
-                    }
+                    hit(livingEntity);
+                    isAttack = true;
+                    break;
                 }
             }
-
-            if (tickCount > 60) {
-                remove(RemovalReason.DISCARDED);
-            }
         }
+
+        if (tickCount > 60) {
+            remove(RemovalReason.DISCARDED);
+        }
+
     }
 
     public void hit(Entity entity) {
@@ -166,7 +168,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compound) {
+    protected void addAdditionalSaveData(@NotNull CompoundTag compound) {
         if (ownerUUID != null) {
             compound.putUUID("Owner", ownerUUID);
         }
@@ -265,7 +267,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
         }
 
         @Override
-        public ResourceLocation getTextureLocation(ParadiseLostSpikeweed animatable) {
+        public @NotNull ResourceLocation getTextureLocation(@NotNull ParadiseLostSpikeweed animatable) {
             return PmGeoEntityModel.texturePath("paradise_lost_spikeweed");
         }
     }

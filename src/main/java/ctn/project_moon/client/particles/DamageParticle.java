@@ -25,6 +25,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
@@ -46,12 +47,12 @@ public class DamageParticle extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
+    public @NotNull ParticleRenderType getRenderType() {
         return ParticleRenderType.CUSTOM;
     }
 
     @Override
-    public void render(VertexConsumer pBuffer, Camera camera, float pPartialTicks) {
+    public void render(@NotNull VertexConsumer pBuffer, Camera camera, float pPartialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
         MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
         Vec3 camPos = camera.getPosition();
@@ -98,7 +99,7 @@ public class DamageParticle extends TextureSheetParticle {
     public static class Provider implements ParticleProvider<Options> {
         @Override
         public @Nullable Particle createParticle(
-                Options type, ClientLevel level,
+                Options type, @NotNull ClientLevel level,
                 double x, double y, double z,
                 double xSpeed, double ySpeed, double zSpeed) {
             return new DamageParticle(level, x, y, z, type.getComponent());
@@ -128,7 +129,7 @@ public class DamageParticle extends TextureSheetParticle {
         }
 
         @Override
-        public ParticleType<DamageParticle.Options> getType() {
+        public @NotNull ParticleType<DamageParticle.Options> getType() {
             return DAMAGE_PARTICLE_TYPE.get();
         }
     }

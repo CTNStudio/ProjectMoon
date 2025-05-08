@@ -19,6 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class PmTags {
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider provider) {
+        protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(ZAYIN);
             tag(TETH);
             tag(HE);
@@ -100,7 +101,7 @@ public class PmTags {
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider provider) {
+        protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(ZAYIN)
                     .add(PmItems.DETONATING_BATON.get())
                     .add(PmItems.SUIT.get())
@@ -174,7 +175,7 @@ public class PmTags {
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider provider) {
+        protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(ABNOS);
         }
     }
@@ -197,7 +198,7 @@ public class PmTags {
         }
 
         @Override
-        protected void addTags(HolderLookup.Provider provider) {
+        protected void addTags(HolderLookup.@NotNull Provider provider) {
             tag(PHYSICS)
                     .addOptional(PmDamageTypes.PHYSICS.location())
                     .addAll(VANILLA_PHYSICS_KEYS);

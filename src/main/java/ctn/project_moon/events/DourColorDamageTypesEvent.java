@@ -18,7 +18,7 @@ public class DourColorDamageTypesEvent extends LivingEvent implements ICancellab
     private final DamageSource source;
     private PmDamageTypes.Types dourColorDamageTypes;
 
-    public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source, DamageContainer container) {
+    public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source, @org.jetbrains.annotations.Nullable DamageContainer container) {
         super(entity);
         this.source = source;
         this.container = container;
@@ -30,7 +30,7 @@ public class DourColorDamageTypesEvent extends LivingEvent implements ICancellab
         this.container = null;
     }
 
-    public DamageContainer getContainer() {
+    public @org.jetbrains.annotations.Nullable DamageContainer getContainer() {
         return container;
     }
 

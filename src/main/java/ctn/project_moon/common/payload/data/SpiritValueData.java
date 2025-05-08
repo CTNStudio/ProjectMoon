@@ -7,6 +7,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_VALUE;
@@ -31,7 +32,7 @@ public record SpiritValueData(double spiritValue) implements CustomPacketPayload
     }
 
     @Override
-    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+    public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 

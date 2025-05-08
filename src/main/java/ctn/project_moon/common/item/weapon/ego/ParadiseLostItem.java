@@ -54,12 +54,12 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
     private final int CHARGING_ATTACK_TICK = 10;
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
         return 666;
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = super.use(level, player, hand).getObject();
         CompoundTag nbt = player.getPersistentData();
         // 玩家移动、下方方块没有实体方块顶部、在使用中时不执行
@@ -79,7 +79,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
     }
 
     @Override
-    public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int remainingUseDuration) {
+    public void onUseTick(@NotNull Level level, @NotNull LivingEntity entity, @NotNull ItemStack stack, int remainingUseDuration) {
         if (!(entity instanceof Player player) || !player.onGround() || isJumpCancellation(level, player)) {
             return;
         }
@@ -123,12 +123,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
     }
 
     @Override
-    public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int time) {
-
-    }
-
-    @Override
-    public void onStopUsing(ItemStack stack, LivingEntity entity, int count) {
+    public void onStopUsing(@NotNull ItemStack stack, @NotNull LivingEntity entity, int count) {
         if (!(entity instanceof Player player)) {
             return;
         }
@@ -153,7 +148,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
         if (!isSelected || !(entity instanceof Player player) || player.isUsingItem()) {
             return;
         }

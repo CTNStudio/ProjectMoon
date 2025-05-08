@@ -17,8 +17,6 @@ public class DatagenParticle extends ParticleDescriptionProvider {
 
     @Override
     protected void addDescriptions() {
-//        createSprite(PmParticleTypes.PHYSICS_PARTICLE::get, "physics_particle");
-//        createSprite(PmParticleTypes.PHYSICS_PARTICLE::get, "physics_particle");
     }
 
     private void createSprite(Supplier<ParticleType<?>> type, String name) {

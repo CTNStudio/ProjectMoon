@@ -35,7 +35,7 @@ import static ctn.project_moon.init.PmItemDataComponents.CURRENT_DAMAGE_TYPE;
 public class DourColorDamageEvents {
     @SubscribeEvent
     public static void dourColorDamageTypesEvents(DourColorDamageTypesEvent events){
-        PmDamageTypes.Types types;
+        PmDamageTypes.Types types = null;
         DamageSource source =  events.getSource();
         Entity entity = source.getEntity();
         switch (entity) {
@@ -49,9 +49,7 @@ public class DourColorDamageEvents {
             case Shulker ignored -> types = SPIRIT;
             case Silverfish ignored -> types = SPIRIT;
             case WitherBoss ignored -> types = EROSION;
-            case null, default -> {
-                types = null;
-            }
+            case null, default -> {}
         }
         events.setDourColorDamageTypes(types);
     }

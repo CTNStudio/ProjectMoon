@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_ROTATING_PERSPECTIVE;
-import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_ROTATING_PERSPECTIVE;
 
 @Mixin(MouseHandler.class)
 public abstract class MouseHandlerMixin {

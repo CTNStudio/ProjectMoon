@@ -22,6 +22,6 @@ public class GuiItemModel<T extends GeoAnimatable> extends PmGeoItemModel<T>{
 
     @Override
     public ResourceLocation getAnimationResource(T animatable) {
-        return animationsPath(path);
+        return super.getAnimationResource(animatable);
     }
 }

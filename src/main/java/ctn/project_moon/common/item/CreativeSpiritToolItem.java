@@ -37,7 +37,7 @@ public class CreativeSpiritToolItem extends Item {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
         super.inventoryTick(stack, level, entity, slotId, isSelected);
         if (entity instanceof Player player && !level.isClientSide() && isSelected) {
             getSpirit("当前的精神值为：" + getSpiritValue(player));
