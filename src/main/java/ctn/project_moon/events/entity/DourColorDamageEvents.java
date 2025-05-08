@@ -23,9 +23,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.MobGeneralAttr.INJURY_TICK;
-import static ctn.project_moon.api.MobGeneralAttr.SPIRIT_RECOVERY_TICK;
-import static ctn.project_moon.api.SpiritAttr.*;
+import static ctn.project_moon.api.MobGeneralAttribute.INJURY_TICK;
+import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_RECOVERY_TICK;
+import static ctn.project_moon.api.SpiritAttribute.*;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.*;

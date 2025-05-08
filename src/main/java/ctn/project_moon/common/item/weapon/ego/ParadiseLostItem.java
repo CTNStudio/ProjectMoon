@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static ctn.project_moon.api.TempNbtAttr.*;
+import static ctn.project_moon.api.TempNbtAttribute.*;
 import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
 import static net.minecraft.world.InteractionHand.OFF_HAND;
 

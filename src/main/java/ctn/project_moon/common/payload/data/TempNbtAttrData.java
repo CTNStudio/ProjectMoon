@@ -10,7 +10,7 @@ import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.TempNbtAttr.*;
+import static ctn.project_moon.api.TempNbtAttribute.*;
 
 public record TempNbtAttrData(boolean isPlayerUseItem, boolean isPlayerAttack , boolean isPlayerSwitchItems,
                               boolean isPlayerRotatingPerspective, boolean isPlayerMoved,

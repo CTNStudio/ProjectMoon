@@ -99,12 +99,11 @@ configurations {
 }
 
 dependencies {
-    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_api_version}"
-    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_api_version}:api"
+    implementation "top.theillusivec4.curios:curios-neoforge:${curios_api_version}"
+    implementation "top.theillusivec4.curios:curios-neoforge:${curios_api_version}:api"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
     implementation "dev.kosmx.player-anim:player-animation-lib-forge:${player_anim_version}"
-    compileOnly "curse.maven:jade-324717:6291517"
-    runtimeOnly "curse.maven:jade-324717:6291517"
+    implementation "curse.maven:jade-324717:6291517"
     implementation "com.zigythebird.playeranimatorapi:playeranimatorapi-neoforge-1.21:${playeranimatorapi_version}"
 }
 

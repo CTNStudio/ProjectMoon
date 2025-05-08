@@ -110,5 +110,6 @@
   "project_moon:data_components.item_color_usage_req.three": "III",
   "project_moon:data_components.item_color_usage_req.two": "II",
   "project_moon:data_components.item_color_usage_req.use_condition": "使用条件",
-  "project_moon:data_components.mode_boolean": "模式开关"
+  "project_moon:data_components.mode_boolean": "模式开关",
+  "project_moonplayer_attribute_button.message": "打开月亮计划玩家属性面板"
 }

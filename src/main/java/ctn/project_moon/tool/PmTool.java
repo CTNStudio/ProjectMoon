@@ -13,10 +13,7 @@ import java.util.regex.Pattern;
 public class PmTool {
 
     public static int colorConversion(String color) {
-        if (color == null){
-            throw new RuntimeException("The input color value cannot be empty. ");
-        }
-        return TextColor.parseColor(color).getOrThrow().getValue();
+        return TextColor.parseColor(handleColor(color)).getOrThrow().getValue();
     }
 
     public static PmDamageSources getDamageSource(Entity entity) {

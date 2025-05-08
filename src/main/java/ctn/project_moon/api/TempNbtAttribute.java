@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 /** 不保存在存档的实体临时属性 */
-public class TempNbtAttr {
+public class TempNbtAttribute {
     private static final String PREFIX = MOD_ID + ":temp_nbt_attr.";
     /** 正在使用武器 类型 Boolean */
     public static final String PLAYER_USE_ITEM = PREFIX + "player.use_item";

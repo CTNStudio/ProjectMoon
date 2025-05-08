@@ -14,8 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.TempNbtAttr.PLAYER_ATTACK;
-import static ctn.project_moon.api.TempNbtAttr.PLAYER_USE_ITEM;
+import static ctn.project_moon.api.TempNbtAttribute.PLAYER_ATTACK;
+import static ctn.project_moon.api.TempNbtAttribute.PLAYER_USE_ITEM;
 
 public interface PlayerAnim {
     /** 强制打断 */

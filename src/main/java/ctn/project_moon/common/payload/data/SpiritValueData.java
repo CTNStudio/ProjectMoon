@@ -9,8 +9,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.MobGeneralAttr.SPIRIT_VALUE;
-import static ctn.project_moon.api.SpiritAttr.getSpiritValue;
+import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_VALUE;
+import static ctn.project_moon.api.SpiritAttribute.getSpiritValue;
 
 public record SpiritValueData(double spiritValue) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SpiritValueData> TYPE =

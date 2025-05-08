@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static ctn.project_moon.api.TempNbtAttr.CANNOT_PLAYER_MOVED;
+import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_MOVED;
 
 @Mixin(KeyboardInput.class)
 public abstract class KeyboardInputMixin extends Input {

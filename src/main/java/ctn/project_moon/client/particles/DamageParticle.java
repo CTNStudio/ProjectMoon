@@ -23,6 +23,8 @@ import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
@@ -31,6 +33,7 @@ import static ctn.project_moon.init.PmParticleTypes.DAMAGE_PARTICLE_TYPE;
 /**
  * 本文件参考汇流来世的伤害显示粒子制作
  */
+@OnlyIn(Dist.CLIENT)
 public class DamageParticle extends TextureSheetParticle {
     private final Component text;
     private final float factorOld = 0.025f;

@@ -11,12 +11,12 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Objects;
 
-import static ctn.project_moon.api.MobGeneralAttr.*;
+import static ctn.project_moon.api.MobGeneralAttribute.*;
 
 /**
  * 理智值相关
  */
-public class SpiritAttr {
+public class SpiritAttribute {
     /** 同步理智值 */
     public static void syncSpiritValue(ServerPlayer player) {
         restrictSpirit(player);

@@ -22,8 +22,8 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.MobGeneralAttr.*;
-import static ctn.project_moon.api.SpiritAttr.*;
+import static ctn.project_moon.api.MobGeneralAttribute.*;
+import static ctn.project_moon.api.SpiritAttribute.*;
 import static ctn.project_moon.common.item.Ego.getItemLevelValue;
 import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
@@ -177,7 +177,7 @@ public class EntityEvents {
     @SubscribeEvent
     public static void addSpirtAttyibute(EntityJoinLevelEvent event){
         if (event.getEntity() instanceof LivingEntity entity && entity.getAttributes().hasAttribute(MAX_SPIRIT)){
-            addSpiritAttr(entity);
+            addSpiritAttribute(entity);
         }
     }
 

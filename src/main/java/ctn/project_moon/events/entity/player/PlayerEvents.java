@@ -1,6 +1,6 @@
 package ctn.project_moon.events.entity.player;
 
-import ctn.project_moon.api.TempNbtAttr;
+import ctn.project_moon.api.TempNbtAttribute;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -10,9 +10,9 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.PlayerAttr.processAttr;
-import static ctn.project_moon.api.PlayerAttr.resetAttr;
-import static ctn.project_moon.api.SpiritAttr.syncSpiritValue;
+import static ctn.project_moon.api.PlayerAttribute.processAttribute;
+import static ctn.project_moon.api.PlayerAttribute.resetAttribute;
+import static ctn.project_moon.api.SpiritAttribute.syncSpiritValue;
 
 /**
  * 玩家相关事件
@@ -24,7 +24,7 @@ public class PlayerEvents {
      */
     @SubscribeEvent
     public static void save(PlayerEvent.SaveToFile event) {
-        processAttr(event.getEntity());
+        processAttribute(event.getEntity());
     }
 
     /**
@@ -32,7 +32,7 @@ public class PlayerEvents {
      */
     @SubscribeEvent
     public static void loading(PlayerEvent.LoadFromFile event) {
-        loadAttributes(event.getEntity());
+        loadAttribute(event.getEntity());
     }
 
     @SubscribeEvent
@@ -49,15 +49,15 @@ public class PlayerEvents {
     public static void reset(PlayerEvent.Clone event) {
         Player player = event.getEntity();
         if (event.isWasDeath()){
-            resetAttr(player);
+            resetAttribute(player);
         }
         // 重置临时属性
-        TempNbtAttr.resetTemporaryAttribute(player);
+        TempNbtAttribute.resetTemporaryAttribute(player);
     }
 
-    public static void loadAttributes(Player player){
-        processAttr(player);
-        TempNbtAttr.resetTemporaryAttribute(player);
+    public static void loadAttribute(Player player){
+        processAttribute(player);
+        TempNbtAttribute.resetTemporaryAttribute(player);
     }
 
     @SubscribeEvent

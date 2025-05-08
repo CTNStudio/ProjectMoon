@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static ctn.project_moon.api.TempNbtAttr.PLAYER_ATTACK;
+import static ctn.project_moon.api.TempNbtAttribute.*;
 import static net.minecraft.world.InteractionResult.FAIL;
 
 @Mixin(MultiPlayerGameMode.class)

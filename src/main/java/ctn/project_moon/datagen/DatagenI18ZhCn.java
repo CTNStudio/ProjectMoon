@@ -1,5 +1,6 @@
 package ctn.project_moon.datagen;
 
+import ctn.project_moon.client.gui.PlayerAttributeButton;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.*;
@@ -149,6 +150,8 @@ public class DatagenI18ZhCn extends LanguageProvider {
         add("project_moon.configuration.section.project.moon.common.toml.title", "通用/双端设置 · 这些会修改游戏内容和修改视觉效果");
         add("project_moon.configuration.section.project.moon.client.toml", "客户端设置");
         add("project_moon.configuration.section.project.moon.client.toml.title", "客户端设置 · 这些仅会修改视觉效果不会修改游戏内容");
+
+        add(PlayerAttributeButton.MESSAGE, "打开月亮计划玩家属性面板");
     }
 
     public <T> void add(Supplier<DataComponentType<T>> dataComponentType, String name) {

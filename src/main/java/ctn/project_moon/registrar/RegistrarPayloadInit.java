@@ -17,11 +17,9 @@ public class RegistrarPayloadInit {
     @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
-        registrar.playBidirectional(
-                SpiritValueData.TYPE, SpiritValueData.CODEC,
+        registrar.playBidirectional(SpiritValueData.TYPE, SpiritValueData.CODEC,
                 new DirectionalPayloadHandler<>(SpiritValueData::client, SpiritValueData::server));
-        registrar.playBidirectional(
-                TempNbtAttrData.TYPE, TempNbtAttrData.CODEC,
+        registrar.playBidirectional(TempNbtAttrData.TYPE, TempNbtAttrData.CODEC,
                 new DirectionalPayloadHandler<>(TempNbtAttrData::client, TempNbtAttrData::server));
     }
 }

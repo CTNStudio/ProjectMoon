@@ -3,8 +3,8 @@ package ctn.project_moon.tool;
 import net.minecraft.client.player.Input;
 import net.minecraft.nbt.CompoundTag;
 
-import static ctn.project_moon.api.TempNbtAttr.PLAYER_USE_ITEM_TICK;
-import static ctn.project_moon.api.TempNbtAttr.PLAYER_USE_TICK;
+import static ctn.project_moon.api.TempNbtAttribute.PLAYER_USE_ITEM_TICK;
+import static ctn.project_moon.api.TempNbtAttribute.PLAYER_USE_TICK;
 
 public class PlayerAnimTool {
     /** 设置物品计时 */

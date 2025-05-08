@@ -1,7 +1,6 @@
 package ctn.project_moon.common.item;
 
-import ctn.project_moon.api.SpiritAttr;
-import ctn.project_moon.common.menu.PlayerAttributeMenu;
+import ctn.project_moon.api.SpiritAttribute;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -13,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import static ctn.project_moon.api.SpiritAttr.getSpiritValue;
+import static ctn.project_moon.api.SpiritAttribute.getSpiritValue;
 import static ctn.project_moon.init.PmItemDataComponents.MODE_BOOLEAN;
 
 public class CreativeSpiritToolItem extends Item {
@@ -24,14 +23,13 @@ public class CreativeSpiritToolItem extends Item {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
-        PlayerAttributeMenu.createScreen(player);
         if (player.isCreative()) {
             if (player.isShiftKeyDown()) {
                 itemStack.set(MODE_BOOLEAN, !itemStack.get(MODE_BOOLEAN));
                 return InteractionResultHolder.success(itemStack);
             }
             if (!level.isClientSide()) {
-                SpiritAttr.incrementSpiritValue(player, itemStack.get(MODE_BOOLEAN) ? -1 : 1);
+                SpiritAttribute.incrementSpiritValue(player, itemStack.get(MODE_BOOLEAN) ? -1 : 1);
                 return InteractionResultHolder.success(itemStack);
             }
         }
