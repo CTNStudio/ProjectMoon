@@ -253,7 +253,10 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
 
     //延伸限制
     private static boolean isArrivable(double x,double y,double z, Level level){
-        BlockPos pos = new BlockPos((int) x, (int)y - 1, (int) z);
+        BlockPos pos = new BlockPos(
+                (int) (x>=0?x:x-1),
+                (int) (y>=0?y:y-1),
+                (int) (z>=0?z:z-1));
         return !isPointColliding(level, pos, x, y, z);
     }
 
@@ -263,9 +266,9 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
 
         if (shape.isEmpty()){ return false;}
 
-        double x = worldX - pos.getX();
-        double y = worldY - pos.getY();
-        double z = worldZ - pos.getZ();
+        double x = Math.abs(worldX - pos.getX());
+        double y = Math.abs(worldY - pos.getY());
+        double z = Math.abs(worldZ - pos.getZ());
 
         for (AABB aabb: shape.toAabbs()){
             if (aabb.contains(x, y, z)){ return true;}
