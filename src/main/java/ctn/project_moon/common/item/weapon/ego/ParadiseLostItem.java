@@ -180,7 +180,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim , R
         }
     }
 
-    // TODO 待优化：尖刺会锁定创造玩家，会被各种各样的方块拦住，有时会同时锁定同一个生物攻击
+	// TODO 待证明 尖刺不会锁定创造玩家
     /** 召唤一个 */
     public static void normalAttack(Level level, LivingEntity entity){
         if (!(level instanceof ServerLevel serverLevel)) {
