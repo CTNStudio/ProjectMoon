@@ -1,5 +1,6 @@
 package ctn.project_moon.events.entity.player;
 
+import ctn.project_moon.api.PlayerAttribute;
 import ctn.project_moon.api.TempNbtAttribute;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -66,6 +67,10 @@ public class PlayerEvents {
         CompoundTag nbt = player.getPersistentData();
         if (player instanceof ServerPlayer serverPlayer) {
             syncSpiritValue(serverPlayer);
+            PlayerAttribute.fortitudeRelated(player);
+            PlayerAttribute.prudenceRelated(player);
+            PlayerAttribute.temperanceRelated(player);
+            PlayerAttribute.justiceRelated(player);
         }
     }
 }
