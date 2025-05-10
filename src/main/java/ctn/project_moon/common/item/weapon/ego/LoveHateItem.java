@@ -1,5 +1,6 @@
 package ctn.project_moon.common.item.weapon.ego;
 
+import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.common.item.RequestItems;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.item.weapon.Weapon;
@@ -12,9 +13,9 @@ import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
 public class LoveHateItem extends SpecialEgoWeapon implements RequestItems {
 	public LoveHateItem(Weapon.Builder builder) {
 		super(builder.build().component(ITEM_COLOR_USAGE_REQ, ItemColorUsageReq.empty()
-				.setValue(ItemColorUsageReq.Type.FORTITUDE, ItemColorUsageReq.Rating.III)
-				.setValue(ItemColorUsageReq.Type.JUSTICE, ItemColorUsageReq.Rating.III)
-				.setValue(ItemColorUsageReq.Type.COMPOSITE_RATING, ItemColorUsageReq.Rating.IV)
+				.setValue(FourColorAttribute.Type.FORTITUDE, FourColorAttribute.Rating.III)
+				.setValue(FourColorAttribute.Type.JUSTICE, FourColorAttribute.Rating.III)
+				.setValue(FourColorAttribute.Type.COMPOSITE_RATING, FourColorAttribute.Rating.IV)
 		), builder);
 	}
 

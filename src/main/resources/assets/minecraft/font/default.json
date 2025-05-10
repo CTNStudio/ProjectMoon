@@ -5,28 +5,36 @@
       "file": "project_moon:gui/sprites/physics8x.png",
       "ascent": 8,
       "height": 8,
-      "chars": ["\ue001"]
+      "chars": [
+        "\ue001"
+      ]
     },
     {
       "type": "bitmap",
       "file": "project_moon:gui/sprites/spirit8x.png",
       "ascent": 8,
       "height": 8,
-      "chars": ["\ue002"]
+      "chars": [
+        "\ue002"
+      ]
     },
     {
       "type": "bitmap",
       "file": "project_moon:gui/sprites/erosion8x.png",
       "ascent": 8,
       "height": 8,
-      "chars": ["\ue003"]
+      "chars": [
+        "\ue003"
+      ]
     },
     {
       "type": "bitmap",
       "file": "project_moon:gui/sprites/the_soul8x.png",
       "ascent": 8,
       "height": 8,
-      "chars": ["\ue004"]
+      "chars": [
+        "\ue004"
+      ]
     }
   ]
 }

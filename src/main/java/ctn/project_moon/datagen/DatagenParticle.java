@@ -11,15 +11,15 @@ import java.util.function.Supplier;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 public class DatagenParticle extends ParticleDescriptionProvider {
-    public DatagenParticle(PackOutput output, ExistingFileHelper fileHelper) {
-        super(output, fileHelper);
-    }
+	public DatagenParticle(PackOutput output, ExistingFileHelper fileHelper) {
+		super(output, fileHelper);
+	}
 
-    @Override
-    protected void addDescriptions() {
-    }
+	@Override
+	protected void addDescriptions() {
+	}
 
-    private void createSprite(Supplier<ParticleType<?>> type, String name) {
-        sprite(type.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
-    }
+	private void createSprite(Supplier<ParticleType<?>> type, String name) {
+		sprite(type.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
+	}
 }

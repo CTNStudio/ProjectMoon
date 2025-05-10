@@ -13,16 +13,16 @@ import static ctn.project_moon.tool.GradeTypeTool.Level.getBlockLevel;
 import static ctn.project_moon.tool.GradeTypeTool.Level.getEgoLevelTag;
 
 public enum BlockLevel implements IBlockComponentProvider {
-    INSTANCE;
+	INSTANCE;
 
-    @Override
-    public void appendTooltip(ITooltip itooltip, BlockAccessor accessor, IPluginConfig config) {
-        GradeTypeTool.Level level = getBlockLevel(getEgoLevelTag(accessor.getBlockState()));
-        itooltip.add(1, Component.literal(level.getName()).withColor(PmTool.colorConversion(level.getColourText())));
-    }
+	@Override
+	public void appendTooltip(ITooltip itooltip, BlockAccessor accessor, IPluginConfig config) {
+		GradeTypeTool.Level level = getBlockLevel(getEgoLevelTag(accessor.getBlockState()));
+		itooltip.add(1, Component.literal(level.getName()).withColor(PmTool.colorConversion(level.getColourText())));
+	}
 
-    @Override
-    public ResourceLocation getUid() {
-        return PmPlugin.LEVEL;
-    }
+	@Override
+	public ResourceLocation getUid() {
+		return PmPlugin.LEVEL;
+	}
 }

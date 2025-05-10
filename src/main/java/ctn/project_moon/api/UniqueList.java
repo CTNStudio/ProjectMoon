@@ -6,13 +6,13 @@ import java.util.Set;
 
 /** 一个有序不重复序列 */
 public class UniqueList<T> extends ArrayList<T> {
-    private final Set<T> set = new LinkedHashSet<>();
+	private final Set<T> set = new LinkedHashSet<>();
 
-    @Override
-    public boolean add(T item) {
-        if (set.add(item)) {
-            return super.add(item);
-        }
-        return false;
-    }
+	@Override
+	public boolean add(T item) {
+		if (set.add(item)) {
+			return super.add(item);
+		}
+		return false;
+	}
 }

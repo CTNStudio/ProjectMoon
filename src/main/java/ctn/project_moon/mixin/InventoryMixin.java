@@ -15,12 +15,14 @@ import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_SWITCH_ITEMS;
 
 @Mixin(Inventory.class)
 public abstract class InventoryMixin implements Container, Nameable {
-    @Final @Shadow public Player player;
+	@Final
+	@Shadow
+	public Player player;
 
-    @Inject(method = "swapPaint", at = @At("HEAD"), cancellable = true)
-    protected void projectMoon$swapPaint(double direction, CallbackInfo ci){
-        if (player.getPersistentData().getBoolean(CANNOT_PLAYER_SWITCH_ITEMS)) {
-            ci.cancel();
-        }
-    }
+	@Inject(method = "swapPaint", at = @At("HEAD"), cancellable = true)
+	protected void projectMoon$swapPaint(double direction, CallbackInfo ci) {
+		if (player.getPersistentData().getBoolean(CANNOT_PLAYER_SWITCH_ITEMS)) {
+			ci.cancel();
+		}
+	}
 }

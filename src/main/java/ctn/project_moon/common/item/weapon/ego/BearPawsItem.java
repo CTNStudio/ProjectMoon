@@ -5,12 +5,12 @@ import ctn.project_moon.common.item.weapon.Weapon;
 import ctn.project_moon.init.PmDamageTypes;
 
 public class BearPawsItem extends CloseCombatEgo implements SetInvulnerabilityTick {
-    public BearPawsItem(Weapon.Builder builder) {
-        super(builder, PmDamageTypes.Types.PHYSICS);
-    }
+	public BearPawsItem(Weapon.Builder builder) {
+		super(builder, PmDamageTypes.Types.PHYSICS);
+	}
 
-    @Override
-    public int getTicks() {
-        return 10;
-    }
+	@Override
+	public int getTicks() {
+		return 10;
+	}
 }

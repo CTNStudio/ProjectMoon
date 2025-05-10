@@ -12,8 +12,8 @@ import static ctn.project_moon.PmMain.MOD_ID;
  */
 @EventBusSubscriber(modid = MOD_ID)
 public class CommandEvents {
-    @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
-        PmCommands.registerCommands(event.getDispatcher());
-    }
+	@SubscribeEvent
+	public static void onRegisterCommands(RegisterCommandsEvent event) {
+		PmCommands.registerCommands(event.getDispatcher());
+	}
 }

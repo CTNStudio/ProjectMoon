@@ -17,148 +17,149 @@ import org.jetbrains.annotations.NotNull;
  * <li>每个纹理都等同与输入的按钮大小</li>
  * <p>
  * 部分注释由AI生成并由人工补充
+ *
  * @author 小尽
  */
 public class SwitchButton extends ImageButton {
-    // 按钮纹理资源的位置
-    protected final ResourceLocation resourceLocation;
-    // 按钮纹理在资源图像中的起始x坐标
-    protected final int xTexStart;
-    // 按钮纹理在资源图像中的起始y坐标
-    protected final int yTexStart;
-    // 按钮纹理的宽度
-    protected final int textureWidth;
-    // 按钮纹理的高度
-    protected final int textureHeight;
-    // 按钮当前是否处于打开状态
-    protected boolean isOpen = true;
-    // 按钮是否具有特殊渲染逻辑
-    private final boolean isSpecial;
+	// 按钮纹理资源的位置
+	protected final ResourceLocation resourceLocation;
+	// 按钮纹理在资源图像中的起始x坐标
+	protected final int xTexStart;
+	// 按钮纹理在资源图像中的起始y坐标
+	protected final int yTexStart;
+	// 按钮纹理的宽度
+	protected final int textureWidth;
+	// 按钮纹理的高度
+	protected final int textureHeight;
+	// 按钮当前是否处于打开状态
+	protected boolean isOpen = true;
+	// 按钮是否具有特殊渲染逻辑
+	private final boolean isSpecial;
 
-    /**
-     * 构造一个 SwitchButton 实例
-     *
-     * @param resourceLocation 按钮纹理资源的位置
-     * @param x                按钮的x坐标
-     * @param y                按钮的y坐标
-     * @param width            按钮的宽度
-     * @param height           按钮的高度
-     * @param xTexStart        按钮纹理在资源图像中的起始x坐标
-     * @param yTexStart        按钮纹理在资源图像中的起始y坐标
-     * @param onPress          按钮被按下时的回调接口
-     */
-    public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress) {
-        this(resourceLocation, x, y, width, height, xTexStart, yTexStart, onPress, true);
-    }
+	/**
+	 * 构造一个 SwitchButton 实例
+	 *
+	 * @param resourceLocation 按钮纹理资源的位置
+	 * @param x                按钮的x坐标
+	 * @param y                按钮的y坐标
+	 * @param width            按钮的宽度
+	 * @param height           按钮的高度
+	 * @param xTexStart        按钮纹理在资源图像中的起始x坐标
+	 * @param yTexStart        按钮纹理在资源图像中的起始y坐标
+	 * @param onPress          按钮被按下时的回调接口
+	 */
+	public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress) {
+		this(resourceLocation, x, y, width, height, xTexStart, yTexStart, onPress, true);
+	}
 
-    /**
-     * 构造一个 SwitchButton 实例，包含是否特殊的标志
-     *
-     * @param resourceLocation 按钮纹理资源的位置
-     * @param x                按钮的x坐标
-     * @param y                按钮的y坐标
-     * @param width            按钮的宽度
-     * @param height           按钮的高度
-     * @param xTexStart        按钮纹理在资源图像中的起始x坐标
-     * @param yTexStart        按钮纹理在资源图像中的起始y坐标
-     * @param onPress          按钮被按下时的回调接口
-     * @param isSpecial        按钮是否具有特殊渲染逻辑
-     */
-    public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress, boolean isSpecial) {
-        this(resourceLocation, x, y, width, height, xTexStart, yTexStart, 256, 256, onPress, isSpecial);
-    }
+	/**
+	 * 构造一个 SwitchButton 实例，包含是否特殊的标志
+	 *
+	 * @param resourceLocation 按钮纹理资源的位置
+	 * @param x                按钮的x坐标
+	 * @param y                按钮的y坐标
+	 * @param width            按钮的宽度
+	 * @param height           按钮的高度
+	 * @param xTexStart        按钮纹理在资源图像中的起始x坐标
+	 * @param yTexStart        按钮纹理在资源图像中的起始y坐标
+	 * @param onPress          按钮被按下时的回调接口
+	 * @param isSpecial        按钮是否具有特殊渲染逻辑
+	 */
+	public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress, boolean isSpecial) {
+		this(resourceLocation, x, y, width, height, xTexStart, yTexStart, 256, 256, onPress, isSpecial);
+	}
 
-    /**
-     * 构造一个 SwitchButton 实例，包含按钮纹理的宽度和高度
-     *
-     * @param resourceLocation 按钮纹理资源的位置
-     * @param x                按钮的x坐标
-     * @param y                按钮的y坐标
-     * @param width            按钮的宽度
-     * @param height           按钮的高度
-     * @param xTexStart        按钮纹理在资源图像中的起始x坐标
-     * @param yTexStart        按钮纹理在资源图像中的起始y坐标
-     * @param textureWidth     按钮纹理的宽度
-     * @param textureHeight    按钮纹理的高度
-     * @param onPress          按钮被按下时的回调接口
-     */
-    public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress) {
-        this(resourceLocation, x, y, width, height, xTexStart, yTexStart, textureWidth, textureHeight, onPress, true);
-    }
+	/**
+	 * 构造一个 SwitchButton 实例，包含按钮纹理的宽度和高度
+	 *
+	 * @param resourceLocation 按钮纹理资源的位置
+	 * @param x                按钮的x坐标
+	 * @param y                按钮的y坐标
+	 * @param width            按钮的宽度
+	 * @param height           按钮的高度
+	 * @param xTexStart        按钮纹理在资源图像中的起始x坐标
+	 * @param yTexStart        按钮纹理在资源图像中的起始y坐标
+	 * @param textureWidth     按钮纹理的宽度
+	 * @param textureHeight    按钮纹理的高度
+	 * @param onPress          按钮被按下时的回调接口
+	 */
+	public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress) {
+		this(resourceLocation, x, y, width, height, xTexStart, yTexStart, textureWidth, textureHeight, onPress, true);
+	}
 
-    /**
-     * 构造一个 SwitchButton 实例，包含是否特殊的标志，以及按钮纹理的宽度和高度
-     *
-     * @param resourceLocation 按钮纹理资源的位置
-     * @param x                按钮的x坐标
-     * @param y                按钮的y坐标
-     * @param width            按钮的宽度
-     * @param height           按钮的高度
-     * @param xTexStart        按钮纹理在资源图像中的起始x坐标
-     * @param yTexStart        按钮纹理在资源图像中的起始y坐标
-     * @param textureWidth     按钮纹理的宽度
-     * @param textureHeight    按钮纹理的高度
-     * @param onPress          按钮被按下时的回调接口
-     * @param isSpecial        按钮是否具有特殊渲染逻辑
-     */
-    public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress, boolean isSpecial) {
-        super(x, y, width, height, null, new PmOnPressAbstract(onPress){
-            @Override
-            public void on(Button button) {
-                if (button instanceof SwitchButton switchButton) switchButton.change();
-            }
-        });
-        this.resourceLocation = resourceLocation;
-        this.xTexStart = xTexStart;
-        this.yTexStart = yTexStart;
-        this.textureWidth = textureWidth;
-        this.textureHeight = textureHeight;
-        this.isSpecial = isSpecial;
-    }
+	/**
+	 * 构造一个 SwitchButton 实例，包含是否特殊的标志，以及按钮纹理的宽度和高度
+	 *
+	 * @param resourceLocation 按钮纹理资源的位置
+	 * @param x                按钮的x坐标
+	 * @param y                按钮的y坐标
+	 * @param width            按钮的宽度
+	 * @param height           按钮的高度
+	 * @param xTexStart        按钮纹理在资源图像中的起始x坐标
+	 * @param yTexStart        按钮纹理在资源图像中的起始y坐标
+	 * @param textureWidth     按钮纹理的宽度
+	 * @param textureHeight    按钮纹理的高度
+	 * @param onPress          按钮被按下时的回调接口
+	 * @param isSpecial        按钮是否具有特殊渲染逻辑
+	 */
+	public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress, boolean isSpecial) {
+		super(x, y, width, height, null, new PmOnPressAbstract(onPress) {
+			@Override
+			public void on(Button button) {
+				if (button instanceof SwitchButton switchButton) switchButton.change();
+			}
+		});
+		this.resourceLocation = resourceLocation;
+		this.xTexStart = xTexStart;
+		this.yTexStart = yTexStart;
+		this.textureWidth = textureWidth;
+		this.textureHeight = textureHeight;
+		this.isSpecial = isSpecial;
+	}
 
-    /**
-     * 切换按钮的打开状态
-     */
-    public void change() {
-        this.isOpen = !isOpen;
-    }
+	/**
+	 * 切换按钮的打开状态
+	 */
+	public void change() {
+		this.isOpen = !isOpen;
+	}
 
-    /**
-     * 获取按钮的打开状态
-     */
-    public boolean isOpen() {
-        return isOpen;
-    }
+	/**
+	 * 获取按钮的打开状态
+	 */
+	public boolean isOpen() {
+		return isOpen;
+	}
 
-    /**
-     * 渲染按钮，根据按钮的状态和是否悬停来确定渲染的纹理部分
-     */
-    @Override
-    public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        if (isSpecial) {
-            return;
-        }
-        int x = this.xTexStart;
-        if (isOpen) {
-            x += width + 1;
-        }
-        if (isHovered()){
-            x += width + 1;
-        }
-	    render(guiGraphics, x);
-    }
+	/**
+	 * 渲染按钮，根据按钮的状态和是否悬停来确定渲染的纹理部分
+	 */
+	@Override
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		if (isSpecial) {
+			return;
+		}
+		int x = this.xTexStart;
+		if (isOpen) {
+			x += width + 1;
+		}
+		if (isHovered()) {
+			x += width + 1;
+		}
+		render(guiGraphics, x);
+	}
 
-    /**
-     * 在特殊情况下替换默认的按钮渲染方法
-     */
-    public void renderWidgetOverlay(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks){
-        int x = this.xTexStart;
-        x += overlayOpen(guiGraphics, mouseX, mouseY, partialTicks);
-        if (isHovered()){
-            x += width + 1;
-        }
-	    render(guiGraphics, x);
-    }
+	/**
+	 * 在特殊情况下替换默认的按钮渲染方法
+	 */
+	public void renderWidgetOverlay(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+		int x = this.xTexStart;
+		x += overlayOpen(guiGraphics, mouseX, mouseY, partialTicks);
+		if (isHovered()) {
+			x += width + 1;
+		}
+		render(guiGraphics, x);
+	}
 
 	/**
 	 * 渲染按钮的纹理
@@ -174,9 +175,9 @@ public class SwitchButton extends ImageButton {
 	}
 
 	/**
-     * 特殊执行的渲染逻辑，返回渲染的纹理部分的偏移量
-     */
-    public int overlayOpen(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks){
-        return 0;
-    }
+	 * 特殊执行的渲染逻辑，返回渲染的纹理部分的偏移量
+	 */
+	public int overlayOpen(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+		return 0;
+	}
 }

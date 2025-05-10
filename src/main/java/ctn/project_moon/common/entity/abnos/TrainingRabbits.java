@@ -15,37 +15,37 @@ import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class TrainingRabbits extends AbnosEntity{
-    private final AnimatableInstanceCache ANIMS = GeckoLibUtil.createInstanceCache(this);
+public class TrainingRabbits extends AbnosEntity {
+	private final AnimatableInstanceCache ANIMS = GeckoLibUtil.createInstanceCache(this);
 
-    public TrainingRabbits(EntityType<? extends Mob> entityType, Level level) {
-        super(entityType, level, GradeTypeTool.Level.ZAYIN);
-    }
+	public TrainingRabbits(EntityType<? extends Mob> entityType, Level level) {
+		super(entityType, level, GradeTypeTool.Level.ZAYIN);
+	}
 
-    public static AttributeSupplier.Builder createAttributes(){
-        return createAbnosAttributes()
-                .add(PmEntityAttributes.THE_SOUL_RESISTANCE, 1.0)
-                .add(PmEntityAttributes.EROSION_RESISTANCE, 1.0);
-    }
+	public static AttributeSupplier.Builder createAttributes() {
+		return createAbnosAttributes()
+				.add(PmEntityAttributes.THE_SOUL_RESISTANCE, 1.0)
+				.add(PmEntityAttributes.EROSION_RESISTANCE, 1.0);
+	}
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+	@Override
+	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
-    }
+	}
 
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return ANIMS;
-    }
+	@Override
+	public AnimatableInstanceCache getAnimatableInstanceCache() {
+		return ANIMS;
+	}
 
-    public static class TrainingRabbitsRenderer extends GeoEntityRenderer<TrainingRabbits> {
-        public TrainingRabbitsRenderer(EntityRendererProvider.Context context) {
-            super(context, new PmGeoEntityModel<>("training_rabbits"));
-        }
+	public static class TrainingRabbitsRenderer extends GeoEntityRenderer<TrainingRabbits> {
+		public TrainingRabbitsRenderer(EntityRendererProvider.Context context) {
+			super(context, new PmGeoEntityModel<>("training_rabbits"));
+		}
 
-        @Override
-        public @NotNull ResourceLocation getTextureLocation(@NotNull TrainingRabbits animatable) {
-            return PmGeoEntityModel.texturePath("training_rabbits");
-        }
-    }
+		@Override
+		public @NotNull ResourceLocation getTextureLocation(@NotNull TrainingRabbits animatable) {
+			return PmGeoEntityModel.texturePath("training_rabbits");
+		}
+	}
 }

@@ -15,21 +15,23 @@ import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_MOVED;
 
 @Mixin(KeyboardInput.class)
 public abstract class KeyboardInputMixin extends Input {
-    @Final @Shadow private Options options;
+	@Final
+	@Shadow
+	private Options options;
 
-    @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    public void projectMoon$tick(boolean isSneaking, float sneakingSpeedMultiplier, CallbackInfo ci) {
-        Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.player != null && minecraft.player.getPersistentData().getBoolean(CANNOT_PLAYER_MOVED)) {
-            this.up = false;
-            this.down = false;
-            this.left = false;
-            this.right = false;
-            this.jumping = false;
-            this.shiftKeyDown = false;
-            this.forwardImpulse = 0;
-            this.leftImpulse = 0;
-            ci.cancel();
-        }
-    }
+	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
+	public void projectMoon$tick(boolean isSneaking, float sneakingSpeedMultiplier, CallbackInfo ci) {
+		Minecraft minecraft = Minecraft.getInstance();
+		if (minecraft.player != null && minecraft.player.getPersistentData().getBoolean(CANNOT_PLAYER_MOVED)) {
+			this.up = false;
+			this.down = false;
+			this.left = false;
+			this.right = false;
+			this.jumping = false;
+			this.shiftKeyDown = false;
+			this.forwardImpulse = 0;
+			this.leftImpulse = 0;
+			ci.cancel();
+		}
+	}
 }

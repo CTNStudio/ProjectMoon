@@ -20,26 +20,26 @@ import static ctn.project_moon.init.PmMenuType.PLAYER_ATTRIBUTE_MENU;
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class RegistrarClientRendering {
 
-    /**
-     * 注册实体渲染器
-     */
-    @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
-        EntityRenderers.register(PmEntity.TRAINING_RABBITS.get(), TrainingRabbits.TrainingRabbitsRenderer::new);
-        EntityRenderers.register(PmEntity.PARADISE_LOST_SPIKEWEED.get(), ParadiseLostSpikeweed.TrainingRabbitsRenderer::new);
-    }
+	/**
+	 * 注册实体渲染器
+	 */
+	@SubscribeEvent
+	public static void onClientSetup(FMLClientSetupEvent event) {
+		EntityRenderers.register(PmEntity.TRAINING_RABBITS.get(), TrainingRabbits.TrainingRabbitsRenderer::new);
+		EntityRenderers.register(PmEntity.PARADISE_LOST_SPIKEWEED.get(), ParadiseLostSpikeweed.TrainingRabbitsRenderer::new);
+	}
 
-    /** 注册粒子渲染器*/
-    @SubscribeEvent
-    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
-       event.registerSpecial(PmParticleTypes.DAMAGE_PARTICLE_TYPE.get(), new DamageParticle.Provider());
-    }
+	/** 注册粒子渲染器 */
+	@SubscribeEvent
+	public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+		event.registerSpecial(PmParticleTypes.DAMAGE_PARTICLE_TYPE.get(), new DamageParticle.Provider());
+	}
 
-    /**
-     * 注册菜单渲染器
-     */
-    @SubscribeEvent
-    public static void registerMenuScreens(RegisterMenuScreensEvent event) {
-        event.register(PLAYER_ATTRIBUTE_MENU.get(), PlayerAttributeScreen::new);
-    }
+	/**
+	 * 注册菜单渲染器
+	 */
+	@SubscribeEvent
+	public static void registerMenuScreens(RegisterMenuScreensEvent event) {
+		event.register(PLAYER_ATTRIBUTE_MENU.get(), PlayerAttributeScreen::new);
+	}
 }

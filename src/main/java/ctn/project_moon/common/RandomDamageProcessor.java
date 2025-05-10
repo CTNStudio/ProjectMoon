@@ -3,19 +3,20 @@ package ctn.project_moon.common;
 import net.minecraft.util.RandomSource;
 
 public interface RandomDamageProcessor {
-    int getMaxDamage();
-    int getMinDamage();
+	int getMaxDamage();
 
-    static int getDamage(RandomSource randomSource, int max, int min) {
-        if (max == min) {
-            return max;
-        }
-        return randomSource.nextInt(min, max + 1);
-    }
+	int getMinDamage();
 
-    default int getDamage(RandomSource randomSource) {
-        return getDamage(randomSource, getMaxDamage(), getMinDamage());
-    }
+	static int getDamage(RandomSource randomSource, int max, int min) {
+		if (max == min) {
+			return max;
+		}
+		return randomSource.nextInt(min, max + 1);
+	}
+
+	default int getDamage(RandomSource randomSource) {
+		return getDamage(randomSource, getMaxDamage(), getMinDamage());
+	}
 
 
 }

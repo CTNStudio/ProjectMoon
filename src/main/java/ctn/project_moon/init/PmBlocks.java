@@ -8,9 +8,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 public class PmBlocks {
-    public static final DeferredRegister.Blocks BLOCK_REGISTER = DeferredRegister.createBlocks(MOD_ID);
+	public static final DeferredRegister.Blocks BLOCK_REGISTER = DeferredRegister.createBlocks(MOD_ID);
 
-    public static DeferredBlock<Block> registerSimpleBlock(String name, BlockBehaviour.Properties props) {
-        return BLOCK_REGISTER.registerSimpleBlock(name, props);
-    }
+	public static DeferredBlock<Block> registerSimpleBlock(String name, BlockBehaviour.Properties props) {
+		return BLOCK_REGISTER.registerSimpleBlock(name, props);
+	}
 }

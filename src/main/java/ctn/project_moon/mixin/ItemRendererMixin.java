@@ -15,10 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin implements ResourceManagerReloadListener {
-    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    public void projectMoon$render(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel p_model, CallbackInfo ci){
-        if (itemStack.isEmpty() && displayContext != ItemDisplayContext.GUI && itemStack.getItem() instanceof Weapon) {
-            return;
-        }
-    }
+	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
+	public void projectMoon$render(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel p_model, CallbackInfo ci) {
+		if (itemStack.isEmpty() && displayContext != ItemDisplayContext.GUI && itemStack.getItem() instanceof Weapon) {
+		}
+	}
 }

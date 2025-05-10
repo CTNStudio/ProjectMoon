@@ -16,35 +16,35 @@ import static ctn.project_moon.api.SpiritAttribute.getSpiritValue;
 import static ctn.project_moon.init.PmItemDataComponents.MODE_BOOLEAN;
 
 public class CreativeSpiritToolItem extends Item {
-    public CreativeSpiritToolItem(Properties properties) {
-        super(properties.component(MODE_BOOLEAN, false));
-    }
+	public CreativeSpiritToolItem(Properties properties) {
+		super(properties.component(MODE_BOOLEAN, false));
+	}
 
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
-        ItemStack itemStack = player.getItemInHand(usedHand);
-        if (player.isCreative()) {
-            if (player.isShiftKeyDown()) {
-                itemStack.set(MODE_BOOLEAN, !itemStack.get(MODE_BOOLEAN));
-                return InteractionResultHolder.success(itemStack);
-            }
-            if (!level.isClientSide()) {
-                SpiritAttribute.incrementSpiritValue(player, itemStack.get(MODE_BOOLEAN) ? -1 : 1);
-                return InteractionResultHolder.success(itemStack);
-            }
-        }
-        return InteractionResultHolder.fail(itemStack);
-    }
+	@Override
+	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
+		ItemStack itemStack = player.getItemInHand(usedHand);
+		if (player.isCreative()) {
+			if (player.isShiftKeyDown()) {
+				itemStack.set(MODE_BOOLEAN, !itemStack.get(MODE_BOOLEAN));
+				return InteractionResultHolder.success(itemStack);
+			}
+			if (!level.isClientSide()) {
+				SpiritAttribute.incrementSpiritValue(player, itemStack.get(MODE_BOOLEAN) ? -1 : 1);
+				return InteractionResultHolder.success(itemStack);
+			}
+		}
+		return InteractionResultHolder.fail(itemStack);
+	}
 
-    @Override
-    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
-        super.inventoryTick(stack, level, entity, slotId, isSelected);
-        if (entity instanceof Player player && !level.isClientSide() && isSelected) {
-            getSpirit("当前的精神值为：" + getSpiritValue(player));
-        }
-    }
+	@Override
+	public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
+		super.inventoryTick(stack, level, entity, slotId, isSelected);
+		if (entity instanceof Player player && !level.isClientSide() && isSelected) {
+			getSpirit("当前的精神值为：" + getSpiritValue(player));
+		}
+	}
 
-    private void getSpirit(String player) {
-        Minecraft.getInstance().gui.setOverlayMessage(Component.literal(player), false);
-    }
+	private void getSpirit(String player) {
+		Minecraft.getInstance().gui.setOverlayMessage(Component.literal(player), false);
+	}
 }

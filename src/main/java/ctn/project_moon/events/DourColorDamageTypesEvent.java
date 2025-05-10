@@ -13,36 +13,36 @@ import javax.annotation.Nullable;
  * {@link ICancellableEvent} 用于防止其他继续覆盖伤害类型
  */
 public class DourColorDamageTypesEvent extends LivingEvent implements ICancellableEvent {
-    @Nullable
-    private final DamageContainer container;
-    private final DamageSource source;
-    private PmDamageTypes.Types dourColorDamageTypes;
+	@Nullable
+	private final DamageContainer container;
+	private final DamageSource source;
+	private PmDamageTypes.Types dourColorDamageTypes;
 
-    public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source, @org.jetbrains.annotations.Nullable DamageContainer container) {
-        super(entity);
-        this.source = source;
-        this.container = container;
-    }
+	public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source, @org.jetbrains.annotations.Nullable DamageContainer container) {
+		super(entity);
+		this.source = source;
+		this.container = container;
+	}
 
-    public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source) {
-        super(entity);
-        this.source = source;
-        this.container = null;
-    }
+	public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source) {
+		super(entity);
+		this.source = source;
+		this.container = null;
+	}
 
-    public @org.jetbrains.annotations.Nullable DamageContainer getContainer() {
-        return container;
-    }
+	public @org.jetbrains.annotations.Nullable DamageContainer getContainer() {
+		return container;
+	}
 
-    public DamageSource getSource() {
-        return source;
-    }
+	public DamageSource getSource() {
+		return source;
+	}
 
-    public PmDamageTypes.Types getDamageTypes() {
-        return dourColorDamageTypes;
-    }
+	public PmDamageTypes.Types getDamageTypes() {
+		return dourColorDamageTypes;
+	}
 
-    public void setDourColorDamageTypes(PmDamageTypes.Types dourColorDamageTypes) {
-        this.dourColorDamageTypes = dourColorDamageTypes;
-    }
+	public void setDourColorDamageTypes(PmDamageTypes.Types dourColorDamageTypes) {
+		this.dourColorDamageTypes = dourColorDamageTypes;
+	}
 }

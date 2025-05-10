@@ -16,11 +16,11 @@ import static net.neoforged.neoforge.client.gui.VanillaGuiLayers.SELECTED_ITEM_N
  */
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class GuiLayersEvent {
-    /**
-     * 添加gui渲染图层及渲染事件
-     */
-    @SubscribeEvent
-    public static void registerGuiLayersEvent(RegisterGuiLayersEvent event) {
-        event.registerBelow(SELECTED_ITEM_NAME, PLAYER_SPIRIT, (guiGraphics, deltaTracker) -> new SpiritLayersDraw(guiGraphics, deltaTracker, Minecraft.getInstance()));
-    }
+	/**
+	 * 添加gui渲染图层及渲染事件
+	 */
+	@SubscribeEvent
+	public static void registerGuiLayersEvent(RegisterGuiLayersEvent event) {
+		event.registerBelow(SELECTED_ITEM_NAME, PLAYER_SPIRIT, (guiGraphics, deltaTracker) -> new SpiritLayersDraw(guiGraphics, deltaTracker, Minecraft.getInstance()));
+	}
 }

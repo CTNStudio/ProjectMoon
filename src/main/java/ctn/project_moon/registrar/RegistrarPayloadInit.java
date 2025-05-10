@@ -14,16 +14,16 @@ import static net.neoforged.fml.common.EventBusSubscriber.Bus.MOD;
 
 @EventBusSubscriber(modid = MOD_ID, bus = MOD)
 public class RegistrarPayloadInit {
-    /** 注册有效载荷数据包 */
-    @SubscribeEvent
-    public static void register(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1.0");
-        registrar.playBidirectional(SpiritValueData.TYPE, SpiritValueData.CODEC,
-                new DirectionalPayloadHandler<>(SpiritValueData::client, SpiritValueData::server));
-        registrar.playBidirectional(TempNbtAttrData.TYPE, TempNbtAttrData.CODEC,
-                new DirectionalPayloadHandler<>(TempNbtAttrData::client, TempNbtAttrData::server));
+	/** 注册有效载荷数据包 */
+	@SubscribeEvent
+	public static void register(final RegisterPayloadHandlersEvent event) {
+		final PayloadRegistrar registrar = event.registrar("1.0");
+		registrar.playBidirectional(SpiritValueData.TYPE, SpiritValueData.CODEC,
+				new DirectionalPayloadHandler<>(SpiritValueData::client, SpiritValueData::server));
+		registrar.playBidirectional(TempNbtAttrData.TYPE, TempNbtAttrData.CODEC,
+				new DirectionalPayloadHandler<>(TempNbtAttrData::client, TempNbtAttrData::server));
 
-        registrar.playToServer(OpenPlayerAttributeScreenData.TYPE,
-                OpenPlayerAttributeScreenData.CODEC, OpenPlayerAttributeScreenData::server);
-    }
+		registrar.playToServer(OpenPlayerAttributeScreenData.TYPE,
+				OpenPlayerAttributeScreenData.CODEC, OpenPlayerAttributeScreenData::server);
+	}
 }

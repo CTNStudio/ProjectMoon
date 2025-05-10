@@ -12,13 +12,13 @@ import org.apache.logging.log4j.Logger;
  * 事件
  */
 public class PmCommonHooks {
-    private static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = LogManager.getLogger();
 
-    public static DourColorDamageTypesEvent dourColorDamageType(LivingEntity entity, DamageSource source, DamageContainer container) {
-        return NeoForge.EVENT_BUS.post(new DourColorDamageTypesEvent(entity, source, container));
-    }
+	public static DourColorDamageTypesEvent dourColorDamageType(LivingEntity entity, DamageSource source, DamageContainer container) {
+		return NeoForge.EVENT_BUS.post(new DourColorDamageTypesEvent(entity, source, container));
+	}
 
-    public static DourColorDamageTypesEvent dourColorDamageType(LivingEntity entity, DamageSource source) {
-        return NeoForge.EVENT_BUS.post(new DourColorDamageTypesEvent(entity, source));
-    }
+	public static DourColorDamageTypesEvent dourColorDamageType(LivingEntity entity, DamageSource source) {
+		return NeoForge.EVENT_BUS.post(new DourColorDamageTypesEvent(entity, source));
+	}
 }

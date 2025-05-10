@@ -13,13 +13,15 @@ import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_ROTATING_PERSP
 
 @Mixin(MouseHandler.class)
 public abstract class MouseHandlerMixin {
-    @Shadow @Final private Minecraft minecraft;
+	@Shadow
+	@Final
+	private Minecraft minecraft;
 
-    @Inject(method = "turnPlayer", at = @At("HEAD"), cancellable = true)
-    private void projectMoon$turnPlayer(CallbackInfo ci) {
-        if (!(minecraft.player != null && minecraft.player.getPersistentData().getBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE))) {
-            return;
-        }
-        ci.cancel();
-    }
+	@Inject(method = "turnPlayer", at = @At("HEAD"), cancellable = true)
+	private void projectMoon$turnPlayer(CallbackInfo ci) {
+		if (!(minecraft.player != null && minecraft.player.getPersistentData().getBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE))) {
+			return;
+		}
+		ci.cancel();
+	}
 }

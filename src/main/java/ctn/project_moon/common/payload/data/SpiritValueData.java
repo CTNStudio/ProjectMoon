@@ -14,32 +14,32 @@ import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_VALUE;
 import static ctn.project_moon.api.SpiritAttribute.getSpiritValue;
 
 public record SpiritValueData(double spiritValue) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<SpiritValueData> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "data.spirit_value"));
-    public static final StreamCodec<FriendlyByteBuf, SpiritValueData> CODEC =
-            CustomPacketPayload.codec(SpiritValueData::write, SpiritValueData::of);
+	public static final CustomPacketPayload.Type<SpiritValueData> TYPE =
+			new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "data.spirit_value"));
+	public static final StreamCodec<FriendlyByteBuf, SpiritValueData> CODEC =
+			CustomPacketPayload.codec(SpiritValueData::write, SpiritValueData::of);
 
-    public static SpiritValueData of(FriendlyByteBuf buf) {
-        return new SpiritValueData(buf.readDouble());
-    }
+	public static SpiritValueData of(FriendlyByteBuf buf) {
+		return new SpiritValueData(buf.readDouble());
+	}
 
-    public static SpiritValueData create(ServerPlayer serverPlayer){
-        return new SpiritValueData(getSpiritValue(serverPlayer));
-    }
+	public static SpiritValueData create(ServerPlayer serverPlayer) {
+		return new SpiritValueData(getSpiritValue(serverPlayer));
+	}
 
-    public void write(ByteBuf buffer) {
-        buffer.writeDouble(this.spiritValue);
-    }
+	public void write(ByteBuf buffer) {
+		buffer.writeDouble(this.spiritValue);
+	}
 
-    @Override
-    public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
+	@Override
+	public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 
-    public static void client(final SpiritValueData data, final IPayloadContext context) {
-        context.player().getPersistentData().putDouble(SPIRIT_VALUE, data.spiritValue);
-    }
+	public static void client(final SpiritValueData data, final IPayloadContext context) {
+		context.player().getPersistentData().putDouble(SPIRIT_VALUE, data.spiritValue);
+	}
 
-    public static void server(final SpiritValueData data, final IPayloadContext context) {
-    }
+	public static void server(final SpiritValueData data, final IPayloadContext context) {
+	}
 }

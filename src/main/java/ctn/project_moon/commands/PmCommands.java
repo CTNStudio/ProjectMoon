@@ -2,35 +2,51 @@ package ctn.project_moon.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
-import ctn.project_moon.api.PlayerAttribute;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import ctn.project_moon.api.FourColorAttribute;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+
+import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.api.FourColorAttribute.*;
 
 public class PmCommands {
-    public static void registerCommands(CommandDispatcher<CommandSourceStack>  dispatcher) {
-        dispatcher.register(Commands.literal("PmSetPlayer")//句首
-                .requires(source -> source.hasPermission(2))//权限需求
-                .then(Commands.argument("target", EntityArgument.player())
-                        .then(Commands.literal("temperance")//自律分支
-                            .then(Commands.argument("value", DoubleArgumentType.doubleArg(0.0d, 500d))
-                                .executes(context -> {
-                                    Player player = EntityArgument.getPlayer(context, "target");
-                                    double value = DoubleArgumentType.getDouble(context, "value");
-                                    PlayerAttribute.setBaseTemperance(player, (int)value);
-                                    context.getSource().sendSuccess(() -> Component.literal("玩家自律已设置为： " + (int)value), true);
-                                    return 1;
-                                })))
-                        .then(Commands.literal("justice")//正义分支
-                            .then(Commands.argument("value", DoubleArgumentType.doubleArg(0.0d, 500d))
-                                .executes(context -> {
-                                    Player player = EntityArgument.getPlayer(context, "target");
-                                    double value = DoubleArgumentType.getDouble(context, "value");
-                                    PlayerAttribute.setBaseJustice(player, (int)value);
-                                    context.getSource().sendSuccess(() -> Component.literal("玩家正义已设置为： " + (int)value), true);
-                                    return 1;
-                                })))));
-    }
+
+	public static final DoubleArgumentType FOUR_COLOR_ARG = DoubleArgumentType.doubleArg(0.0d, 500d);
+	public static final String ATTRIBUTE_TO_SET = MOD_ID + ".commands.attribute_to_set.";
+
+	/**
+	 * 四色属性设置命令
+	 */
+	public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
+		dispatcher.register(Commands.literal("PmSetPlayer")//句首
+				.requires(source -> source.hasPermission(2))//权限需求
+				.then(Commands.argument("target", EntityArgument.player())
+						//自律分支
+						.then(Commands.literal(Type.TEMPERANCE.getName()).then(Commands.argument("value", FOUR_COLOR_ARG)
+								.executes(context -> extracted(context, Type.TEMPERANCE))))
+						//正义分支
+						.then(Commands.literal(Type.JUSTICE.getName()).then(Commands.argument("value", FOUR_COLOR_ARG)
+								.executes(context -> extracted(context, Type.JUSTICE))))));
+	}
+
+	private static int extracted(CommandContext<CommandSourceStack> context, FourColorAttribute.Type type) throws CommandSyntaxException {
+		double value = DoubleArgumentType.getDouble(context, "value");
+		ServerPlayer player = EntityArgument.getPlayer(context, "target");
+		switch (type) {
+			case FORTITUDE -> {
+			}
+			case PRUDENCE -> {
+			}
+			case TEMPERANCE -> setBaseTemperance(player, (int) value);
+			case JUSTICE -> setBaseJustice(player, (int) value);
+			case COMPOSITE_RATING -> throw new UnsupportedOperationException("Composite rating cannot be set directly.");
+		}
+		context.getSource().sendSuccess(() -> Component.translatable(ATTRIBUTE_TO_SET + type.getName(), value), true);
+		return 1;
+	}
 }

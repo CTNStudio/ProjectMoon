@@ -18,37 +18,38 @@ import static ctn.project_moon.PmMain.MOD_ID;
 
 public record OpenPlayerAttributeScreenData(ItemStack carried) implements CustomPacketPayload {
 
-  public static final Type<OpenPlayerAttributeScreenData> TYPE =
-      new Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "data.open_player_attribute_screen"));
+	public static final Type<OpenPlayerAttributeScreenData> TYPE =
+			new Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "data.open_player_attribute_screen"));
 
-  public static final StreamCodec<RegistryFriendlyByteBuf, OpenPlayerAttributeScreenData> CODEC =
-      StreamCodec.composite(
-          ItemStack.OPTIONAL_STREAM_CODEC,
-          OpenPlayerAttributeScreenData::carried,
-          OpenPlayerAttributeScreenData::new);
+	public static final StreamCodec<RegistryFriendlyByteBuf, OpenPlayerAttributeScreenData> CODEC =
+			StreamCodec.composite(
+					ItemStack.OPTIONAL_STREAM_CODEC,
+					OpenPlayerAttributeScreenData::carried,
+					OpenPlayerAttributeScreenData::new);
 
-  @Nonnull
-  @Override
-  public Type<? extends CustomPacketPayload> type() {
-    return TYPE;
-  }
+	@Nonnull
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 
-  public static void client(final OpenPlayerAttributeScreenData data, final IPayloadContext context){}
+	public static void client(final OpenPlayerAttributeScreenData data, final IPayloadContext context) {
+	}
 
-  public static void server(final OpenPlayerAttributeScreenData data, final IPayloadContext context){
-    context.enqueueWork(() -> {
-      Player player = context.player();
+	public static void server(final OpenPlayerAttributeScreenData data, final IPayloadContext context) {
+		context.enqueueWork(() -> {
+			Player player = context.player();
 
-      if (player instanceof ServerPlayer serverPlayer) {
-        ItemStack stack = player.isCreative() ? data.carried() : player.containerMenu.getCarried();
-        player.containerMenu.setCarried(ItemStack.EMPTY);
-        player.openMenu(new PlayerAttributeContainerProvider());
+			if (player instanceof ServerPlayer serverPlayer) {
+				ItemStack stack = player.isCreative() ? data.carried() : player.containerMenu.getCarried();
+				player.containerMenu.setCarried(ItemStack.EMPTY);
+				player.openMenu(new PlayerAttributeContainerProvider());
 
-        if (!stack.isEmpty()) {
-          player.containerMenu.setCarried(stack);
-          PacketDistributor.sendToPlayer(serverPlayer, new SPacketGrabbedItem(stack));
-        }
-      }
-    });
-  }
+				if (!stack.isEmpty()) {
+					player.containerMenu.setCarried(stack);
+					PacketDistributor.sendToPlayer(serverPlayer, new SPacketGrabbedItem(stack));
+				}
+			}
+		});
+	}
 }

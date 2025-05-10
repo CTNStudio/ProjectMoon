@@ -19,115 +19,116 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.common.item.Ego.DAMAGE_TYPE;
 
 public interface PmDamageTypes extends DamageTypes {
-    /**
-     * 物理
-     */
-    ResourceKey<DamageType> PHYSICS = create("physics");
-    /**
-     * 精神
-     */
-    ResourceKey<DamageType> SPIRIT = create("spirit");
-    /**
-     * 侵蚀
-     */
-    ResourceKey<DamageType> EROSION = create("erosion");
-    /**
-     * 灵魂
-     */
-    ResourceKey<DamageType> THE_SOUL = create("the_soul");
-    /**
-     * ABNORMALITIES 异想体
-     */
-    ResourceKey<DamageType> ABNOS = create("abnos");
-    // Extermination of Geometrical Organ 是的没错这玩意的全称就是这么长
-    /**
-     * EGO
-     */
-    ResourceKey<DamageType> EGO = create("ego");
+	/**
+	 * 物理
+	 */
+	ResourceKey<DamageType> PHYSICS = create("physics");
+	/**
+	 * 精神
+	 */
+	ResourceKey<DamageType> SPIRIT = create("spirit");
+	/**
+	 * 侵蚀
+	 */
+	ResourceKey<DamageType> EROSION = create("erosion");
+	/**
+	 * 灵魂
+	 */
+	ResourceKey<DamageType> THE_SOUL = create("the_soul");
+	/**
+	 * ABNORMALITIES 异想体
+	 */
+	ResourceKey<DamageType> ABNOS = create("abnos");
+	// Extermination of Geometrical Organ 是的没错这玩意的全称就是这么长
+	/**
+	 * EGO
+	 */
+	ResourceKey<DamageType> EGO = create("ego");
 
-    static ResourceKey<DamageType> create(final String name) {
-        return ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
-    }
+	static ResourceKey<DamageType> create(final String name) {
+		return ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
+	}
 
-    static String getDamageTypeLocation(final PmDamageTypes.Types damageType) {
-        return damageType.getKey().location().toString();
-    }
+	static String getDamageTypeLocation(final PmDamageTypes.Types damageType) {
+		return damageType.getKey().location().toString();
+	}
 
-    enum Types {
-        /**
-         * 物理
-         */
-        PHYSICS(PmDamageTypes.PHYSICS, PmTags.PmItem.PHYSICS, PmTags.PmDamageType.PHYSICS),
-        /**
-         * 精神
-         */
-        SPIRIT(PmDamageTypes.SPIRIT, PmTags.PmItem.SPIRIT, PmTags.PmDamageType.SPIRIT),
-        /**
-         * 侵蚀
-         */
-        EROSION(PmDamageTypes.EROSION,PmTags.PmItem.EROSION, PmTags.PmDamageType.EROSION),
-        /**
-         * 灵魂
-         */
-        THE_SOUL(PmDamageTypes.THE_SOUL, PmTags.PmItem.THE_SOUL, PmTags.PmDamageType.THE_SOUL),;
+	enum Types {
+		/**
+		 * 物理
+		 */
+		PHYSICS(PmDamageTypes.PHYSICS, PmTags.PmItem.PHYSICS, PmTags.PmDamageType.PHYSICS),
+		/**
+		 * 精神
+		 */
+		SPIRIT(PmDamageTypes.SPIRIT, PmTags.PmItem.SPIRIT, PmTags.PmDamageType.SPIRIT),
+		/**
+		 * 侵蚀
+		 */
+		EROSION(PmDamageTypes.EROSION, PmTags.PmItem.EROSION, PmTags.PmDamageType.EROSION),
+		/**
+		 * 灵魂
+		 */
+		THE_SOUL(PmDamageTypes.THE_SOUL, PmTags.PmItem.THE_SOUL, PmTags.PmDamageType.THE_SOUL),
+		;
 
-        private final TagKey<Item> itemTga;
-        private final TagKey<DamageType> damageTypeTag;
-        private final ResourceKey<DamageType> key;
-        private final String location;
+		private final TagKey<Item> itemTga;
+		private final TagKey<DamageType> damageTypeTag;
+		private final ResourceKey<DamageType> key;
+		private final String location;
 
-        Types(ResourceKey<DamageType> key,TagKey<Item> itemTga, TagKey<DamageType> damageTypeTag) {
-            this.key = key;
-            this.location = key.location().toString();
-            this.itemTga = itemTga;
-            this.damageTypeTag = damageTypeTag;
-        }
+		Types(ResourceKey<DamageType> key, TagKey<Item> itemTga, TagKey<DamageType> damageTypeTag) {
+			this.key = key;
+			this.location = key.location().toString();
+			this.itemTga = itemTga;
+			this.damageTypeTag = damageTypeTag;
+		}
 
-        public static PmDamageTypes.Types getType(final DamageSource damageSource) {
-            return Arrays.stream(PmDamageTypes.Types.values())
-                    .filter(it -> damageSource.is(it.getDamageTypeTag()))
-                    .findFirst()
-                    .orElse(null);
-        }
+		public static PmDamageTypes.Types getType(final DamageSource damageSource) {
+			return Arrays.stream(PmDamageTypes.Types.values())
+					.filter(it -> damageSource.is(it.getDamageTypeTag()))
+					.findFirst()
+					.orElse(null);
+		}
 
-        @CheckForNull
-        public static PmDamageTypes.Types getType(final ResourceKey<DamageType> key) {
-            return Arrays.stream(PmDamageTypes.Types.values())
-                    .filter(it -> key.equals(it.getKey()))
-                    .findFirst()
-                    .orElse(null);
-        }
+		@CheckForNull
+		public static PmDamageTypes.Types getType(final ResourceKey<DamageType> key) {
+			return Arrays.stream(PmDamageTypes.Types.values())
+					.filter(it -> key.equals(it.getKey()))
+					.findFirst()
+					.orElse(null);
+		}
 
-        @CheckForNull
-        public static PmDamageTypes.Types getType(final String keyString) {
-            return Arrays.stream(PmDamageTypes.Types.values())
-                    .filter(it -> keyString.equals(it.getLocationString()))
-                    .findFirst()
-                    .orElse(null);
-        }
+		@CheckForNull
+		public static PmDamageTypes.Types getType(final String keyString) {
+			return Arrays.stream(PmDamageTypes.Types.values())
+					.filter(it -> keyString.equals(it.getLocationString()))
+					.findFirst()
+					.orElse(null);
+		}
 
-        public ResourceKey<DamageType> getKey() {
-            return key;
-        }
+		public ResourceKey<DamageType> getKey() {
+			return key;
+		}
 
-        public String getLocationString() {
-            return location;
-        }
+		public String getLocationString() {
+			return location;
+		}
 
-        public TagKey<DamageType> getDamageTypeTag() {
-            return damageTypeTag;
-        }
+		public TagKey<DamageType> getDamageTypeTag() {
+			return damageTypeTag;
+		}
 
-        public TagKey<Item> getItemTga() {
-            return itemTga;
-        }
+		public TagKey<Item> getItemTga() {
+			return itemTga;
+		}
 
 
-        /**
-         * 返回EGO伤害类型 仅物品描述用
-         */
-        public static List<TagKey<Item>> egoDamageTypes(final ItemStack item) {
-            return item.getTags().filter(DAMAGE_TYPE::contains).toList();
-        }
-    }
+		/**
+		 * 返回EGO伤害类型 仅物品描述用
+		 */
+		public static List<TagKey<Item>> egoDamageTypes(final ItemStack item) {
+			return item.getTags().filter(DAMAGE_TYPE::contains).toList();
+		}
+	}
 }

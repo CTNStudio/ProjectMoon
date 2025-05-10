@@ -15,23 +15,23 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.tool.GradeTypeTool.Level.getEntityLevel;
 
 public enum MobEntityLevel implements IEntityComponentProvider {
-    INSTANCE;
+	INSTANCE;
 
-    @Override
-    public void appendTooltip(ITooltip iTooltip, EntityAccessor entityAccessor, IPluginConfig iPluginConfig) {
-        if (!(entityAccessor.getEntity() instanceof LivingEntity entity)) {
-            return;
-        }
-        GradeTypeTool.Level level = getEntityLevel(entity);
-        iTooltip.add(1, Component.literal(level.getName()).withColor(PmTool.colorConversion(level.getColourText())));
-    }
+	@Override
+	public void appendTooltip(ITooltip iTooltip, EntityAccessor entityAccessor, IPluginConfig iPluginConfig) {
+		if (!(entityAccessor.getEntity() instanceof LivingEntity entity)) {
+			return;
+		}
+		GradeTypeTool.Level level = getEntityLevel(entity);
+		iTooltip.add(1, Component.literal(level.getName()).withColor(PmTool.colorConversion(level.getColourText())));
+	}
 
-    @Override
-    public ResourceLocation getUid() {
-        return PmPlugin.LEVEL;
-    }
+	@Override
+	public ResourceLocation getUid() {
+		return PmPlugin.LEVEL;
+	}
 
-    private static @NotNull ResourceLocation getResourceLocation(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
-    }
+	private static @NotNull ResourceLocation getResourceLocation(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+	}
 }

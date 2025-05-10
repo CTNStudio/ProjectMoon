@@ -13,15 +13,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static ctn.project_moon.init.PmEntityAttributes.*;
 
 @Mixin(AttributeSupplier.Builder.class)
-public abstract class AttributeSupplier$BuilderMixin{
-    @Inject(method = "<init>*", at = @At("TAIL"))
-    public void Builder(CallbackInfo ci) {
-        create(PHYSICS_RESISTANCE);
-        create(SPIRIT_RESISTANCE);
-        create(EROSION_RESISTANCE);
-        create(THE_SOUL_RESISTANCE);
-        create(ENTITY_LEVEL);
-    }
+public abstract class AttributeSupplier$BuilderMixin {
+	@Inject(method = "<init>*", at = @At("TAIL"))
+	public void Builder(CallbackInfo ci) {
+		create(PHYSICS_RESISTANCE);
+		create(SPIRIT_RESISTANCE);
+		create(EROSION_RESISTANCE);
+		create(THE_SOUL_RESISTANCE);
+		create(ENTITY_LEVEL);
+	}
 
-    @Shadow protected abstract AttributeInstance create(Holder<Attribute> attribute);
+	@Shadow
+	protected abstract AttributeInstance create(Holder<Attribute> attribute);
 }

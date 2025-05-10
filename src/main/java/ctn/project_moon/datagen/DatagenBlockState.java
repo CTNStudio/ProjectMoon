@@ -8,12 +8,12 @@ import static ctn.project_moon.PmMain.MOD_ID;
 
 
 public class DatagenBlockState extends BlockStateProvider {
-    public DatagenBlockState(PackOutput output, ExistingFileHelper exFileHelper) {
-        super(output, MOD_ID, exFileHelper);
-    }
+	public DatagenBlockState(PackOutput output, ExistingFileHelper exFileHelper) {
+		super(output, MOD_ID, exFileHelper);
+	}
 
-    @Override
-    protected void registerStatesAndModels() {
+	@Override
+	protected void registerStatesAndModels() {
 
-    }
+	}
 }

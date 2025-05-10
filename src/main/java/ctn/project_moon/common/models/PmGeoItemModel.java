@@ -7,40 +7,40 @@ import software.bernie.geckolib.model.GeoModel;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 public class PmGeoItemModel<T extends GeoAnimatable> extends GeoModel<T> {
-    protected final String path;
+	protected final String path;
 
-    public PmGeoItemModel(String path) {
-        this.path = path;
-    }
-    
-    public static ResourceLocation fromNamespaceAndPath(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
-    }
+	public PmGeoItemModel(String path) {
+		this.path = path;
+	}
 
-    public static ResourceLocation modelPath(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "geo/item/" + path + ".geo.json");
-    }
+	public static ResourceLocation fromNamespaceAndPath(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+	}
 
-    public static ResourceLocation texturePath(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/geo/item/" + path + ".png");
-    }
+	public static ResourceLocation modelPath(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, "geo/item/" + path + ".geo.json");
+	}
 
-    public static ResourceLocation animationsPath(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, "animations/item/" + path + ".json");
-    }
+	public static ResourceLocation texturePath(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/geo/item/" + path + ".png");
+	}
 
-    @Override
-    public ResourceLocation getModelResource(T animatable) {
-        return modelPath(path);
-    }
+	public static ResourceLocation animationsPath(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, "animations/item/" + path + ".json");
+	}
 
-    @Override
-    public ResourceLocation getTextureResource(T animatable) {
-        return texturePath(path);
-    }
+	@Override
+	public ResourceLocation getModelResource(T animatable) {
+		return modelPath(path);
+	}
 
-    @Override
-    public ResourceLocation getAnimationResource(T animatable) {
-        return animationsPath(path);
-    }
+	@Override
+	public ResourceLocation getTextureResource(T animatable) {
+		return texturePath(path);
+	}
+
+	@Override
+	public ResourceLocation getAnimationResource(T animatable) {
+		return animationsPath(path);
+	}
 }

@@ -1,6 +1,8 @@
 package ctn.project_moon.client.screen;
 
+import ctn.project_moon.client.gui.widget.CurioCosmeticButton;
 import ctn.project_moon.client.gui.widget.CurioRenderButton;
+import ctn.project_moon.client.gui.widget.SwitchButton;
 import ctn.project_moon.common.menu.PlayerAttributeMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -26,9 +28,7 @@ import top.theillusivec4.curios.common.inventory.CurioSlot;
 import top.theillusivec4.curios.common.network.client.CPacketToggleRender;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
@@ -36,24 +36,40 @@ import static ctn.project_moon.PmMain.MOD_ID;
 public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<PlayerAttributeMenu> implements ICuriosScreen {
 	public static final ResourceLocation GUI = getResourceLocation("textures/gui/container/player_attribute.png");
 	private boolean isRenderButtonHovered;
-	private final Map<String, List<ItemStack>> indexedDisplays = new HashMap<>();
 
 	public PlayerAttributeScreen(PlayerAttributeMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title);
 	}
 
+	// 取消原版的文本标签
 	@Override
-	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {}
+	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+	}
 
+	/** 初始化 */
 	@Override
 	public void init() {
 		imageWidth = 197;
 		imageHeight = 181;
 		leftPos = (this.width - this.imageWidth) / 2 - 10;
 		topPos = (this.height - this.imageHeight) / 2 - 7;
-		this.updateRenderButtons();
+		for (Slot inventorySlot : this.menu.slots) {
+			if (inventorySlot instanceof CurioSlot curioSlot && !(inventorySlot instanceof CosmeticCurioSlot) && curioSlot.canToggleRender()) {
+				this.addRenderableWidget(new CurioRenderButton(curioSlot, GUI,
+						this.leftPos + inventorySlot.x + 12,
+						this.topPos + inventorySlot.y + 12,
+						5, 5,
+						198, 30,
+						(button) -> PacketDistributor.sendToServer(new CPacketToggleRender(curioSlot.getIdentifier(), inventorySlot.getSlotIndex()))));
+			}
+		}
+		addRenderableWidget(new CurioCosmeticButton(this, GUI,
+				this.leftPos + 9, this.topPos + 7,
+				11, 6,
+				198, 36));
 	}
 
+	/** 绘制背景 */
 	@Override
 	protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
 		if (this.minecraft != null && this.minecraft.player != null) {
@@ -72,28 +88,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		}
 	}
 
-	public void updateRenderButtons() {
-		for (Slot inventorySlot : this.menu.slots) {
-
-			if (inventorySlot instanceof CurioSlot curioSlot
-					&& !(inventorySlot instanceof CosmeticCurioSlot)) {
-
-				if (curioSlot.canToggleRender()) {
-					this.addRenderableWidget(
-							new CurioRenderButton(
-									curioSlot,
-									GUI,
-									this.leftPos + inventorySlot.x + 12,
-									this.topPos + inventorySlot.y + 12,
-									5, 5,
-									198, 30,
-									(button) -> PacketDistributor.sendToServer(new CPacketToggleRender(curioSlot.getIdentifier(), inventorySlot.getSlotIndex()))));
-				}
-			}
-		}
-	}
-
-//
+	//
 //	@Override
 //	protected void renderSlot(GuiGraphics guiGraphics, Slot slot) {
 //		super.renderSlot(guiGraphics, slot);
@@ -102,13 +97,12 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
-		this.indexedDisplays.clear();
 		boolean isButtonHovered = false;
 
-		for (Renderable button : this.renderables) {
-			if (button instanceof CurioRenderButton) {
-				((CurioRenderButton) button).renderWidgetOverlay(guiGraphics, mouseX, mouseY, partialTick);
-				if (((CurioRenderButton) button).isHovered()) {
+		for (Renderable renderable : this.renderables) {
+			if (renderable instanceof SwitchButton button) {
+				button.renderWidgetOverlay(guiGraphics, mouseX, mouseY, partialTick);
+				if (button.isHovered()) {
 					isButtonHovered = true;
 				}
 			}
@@ -125,7 +119,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 				ItemStack stack = slotCurio.getSlotExtension().getDisplayStack(slotCurio.getSlotContext(), slot.getItem());
 				if (stack.isEmpty()) {
 					List<Component> slotTooltips = slotCurio.getSlotExtension().getSlotTooltip(slotCurio.getSlotContext(), ClientTooltipFlag.of(this.minecraft.options.advancedItemTooltips
-									? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL));
+							? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL));
 
 					if (!slotTooltips.isEmpty()) {
 						guiGraphics.renderComponentTooltip(font, slotTooltips, mouseX, mouseY);
@@ -150,8 +144,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 			if (clientPlayer != null && clientPlayer.inventoryMenu.getCarried().isEmpty()) {
 
 				if (this.isRenderButtonHovered) {
-					guiGraphics.renderTooltip(
-							this.font, Component.translatable("gui.curios.toggle"), mouseX, mouseY);
+					guiGraphics.renderTooltip(this.font, Component.translatable("gui.curios.toggle"), mouseX, mouseY);
 				} else if (this.hoveredSlot != null) {
 					ItemStack stack = this.hoveredSlot.getItem();
 

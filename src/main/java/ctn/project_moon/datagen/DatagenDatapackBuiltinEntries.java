@@ -20,26 +20,26 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.init.PmDamageTypes.*;
 
 public class DatagenDatapackBuiltinEntries extends DatapackBuiltinEntriesProvider {
-    public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-            .add(Registries.DAMAGE_TYPE, context -> {
-                createDamageType(context, PHYSICS, 0.1f);
-                createDamageType(context, SPIRIT, 0.2f);
-                createDamageType(context, EROSION, 0.3f);
-                createDamageType(context, THE_SOUL, 0.4f);
-                createDamageType(context, ABNOS, 0.3f);
-                createDamageType(context, EGO, 0.3f);
-            });
+	public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+			.add(Registries.DAMAGE_TYPE, context -> {
+				createDamageType(context, PHYSICS, 0.1f);
+				createDamageType(context, SPIRIT, 0.2f);
+				createDamageType(context, EROSION, 0.3f);
+				createDamageType(context, THE_SOUL, 0.4f);
+				createDamageType(context, ABNOS, 0.3f);
+				createDamageType(context, EGO, 0.3f);
+			});
 
-    public DatagenDatapackBuiltinEntries(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries, BUILDER, Set.of(MOD_ID));
-    }
+	public DatagenDatapackBuiltinEntries(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+		super(output, registries, BUILDER, Set.of(MOD_ID));
+	}
 
-    public static Holder.Reference<DamageType> createDamageType(BootstrapContext<DamageType> context, ResourceKey<DamageType> damageType, DamageScaling damageScaling, float exhaustion, DamageEffects damageEffects, DeathMessageType deathMessageType) {
-        return context.register(damageType, new DamageType(damageType.location().getPath(), damageScaling, exhaustion, damageEffects, deathMessageType));
-    }
+	public static Holder.Reference<DamageType> createDamageType(BootstrapContext<DamageType> context, ResourceKey<DamageType> damageType, DamageScaling damageScaling, float exhaustion, DamageEffects damageEffects, DeathMessageType deathMessageType) {
+		return context.register(damageType, new DamageType(damageType.location().getPath(), damageScaling, exhaustion, damageEffects, deathMessageType));
+	}
 
-    public static Holder.Reference<DamageType> createDamageType(BootstrapContext<DamageType> context, ResourceKey<DamageType> damageType, float exhaustion) {
-        return createDamageType(context, damageType, DamageScaling.ALWAYS, exhaustion, DamageEffects.HURT, DeathMessageType.DEFAULT);
-    }
+	public static Holder.Reference<DamageType> createDamageType(BootstrapContext<DamageType> context, ResourceKey<DamageType> damageType, float exhaustion) {
+		return createDamageType(context, damageType, DamageScaling.ALWAYS, exhaustion, DamageEffects.HURT, DeathMessageType.DEFAULT);
+	}
 
 }

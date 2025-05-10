@@ -33,60 +33,60 @@ import static top.theillusivec4.curios.api.CuriosApi.registerCurioPredicate;
 
 @Mod(PmMain.MOD_ID)
 public class PmMain {
-    public static final String MOD_ID = "project_moon";
-    public static final Logger LOGGER = LogUtils.getLogger();
+	public static final String MOD_ID = "project_moon";
+	public static final Logger LOGGER = LogUtils.getLogger();
 
-    public PmMain(IEventBus modEventBus, ModContainer modContainer) {
-        modEventBus.addListener(this::commonSetup);
-        modContainer.registerConfig(ModConfig.Type.COMMON, PmConfig.COMMON_SPEC);
-        modContainer.registerConfig(ModConfig.Type.SERVER, PmConfig.SERVER_SPEC);
-        modContainer.registerConfig(ModConfig.Type.CLIENT, PmConfig.CLIENT_SPEC);
-        modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+	public PmMain(IEventBus modEventBus, ModContainer modContainer) {
+		modEventBus.addListener(this::commonSetup);
+		modContainer.registerConfig(ModConfig.Type.COMMON, PmConfig.COMMON_SPEC);
+		modContainer.registerConfig(ModConfig.Type.SERVER, PmConfig.SERVER_SPEC);
+		modContainer.registerConfig(ModConfig.Type.CLIENT, PmConfig.CLIENT_SPEC);
+		modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
-        BLOCK_REGISTER.register(modEventBus);
-        ITEM_REGISTER.register(modEventBus);
-        PROJECT_MOON_TAB_REGISTER.register(modEventBus);
-        PM_ATTRIBUTE_REGISTER.register(modEventBus);
-        PARTICLE_TYPE_REGISTER.register(modEventBus);
-        ARMOR_MATERIALS_TYPE_REGISTER.register(modEventBus);
-        SOUND_EVENT_TYPE_REGISTER.register(modEventBus);
-        ENTITY_TYPE_REGISTER.register(modEventBus);
-        ITEM_DATA_COMPONENT_REGISTER.register(modEventBus);
-        MENU_TYPE_REGISTER.register(modEventBus);
+		BLOCK_REGISTER.register(modEventBus);
+		ITEM_REGISTER.register(modEventBus);
+		PROJECT_MOON_TAB_REGISTER.register(modEventBus);
+		PM_ATTRIBUTE_REGISTER.register(modEventBus);
+		PARTICLE_TYPE_REGISTER.register(modEventBus);
+		ARMOR_MATERIALS_TYPE_REGISTER.register(modEventBus);
+		SOUND_EVENT_TYPE_REGISTER.register(modEventBus);
+		ENTITY_TYPE_REGISTER.register(modEventBus);
+		ITEM_DATA_COMPONENT_REGISTER.register(modEventBus);
+		MENU_TYPE_REGISTER.register(modEventBus);
 
-        createValidators();
-        NeoForge.EVENT_BUS.register(this);
-    }
+		createValidators();
+		NeoForge.EVENT_BUS.register(this);
+	}
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        LOGGER.info("ProjectMoon from common setup");
-    }
+	private void commonSetup(final FMLCommonSetupEvent event) {
+		LOGGER.info("ProjectMoon from common setup");
+	}
 
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        LOGGER.info("ProjectMoon from server starting");
-    }
+	@SubscribeEvent
+	public void onServerStarting(ServerStartingEvent event) {
+		LOGGER.info("ProjectMoon from server starting");
+	}
 
-    // 饰品
-    public void createValidators() {
-        createValidators(EGO_CURIOS_TAG, EGO_CURIOS);
-        createValidators(HEADWEAR_TAG, EGO_CURIOS_HEADWEAR);
-        createValidators(HEAD_TAG, EGO_CURIOS_HEAD);
-        createValidators(HINDBRAIN_TAG, EGO_CURIOS_HINDBRAIN);
-        createValidators(EYE_AREA_TAG, EGO_CURIOS_EYE_AREA);
-        createValidators(FACE_TAG, EGO_CURIOS_FACE);
-        createValidators(CHEEK_TAG, EGO_CURIOS_CHEEK);
-        createValidators(MASK_TAG, EGO_CURIOS_MASK);
-        createValidators(MOUTH_TAG, EGO_CURIOS_MOUTH);
-        createValidators(NECK_TAG, EGO_CURIOS_NECK);
-        createValidators(CHEST_TAG, EGO_CURIOS_CHEST);
-        createValidators(HAND_TAG, EGO_CURIOS_HAND);
-        createValidators(GLOVE_TAG, EGO_CURIOS_GLOVE);
-        createValidators(RIGHT_BACK_TAG, EGO_CURIOS_RIGHT_BACK);
-        createValidators(LEFT_BACK_TAG, EGO_CURIOS_LEFT_BACK);
-    }
+	// 饰品
+	public void createValidators() {
+		createValidators(EGO_CURIOS_TAG, EGO_CURIOS);
+		createValidators(HEADWEAR_TAG, EGO_CURIOS_HEADWEAR);
+		createValidators(HEAD_TAG, EGO_CURIOS_HEAD);
+		createValidators(HINDBRAIN_TAG, EGO_CURIOS_HINDBRAIN);
+		createValidators(EYE_AREA_TAG, EGO_CURIOS_EYE_AREA);
+		createValidators(FACE_TAG, EGO_CURIOS_FACE);
+		createValidators(CHEEK_TAG, EGO_CURIOS_CHEEK);
+		createValidators(MASK_TAG, EGO_CURIOS_MASK);
+		createValidators(MOUTH_TAG, EGO_CURIOS_MOUTH);
+		createValidators(NECK_TAG, EGO_CURIOS_NECK);
+		createValidators(CHEST_TAG, EGO_CURIOS_CHEST);
+		createValidators(HAND_TAG, EGO_CURIOS_HAND);
+		createValidators(GLOVE_TAG, EGO_CURIOS_GLOVE);
+		createValidators(RIGHT_BACK_TAG, EGO_CURIOS_RIGHT_BACK);
+		createValidators(LEFT_BACK_TAG, EGO_CURIOS_LEFT_BACK);
+	}
 
-    public static void createValidators(ResourceLocation name,TagKey<Item> tagKey){
-        registerCurioPredicate(name, (slotResult) -> slotResult.stack().is(tagKey));
-    }
+	public static void createValidators(ResourceLocation name, TagKey<Item> tagKey) {
+		registerCurioPredicate(name, (slotResult) -> slotResult.stack().is(tagKey));
+	}
 }

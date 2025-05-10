@@ -6,11 +6,11 @@ import static ctn.project_moon.init.PmItemDataComponents.IS_RESTRAIN;
 
 public class EgoArmor extends PmArmor {
 
-    public EgoArmor(Builder builder) {
-        this(builder.build(), builder);
-    }
+	public EgoArmor(Builder builder) {
+		this(builder.build(), builder);
+	}
 
-    public EgoArmor(Properties properties, Builder builder) {
-        super(properties.component(IS_RESTRAIN, false), builder);
-    }
+	public EgoArmor(Properties properties, Builder builder) {
+		super(properties.component(IS_RESTRAIN, false), builder);
+	}
 }

@@ -8,6 +8,7 @@ public abstract class PmOnPressAbstract implements Button.OnPress {
 	public PmOnPressAbstract(Button.OnPress onPress) {
 		this.onPress = onPress;
 	}
+
 	@Override
 	public void onPress(Button button) {
 		on(button);
@@ -20,7 +21,9 @@ public abstract class PmOnPressAbstract implements Button.OnPress {
 		public PmOnPress(Button.OnPress onPress) {
 			super(onPress);
 		}
+
 		@Override
-		public void on(Button button) {}
+		public void on(Button button) {
+		}
 	}
 }

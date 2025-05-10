@@ -14,16 +14,16 @@ import java.util.Objects;
 import static net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE;
 
 public abstract class AbnosEntity extends Mob implements Abnos, GeoEntity {
-    protected AbnosEntity(EntityType<? extends Mob> entityType, Level level, GradeTypeTool.Level entityLevel) {
-        super(entityType, level);
-        setEntityLevel(this, entityLevel);
-    }
+	protected AbnosEntity(EntityType<? extends Mob> entityType, Level level, GradeTypeTool.Level entityLevel) {
+		super(entityType, level);
+		setEntityLevel(this, entityLevel);
+	}
 
-    public static AttributeSupplier.Builder createAbnosAttributes(){
-        return createMobAttributes().add(KNOCKBACK_RESISTANCE, 1);
-    }
+	public static AttributeSupplier.Builder createAbnosAttributes() {
+		return createMobAttributes().add(KNOCKBACK_RESISTANCE, 1);
+	}
 
-    public static void setEntityLevel(LivingEntity entity, GradeTypeTool.Level entityLevel) {
-        Objects.requireNonNull(entity.getAttribute(PmEntityAttributes.ENTITY_LEVEL)).setBaseValue(entityLevel.getLevelValue());
-    }
+	public static void setEntityLevel(LivingEntity entity, GradeTypeTool.Level entityLevel) {
+		Objects.requireNonNull(entity.getAttribute(PmEntityAttributes.ENTITY_LEVEL)).setBaseValue(entityLevel.getLevelValue());
+	}
 }

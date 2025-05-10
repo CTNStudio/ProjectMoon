@@ -19,26 +19,26 @@ import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;
 import static ctn.project_moon.init.PmItemDataComponents.CURRENT_DAMAGE_TYPE;
 
 public class ChaosKnifeItem extends CloseCombatEgo {
-    public ChaosKnifeItem(Properties properties) {
-        super(properties, new Weapon.Builder().minDamage(6).maxDamage(7).attackSpeed(-1.4F), PHYSICS);
-    }
+	public ChaosKnifeItem(Properties properties) {
+		super(properties, new Weapon.Builder().minDamage(6).maxDamage(7).attackSpeed(-1.4F), PHYSICS);
+	}
 
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
-        ItemStack itemStack = player.getItemInHand(usedHand);
-        PmDamageTypes.Types s = switch (getType(itemStack.get(PmItemDataComponents.CURRENT_DAMAGE_TYPE))) {
-            case PHYSICS -> THE_SOUL;
-            case SPIRIT -> PHYSICS;
-            case EROSION -> SPIRIT;
-            case THE_SOUL -> EROSION;
-            case null -> PHYSICS;
-        };
-        itemStack.set(CURRENT_DAMAGE_TYPE, getDamageTypeLocation(s));
-        return InteractionResultHolder.success(itemStack);
-    }
+	@Override
+	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
+		ItemStack itemStack = player.getItemInHand(usedHand);
+		PmDamageTypes.Types s = switch (getType(itemStack.get(PmItemDataComponents.CURRENT_DAMAGE_TYPE))) {
+			case PHYSICS -> THE_SOUL;
+			case SPIRIT -> PHYSICS;
+			case EROSION -> SPIRIT;
+			case THE_SOUL -> EROSION;
+			case null -> PHYSICS;
+		};
+		itemStack.set(CURRENT_DAMAGE_TYPE, getDamageTypeLocation(s));
+		return InteractionResultHolder.success(itemStack);
+	}
 
-    @Override
-    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-    }
+	@Override
+	public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+		super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+	}
 }

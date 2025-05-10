@@ -7,21 +7,21 @@ import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.model.GeoModel;
 
 public class GeoItemRenderProvider implements GeoRenderProvider {
-    private PmGeoItemRenderer<Weapon> renderer;
-    protected final GeoModel<Weapon> defaultModel;
-    protected final GeoModel<Weapon> guiModel;
+	private PmGeoItemRenderer<Weapon> renderer;
+	protected final GeoModel<Weapon> defaultModel;
+	protected final GeoModel<Weapon> guiModel;
 
-    public GeoItemRenderProvider(GeoModel<Weapon> defaultModel, GeoModel<Weapon> guiModel) {
-        this.defaultModel = defaultModel;
-        this.guiModel = guiModel;
-    }
+	public GeoItemRenderProvider(GeoModel<Weapon> defaultModel, GeoModel<Weapon> guiModel) {
+		this.defaultModel = defaultModel;
+		this.guiModel = guiModel;
+	}
 
-    @Override
-    public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
-        if (this.renderer == null) {
-            this.renderer = new PmGeoItemRenderer<>(defaultModel, guiModel);
-        }
+	@Override
+	public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
+		if (this.renderer == null) {
+			this.renderer = new PmGeoItemRenderer<>(defaultModel, guiModel);
+		}
 
-        return this.renderer;
-    }
+		return this.renderer;
+	}
 }

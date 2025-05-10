@@ -11,42 +11,42 @@ import static ctn.project_moon.datagen.PmTags.PmItem.*;
 import static ctn.project_moon.tool.GradeTypeTool.Level.getEgoLevelTag;
 
 public interface Ego {
-    List<TagKey<Item>> DAMAGE_TYPE = List.of(PHYSICS, SPIRIT, EROSION, THE_SOUL);
+	List<TagKey<Item>> DAMAGE_TYPE = List.of(PHYSICS, SPIRIT, EROSION, THE_SOUL);
 
-    /**
-     * 返回之间的等级差值
-     */
-    static int leveDifferenceValue(ItemStack item, ItemStack item2) {
-        return getItemLevelValue(item) - getItemLevelValue(item2);
-    }
+	/**
+	 * 返回之间的等级差值
+	 */
+	static int leveDifferenceValue(ItemStack item, ItemStack item2) {
+		return getItemLevelValue(item) - getItemLevelValue(item2);
+	}
 
-    /**
-     * 返回物品等级
-     */
-    static int getItemLevelValue(ItemStack item) {
-        return getItemLevelValue(getEgoLevelTag(item));
+	/**
+	 * 返回物品等级
+	 */
+	static int getItemLevelValue(ItemStack item) {
+		return getItemLevelValue(getEgoLevelTag(item));
 
-    }
+	}
 
-    /**
-     * @return {@link GradeTypeTool.Level}
-     */
-    static GradeTypeTool.Level getItemLevel(ItemStack item) {
-        return GradeTypeTool.Level.getItemLevel(getEgoLevelTag(item));
-    }
+	/**
+	 * @return {@link GradeTypeTool.Level}
+	 */
+	static GradeTypeTool.Level getItemLevel(ItemStack item) {
+		return GradeTypeTool.Level.getItemLevel(getEgoLevelTag(item));
+	}
 
-    /** 获取武器等级 */
-    static GradeTypeTool.Level getItemLevel(TagKey<Item> egoLevelTag) {
-        return GradeTypeTool.Level.getItemLevel(egoLevelTag);
-    }
+	/** 获取武器等级 */
+	static GradeTypeTool.Level getItemLevel(TagKey<Item> egoLevelTag) {
+		return GradeTypeTool.Level.getItemLevel(egoLevelTag);
+	}
 
-    /**
-     * 返回物品等级
-     */
-    static int getItemLevelValue(TagKey<Item> itemLevelTag) {
-        final GradeTypeTool.Level type = GradeTypeTool.Level.getItemLevel(itemLevelTag);
-        return type.getLevelValue();
-    }
+	/**
+	 * 返回物品等级
+	 */
+	static int getItemLevelValue(TagKey<Item> itemLevelTag) {
+		final GradeTypeTool.Level type = GradeTypeTool.Level.getItemLevel(itemLevelTag);
+		return type.getLevelValue();
+	}
 
 
 }
