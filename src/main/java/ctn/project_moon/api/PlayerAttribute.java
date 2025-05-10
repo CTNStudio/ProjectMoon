@@ -78,9 +78,11 @@ public class PlayerAttribute {
         return 6;
     }
 
+    //勇气
     public static double getFortitude(LivingEntity entity){
         return entity.getPersistentData().getDouble(FORTITUDE);
     }
+    //获取勇气等级
     public static int getFortitudeLevel(LivingEntity entity){
         double fortitude = getFortitude(entity);
         return getColorLevel(fortitude);
@@ -89,21 +91,25 @@ public class PlayerAttribute {
         entity.getPersistentData().putInt(FORTITUDE, value);
     }
 
+    //谨慎
     public static double getPrudence(LivingEntity entity){
         return entity.getPersistentData().getDouble(PRUDENCE);
     }
+    //获取谨慎等级
     public static int getPrudenceLevel(LivingEntity entity){
         double prudence = getPrudence(entity);
         return getColorLevel(prudence);
     }
-    //TODO:自律相关（目前只有加挖掘速度)
     public static void setPrudence(LivingEntity entity, int value){
         entity.getPersistentData().putInt(PRUDENCE, value);
     }
 
+    //自律
+    //TODO:自律相关（目前只有加挖掘速度)
     public static double getTemperance(LivingEntity entity){
         return entity.getPersistentData().getDouble(TEMPERANCE);
     }
+    //获取自律等级
     public static int getTemperanceLevel(LivingEntity entity){
         double temperance = getTemperance(entity);
         return getColorLevel(temperance);
@@ -117,6 +123,7 @@ public class PlayerAttribute {
     public static void addTemperance(LivingEntity entity, int addValue){
         setTemperance(entity, (int)getTemperance(entity) + addValue);
     }
+    //更新自律对玩家属性的加成
     public static void renewTemperanceAttribute(ServerPlayer player){
         double temperance = getTemperance(player);
         if (temperance < 0.0){
@@ -130,9 +137,11 @@ public class PlayerAttribute {
         Objects.requireNonNull(player.getAttribute(Attributes.BLOCK_BREAK_SPEED)).addTransientModifier(blockBreakSpeedModifier);
     }
 
+    //正义
     public static double getJustice(LivingEntity entity){
         return entity.getPersistentData().getDouble(JUSTICE);
     }
+    //获取正义等级
     public static int getJusticeLevel(LivingEntity entity){
         double justice = getJustice(entity);
         return getColorLevel(justice);
@@ -143,6 +152,10 @@ public class PlayerAttribute {
             renewJusticeAttribute(player);
         }
     }
+    public static void addJustice(LivingEntity entity, int addValue){
+        setJustice(entity, (int)getJustice(entity) + addValue);
+    }
+    //更新正义对玩家属性的加成
     public static void renewJusticeAttribute(ServerPlayer player){
         double justice = getJustice(player);
         if (justice < 0.0){
@@ -161,10 +174,8 @@ public class PlayerAttribute {
         Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).addTransientModifier(movementSpeedModifier);
         Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_SPEED)).addTransientModifier(attackSpeedModifier);
     }
-    public static void addJustice(LivingEntity entity, int addValue){
-        setJustice(entity, (int)getJustice(entity) + addValue);
-    }
 
+    //事件处理方法
     public static void fortitudeRelated(Player player){
         if(player instanceof ServerPlayer){
             player.getPersistentData().putInt(FORTITUDE, (int) Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).getValue());
@@ -176,7 +187,6 @@ public class PlayerAttribute {
         }
     }
     public static void temperanceRelated(Player player){
-
         if(player instanceof ServerPlayer ){
             if (!player.getPersistentData().contains(TEMPERANCE))
                 setTemperance(player, 1);//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
