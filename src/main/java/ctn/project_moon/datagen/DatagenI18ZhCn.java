@@ -1,6 +1,6 @@
 package ctn.project_moon.datagen;
 
-import ctn.project_moon.client.gui.PlayerAttributeButton;
+import ctn.project_moon.client.gui.widget.PlayerAttributeButton;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.*;

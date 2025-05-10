@@ -1,0 +1,27 @@
+package ctn.project_moon.common.inventory.container;
+
+import ctn.project_moon.common.menu.PlayerAttributeMenu;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+public class PlayerAttributeContainerProvider implements MenuProvider {
+
+	@Nonnull
+	@Override
+	public Component getDisplayName() {
+		return Component.empty();
+	}
+
+	@Nullable
+	@Override
+	public AbstractContainerMenu createMenu(int i, @Nonnull Inventory playerInventory,
+	                                        @Nonnull Player playerEntity) {
+		return new PlayerAttributeMenu(i, playerInventory);
+	}
+}

@@ -1,5 +1,6 @@
 package ctn.project_moon.registrar;
 
+import ctn.project_moon.common.payload.data.OpenPlayerAttributeScreenData;
 import ctn.project_moon.common.payload.data.SpiritValueData;
 import ctn.project_moon.common.payload.data.TempNbtAttrData;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,10 +17,13 @@ public class RegistrarPayloadInit {
     /** 注册有效载荷数据包 */
     @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1");
+        final PayloadRegistrar registrar = event.registrar("1.0");
         registrar.playBidirectional(SpiritValueData.TYPE, SpiritValueData.CODEC,
                 new DirectionalPayloadHandler<>(SpiritValueData::client, SpiritValueData::server));
         registrar.playBidirectional(TempNbtAttrData.TYPE, TempNbtAttrData.CODEC,
                 new DirectionalPayloadHandler<>(TempNbtAttrData::client, TempNbtAttrData::server));
+
+        registrar.playToServer(OpenPlayerAttributeScreenData.TYPE,
+                OpenPlayerAttributeScreenData.CODEC, OpenPlayerAttributeScreenData::server);
     }
 }

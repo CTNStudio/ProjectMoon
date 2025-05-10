@@ -1,6 +1,6 @@
 package ctn.project_moon.events.client;
 
-import ctn.project_moon.client.gui.PlayerAttributeButton;
+import ctn.project_moon.client.gui.widget.PlayerAttributeButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -37,5 +37,4 @@ public class ScreenEvents {
             evt.addListener(new PlayerAttributeButton(gui));
         }
     }
-
 }
