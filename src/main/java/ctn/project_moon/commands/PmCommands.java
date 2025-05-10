@@ -14,21 +14,21 @@ public class PmCommands {
         dispatcher.register(Commands.literal("PmSetPlayer")//句首
                 .requires(source -> source.hasPermission(2))//权限需求
                 .then(Commands.argument("target", EntityArgument.player())
-                        .then(Commands.literal("prudence"))//自律分支
+                        .then(Commands.literal("temperance")//自律分支
                             .then(Commands.argument("value", DoubleArgumentType.doubleArg(0.0d, 500d))
                                 .executes(context -> {
                                     Player player = EntityArgument.getPlayer(context, "target");
                                     double value = DoubleArgumentType.getDouble(context, "value");
-                                    PlayerAttribute.setPrudence(player, (int)value);
+                                    PlayerAttribute.setBaseTemperance(player, (int)value);
                                     context.getSource().sendSuccess(() -> Component.literal("玩家自律已设置为： " + (int)value), true);
                                     return 1;
-                                }))
+                                })))
                         .then(Commands.literal("justice")//正义分支
                             .then(Commands.argument("value", DoubleArgumentType.doubleArg(0.0d, 500d))
                                 .executes(context -> {
                                     Player player = EntityArgument.getPlayer(context, "target");
                                     double value = DoubleArgumentType.getDouble(context, "value");
-                                    PlayerAttribute.setJustice(player, (int)value);
+                                    PlayerAttribute.setBaseJustice(player, (int)value);
                                     context.getSource().sendSuccess(() -> Component.literal("玩家正义已设置为： " + (int)value), true);
                                     return 1;
                                 })))));

@@ -67,10 +67,12 @@ public class PlayerEvents {
         CompoundTag nbt = player.getPersistentData();
         if (player instanceof ServerPlayer serverPlayer) {
             syncSpiritValue(serverPlayer);
+            //同步属性
             PlayerAttribute.fortitudeRelated(player);
             PlayerAttribute.prudenceRelated(player);
             PlayerAttribute.temperanceRelated(player);
             PlayerAttribute.justiceRelated(player);
+            PlayerAttribute.renewPlayerCompositeRatting(player);
         }
     }
 }
