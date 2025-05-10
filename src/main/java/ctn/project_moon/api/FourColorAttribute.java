@@ -245,6 +245,9 @@ public class FourColorAttribute {
 	public static void setFortitude(LivingEntity entity, int value) {
 		entity.getPersistentData().putInt(BASE_FORTITUDE, value);
 	}
+	public static void setBaseFortitude(LivingEntity entity, int value) {
+		Objects.requireNonNull(entity.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(value);
+	}
 
 	/**
 	 * 勇气加成
@@ -278,6 +281,9 @@ public class FourColorAttribute {
 
 	public static void setPrudence(LivingEntity entity, int value) {
 		entity.getPersistentData().putInt(BASE_PRUDENCE, value);
+	}
+	public static void setBasePrudence(LivingEntity entity, int value) {
+		Objects.requireNonNull(entity.getAttribute(PmEntityAttributes.MAX_SPIRIT)).setBaseValue(value);
 	}
 
 	/**
