@@ -5,10 +5,13 @@ import ctn.project_moon.client.screen.PlayerAttributeScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import top.theillusivec4.curios.common.inventory.CurioSlot;
 
 import javax.annotation.Nonnull;
 
+@OnlyIn(Dist.CLIENT)
 public class CurioRenderButton extends SwitchButton {
 	private final CurioSlot slot;
 

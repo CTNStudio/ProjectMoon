@@ -9,6 +9,8 @@ import ctn.project_moon.client.gui.widget.player_attribute.CurioCosmeticButton;
 import ctn.project_moon.client.gui.widget.player_attribute.CurioRenderButton;
 import ctn.project_moon.client.gui.widget.player_attribute.ToggleCapacityButton;
 import ctn.project_moon.common.menu.PlayerAttributeMenu;
+import ctn.project_moon.init.PmEntityAttributes;
+import ctn.project_moon.tool.PmTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageWidget;
@@ -16,8 +18,11 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
@@ -39,12 +44,14 @@ import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.FourColorAttribute.*;
+import static ctn.project_moon.init.PmEntityAttributes.*;
 
+// TODO 装饰品槽有问题
 @OnlyIn(Dist.CLIENT)
 public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<PlayerAttributeMenu> implements ICuriosScreen {
 	public static final ResourceLocation GUI = getResourceLocation("textures/gui/container/player_attribute.png");
-	private boolean isRenderButtonHovered;
 	private boolean isCapacity = true;
+	// TODO 更改为复合 并添加抗性图标
 	private RatingWidget[] ratingImages;
 	private RatingWidget compositeRating;
 	private Player player;
@@ -79,11 +86,47 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		player = playerInventory.player;
 	}
 
-	// 取消原版的文本标签
+	// TODO 如果太长会溢出
 	@Override
 	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+		int x = 158;
+		int y = 30;
+		Component component1 = getAdditionalComponent(getBaseFortitude(player), PmEntityAttributes.FORTITUDE_ADDITIONAL);
+		Component component2 = getAdditionalComponent(getBasePrudence(player), PmEntityAttributes.PRUDENCE_ADDITIONAL);
+		Component component3 = getAdditionalComponent(getBaseTemperance(player), PmEntityAttributes.TEMPERANCE_ADDITIONAL);
+		Component component4 = getAdditionalComponent(getBaseJustice(player), PmEntityAttributes.JUSTICE_ADDITIONAL);
+		if (!isCapacity) {
+			component1 = Component.literal(getResistanceString(PHYSICS_RESISTANCE));
+			component2 = Component.literal(getResistanceString(SPIRIT_RESISTANCE));
+			component3 = Component.literal(getResistanceString(EROSION_RESISTANCE));
+			component4 = Component.literal(getResistanceString(THE_SOUL_RESISTANCE));
+		}
+		guiGraphics.drawString(font, component1, x, y, 0xFFFFFF, false);
+		guiGraphics.drawString(font, component2, x, y += 17, 0xFFFFFF, false);
+		guiGraphics.drawString(font, component3, x, y += 17, 0xFFFFFF, false);
+		guiGraphics.drawString(font, component4, x, y + 17, 0xFFFFFF, false);
 	}
 
+	private @NotNull String getResistanceString(Holder<Attribute> attribute) {
+		return String.format("%.2f", player.getAttribute(attribute).getValue());
+	}
+
+	private @NotNull Component getAdditionalComponent(final int originalValue, Holder<Attribute> attribute) {
+		MutableComponent c = Component.literal("").append(Component.literal(String.valueOf(originalValue)));
+		final int additionalValue = (int) player.getAttribute(attribute).getValue();
+		MutableComponent additionalComponent = Component.literal(String.valueOf(additionalValue));
+		if (additionalValue == 0) {
+			return c;
+		}
+		if (additionalValue < 0) {
+			additionalComponent.withColor(PmTool.colorConversion("#dc1a1a"));
+		} else {
+			additionalComponent = Component.literal("+" + additionalValue).withColor(PmTool.colorConversion("#2399b9"));
+		}
+		return c.append(additionalComponent);
+	}
+
+	// TODO 添加详细按钮
 	/** 初始化 */
 	@Override
 	public void init() {
@@ -126,7 +169,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		}
 		addRenderableWidget(compositeRating);
 		addRenderableWidget(new ToggleCapacityButton(this, GUI,
-				this.leftPos + 178, this.topPos + 8,
+				this.leftPos + 178, this.topPos + 3,
 				12, 12, 199, 18));
 		addRenderableWidget(new CurioCosmeticButton(this, GUI,
 				this.leftPos + 10, this.topPos + 11,
@@ -171,7 +214,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		compositeRating.setRating(getCompositeRatting(player)-1);
+		compositeRating.setRating((int) (player.getAttribute(PmEntityAttributes.COMPOSITE_RATING).getValue() - 1));
 		if (isCapacity) {
 			ratingImages[0].setRating(getFortitudeRating(player) - 1);
 			ratingImages[1].setRating(getPrudenceRating(player) - 1);
@@ -179,13 +222,9 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 			ratingImages[3].setRating(getJusticeRating(player) - 1);
 		}
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
-		isRenderButtonHovered = false;
 		for (Renderable renderable : this.renderables) {
 			if (renderable instanceof SwitchButton button) {
 				button.renderWidgetOverlay(guiGraphics, mouseX, mouseY, partialTick);
-				if (button.isHovered()) {
-					isRenderButtonHovered = true;
-				}
 			}
 		}
 		renderTooltip(guiGraphics, mouseX, mouseY);
@@ -193,12 +232,15 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 
 	@Override
 	protected void renderTooltip(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY) {
+		for (Renderable renderable : this.renderables) {
+			if (renderable instanceof CurioRenderButton button && button.isHovered()) {
+				return;
+			}
+		}
 		super.renderTooltip(guiGraphics, mouseX, mouseY);
 		LocalPlayer clientPlayer = Minecraft.getInstance().player;
 
-		if (!isRenderButtonHovered && clientPlayer != null &&
-				clientPlayer.inventoryMenu.getCarried().isEmpty() &&
-				getSlotUnderMouse() != null) {
+		if (clientPlayer != null && clientPlayer.inventoryMenu.getCarried().isEmpty() && getSlotUnderMouse() != null) {
 			Slot slot = getSlotUnderMouse();
 			if (slot instanceof CurioSlot slotCurio && minecraft != null) {
 				ItemStack stack = slotCurio.getSlotExtension().getDisplayStack(slotCurio.getSlotContext(), slot.getItem());

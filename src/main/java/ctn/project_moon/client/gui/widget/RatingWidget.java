@@ -7,9 +7,12 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+@OnlyIn(Dist.CLIENT)
 public class RatingWidget extends AbstractWidget {
 	public static final String COMPOSITE_RATING = MOD_ID + ".gui.player_attribute.composite_rating.message";
 	private static final ResourceLocation texture = PlayerAttributeScreen.GUI;
@@ -24,9 +27,9 @@ public class RatingWidget extends AbstractWidget {
 	@Override
 	protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		int uOffset = 199;
-		int vOffset = 113 + height * rating;
+		int vOffset = 113 + (height + 1) * rating;
 		if (isCompositeRating) {
-			uOffset += height + 1;
+			uOffset += width + 1;
 			if (isHovered()){
 				guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.translatable(COMPOSITE_RATING), mouseX, mouseY);
 			}

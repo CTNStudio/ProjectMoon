@@ -33,6 +33,7 @@ public class DatagenItemModel extends ItemModelProvider {
 		basicItem(PmItems.EGO_CURIOS_ICON.get());
 		basicItem(PmItems.EGO_WEAPON_ICON.get());
 		basicItem(PmItems.CREATIVE_TOOL_ICON.get());
+		basicItem(PmItems.PARADISE_LOST_WINGS.get());
 
 		LinkedHashMap<Float, String> creativeSpiritTool = new LinkedHashMap<>();
 		creativeSpiritTool.put(0F, "add");

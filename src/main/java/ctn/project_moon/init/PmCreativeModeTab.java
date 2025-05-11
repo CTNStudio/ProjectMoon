@@ -40,7 +40,7 @@ public class PmCreativeModeTab extends CreativeModeTabs {
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_CURIOS =
 			register("ego_curios", (name) -> createCreativeModeTab(name,
 					(parameters, output) -> {
-
+						output.accept(PmItems.PARADISE_LOST_WINGS);
 					}, () -> PmItems.EGO_CURIOS_ICON.get().getDefaultInstance()));
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TOOL =

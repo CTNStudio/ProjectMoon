@@ -155,6 +155,7 @@ public class PlayerAttributeMenu extends AbstractContainerMenu {
 		this.setSlot();
 	}
 
+	// TODO 需要编写
 	@Override
 	public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;

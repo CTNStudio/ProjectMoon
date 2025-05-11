@@ -4,9 +4,12 @@ import ctn.project_moon.client.gui.widget.SwitchButton;
 import ctn.project_moon.client.screen.PlayerAttributeScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+@OnlyIn(Dist.CLIENT)
 public class ToggleCapacityButton extends SwitchButton {
 	public static final String TOOLTIP = MOD_ID + ".gui.player_attribute.toggle_capacity_button.message";
 
@@ -25,7 +28,6 @@ public class ToggleCapacityButton extends SwitchButton {
 	public ToggleCapacityButton(PlayerAttributeScreen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart) {
 		super(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, (onPress) -> {
 			screen.toggleCapacity();
-			((ToggleCapacityButton)onPress).change();
 		}, false);
 		message = Component.translatable(TOOLTIP);
 	}

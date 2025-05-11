@@ -73,6 +73,7 @@ public class PlayerEvents {
 			temperanceRelated(player);
 			justiceRelated(player);
 			renewPlayerCompositeRatting(player);
+
 		}
 	}
 }

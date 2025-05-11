@@ -7,6 +7,8 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -22,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author 小尽
  */
+@OnlyIn(Dist.CLIENT)
 public class SwitchButton extends ImageButton {
 	protected Component message;
 	protected final Screen screen;
@@ -36,7 +39,7 @@ public class SwitchButton extends ImageButton {
 	// 按钮纹理的高度
 	protected final int textureHeight;
 	// 按钮当前是否处于打开状态
-	protected boolean isOpen = true;
+	protected boolean isOpen;
 	// 按钮是否具有特殊渲染逻辑
 	private final boolean isSpecial;
 
@@ -162,6 +165,9 @@ public class SwitchButton extends ImageButton {
 	 * 在特殊情况下替换默认的按钮渲染方法
 	 */
 	public void renderWidgetOverlay(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+		if (!isSpecial) {
+			return;
+		}
 		int x = this.xTexStart;
 		x += overlayOpen(guiGraphics, mouseX, mouseY, partialTicks);
 		if (isHovered()) {

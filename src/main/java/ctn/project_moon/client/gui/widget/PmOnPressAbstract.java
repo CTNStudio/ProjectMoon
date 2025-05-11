@@ -1,7 +1,10 @@
 package ctn.project_moon.client.gui.widget;
 
 import net.minecraft.client.gui.components.Button;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public abstract class PmOnPressAbstract implements Button.OnPress {
 	private final Button.OnPress onPress;
 

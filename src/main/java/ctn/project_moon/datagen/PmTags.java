@@ -117,7 +117,8 @@ public class PmTags {
 					.add(PmItems.PARADISE_LOST.get())
 					.add(PmItems.CREATIVE_SPIRIT_TOOL.get())
 					.add(PmItems.CHAOS_SWORD.get())
-					.add(ALEPH_ITEMS);
+					.add(ALEPH_ITEMS)
+					.add(PmItems.PARADISE_LOST_WINGS.get());
 			tag(PHYSICS) // 物理
 					.add(PmItems.LOVE_HATE.get())
 					.add(PmItems.DETONATING_BATON.get())

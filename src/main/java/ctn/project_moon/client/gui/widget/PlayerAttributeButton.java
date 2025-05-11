@@ -12,6 +12,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +21,7 @@ import javax.annotation.Nonnull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+@OnlyIn(Dist.CLIENT)
 public class PlayerAttributeButton extends ImageButton {
 	public static final String MESSAGE = MOD_ID + ".gui.player_attribute_button.message";
 	private final AbstractContainerScreen<?> parentGui;

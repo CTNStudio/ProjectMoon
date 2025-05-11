@@ -5,11 +5,14 @@ import ctn.project_moon.client.screen.PlayerAttributeScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import top.theillusivec4.curios.common.network.client.CPacketToggleCosmetics;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+@OnlyIn(Dist.CLIENT)
 public class CurioCosmeticButton extends SwitchButton {
 
 	public static final String TOOLTIP = MOD_ID + ".gui.player_attribute.curio_cosmetic_button.message";
