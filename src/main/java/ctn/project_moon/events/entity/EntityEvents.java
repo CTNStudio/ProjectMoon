@@ -190,7 +190,6 @@ public class EntityEvents {
 		refreshSpiritValue(event);
 	}
 
-	// TODO 似乎是这
 	private static void refreshSpiritValue(EntityTickEvent.Pre event) {
 		if (!(event.getEntity() instanceof LivingEntity entity)) {
 			return;
