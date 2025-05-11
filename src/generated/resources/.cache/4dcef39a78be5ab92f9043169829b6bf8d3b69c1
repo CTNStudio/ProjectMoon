@@ -1,5 +1,5 @@
-// 1.21.1	2025-04-27T01:02:26.2731968	Tags for minecraft:item mod id project_moon
-39f2f55b1c58efe63be79098c91d40582ef20ff1 data/project_moon/tags/item/aleph.json
+// 1.21.1	2025-05-11T20:34:40.1576775	Tags for minecraft:item mod id project_moon
+43fee5059073e7abd821c4aa09fc5c18e7b36fbc data/project_moon/tags/item/aleph.json
 174d9e8594428112d6f5798b5f6433683efd74f7 data/project_moon/tags/item/ego.json
 51ccd035bcac683e59f049979035c5a525ba40a6 data/project_moon/tags/item/ego_curios.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_curios_cheek.json
@@ -15,7 +15,7 @@
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_curios_mask.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_curios_mouth.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_curios_neck.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_curios_right_back.json
+69b95c0a9905399876ac22c2a22464d440442445 data/project_moon/tags/item/ego_curios_right_back.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_suit.json
 5574d11b9880fedafd6725c012c5e4d6c06b8ce3 data/project_moon/tags/item/ego_weapon.json
 aa7a8eff665bc8dadf51c2364bf5a65e2451a0b3 data/project_moon/tags/item/erosion.json

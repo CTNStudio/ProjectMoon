@@ -142,7 +142,7 @@ public class FourColorAttribute {
 		if (!nbt.contains(BASE_JUSTICE)) setBaseJustice(entity, 100);
 	}
 
-	/** 添加灵力属性 */
+	/** 添加四色属性 */
 	public static void fourColorDefaultValue(LivingEntity entity) {
 		setFortitude(entity, 20);
 		setPrudence(entity, 20);

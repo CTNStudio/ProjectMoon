@@ -63,6 +63,8 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		addItem(PmItems.DRESS_PANTS, "西裤");
 		addItem(PmItems.LOAFERS, "便鞋");
 
+		addItem(PmItems.PARADISE_LOST_WINGS, "失乐园之翼");
+
 		addCurios(DatagenCuriosTest.HEADWEAR_CURIOS, "头饰");
 		addCurios(DatagenCuriosTest.HEAD_CURIOS, "头部");
 		addCurios(DatagenCuriosTest.HINDBRAIN_CURIOS, "后脑");
@@ -86,6 +88,10 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(PmEntityAttributes.MAX_FORTITUDE, "勇气最大点数");
 		add(PmEntityAttributes.MAX_PRUDENCE, "谨慎最大点数");
 		add(PmEntityAttributes.MAX_TEMPERANCE, "自律最大点数");
+		add(PmEntityAttributes.FORTITUDE_ADDITIONAL, "附加勇气");
+		add(PmEntityAttributes.PRUDENCE_ADDITIONAL, "附加谨慎");
+		add(PmEntityAttributes.TEMPERANCE_ADDITIONAL, "附加自律");
+		add(PmEntityAttributes.JUSTICE_ADDITIONAL, "附加正义");
 		add(PmEntityAttributes.MAX_JUSTICE, "正义最大点数");
 		add(PmEntityAttributes.COMPOSITE_RATING, "综合评级");
 
@@ -194,5 +200,6 @@ public class DatagenI18ZhCn extends LanguageProvider {
 
 	public void addCurios(String curiosIdName, String name) {
 		add("curios.identifier." + curiosIdName, name);
+		add("curios.modifiers." + curiosIdName, name + "饰品加成：");
 	}
 }
