@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 public class PlayerAttributeButton extends ImageButton {
-	public static final String MESSAGE = MOD_ID + "player_attribute_button.message";
+	public static final String MESSAGE = MOD_ID + ".gui.player_attribute_button.message";
 	private final AbstractContainerScreen<?> parentGui;
 	public static final WidgetSprites DEFAULT = new WidgetSprites(getResourceLocation("player_attribute_button_enabled"),
 			getResourceLocation("player_attribute_button_disabled"), getResourceLocation("player_attribute_button_enabled_focused"));
@@ -33,22 +33,6 @@ public class PlayerAttributeButton extends ImageButton {
 				ItemStack stack = player.containerMenu.getCarried();
 				player.containerMenu.setCarried(ItemStack.EMPTY);
 				PacketDistributor.sendToServer(new OpenPlayerAttributeScreenData(stack));
-//
-//				if (parentGui instanceof ICuriosScreen) {
-//					InventoryScreen inventory = new InventoryScreen(player);
-//					minecraft.setScreen(inventory);
-//					player.containerMenu.setCarried(stack);
-//					PacketDistributor.sendToServer(new CPacketOpenVanilla(stack));
-//				} else {
-//
-//					if (parentGui instanceof InventoryScreen inventory) {
-//						RecipeBookComponent recipeBookGui = inventory.getRecipeBookComponent();
-//
-//						if (recipeBookGui.isVisible()) {
-//							recipeBookGui.toggleVisibility();
-//						}
-//					}
-//				}
 			}
 		}, Component.translatable(MESSAGE));
 		this.parentGui = parentGui;

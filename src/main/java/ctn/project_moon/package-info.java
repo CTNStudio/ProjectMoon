@@ -1,5 +1,5 @@
 /**
- * <br> 包类：{@link ctn.project_moon.api}-没有特定或固定内容或者一些常量
+ * <br> 包类：{@link ctn.project_moon.api}-一些独特系统的工具类，如理智
  * <p>
  * <p>
  * <br> 包类：{@link ctn.project_moon.client}-仅用于客户端
@@ -19,7 +19,7 @@
  * <p>
  * 类命名规则：__Events
  * <p>
- * <br> 包类：{@link ctn.project_moon.init}-注册并使用但这些基本都是以变量的形式使用
+ * <br> 包类：{@link ctn.project_moon.init}-注册，可重复使用的常量 集合类
  * <p>
  * 类命名规则：Pm__
  * <p>

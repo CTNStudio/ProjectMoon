@@ -83,10 +83,6 @@ public class RegistrarEntityAttributeEvents {
 		event.add(entityType, PmEntityAttributes.MAX_PRUDENCE);
 		event.add(entityType, PmEntityAttributes.MAX_TEMPERANCE);
 		event.add(entityType, PmEntityAttributes.MAX_JUSTICE);
-		event.add(entityType,PmEntityAttributes.FORTITUDE_ADDITIONAL);
-		event.add(entityType, PmEntityAttributes.PRUDENCE_ADDITIONAL);
-		event.add(entityType, PmEntityAttributes.TEMPERANCE_ADDITIONAL);
-		event.add(entityType, PmEntityAttributes.JUSTICE_ADDITIONAL);
 		event.add(entityType, PmEntityAttributes.COMPOSITE_RATING);
 		event.add(entityType, PmEntityAttributes.ID_ACT);
 	}

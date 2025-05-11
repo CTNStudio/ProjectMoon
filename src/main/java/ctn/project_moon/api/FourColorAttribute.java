@@ -10,6 +10,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ByIdMap;
+import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -26,7 +27,7 @@ import static ctn.project_moon.api.PlayerAttribute.*;
 
 /*
  * 四色属性系统
- *
+ * 
  * 这个类实现了游戏中的四色属性机制，包括勇气（Fortitude）、谨慎（Prudence）、自律（Temperance）和正义（Justice），
  * 每种属性都会影响玩家的不同能力。
  */
@@ -142,7 +143,7 @@ public class FourColorAttribute {
 		if (!nbt.contains(BASE_JUSTICE)) setBaseJustice(entity, 100);
 	}
 
-	/** 添加四色属性 */
+	/** 添加精神属性 */
 	public static void fourColorDefaultValue(LivingEntity entity) {
 		setFortitude(entity, 20);
 		setPrudence(entity, 20);
@@ -160,17 +161,11 @@ public class FourColorAttribute {
 	 */
 	public static int getCompositeRatting(LivingEntity entity) {
 		int rating;
-		rating = getFortitudeRating(entity) + getPrudenceRating(entity) + getTemperanceRating(entity) + getJusticeRating(entity);
-		if (rating < 4) {
-			return 1;
+		rating = (getFortitudeRating(entity) + getPrudenceRating(entity) + getTemperanceRating(entity) + getJusticeRating(entity));
+		if (rating >= 16) {
+			return 5;
 		}
-		if (rating < 15) {
-			return rating / 3;
-		}
-		if (rating == 15) {
-			return 4;
-		}
-		return 5;
+		return Mth.clamp(rating / 3, 1, 4);
 	}
 
 	/**
@@ -250,7 +245,11 @@ public class FourColorAttribute {
 	}
 
 	/**
-	 * 勇气加成
+	 * 勇气加血(仅计算额外加成)
+	 * <p>
+	 * 将勇气值转换为额外的最大生命值，并应用到玩家身上。
+	 *
+	 * @param player 服务器玩家
 	 */
 	public static void renewFortitude(ServerPlayer player) {
 		if (player.getAttribute(PmEntityAttributes.FORTITUDE_ADDITIONAL) != null) {
@@ -261,14 +260,11 @@ public class FourColorAttribute {
 		}
 	}
 
-	/// 谨慎
-
-	/** 获取基础谨慎值 */
+	/** 谨慎 */
 	public static double getBasePrudence(LivingEntity entity) {
 		return entity.getPersistentData().getDouble(BASE_PRUDENCE);
 	}
 
-	/** 获取谨慎值 */
 	public static double getPrudence(LivingEntity entity) {
 		return getValue(getBasePrudence(entity), entity, PmEntityAttributes.PRUDENCE_ADDITIONAL);
 	}
@@ -286,9 +282,6 @@ public class FourColorAttribute {
 		Objects.requireNonNull(entity.getAttribute(PmEntityAttributes.MAX_SPIRIT)).setBaseValue(value);
 	}
 
-	/**
-	 * 谨慎加成
-	 */
 	public static void renewPrudence(ServerPlayer player) {
 		if (player.getAttribute(PmEntityAttributes.PRUDENCE_ADDITIONAL) != null) {
 			double addMaxSpirit = Objects.requireNonNull(player.getAttribute(PmEntityAttributes.PRUDENCE_ADDITIONAL)).getValue();
@@ -300,14 +293,11 @@ public class FourColorAttribute {
 
 	//TODO:自律相关（目前只有加挖掘速度)
 
-	/// 自律
-
-	/** 获取基础自律值 */
+	/** 自律 */
 	public static double getBaseTemperance(LivingEntity entity) {
 		return entity.getPersistentData().getDouble(BASE_TEMPERANCE);
 	}
 
-	/** 获取自律值 */
 	public static double getTemperance(LivingEntity entity) {
 		return getValue(getBaseTemperance(entity), entity, PmEntityAttributes.TEMPERANCE_ADDITIONAL);
 	}
@@ -317,7 +307,6 @@ public class FourColorAttribute {
 		return getColorAttributeRating(getTemperance(entity));
 	}
 
-	/** 设置基础自律值 */
 	public static void setBaseTemperance(LivingEntity entity, int value) {
 		entity.getPersistentData().putInt(BASE_TEMPERANCE, value);
 		if (entity instanceof ServerPlayer player) {
@@ -325,7 +314,6 @@ public class FourColorAttribute {
 		}
 	}
 
-	/** 增加基础自律值 */
 	public static void addBaseTemperance(LivingEntity entity, int addValue) {
 		setBaseTemperance(entity, (int) getBaseTemperance(entity) + addValue);
 	}
@@ -347,14 +335,11 @@ public class FourColorAttribute {
 		Objects.requireNonNull(player.getAttribute(Attributes.BLOCK_BREAK_SPEED)).addOrUpdateTransientModifier(blockBreakSpeedModifier);
 	}
 
-	/// 正义
-
-	/** 获取基础正义值 */
+	/** 正义 */
 	public static double getBaseJustice(LivingEntity entity) {
 		return entity.getPersistentData().getDouble(BASE_JUSTICE);
 	}
 
-	/** 获取正义值 */
 	public static double getJustice(LivingEntity entity) {
 		return getValue(getBaseJustice(entity), entity, PmEntityAttributes.JUSTICE_ADDITIONAL);
 	}
@@ -364,7 +349,6 @@ public class FourColorAttribute {
 		return getColorAttributeRating(getJustice(entity));
 	}
 
-	/** 设置基础正义值 */
 	public static void setBaseJustice(LivingEntity entity, int value) {
 		entity.getPersistentData().putInt(BASE_JUSTICE, value);
 		if (entity instanceof ServerPlayer player) {
@@ -372,7 +356,6 @@ public class FourColorAttribute {
 		}
 	}
 
-	/** 增加基础正义值 */
 	public static void addBaseJustice(LivingEntity entity, int addValue) {
 		setBaseJustice(entity, (int) getBaseJustice(entity) + addValue);
 	}
@@ -406,8 +389,7 @@ public class FourColorAttribute {
 		return result;
 	}
 
-	/// 事件处理方法
-
+	/** 事件处理方法 */
 	public static void fortitudeRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			player.getPersistentData().putInt(BASE_FORTITUDE, (int) Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).getValue());
@@ -424,8 +406,7 @@ public class FourColorAttribute {
 		if (player instanceof ServerPlayer) {
 			if (!player.getPersistentData().contains(BASE_TEMPERANCE))
 				setBaseTemperance(player, 1);//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
-			if (!Objects.requireNonNull(player.getAttribute(Attributes.BLOCK_BREAK_SPEED))
-					.hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "temperance_add_block_break_speed"))) {
+			if (!Objects.requireNonNull(player.getAttribute(Attributes.BLOCK_BREAK_SPEED)).hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "temperance_add_block_break_speed"))) {
 				renewTemperanceAttribute((ServerPlayer) player);
 			}
 		}

@@ -39,7 +39,7 @@ public class PlayerAttributeMenu extends AbstractContainerMenu {
 	private void setSlot() {
 		this.slots.clear();
 		// 添加副手
-		addSlot(new Slot(player.getInventory(), 40, 6, 157) {
+		addSlot(new Slot(player.getInventory(), 40, 6, 158) {
 			@OnlyIn(Dist.CLIENT)
 			@Override
 			public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
@@ -48,15 +48,15 @@ public class PlayerAttributeMenu extends AbstractContainerMenu {
 		});
 		// 添加快捷栏
 		for (int column = 0; column < 9; ++column) {
-			this.addSlot(new Slot(player.getInventory(), column, 29 + column * 18, 157));
+			this.addSlot(new Slot(player.getInventory(), column, 30 + column * 18, 158));
 		}
 		// 添加背包
 		for (int row = 0; row < 3; ++row) {
 			for (int column = 0; column < 9; ++column) {
 				this.addSlot(new Slot(player.getInventory(),
 						column + (row + 1) * 9,
-						29 + 18 * column,
-						99 + 18 * row));
+						30 + 18 * column,
+						100 + 18 * row));
 			}
 		}
 
@@ -76,60 +76,60 @@ public class PlayerAttributeMenu extends AbstractContainerMenu {
 					}
 					switch (identifier) {
 						case HEADWEAR_CURIOS:
-							x = 28;
-							y = 23;
+							x = 29;
+							y = 24;
 							break;
 						case HEAD_CURIOS:
-							x = 28;
-							y = 40;
+							x = 29;
+							y = 41;
 							break;
 						case HINDBRAIN_CURIOS:
-							x = 97;
-							y = 23;
+							x = 98;
+							y = 24;
 							break;
 						case EYE_AREA_CURIOS:
-							x = 97;
-							y = 40;
+							x = 98;
+							y = 41;
 							break;
 						case FACE_CURIOS:
-							x = 97;
-							y = 57;
+							x = 98;
+							y = 58;
 							break;
 						case CHEEK_CURIOS:
-							x = 97;
-							y = 74;
+							x = 98;
+							y = 75;
 							break;
 						case MASK_CURIOS:
-							x = 28;
-							y = 57;
+							x = 29;
+							y = 58;
 							break;
 						case MOUTH_CURIOS:
-							x = 28;
-							y = 74;
+							x = 29;
+							y = 75;
 							break;
 						case NECK_CURIOS:
-							x = 5;
-							y = 23;
+							x = 6;
+							y = 24;
 							break;
 						case CHEST_CURIOS:
-							x = 5;
-							y = 40;
+							x = 6;
+							y = 41;
 							break;
 						case HAND_CURIOS:
-							x = 5;
-							y = 57;
+							x = 6;
+							y = 58;
 							break;
 						case GLOVE_CURIOS:
-							x = 5;
-							y = 74;
+							x = 6;
+							y = 75;
 							break;
 						case RIGHT_BACK_CURIOS:
-							x = 5;
-							y = 91;
+							x = 6;
+							y = 92;
 							break;
 						case LEFT_BACK_CURIOS:
-							x = 5;
-							y = 108;
+							x = 6;
+							y = 109;
 							break;
 						default:
 							break addCuriosSlots;

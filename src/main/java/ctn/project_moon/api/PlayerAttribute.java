@@ -9,7 +9,7 @@ import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_VALUE;
 import static ctn.project_moon.api.MobGeneralAttribute.addSpiritAttribute;
 
 public class PlayerAttribute {
-	public static final String PREFIX = MOD_ID + ":player_attr.";
+	public static final String PREFIX = MOD_ID + ".player_attr.";
 	/** 勇气点数 类型Int */
 	public static final String BASE_FORTITUDE = PREFIX + "fortitude";
 	/** 谨慎点数 类型Int */

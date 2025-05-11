@@ -4,6 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
  * @author 小尽
  */
 public class SwitchButton extends ImageButton {
+	protected Component message;
+	protected final Screen screen;
 	// 按钮纹理资源的位置
 	protected final ResourceLocation resourceLocation;
 	// 按钮纹理在资源图像中的起始x坐标
@@ -48,8 +52,8 @@ public class SwitchButton extends ImageButton {
 	 * @param yTexStart        按钮纹理在资源图像中的起始y坐标
 	 * @param onPress          按钮被按下时的回调接口
 	 */
-	public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress) {
-		this(resourceLocation, x, y, width, height, xTexStart, yTexStart, onPress, true);
+	public SwitchButton(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress) {
+		this(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, onPress, true);
 	}
 
 	/**
@@ -65,8 +69,8 @@ public class SwitchButton extends ImageButton {
 	 * @param onPress          按钮被按下时的回调接口
 	 * @param isSpecial        按钮是否具有特殊渲染逻辑
 	 */
-	public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress, boolean isSpecial) {
-		this(resourceLocation, x, y, width, height, xTexStart, yTexStart, 256, 256, onPress, isSpecial);
+	public SwitchButton(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress, boolean isSpecial) {
+		this(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, 256, 256, onPress, isSpecial);
 	}
 
 	/**
@@ -83,13 +87,14 @@ public class SwitchButton extends ImageButton {
 	 * @param textureHeight    按钮纹理的高度
 	 * @param onPress          按钮被按下时的回调接口
 	 */
-	public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress) {
-		this(resourceLocation, x, y, width, height, xTexStart, yTexStart, textureWidth, textureHeight, onPress, true);
+	public SwitchButton(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress) {
+		this(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, textureWidth, textureHeight, onPress, true);
 	}
 
 	/**
 	 * 构造一个 SwitchButton 实例，包含是否特殊的标志，以及按钮纹理的宽度和高度
 	 *
+	 * @param screen
 	 * @param resourceLocation 按钮纹理资源的位置
 	 * @param x                按钮的x坐标
 	 * @param y                按钮的y坐标
@@ -102,13 +107,14 @@ public class SwitchButton extends ImageButton {
 	 * @param onPress          按钮被按下时的回调接口
 	 * @param isSpecial        按钮是否具有特殊渲染逻辑
 	 */
-	public SwitchButton(ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress, boolean isSpecial) {
+	public SwitchButton(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress, boolean isSpecial) {
 		super(x, y, width, height, null, new PmOnPressAbstract(onPress) {
 			@Override
 			public void on(Button button) {
 				if (button instanceof SwitchButton switchButton) switchButton.change();
 			}
 		});
+		this.screen = screen;
 		this.resourceLocation = resourceLocation;
 		this.xTexStart = xTexStart;
 		this.yTexStart = yTexStart;
@@ -141,12 +147,15 @@ public class SwitchButton extends ImageButton {
 		}
 		int x = this.xTexStart;
 		if (isOpen) {
-			x += width + 1;
+			x += 2 * (width + 1);
 		}
 		if (isHovered()) {
 			x += width + 1;
 		}
 		render(guiGraphics, x);
+		if (isHovered()) {
+			renderTooltip(guiGraphics, mouseX, mouseY);
+		}
 	}
 
 	/**
@@ -159,6 +168,9 @@ public class SwitchButton extends ImageButton {
 			x += width + 1;
 		}
 		render(guiGraphics, x);
+		if (isHovered()) {
+			renderTooltip(guiGraphics, mouseX, mouseY);
+		}
 	}
 
 	/**
@@ -179,5 +191,12 @@ public class SwitchButton extends ImageButton {
 	 */
 	public int overlayOpen(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		return 0;
+	}
+
+	public void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+		if (message == null) {
+			return;
+		}
+		guiGraphics.renderTooltip(screen.getMinecraft().font, message, mouseX, mouseY);
 	}
 }

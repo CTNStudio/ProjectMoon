@@ -57,19 +57,27 @@ public interface PmDamageTypes extends DamageTypes {
 		/**
 		 * 物理
 		 */
-		PHYSICS(PmDamageTypes.PHYSICS, PmTags.PmItem.PHYSICS, PmTags.PmDamageType.PHYSICS),
+		PHYSICS(PmDamageTypes.PHYSICS,
+				PmTags.PmItem.PHYSICS,
+				PmTags.PmDamageType.PHYSICS),
 		/**
 		 * 精神
 		 */
-		SPIRIT(PmDamageTypes.SPIRIT, PmTags.PmItem.SPIRIT, PmTags.PmDamageType.SPIRIT),
+		SPIRIT(PmDamageTypes.SPIRIT,
+				PmTags.PmItem.SPIRIT,
+				PmTags.PmDamageType.SPIRIT),
 		/**
 		 * 侵蚀
 		 */
-		EROSION(PmDamageTypes.EROSION, PmTags.PmItem.EROSION, PmTags.PmDamageType.EROSION),
+		EROSION(PmDamageTypes.EROSION,
+				PmTags.PmItem.EROSION,
+				PmTags.PmDamageType.EROSION),
 		/**
 		 * 灵魂
 		 */
-		THE_SOUL(PmDamageTypes.THE_SOUL, PmTags.PmItem.THE_SOUL, PmTags.PmDamageType.THE_SOUL),
+		THE_SOUL(PmDamageTypes.THE_SOUL,
+				PmTags.PmItem.THE_SOUL,
+				PmTags.PmDamageType.THE_SOUL),
 		;
 
 		private final TagKey<Item> itemTga;
