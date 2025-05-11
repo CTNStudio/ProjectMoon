@@ -3,7 +3,7 @@ package ctn.project_moon.registrar;
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
 import ctn.project_moon.init.PmEntity;
 import ctn.project_moon.init.PmEntityAttributes;
-import ctn.project_moon.tool.GradeTypeTool;
+import ctn.project_moon.util.GradeTypeTool;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -12,7 +12,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.tool.GradeTypeTool.Level.*;
+import static ctn.project_moon.util.GradeTypeTool.Level.*;
 import static net.minecraft.world.entity.EntityType.*;
 import static net.neoforged.fml.common.EventBusSubscriber.Bus.MOD;
 

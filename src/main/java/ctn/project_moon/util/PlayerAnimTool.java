@@ -1,4 +1,4 @@
-package ctn.project_moon.tool;
+package ctn.project_moon.util;
 
 import net.minecraft.client.player.Input;
 import net.minecraft.nbt.CompoundTag;

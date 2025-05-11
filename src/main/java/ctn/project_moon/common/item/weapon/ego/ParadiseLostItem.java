@@ -10,7 +10,7 @@ import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.item.weapon.Weapon;
 import ctn.project_moon.common.models.GuiItemModel;
 import ctn.project_moon.common.models.PmGeoItemModel;
-import ctn.project_moon.tool.PmTool;
+import ctn.project_moon.util.PmTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

@@ -1,4 +1,4 @@
-package ctn.project_moon.tool;
+package ctn.project_moon.util;
 
 import ctn.project_moon.datagen.PmTags;
 import ctn.project_moon.init.PmEntityAttributes;

@@ -1,6 +1,6 @@
 package ctn.project_moon.init;
 
-import ctn.project_moon.tool.PmTool;
+import ctn.project_moon.util.PmTool;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;

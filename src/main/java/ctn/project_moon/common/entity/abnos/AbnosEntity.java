@@ -1,7 +1,7 @@
 package ctn.project_moon.common.entity.abnos;
 
 import ctn.project_moon.init.PmEntityAttributes;
-import ctn.project_moon.tool.GradeTypeTool;
+import ctn.project_moon.util.GradeTypeTool;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;

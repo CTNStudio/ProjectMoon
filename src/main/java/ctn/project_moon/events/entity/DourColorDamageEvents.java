@@ -99,6 +99,7 @@ public class DourColorDamageEvents {
 	}
 
 	/** 灵魂伤害判断 */
+	// TODO clean.
 	private static boolean doesTheOrganismSufferFromTheSoulDamage(LivingEntity entity) {
 		if (!PmConfig.SERVER.THE_SOUL_AFFECT_ABOMINATIONS.get() && entity instanceof AbnosEntity) {
 			return true;
@@ -139,17 +140,18 @@ public class DourColorDamageEvents {
 	@SubscribeEvent
 	public static void appliedDamageToEntityEvent(LivingDamageEvent.Post event) {
 		LivingEntity entity = event.getEntity();
-		CompoundTag nbt = entity.getPersistentData();
-		if (nbt.contains(INJURY_TICK)) {
-			setInjuryCount(entity, 200);
-			if (nbt.contains(SPIRIT_RECOVERY_TICK)) {
-				setSpiritRecoveryCount(entity, 0);
-			}
-		}
-
 		var world = entity.level();
 		if (world.isClientSide()) {
 			return;
+		}
+
+		CompoundTag nbt = entity.getPersistentData();
+		if (nbt.contains(INJURY_TICK)) {
+			setInjuryCount(entity, 200);
+
+			if (nbt.contains(SPIRIT_RECOVERY_TICK)) {
+				setSpiritRecoveryCount(entity, 0);
+			}
 		}
 
 		Vec3 pos = entity.position();

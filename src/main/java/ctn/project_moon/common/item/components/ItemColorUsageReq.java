@@ -3,8 +3,8 @@ package ctn.project_moon.common.item.components;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import ctn.project_moon.api.FourColorAttribute;
-import ctn.project_moon.api.UniqueList;
-import ctn.project_moon.tool.PmColourTool;
+import ctn.project_moon.util.PmColourTool;
+import ctn.project_moon.util.UniqueList;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -22,7 +22,7 @@ import java.util.function.Function;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.init.PmEntityAttributes.ID_ACT;
-import static ctn.project_moon.tool.PmTool.i18ColorText;
+import static ctn.project_moon.util.PmTool.i18ColorText;
 import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
 
 /**
@@ -184,14 +184,8 @@ public final class ItemColorUsageReq implements PmToTooltip {
 	}
 
 	public boolean isListEmpty(List<Integer> list) {
-		if (list.size() == 0) {
-			return true;
-		}
-		if (list.size() == 1 && list.get(0) == -1) {
-			return true;
-		}
-		return false;
-	}
+        return list.size() == 1 && list.getFirst() == -1;
+    }
 
 	// 说真的我并不清楚这些奇奇怪怪的功能到底会有多少人用，但凭借着有比没有好的原则还是加上比较好
 	public Component getComponent(FourColorAttribute.Type attribute, boolean detailed) {
@@ -215,9 +209,9 @@ public final class ItemColorUsageReq implements PmToTooltip {
 		}
 		switch (list.size()) {
 			case 1 -> {
-				if (list.get(0) != -1) {
+				if (list.getFirst() != -1) {
 					component.append(Component.translatable(REQUIREMENT)).append(" ")
-							.append(getParameterComponent(detailed, list.get(0)));
+							.append(getParameterComponent(detailed, list.getFirst()));
 				}
 			}
 			case 2 -> {
@@ -226,7 +220,7 @@ public final class ItemColorUsageReq implements PmToTooltip {
 							.append(" ").append(getParameterComponent(detailed, list.get(1)));
 				} else if (list.get(1) == -1) {
 					component.append(Component.translatable(NOT_LOWER_THAN))
-							.append(" ").append(getParameterComponent(detailed, list.get(0)));
+							.append(" ").append(getParameterComponent(detailed, list.getFirst()));
 				} else {
 					component.append(Component.translatable(INTERVAL,
 							getParameterComponent(detailed, list.get(0)),

@@ -7,7 +7,7 @@ import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.datagen.PmTags;
 import ctn.project_moon.events.DourColorDamageTypesEvent;
 import ctn.project_moon.init.PmDamageTypes;
-import ctn.project_moon.tool.GradeTypeTool;
+import ctn.project_moon.util.GradeTypeTool;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -30,8 +30,8 @@ import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
 import static ctn.project_moon.init.PmEntityAttributes.*;
 import static ctn.project_moon.init.PmItemDataComponents.CURRENT_DAMAGE_TYPE;
-import static ctn.project_moon.tool.GradeTypeTool.Level.*;
-import static ctn.project_moon.tool.GradeTypeTool.damageMultiple;
+import static ctn.project_moon.util.GradeTypeTool.Level.*;
+import static ctn.project_moon.util.GradeTypeTool.damageMultiple;
 
 /**
  * 实体事件
@@ -119,9 +119,11 @@ public class EntityEvents {
 		var flag = !(event.getEntity() instanceof Abnos);
 		var itor = event.getEntity().getArmorAndBodyArmorSlots().iterator();
 		ItemStack[] armorSlots = new ItemStack[4];
+
 		for (int i = 0; i < 4; i++) {
 			armorSlots[i] = flag ? itor.next() : ItemStack.EMPTY;
 		}
+
 		for (ItemStack armorItemStack : armorSlots) {
 			if (armorItemStack != null && !armorItemStack.isEmpty()) {
 				isArmorItemStackEmpty = false;
@@ -159,13 +161,9 @@ public class EntityEvents {
 
 	/** 配置影响 */
 	private static boolean configImpact(PmDamageTypes.Types damageTypes) {
-		if (!PmConfig.SERVER.ENABLE_THE_SOUL_DAMAGE.get() && damageTypes.equals(PmDamageTypes.Types.THE_SOUL)) {
-			return true;
-		}
-		if (!(PmConfig.SERVER.ENABLE_SPIRIT_DAMAGE.get() || PmConfig.COMMON.ENABLE_RATIONALITY.get() && damageTypes.equals(PmDamageTypes.Types.SPIRIT))) {
-			return true;
-		}
-		return false;
+		final boolean flagA = !PmConfig.SERVER.ENABLE_THE_SOUL_DAMAGE.get() && damageTypes.equals(PmDamageTypes.Types.THE_SOUL);
+		final boolean flagB = !(PmConfig.SERVER.ENABLE_SPIRIT_DAMAGE.get() || PmConfig.COMMON.ENABLE_RATIONALITY.get() && damageTypes.equals(PmDamageTypes.Types.SPIRIT));
+		return flagA || flagB;
 	}
 
 	/**
@@ -195,23 +193,29 @@ public class EntityEvents {
 		if (!(event.getEntity() instanceof LivingEntity entity)) {
 			return;
 		}
+
 		CompoundTag nbt = entity.getPersistentData();
 		if (!nbt.contains(INJURY_TICK)) {
 			return;
 		}
+
 		if (getInjuryCount(entity) != 0) {
 			incrementInjuryCount(entity, -1);
-		}
-		if (!PmConfig.SERVER.ENABLE_LOW_RATIONALITY_NEGATIVE_EFFECT.get() ||
-				!(nbt.contains(SPIRIT_VALUE) && nbt.contains(SPIRIT_RECOVERY_TICK)) ||
-				getSpiritValue(entity) < 0 ||
-				getInjuryCount(entity) != 0) {
 			return;
 		}
+
+		final boolean flagConfig = !PmConfig.SERVER.ENABLE_LOW_RATIONALITY_NEGATIVE_EFFECT.get();
+		final boolean flagNBT = !(nbt.contains(SPIRIT_VALUE) && nbt.contains(SPIRIT_RECOVERY_TICK));
+		final boolean flagValue = getSpiritValue(entity) < 0;
+		if (flagConfig || flagNBT || flagValue) {
+			return;
+		}
+
 		incrementSpiritRecoveryTicks(entity, 1);
 		if (getSpiritRecoveryTicks(entity) < (int) (20 / entity.getAttributeValue(SPIRIT_NATURAL_RECOVERY_RATE))) {
 			return;
 		}
+
 		incrementSpiritValue(entity, (int) entity.getAttributeValue(SPIRIT_RECOVERY_AMOUNT));
 		setSpiritRecoveryCount(entity, 0);
 	}

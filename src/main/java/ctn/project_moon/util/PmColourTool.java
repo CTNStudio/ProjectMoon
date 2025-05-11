@@ -1,4 +1,4 @@
-package ctn.project_moon.tool;
+package ctn.project_moon.util;
 
 public enum PmColourTool {
 	PHYSICS("#ff0000", "physics"),

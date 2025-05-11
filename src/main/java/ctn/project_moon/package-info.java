@@ -38,7 +38,7 @@
  * <br> 包类：{@link ctn.project_moon.server}-仅用于服务端
  * <p>
  * <p>
- * <br> 包类：{@link ctn.project_moon.tool}-工具
+ * <br> 包类：{@link ctn.project_moon.util}-工具
  * <p>
  * 类命名规则：__Took
  * <p>

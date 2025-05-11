@@ -8,8 +8,8 @@ import net.neoforged.neoforge.common.BooleanAttribute;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.tool.GradeTypeTool.Level.ALEPH;
-import static ctn.project_moon.tool.GradeTypeTool.Level.ZAYIN;
+import static ctn.project_moon.util.GradeTypeTool.Level.ALEPH;
+import static ctn.project_moon.util.GradeTypeTool.Level.ZAYIN;
 
 public class PmEntityAttributes {
 	public static final DeferredRegister<Attribute> PM_ATTRIBUTE_REGISTER = DeferredRegister.create(Registries.ATTRIBUTE, MOD_ID);

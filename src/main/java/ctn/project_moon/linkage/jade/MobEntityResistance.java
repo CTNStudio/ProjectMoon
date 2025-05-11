@@ -1,7 +1,7 @@
 package ctn.project_moon.linkage.jade;
 
 import ctn.project_moon.init.PmEntityAttributes;
-import ctn.project_moon.tool.PmColourTool;
+import ctn.project_moon.util.PmColourTool;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
