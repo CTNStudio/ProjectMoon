@@ -57,8 +57,8 @@ public class FourColorAttribute {
 		CompoundTag nbt = entity.getPersistentData();
 		if (!nbt.contains(BASE_FORTITUDE)) setFortitude(entity, 20);//TODO:无用
 		if (!nbt.contains(BASE_PRUDENCE)) setPrudence(entity, 20);//TODO:无用
-		if (!nbt.contains(BASE_TEMPERANCE)) setBaseTemperance(entity, 100);
-		if (!nbt.contains(BASE_JUSTICE)) setBaseJustice(entity, 100);
+		if (!nbt.contains(BASE_TEMPERANCE)) setBaseTemperance(entity, 1);
+		if (!nbt.contains(BASE_JUSTICE)) setBaseJustice(entity, 1);
 	}
 
 	/** 添加四色属性 */
@@ -141,7 +141,7 @@ public class FourColorAttribute {
 
 	/** 获取基础勇气值 */
 	public static int getBaseFortitude(LivingEntity entity) {
-		return (int) entity.getPersistentData().getDouble(BASE_FORTITUDE);
+		return entity.getPersistentData().getInt(BASE_FORTITUDE);
 	}
 
 	/** 获取勇气值 */
@@ -157,7 +157,7 @@ public class FourColorAttribute {
 	}
 
 	public static void setFortitude(LivingEntity entity, int value) {
-		entity.getPersistentData().putInt(BASE_FORTITUDE, value);
+		entity.getPersistentData().putInt(BASE_FORTITUDE, value- (int)entity.getAttributeValue(PmEntityAttributes.FORTITUDE_ADDITIONAL));
 	}
 
 	public static void setBaseFortitude(LivingEntity entity, int value) {
@@ -194,7 +194,7 @@ public class FourColorAttribute {
 	}
 
 	public static void setPrudence(LivingEntity entity, int value) {
-		entity.getPersistentData().putInt(BASE_PRUDENCE, value);
+		entity.getPersistentData().putInt(BASE_PRUDENCE, value - (int)entity.getAttributeValue(PmEntityAttributes.PRUDENCE_ADDITIONAL));
 	}
 
 	public static void setBasePrudence(LivingEntity entity, int value) {
@@ -325,7 +325,7 @@ public class FourColorAttribute {
 
 	public static void fortitudeRelated(Player player) {
 		if (player instanceof ServerPlayer) {
-			player.getPersistentData().putInt(BASE_FORTITUDE, (int) Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).getValue());
+			setFortitude(player,(int) Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).getValue());
 		}
 	}
 
