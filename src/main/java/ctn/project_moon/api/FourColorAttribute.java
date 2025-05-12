@@ -18,6 +18,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,7 +57,7 @@ public class FourColorAttribute {
 	public static void addFourColorAttribute(LivingEntity entity) {
 		CompoundTag nbt = entity.getPersistentData();
 		if (!nbt.contains(BASE_FORTITUDE)) setFortitude(entity, 20);//TODO:无用
-		if (!nbt.contains(BASE_PRUDENCE)) setPrudence(entity, 20);//TODO:无用
+		if (!nbt.contains(BASE_PRUDENCE)) setBasePrudence(entity, 20);//TODO:无用
 		if (!nbt.contains(BASE_TEMPERANCE)) setBaseTemperance(entity, 1);
 		if (!nbt.contains(BASE_JUSTICE)) setBaseJustice(entity, 1);
 	}
@@ -64,7 +65,7 @@ public class FourColorAttribute {
 	/** 添加四色属性 */
 	public static void fourColorDefaultValue(LivingEntity entity) {
 		setFortitude(entity, 20);
-		setPrudence(entity, 20);
+		setBasePrudence(entity, 20);
 		setBaseTemperance(entity, 1);
 		setBaseJustice(entity, 1);
 	}
@@ -133,8 +134,8 @@ public class FourColorAttribute {
 	 */
 	public static void renewFourColorAttribute(Player player) {
 		syncFourColorAttribute(player);
-		renewFortitude(player);
-		renewPrudence(player);
+		renewFortitudeAttribute(player);
+		renewPrudenceAttribute(player);
 		renewTemperanceAttribute(player);
 		renewJusticeAttribute(player);
 	}
@@ -167,7 +168,7 @@ public class FourColorAttribute {
 	/**
 	 * 勇气加成
 	 */
-	public static void renewFortitude(Player player) {
+	public static void renewFortitudeAttribute(Player player) {
 		if (player.getAttribute(PmEntityAttributes.FORTITUDE_ADDITIONAL) != null) {
 			double addMaxHealth = Objects.requireNonNull(player.getAttribute(PmEntityAttributes.FORTITUDE_ADDITIONAL)).getValue();
 			AttributeModifier addMaxHealthModifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "fortitude"),
@@ -193,20 +194,19 @@ public class FourColorAttribute {
 		return getColorAttributeRating(getPrudence(entity));
 	}
 
-	public static void setPrudence(LivingEntity entity, int value) {
-		entity.getPersistentData().putInt(BASE_PRUDENCE, value - (int)entity.getAttributeValue(PmEntityAttributes.PRUDENCE_ADDITIONAL));
-	}
-
 	public static void setBasePrudence(LivingEntity entity, int value) {
-		Objects.requireNonNull(entity.getAttribute(PmEntityAttributes.MAX_SPIRIT)).setBaseValue(value);
+		entity.getPersistentData().putInt(BASE_PRUDENCE, value);
+		if (entity instanceof ServerPlayer player) {
+			renewPrudenceAttribute(player);
+		}
 	}
 
 	/**
 	 * 谨慎加成
 	 */
-	public static void renewPrudence(Player player) {
+	public static void renewPrudenceAttribute(Player player) {
 		if (player.getAttribute(PmEntityAttributes.PRUDENCE_ADDITIONAL) != null) {
-			double addMaxSpirit = Objects.requireNonNull(player.getAttribute(PmEntityAttributes.PRUDENCE_ADDITIONAL)).getValue();
+			double addMaxSpirit = getPrudence(player)-20;//减去初始值20
 			AttributeModifier addMaxSpiritModifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "prudence"),
 					addMaxSpirit, AttributeModifier.Operation.ADD_VALUE);
 			Objects.requireNonNull(player.getAttribute(PmEntityAttributes.MAX_SPIRIT)).addOrUpdateTransientModifier(addMaxSpiritModifier);
@@ -248,7 +248,7 @@ public class FourColorAttribute {
 	/**
 	 * 更新自律对玩家属性的加成(附加值更改时也记得调用)
 	 * <p>
-	 * 应用自律值带来的挖掘速度加成。
+	 * 应用自律值带来的挖掘速度加成与击退。
 	 *
 	 * @param player 服务器玩家
 	 */
@@ -258,8 +258,11 @@ public class FourColorAttribute {
 		//创建自律加成
 		AttributeModifier blockBreakSpeedModifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "temperance_add_block_break_speed"),
 				temperance * 0.02, AttributeModifier.Operation.ADD_VALUE);
-		//将自律加成添加到玩家的移动速度属性中
+		AttributeModifier knockbackModifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "temperance_add_knockback"),
+				temperance * 0.015, AttributeModifier.Operation.ADD_VALUE);
+		//将自律加成添加到玩家的挖掘速度与击退属性中
 		Objects.requireNonNull(player.getAttribute(Attributes.BLOCK_BREAK_SPEED)).addOrUpdateTransientModifier(blockBreakSpeedModifier);
+		Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_KNOCKBACK)).addOrUpdateTransientModifier(knockbackModifier);
 	}
 
 	/** 获取基础正义值 */
@@ -307,9 +310,14 @@ public class FourColorAttribute {
 				justice * 0.001, AttributeModifier.Operation.ADD_VALUE);
 		AttributeModifier attackSpeedModifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "justice_add_attack_speed"),
 				justice * 0.01, AttributeModifier.Operation.ADD_VALUE);
+		AttributeModifier swimSpeedModifier = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "justice_add_swim_speed"),
+				justice * 0.01, AttributeModifier.Operation.ADD_VALUE);
 		//将正义加成添加到玩家的移动与攻击速度属性中
 		Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).addOrUpdateTransientModifier(movementSpeedModifier);
 		Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_SPEED)).addOrUpdateTransientModifier(attackSpeedModifier);
+		Objects.requireNonNull(player.getAttribute(NeoForgeMod.SWIM_SPEED)).addOrUpdateTransientModifier(swimSpeedModifier);
+
+		player.getAbilities().setFlyingSpeed(0.05f+(float)(justice*0.00013));//飞行速度
 	}
 
 	/** 获取基础加附加值的值 */
@@ -331,7 +339,12 @@ public class FourColorAttribute {
 
 	public static void prudenceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
-			setPrudence(player, (int) SpiritAttribute.getMaxSpiritValue(player));
+			if(! player.getPersistentData().contains(BASE_PRUDENCE))
+				setBasePrudence(player, 20);//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
+			if (!Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH))
+				    .hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "prudence_add_max_health"))) {
+				renewPrudenceAttribute(player);
+			}
 		}
 	}
 
@@ -340,7 +353,9 @@ public class FourColorAttribute {
 			if (!player.getPersistentData().contains(BASE_TEMPERANCE))
 				setBaseTemperance(player, 1);//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
 			if (!Objects.requireNonNull(player.getAttribute(Attributes.BLOCK_BREAK_SPEED))
-					.hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "temperance_add_block_break_speed"))) {
+					.hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "temperance_add_block_break_speed"))||
+			        !Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_KNOCKBACK))
+			                .hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "temperance_add_knockback"))) {
 				renewTemperanceAttribute(player);
 			}
 		}
@@ -353,7 +368,9 @@ public class FourColorAttribute {
 			if (!Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_SPEED))
 					.hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "justice_add_attack_speed")) ||
 					!Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED))
-							.hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "justice_add_movement_speed"))) {
+							.hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "justice_add_movement_speed"))||
+			        !Objects.requireNonNull(player.getAttribute(NeoForgeMod.SWIM_SPEED))
+			                .hasModifier(ResourceLocation.fromNamespaceAndPath(MOD_ID, "justice_add_swim_speed"))) {
 				renewJusticeAttribute(player);
 			}
 		}

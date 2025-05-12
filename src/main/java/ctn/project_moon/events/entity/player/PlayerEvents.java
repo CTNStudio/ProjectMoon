@@ -1,8 +1,10 @@
 package ctn.project_moon.events.entity.player;
 
+import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.api.TempNbtAttribute;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -11,8 +13,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.FourColorAttribute.*;
-import static ctn.project_moon.api.PlayerAttribute.processAttribute;
-import static ctn.project_moon.api.PlayerAttribute.resetAttribute;
+import static ctn.project_moon.api.PlayerAttribute.*;
 import static ctn.project_moon.api.SpiritAttribute.syncSpiritValue;
 
 /**
@@ -41,6 +42,9 @@ public class PlayerEvents {
 		if (event.getEntity() instanceof ServerPlayer player) {
 			syncSpiritValue(player);
 			syncFourColorAttribute(player);
+			prudenceRelated(player);
+			temperanceRelated(player);
+			justiceRelated(player);
 		}
 	}
 
@@ -52,9 +56,13 @@ public class PlayerEvents {
 		Player player = event.getEntity();
 		if (event.isWasDeath()) {
 			resetAttribute(player);
+			setBasePrudence(player, getBasePrudence(event.getOriginal()));
+			setBaseTemperance(player,getBaseTemperance(event.getOriginal()));
+			setBaseJustice(player,getBaseJustice(event.getOriginal()));
 		}
 		// 重置临时属性
 		TempNbtAttribute.resetTemporaryAttribute(player);
+		renewFourColorAttribute(player);
 	}
 
 	public static void loadAttribute(Player player) {
@@ -70,10 +78,9 @@ public class PlayerEvents {
 			syncSpiritValue(serverPlayer);
 			//同步属性
 			syncFourColorAttribute(player);
-			fortitudeRelated(player);
-			prudenceRelated(player);
-			temperanceRelated(player);
-			justiceRelated(player);
+			//TODO：改事件
+			if(getFortitude(player) != (int)player.getAttributeValue(Attributes.MAX_HEALTH))
+				fortitudeRelated(player);
 			renewPlayerCompositeRatting(player);
 		}
 	}
