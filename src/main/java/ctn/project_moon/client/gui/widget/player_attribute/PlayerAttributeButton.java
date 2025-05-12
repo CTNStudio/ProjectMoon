@@ -1,4 +1,4 @@
-package ctn.project_moon.client.gui.widget;
+package ctn.project_moon.client.gui.widget.player_attribute;
 
 import ctn.project_moon.common.payload.data.OpenPlayerAttributeScreenData;
 import net.minecraft.client.Minecraft;
@@ -21,8 +21,11 @@ import javax.annotation.Nonnull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+/**
+ * @author 小尽
+ */
 @OnlyIn(Dist.CLIENT)
-public class PlayerAttributeButton extends ImageButton {
+public final class PlayerAttributeButton extends ImageButton {
 	public static final String MESSAGE = MOD_ID + ".gui.player_attribute_button.message";
 	private final AbstractContainerScreen<?> parentGui;
 	public static final WidgetSprites DEFAULT = new WidgetSprites(getResourceLocation("player_attribute_button_enabled"),

@@ -22,6 +22,9 @@ import java.util.Map;
 import static ctn.project_moon.datagen.DatagenCuriosTest.*;
 import static ctn.project_moon.init.PmMenuType.PLAYER_ATTRIBUTE_MENU;
 
+/**
+ * @author 小尽
+ */
 public class PlayerAttributeMenu extends AbstractContainerMenu {
 	private final Player player;
 	public final ICuriosItemHandler curiosHandler;
@@ -155,7 +158,7 @@ public class PlayerAttributeMenu extends AbstractContainerMenu {
 		this.setSlot();
 	}
 
-	// TODO 需要编写
+	// TODO 需要编写 fixme
 	@Override
 	public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;

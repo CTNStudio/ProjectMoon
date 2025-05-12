@@ -53,10 +53,10 @@ public class PmEntityAttributes {
 	public static final Holder<Attribute> COMPOSITE_RATING = registerRangedAttribute("player.composite_rating", "attribute.name.player.composite_rating", 1, 1, 5);
 
 	/** 四色属性附加值(用于饰品加成等) */
-	public static final Holder<Attribute> FORTITUDE_ADDITIONAL = registerRangedAttribute("player.fortitude_additional", "attribute.name.player.fortitude_additional", 0, -1024, 1024);
-	public static final Holder<Attribute> PRUDENCE_ADDITIONAL = registerRangedAttribute("player.prudence_additional", "attribute.name.player.prudence_additional", 0, -1024, 1024);
-	public static final Holder<Attribute> TEMPERANCE_ADDITIONAL = registerRangedAttribute("player.temperance_additional", "attribute.name.player.temperance_additional", 0, -1024, 1024);
-	public static final Holder<Attribute> JUSTICE_ADDITIONAL = registerRangedAttribute("player.justice_additional", "attribute.name.player.justice_additional", 0, -1024, 1024);
+	public static final Holder<Attribute> FORTITUDE_ADDITIONAL = registerRangedAttribute("player.fortitude_additional", "attribute.name.player.fortitude_additional", 0, -4096, 4096);
+	public static final Holder<Attribute> PRUDENCE_ADDITIONAL = registerRangedAttribute("player.prudence_additional", "attribute.name.player.prudence_additional", 0, -4096, 4096);
+	public static final Holder<Attribute> TEMPERANCE_ADDITIONAL = registerRangedAttribute("player.temperance_additional", "attribute.name.player.temperance_additional", 0, -4096, 4096);
+	public static final Holder<Attribute> JUSTICE_ADDITIONAL = registerRangedAttribute("player.justice_additional", "attribute.name.player.justice_additional", 0, -4096, 4096);
 
 	/**
 	 * 情报部门激活

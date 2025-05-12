@@ -2,12 +2,9 @@ package ctn.project_moon.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import ctn.project_moon.api.FourColorAttribute;
-import ctn.project_moon.client.gui.widget.RatingWidget;
-import ctn.project_moon.client.gui.widget.SwitchButton;
-import ctn.project_moon.client.gui.widget.player_attribute.CompositeWidget;
-import ctn.project_moon.client.gui.widget.player_attribute.CurioCosmeticButton;
-import ctn.project_moon.client.gui.widget.player_attribute.CurioRenderButton;
-import ctn.project_moon.client.gui.widget.player_attribute.ToggleCapacityButton;
+import ctn.project_moon.client.gui.widget.StateWidget;
+import ctn.project_moon.client.gui.widget.Switch2Button;
+import ctn.project_moon.client.gui.widget.player_attribute.*;
 import ctn.project_moon.common.menu.PlayerAttributeMenu;
 import ctn.project_moon.init.PmEntityAttributes;
 import ctn.project_moon.tool.PmTool;
@@ -46,15 +43,14 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.FourColorAttribute.*;
 import static ctn.project_moon.init.PmEntityAttributes.*;
 
-// TODO 装饰品槽有问题
+// TODO 装饰品槽有问题 fixme
+
+/**
+ * @author 小尽
+ */
 @OnlyIn(Dist.CLIENT)
 public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<PlayerAttributeMenu> implements ICuriosScreen {
 	public static final ResourceLocation GUI = getResourceLocation("textures/gui/container/player_attribute.png");
-	private boolean isCapacity = true;
-	// TODO 更改为复合 并添加抗性图标
-	private RatingWidget[] ratingImages;
-	private RatingWidget compositeRating;
-	private Player player;
 	public static final ResourceLocation[] ATTRIBUTE = {
 			getResourceLocation("textures/gui/sprites/player_attribute/fortitude.png"),
 			getResourceLocation("textures/gui/sprites/player_attribute/prudence.png"),
@@ -74,11 +70,15 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 			FourColorAttribute.Type.JUSTICE.getSerializedName()
 	};
 	public static final String[] RESISTANCE_TOOLTIP = {
-			MOD_ID+ ".gui.player_attribute.physics.message",
-			MOD_ID+ ".gui.player_attribute.spirit.message",
-			MOD_ID+ ".gui.player_attribute.erosion.message",
-			MOD_ID+ ".gui.player_attribute.the_soul.message"
+			MOD_ID + ".gui.player_attribute.physics.message",
+			MOD_ID + ".gui.player_attribute.spirit.message",
+			MOD_ID + ".gui.player_attribute.erosion.message",
+			MOD_ID + ".gui.player_attribute.the_soul.message"
 	};
+	private final Player player;
+	private boolean isCapacity = true;
+	private List<CompositeWidget<StateWidget>> ratingImages;
+	private RatingWidget compositeRating;
 
 
 	public PlayerAttributeScreen(PlayerAttributeMenu menu, Inventory playerInventory, Component title) {
@@ -86,10 +86,14 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		player = playerInventory.player;
 	}
 
-	// TODO 如果太长会溢出
+	private static @NotNull ResourceLocation getResourceLocation(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+	}
+
+	// TODO 如果太长会溢出 fixme
 	@Override
 	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-		int x = 158;
+		int x = 159;
 		int y = 30;
 		Component component1 = getAdditionalComponent(getBaseFortitude(player), PmEntityAttributes.FORTITUDE_ADDITIONAL);
 		Component component2 = getAdditionalComponent(getBasePrudence(player), PmEntityAttributes.PRUDENCE_ADDITIONAL);
@@ -127,23 +131,41 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 	}
 
 	// TODO 添加详细按钮
+
+	private CompositeWidget<StateWidget> createCompositeStateWidget(int x, int y) {
+		RatingWidget rating = new RatingWidget(x, y);
+		ResistanceWidget resistance = new ResistanceWidget(x, y);
+		return new CompositeWidget<>(x, y, 16, 13, rating, resistance);
+	}
+
 	/** 初始化 */
 	@Override
 	public void init() {
+		isCapacity = true;
 		imageWidth = 198;
 		imageHeight = 182;
 		leftPos = (this.width - this.imageWidth) / 2 - 11;
 		topPos = (this.height - this.imageHeight) / 2 - 8;
-		ratingImages = new RatingWidget[]{
-				new RatingWidget(leftPos + 141, topPos + 25, false),
-				new RatingWidget(leftPos + 141, topPos + 42, false),
-				new RatingWidget(leftPos + 141, topPos + 59, false),
-				new RatingWidget(leftPos + 141, topPos + 76, false)
-		};
+
+		/// 评级图片控件
+		{
+			int x = leftPos + 141;
+			ratingImages = List.of(
+					createCompositeStateWidget(x, topPos + 25),
+					createCompositeStateWidget(x, topPos + 42),
+					createCompositeStateWidget(x, topPos + 59),
+					createCompositeStateWidget(x, topPos + 76)
+			);
+		}
+		// 综合评级图片控件
 		compositeRating = new RatingWidget(leftPos + 92, topPos + 2, true);
+		addRenderableWidget(compositeRating);
+
 		for (Slot inventorySlot : this.menu.slots) {
+			// 饰品插槽
 			if (inventorySlot instanceof CurioSlot curioSlot && !(inventorySlot instanceof CosmeticCurioSlot) && curioSlot.canToggleRender()) {
-				this.addRenderableWidget(new CurioRenderButton(this, curioSlot, GUI,
+				// 切换是否渲染饰品
+				this.addRenderableWidget(new ToggleCurioRenderButton(this, curioSlot, GUI,
 						this.leftPos + inventorySlot.x + 12,
 						this.topPos + inventorySlot.y + 12,
 						5, 5,
@@ -151,6 +173,8 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 						(button) -> PacketDistributor.sendToServer(new CPacketToggleRender(curioSlot.getIdentifier(), inventorySlot.getSlotIndex()))));
 			}
 		}
+
+		// 属性\抗性图片控件
 		for (int i = 0; i < 4; i++) {
 			int width = 16;
 			int height = 16;
@@ -165,16 +189,24 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 					imageWidget1,
 					imageWidget2);
 			addRenderableWidget(compositeWidget);
-			addRenderableWidget(ratingImages[i]);
+			addRenderableWidget(ratingImages.get(i));
 		}
-		addRenderableWidget(compositeRating);
+
+		// 切换属性/抗性控件
 		addRenderableWidget(new ToggleCapacityButton(this, GUI,
-				this.leftPos + 178, this.topPos + 3,
-				12, 12, 199, 18));
-		addRenderableWidget(new CurioCosmeticButton(this, GUI,
-				this.leftPos + 10, this.topPos + 11,
-				11, 6, 199, 37));
+				this.leftPos + 178, this.topPos + 3, 12, 12, 199, 18));
+
+		// 切换装饰饰品和饰品控件
+		addRenderableWidget(new ToggleCurioCosmeticButton(this, GUI,
+				this.leftPos + 10, this.topPos + 11, 11, 6, 199, 37));
 	}
+
+
+//	@Override
+//	protected void renderSlot(GuiGraphics guiGraphics, Slot slot) {
+//		super.renderSlot(guiGraphics, slot);
+//
+//	}
 
 	/** 绘制背景 */
 	@Override
@@ -205,35 +237,41 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		}
 	}
 
-
-//	@Override
-//	protected void renderSlot(GuiGraphics guiGraphics, Slot slot) {
-//		super.renderSlot(guiGraphics, slot);
-//
-//	}
-
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		compositeRating.setRating((int) (player.getAttribute(PmEntityAttributes.COMPOSITE_RATING).getValue() - 1));
+		compositeRating.setStateV((int) (player.getAttribute(PmEntityAttributes.COMPOSITE_RATING).getValue() - 1));
 		if (isCapacity) {
-			ratingImages[0].setRating(getFortitudeRating(player) - 1);
-			ratingImages[1].setRating(getPrudenceRating(player) - 1);
-			ratingImages[2].setRating(getTemperanceRating(player) - 1);
-			ratingImages[3].setRating(getJusticeRating(player) - 1);
+			modifyRatingWidget(0, getFortitudeRating(player));
+			modifyRatingWidget(1, getPrudenceRating(player));
+			modifyRatingWidget(2, getTemperanceRating(player));
+			modifyRatingWidget(3, getJusticeRating(player));
+		} else {
+			modifyResistanceWidget(0, PmEntityAttributes.PHYSICS_RESISTANCE);
+			modifyResistanceWidget(1, PmEntityAttributes.SPIRIT_RESISTANCE);
+			modifyResistanceWidget(2, PmEntityAttributes.EROSION_RESISTANCE);
+			modifyResistanceWidget(3, PmEntityAttributes.THE_SOUL_RESISTANCE);
 		}
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		for (Renderable renderable : this.renderables) {
-			if (renderable instanceof SwitchButton button) {
+			if (renderable instanceof Switch2Button button) {
 				button.renderWidgetOverlay(guiGraphics, mouseX, mouseY, partialTick);
 			}
 		}
 		renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 
+	private void modifyRatingWidget(int index, int player) {
+		ratingImages.get(index).widget1.setStateV(player - 1);
+	}
+
+	private void modifyResistanceWidget(int index, Holder<Attribute> physicsResistance) {
+		((ResistanceWidget) ratingImages.get(index).widget2).setState(player.getAttribute(physicsResistance).getValue());
+	}
+
 	@Override
 	protected void renderTooltip(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY) {
 		for (Renderable renderable : this.renderables) {
-			if (renderable instanceof CurioRenderButton button && button.isHovered()) {
+			if (renderable instanceof ToggleCurioRenderButton button && button.isHovered()) {
 				return;
 			}
 		}
@@ -260,20 +298,16 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 
 	}
 
-	private static @NotNull ResourceLocation getResourceLocation(String path) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
-	}
-
 	/** 切换属性或抗性 */
 	public void toggleCapacity() {
 		isCapacity = !isCapacity;
 		for (Renderable renderable : this.renderables) {
-			if (renderable instanceof CompositeWidget button){
+			if (renderable instanceof CompositeWidget button) {
 				button.setState(isCapacity);
 			}
 		}
 		for (int i = 0; i < 4; i++) {
-			ratingImages[i].visible = isCapacity;
+			ratingImages.get(i).setState(isCapacity);
 		}
 	}
 }

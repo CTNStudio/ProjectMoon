@@ -36,7 +36,7 @@ public record TempNbtAttrData(boolean isPlayerUseItem, boolean isPlayerAttack, b
 		return TYPE;
 	}
 
-	public static void client(final TempNbtAttrData data, final IPayloadContext context) {
+	public static void server(final TempNbtAttrData data, final IPayloadContext context) {
 		CompoundTag nbt = context.player().getPersistentData();
 		nbt.putBoolean(PLAYER_USE_ITEM, data.isPlayerUseItem());
 		nbt.putBoolean(PLAYER_ATTACK, data.isPlayerAttack());
@@ -45,8 +45,5 @@ public record TempNbtAttrData(boolean isPlayerUseItem, boolean isPlayerAttack, b
 		nbt.putBoolean(CANNOT_PLAYER_MOVED, data.isPlayerMoved());
 		nbt.putInt(PLAYER_USE_ITEM_TICK, data.playerUseItemTick());
 		nbt.putInt(PLAYER_USE_TICK, data.playerUseTick());
-	}
-
-	public static void server(final TempNbtAttrData data, final IPayloadContext context) {
 	}
 }

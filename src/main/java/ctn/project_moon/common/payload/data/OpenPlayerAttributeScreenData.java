@@ -16,6 +16,9 @@ import javax.annotation.Nonnull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+/**
+ * 打开玩家属性界面
+ */
 public record OpenPlayerAttributeScreenData(ItemStack carried) implements CustomPacketPayload {
 
 	public static final Type<OpenPlayerAttributeScreenData> TYPE =
@@ -32,11 +35,7 @@ public record OpenPlayerAttributeScreenData(ItemStack carried) implements Custom
 	public Type<? extends CustomPacketPayload> type() {
 		return TYPE;
 	}
-
 	public static void client(final OpenPlayerAttributeScreenData data, final IPayloadContext context) {
-	}
-
-	public static void server(final OpenPlayerAttributeScreenData data, final IPayloadContext context) {
 		context.enqueueWork(() -> {
 			Player player = context.player();
 

@@ -8,12 +8,15 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * 复合控件
+ * @author 小尽
+ */
 @OnlyIn(Dist.CLIENT)
 public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget{
 	public final T widget1;
 	public final T widget2;
 	private boolean state = true;
-
 
 	public CompositeWidget(int x, int y, int width, int height, T widget1, T widget2) {
 		super(x, y, width, height, Component.empty());

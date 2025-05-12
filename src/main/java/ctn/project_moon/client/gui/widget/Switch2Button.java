@@ -12,7 +12,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * SwitchButton 类继承自 ImageButton，用于创建具有开关功能的按钮
+ * Switch2Button 类继承自 ImageButton，用于创建具有开关功能的图像按钮
  * <p>
  * <b>使用需满足：</b>
  * <li>打开、打开悬停、关闭、关闭悬停 这四个状态</li>
@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
  * @author 小尽
  */
 @OnlyIn(Dist.CLIENT)
-public class SwitchButton extends ImageButton {
+public class Switch2Button extends ImageButton {
 	protected Component message;
 	protected final Screen screen;
 	// 按钮纹理资源的位置
@@ -44,7 +44,7 @@ public class SwitchButton extends ImageButton {
 	private final boolean isSpecial;
 
 	/**
-	 * 构造一个 SwitchButton 实例
+	 * 构造一个 Switch2Button 实例
 	 *
 	 * @param resourceLocation 按钮纹理资源的位置
 	 * @param x                按钮的x坐标
@@ -55,12 +55,12 @@ public class SwitchButton extends ImageButton {
 	 * @param yTexStart        按钮纹理在资源图像中的起始y坐标
 	 * @param onPress          按钮被按下时的回调接口
 	 */
-	public SwitchButton(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress) {
+	public Switch2Button(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress) {
 		this(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, onPress, true);
 	}
 
 	/**
-	 * 构造一个 SwitchButton 实例，包含是否特殊的标志
+	 * 构造一个 Switch2Button 实例，包含是否特殊的标志
 	 *
 	 * @param resourceLocation 按钮纹理资源的位置
 	 * @param x                按钮的x坐标
@@ -72,12 +72,12 @@ public class SwitchButton extends ImageButton {
 	 * @param onPress          按钮被按下时的回调接口
 	 * @param isSpecial        按钮是否具有特殊渲染逻辑
 	 */
-	public SwitchButton(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress, boolean isSpecial) {
+	public Switch2Button(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress, boolean isSpecial) {
 		this(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, 256, 256, onPress, isSpecial);
 	}
 
 	/**
-	 * 构造一个 SwitchButton 实例，包含按钮纹理的宽度和高度
+	 * 构造一个 Switch2Button 实例，包含按钮纹理的宽度和高度
 	 *
 	 * @param resourceLocation 按钮纹理资源的位置
 	 * @param x                按钮的x坐标
@@ -90,12 +90,12 @@ public class SwitchButton extends ImageButton {
 	 * @param textureHeight    按钮纹理的高度
 	 * @param onPress          按钮被按下时的回调接口
 	 */
-	public SwitchButton(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress) {
+	public Switch2Button(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress) {
 		this(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, textureWidth, textureHeight, onPress, true);
 	}
 
 	/**
-	 * 构造一个 SwitchButton 实例，包含是否特殊的标志，以及按钮纹理的宽度和高度
+	 * 构造一个 Switch2Button 实例，包含是否特殊的标志，以及按钮纹理的宽度和高度
 	 *
 	 * @param screen
 	 * @param resourceLocation 按钮纹理资源的位置
@@ -110,11 +110,11 @@ public class SwitchButton extends ImageButton {
 	 * @param onPress          按钮被按下时的回调接口
 	 * @param isSpecial        按钮是否具有特殊渲染逻辑
 	 */
-	public SwitchButton(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress, boolean isSpecial) {
+	public Switch2Button(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress, boolean isSpecial) {
 		super(x, y, width, height, null, new PmOnPressAbstract(onPress) {
 			@Override
 			public void on(Button button) {
-				if (button instanceof SwitchButton switchButton) switchButton.change();
+				if (button instanceof Switch2Button switchButton) switchButton.change();
 			}
 		});
 		this.screen = screen;

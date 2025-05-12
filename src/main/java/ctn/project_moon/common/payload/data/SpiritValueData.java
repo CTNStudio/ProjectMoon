@@ -36,10 +36,10 @@ public record SpiritValueData(double spiritValue) implements CustomPacketPayload
 		return TYPE;
 	}
 
-	public static void client(final SpiritValueData data, final IPayloadContext context) {
+	public static void server(final SpiritValueData data, final IPayloadContext context) {
 		context.player().getPersistentData().putDouble(SPIRIT_VALUE, data.spiritValue);
 	}
 
-	public static void server(final SpiritValueData data, final IPayloadContext context) {
+	public static void client(final SpiritValueData data, final IPayloadContext context) {
 	}
 }
