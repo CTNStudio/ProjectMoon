@@ -1,10 +1,10 @@
 package ctn.project_moon.datagen;
 
 import ctn.project_moon.api.FourColorAttribute;
-import ctn.project_moon.client.gui.widget.PlayerAttributeButton;
-import ctn.project_moon.client.gui.widget.RatingWidget;
-import ctn.project_moon.client.gui.widget.player_attribute.CurioCosmeticButton;
+import ctn.project_moon.client.gui.widget.player_attribute.PlayerAttributeButton;
+import ctn.project_moon.client.gui.widget.player_attribute.RatingWidget;
 import ctn.project_moon.client.gui.widget.player_attribute.ToggleCapacityButton;
+import ctn.project_moon.client.gui.widget.player_attribute.ToggleCurioCosmeticButton;
 import ctn.project_moon.client.screen.PlayerAttributeScreen;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.config.PmConfig;
@@ -164,7 +164,7 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add("project_moon.configuration.section.project.moon.client.toml.title", "客户端设置 · 这些仅会修改视觉效果不会修改游戏内容");
 
 		add(PlayerAttributeButton.MESSAGE, "打开月亮计划玩家属性面板");
-		add(CurioCosmeticButton.TOOLTIP, "切换装饰饰品");
+		add(ToggleCurioCosmeticButton.TOOLTIP, "切换装饰饰品");
 		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[0], "物理");
 		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[1], "精神");
 		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[2], "侵蚀");

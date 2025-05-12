@@ -40,6 +40,7 @@ public class PlayerEvents {
 	public static void loggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 		if (event.getEntity() instanceof ServerPlayer player) {
 			syncSpiritValue(player);
+			syncFourColorAttribute(player);
 		}
 	}
 
@@ -68,12 +69,12 @@ public class PlayerEvents {
 		if (player instanceof ServerPlayer serverPlayer) {
 			syncSpiritValue(serverPlayer);
 			//同步属性
+			syncFourColorAttribute(player);
 			fortitudeRelated(player);
 			prudenceRelated(player);
 			temperanceRelated(player);
 			justiceRelated(player);
 			renewPlayerCompositeRatting(player);
-
 		}
 	}
 }
