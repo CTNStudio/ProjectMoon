@@ -3,11 +3,12 @@ package ctn.project_moon.init;
 import ctn.project_moon.common.item.CreativeSpiritToolItem;
 import ctn.project_moon.common.item.armor.PmArmor;
 import ctn.project_moon.common.item.armor.ego.EgoArmor;
-import ctn.project_moon.common.item.curios.CuriosItem;
+import ctn.project_moon.common.item.curio.CurioItem;
 import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
 import ctn.project_moon.common.item.weapon.DetonatingBatonItem;
 import ctn.project_moon.common.item.weapon.Weapon;
 import ctn.project_moon.common.item.weapon.ego.*;
+import ctn.project_moon.common.models.PmGeoCurioModel;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -22,30 +23,30 @@ import static ctn.project_moon.PmMain.MOD_ID;
 
 public class PmItems {
 	public static final DeferredRegister.Items ITEM_REGISTER = DeferredRegister.createItems(MOD_ID);
-	// 图标
+	/// 图标
 	public static final DeferredItem<Item> EGO_CURIOS_ICON = registerSimpleIconItem("ego_curios_icon");
 	public static final DeferredItem<Item> EGO_SUIT_ICON = registerSimpleIconItem("ego_suit_icon");
 	public static final DeferredItem<Item> EGO_WEAPON_ICON = registerSimpleIconItem("ego_weapon_icon");
 	public static final DeferredItem<Item> CREATIVE_TOOL_ICON = registerSimpleIconItem("creative_tool_icon");
 
-	// 开发者或测试物品
+	/// 开发者或测试物品
 	public static final DeferredItem<Item> CREATIVE_SPIRIT_TOOL = creativeToolItem("creative_spirit_tool", CreativeSpiritToolItem::new);
 	public static final DeferredItem<Item> CHAOS_SWORD = creativeToolItem("chaos_sword", ChaosKnifeItem::new);
 
-	// 武器（不一定是EGO）
+	/// 武器（不一定是EGO）
 	public static final DeferredItem<Item> DETONATING_BATON = createWeaponItem("detonating_baton",
 			DetonatingBatonItem::new, new Weapon.Builder(3, 4, -2.4F));
 	public static final DeferredItem<Item> WRIST_CUTTER = createEgoWeaponItem("wrist_cutter",
 			WristCutterItem::new, new Weapon.Builder(2, 3, 0.2F, -0.1F));
 	public static final DeferredItem<Item> BEAR_PAWS = createEgoWeaponItem("bear_paws",
 			BearPawsItem::new, new Weapon.Builder(7, 7, -1F, -0.3F));
-	// 原称 in the name of love and hate
+	/// 原称 in the name of love and hate
 	public static final DeferredItem<Item> LOVE_HATE = createEgoWeaponItem("love_hate",
 			LoveHateItem::new, new Weapon.Builder(3, 5, -2F));
 	public static final DeferredItem<Item> PARADISE_LOST = createEgoWeaponItem("paradise_lost",
 			ParadiseLostItem::new, new Weapon.Builder(12, 16, -2.3F));
 
-	// 护甲
+	/// 护甲
 	public static final DeferredItem<Item> SUIT = createArmorItem("suit",
 			PmArmor::new, new PmArmor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.CHESTPLATE));
 	public static final DeferredItem<Item> DRESS_PANTS = createArmorItem("dress_pants",
@@ -53,9 +54,9 @@ public class PmItems {
 	public static final DeferredItem<Item> LOAFERS = createArmorItem("loafers",
 			PmArmor::new, new PmArmor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
 
-	// 饰品
+	/// 饰品
 	public static final DeferredItem<Item> PARADISE_LOST_WINGS = createCuriosItem("paradise_lost_wings",
-			CuriosItem::new,  new CuriosItem.Builder(10, 10, 10, 10));
+			CurioItem::new, new CurioItem.Builder(10, 10, 10, 10,new PmGeoCurioModel<>("paradise_lost_wings")));
 
 	private static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props) {
 		return ITEM_REGISTER.registerSimpleItem(name, props);
@@ -100,7 +101,7 @@ public class PmItems {
 	private static DeferredItem<Item> createEgoWeaponItem(String name, Function<Weapon.Builder, ? extends EgoWeapon> weaponItem, Weapon.Builder builder) {
 		return ITEM_REGISTER.register(name, () -> weaponItem.apply(builder));
 	}
-	private static DeferredItem<Item> createCuriosItem(String name, Function<CuriosItem.Builder, ? extends CuriosItem> curiosItem, CuriosItem.Builder builder) {
+	private static DeferredItem<Item> createCuriosItem(String name, Function<CurioItem.Builder, ? extends CurioItem> curiosItem, CurioItem.Builder builder) {
 		return ITEM_REGISTER.register(name, () -> curiosItem.apply(builder));
 	}
 }

@@ -6,6 +6,7 @@ import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 
+/** 一个特殊的物品渲染可在GUI和世界中以不同的模型渲染 */
 public class PmGeoItemRenderer<T extends Item & GeoAnimatable> extends GeoItemRenderer<T> {
 	private final GeoModel<T> guiModel;
 

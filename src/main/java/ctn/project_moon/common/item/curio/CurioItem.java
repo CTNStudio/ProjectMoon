@@ -1,9 +1,9 @@
-package ctn.project_moon.common.item.curios;
-
+package ctn.project_moon.common.item.curio;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import ctn.project_moon.api.FourColorAttribute;
+import ctn.project_moon.common.models.PmGeoCurioModel;
 import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -23,30 +23,25 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
  * ego饰品
  * @author Dusttt
  */
-public class CuriosItem extends Item implements ICurioItem, GeoItem {
+public class CurioItem extends Item implements ICurioItem, GeoItem {
     private final float addFortitude;
     private final float addPrudence;
     private final float addTemperance;
     private final float addJustice;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private final PmGeoCurioModel<CurioItem> model;
 
-
-    public CuriosItem(float addFortitude, float addPrudence, float addTemperance, float addJustice, Properties properties) {
-        super(properties);
+    public CurioItem(float addFortitude, float addPrudence, float addTemperance, float addJustice, Builder builder) {
+        super(builder.properties.stacksTo(1).durability(0));
+        this.model = builder.model;
         this.addFortitude = addFortitude;
         this.addPrudence = addPrudence;
         this.addTemperance = addTemperance;
         this.addJustice = addJustice;
     }
-    public CuriosItem(float addFortitude, float addPrudence, float addTemperance, float addJustice) {
-        super(new Item.Properties().stacksTo(1).durability(0));
-        this.addFortitude = addFortitude;
-        this.addPrudence = addPrudence;
-        this.addTemperance = addTemperance;
-        this.addJustice = addJustice;
-    }
-    public CuriosItem(Builder builder){
-        this(builder.addFortitude, builder.addPrudence, builder.addTemperance, builder.addJustice, builder.properties);
+
+    public CurioItem(Builder builder){
+        this(builder.addFortitude, builder.addPrudence, builder.addTemperance, builder.addJustice, builder);
     }
 
     @Override
@@ -103,25 +98,60 @@ public class CuriosItem extends Item implements ICurioItem, GeoItem {
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
+        return cache;
     }
 
+    public PmGeoCurioModel<CurioItem> getModel() {
+        return model;
+    }
 
     public static class Builder {
-        private float addFortitude,addPrudence,addTemperance,addJustice;
-        private Item.Properties properties = new Item.Properties().durability(0).stacksTo(1);
+        private float addFortitude;
+        private float addPrudence;
+        private float addTemperance;
+        private float addJustice;
+        private Item.Properties properties = new Item.Properties();
+        private PmGeoCurioModel<CurioItem> model;
 
-        public Builder(){
+        public Builder(PmGeoCurioModel<CurioItem> model) {
+            this.model = model;
         }
-        public Builder(float addFortitude, float addPrudence, float addTemperance, float addJustice) {
+
+        public Builder(float addFortitude, float addPrudence, float addTemperance, float addJustice, PmGeoCurioModel<CurioItem> model) {
+            this(model);
+            this.setAddFortitude(addFortitude);
+            this.setAddPrudence(addPrudence);
+            this.setAddTemperance(addTemperance);
+            this.setAddJustice(addJustice);
+        }
+
+        public Builder properties(Item.Properties properties) {
+            this.setProperties(properties);
+            return this;
+        }
+
+        public void setModel(PmGeoCurioModel<CurioItem> model) {
+            this.model = model;
+        }
+
+        public void setAddFortitude(float addFortitude) {
             this.addFortitude = addFortitude;
+        }
+
+        public void setAddPrudence(float addPrudence) {
             this.addPrudence = addPrudence;
+        }
+
+        public void setAddTemperance(float addTemperance) {
             this.addTemperance = addTemperance;
+        }
+
+        public void setAddJustice(float addJustice) {
             this.addJustice = addJustice;
         }
-        private Builder properties(Item.Properties properties) {
+
+        public void setProperties(Properties properties) {
             this.properties = properties;
-            return this;
         }
     }
 }
