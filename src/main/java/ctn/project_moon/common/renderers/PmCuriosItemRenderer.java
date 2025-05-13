@@ -64,11 +64,7 @@ public class PmCuriosItemRenderer implements ICurioRenderer {
         // 预推送当前渲染状态机
         renderer.prepForRender(slotContext.entity(), stack, slot, (HumanoidModel<?>) renderLayerParent.getModel(), renderTypeBuffer, partialTicks, limbSwing, limbSwingAmount, netHeadYaw, headPitch);
         VertexConsumer consumer = renderTypeBuffer.getBuffer(type);
-        // 获取渲染颜色
-        int color = renderer.getRenderColor(animatableItem, partialTicks, 0).getColor();
-        // 预处理包括绑骨
-        renderer.preRender(matrixStack, animatableItem, bakedGeoModel, renderTypeBuffer, consumer, false, partialTicks, light, 0, color);
         // 进行渲染
-        renderer.actuallyRender(matrixStack, animatableItem, bakedGeoModel, type, renderTypeBuffer, consumer, false, partialTicks, light, 0, color);
+        renderer.defaultRender(matrixStack, animatableItem, renderTypeBuffer, null, null, netHeadYaw, partialTicks, light);
     }
 }
