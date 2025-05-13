@@ -6,8 +6,9 @@ import software.bernie.geckolib.model.GeoModel;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-public class PmGeoCurioModel<T extends GeoAnimatable> extends GeoModel<T> {
+public class PmGeoCurioModel <T extends GeoAnimatable> extends GeoModel<T> {
 	protected final String path;
+
 	public PmGeoCurioModel(String path) {
 		this.path = path;
 	}
