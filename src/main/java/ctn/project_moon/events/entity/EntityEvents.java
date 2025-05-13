@@ -8,6 +8,7 @@ import ctn.project_moon.datagen.PmTags;
 import ctn.project_moon.events.DourColorDamageTypesEvent;
 import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.tool.GradeTypeTool;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -192,6 +193,9 @@ public class EntityEvents {
 
 	private static void refreshSpiritValue(EntityTickEvent.Pre event) {
 		if (!(event.getEntity() instanceof LivingEntity entity)) {
+			return;
+		}
+		if (entity instanceof AbstractClientPlayer) {
 			return;
 		}
 		CompoundTag nbt = entity.getPersistentData();
