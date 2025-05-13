@@ -1,7 +1,8 @@
 package ctn.project_moon;
 
 import com.mojang.logging.LogUtils;
-import ctn.project_moon.common.item.curios.WingOfParadiseLost;
+import ctn.project_moon.common.item.curios.CurioItem;
+import ctn.project_moon.common.renderers.PmCuriosItemRenderer;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.resources.ResourceLocation;
@@ -96,6 +97,10 @@ public class PmMain {
 	}
 
 	private void onClientSetupEvent(final FMLClientSetupEvent event) {
-		CuriosRendererRegistry.register(PmItems.PARADISE_LOST_WINGS.get(), () -> (WingOfParadiseLost) PmItems.PARADISE_LOST_WINGS.get());
+		register(PmItems.PARADISE_LOST_WINGS.get());
+	}
+
+	private static void register(CurioItem item) {
+		CuriosRendererRegistry.register(item, () -> new PmCuriosItemRenderer(item));
 	}
 }
