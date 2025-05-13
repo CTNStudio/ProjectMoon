@@ -332,14 +332,20 @@ public class FourColorAttribute {
 
 	/// 事件处理方法
 
-	// TODO 注释！
+	/**
+	 * 使玩家勇气基础值与最大生命值-附加值相同。
+	 * @param player
+	 */
 	public static void fortitudeRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			setFortitude(player, (int) player.getAttribute(Attributes.MAX_HEALTH).getValue());
 		}
 	}
 
-	// TODO 注释！
+	/**
+	 * load时调用谨慎更新
+	 * @param player
+	 */
 	public static void prudenceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			if (! player.getPersistentData().contains(BASE_PRUDENCE)) {
@@ -351,7 +357,10 @@ public class FourColorAttribute {
 		}
 	}
 
-	// TODO 注释！
+	/**
+	 * load时调用自律更新
+	 * @param player
+	 */
 	public static void temperanceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			if (! player.getPersistentData().contains(BASE_TEMPERANCE)) {
@@ -364,7 +373,10 @@ public class FourColorAttribute {
 		}
 	}
 
-	// TODO 注释！
+	/**
+	 * load时调用正义更新
+	 * @param player
+	 */
 	public static void justiceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			if (! player.getPersistentData().contains(BASE_JUSTICE)) {
