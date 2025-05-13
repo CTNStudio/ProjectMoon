@@ -3,11 +3,12 @@ package ctn.project_moon.init;
 import ctn.project_moon.common.item.CreativeSpiritToolItem;
 import ctn.project_moon.common.item.armor.PmArmor;
 import ctn.project_moon.common.item.armor.ego.EgoArmor;
-import ctn.project_moon.common.item.curios.CuriosItem;
+import ctn.project_moon.common.item.curios.CurioItem;
 import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
 import ctn.project_moon.common.item.weapon.DetonatingBatonItem;
 import ctn.project_moon.common.item.weapon.Weapon;
 import ctn.project_moon.common.item.weapon.ego.*;
+import ctn.project_moon.common.models.PmGeoCurioModel;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -54,8 +55,8 @@ public class PmItems {
 			PmArmor::new, new PmArmor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
 
 	// 饰品
-	public static final DeferredItem<Item> PARADISE_LOST_WINGS = createCuriosItem("paradise_lost_wings",
-			CuriosItem::new,  new CuriosItem.Builder(10, 10, 10, 10));
+	public static final DeferredItem<CurioItem> PARADISE_LOST_WINGS =
+			ITEM_REGISTER.register("paradise_lost_wings", () -> new CurioItem(new CurioItem.Builder(10, 10, 10, 10, new PmGeoCurioModel<>("paradise_lost_wings"))));
 
 	private static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props) {
 		return ITEM_REGISTER.registerSimpleItem(name, props);
@@ -100,7 +101,7 @@ public class PmItems {
 	private static DeferredItem<Item> createEgoWeaponItem(String name, Function<Weapon.Builder, ? extends EgoWeapon> weaponItem, Weapon.Builder builder) {
 		return ITEM_REGISTER.register(name, () -> weaponItem.apply(builder));
 	}
-	private static DeferredItem<Item> createCuriosItem(String name, Function<CuriosItem.Builder, ? extends CuriosItem> curiosItem, CuriosItem.Builder builder) {
+	private static DeferredItem<Item> createCuriosItem(String name, Function<CurioItem.Builder, ? extends CurioItem> curiosItem, CurioItem.Builder builder) {
 		return ITEM_REGISTER.register(name, () -> curiosItem.apply(builder));
 	}
 }
