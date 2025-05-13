@@ -79,14 +79,13 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
 	 */
 	private void renderSpiritValue(GuiGraphics guiGraphics, Player player, int spiritHudHeight, int color) {
 		double spiritValue = SpiritAttribute.getSpiritValue(player);
-		int spiritValueInt = (int) (spiritValue >= 0 || spiritValue - (int) spiritValue == 0 ? spiritValue : spiritValue - 1);
 
 		int screenWidth = guiGraphics.guiWidth();
 
 		int spiritValueX = screenWidth / 2;
 		int spiritValueY = spiritHudHeight + 6;
 
-		String text = Integer.toString(spiritValueInt);
+		String text = String.format("%.0f", spiritValue);
 		int x = spiritValueX - minecraft.font.width(text) / 2;
 
 
