@@ -393,9 +393,9 @@ public class FourColorAttribute {
 	/** 四色属性类型枚举 */
 	public enum Type implements StringRepresentable {
 		/** 勇气 - 影响最大生命值 */
-		FORTITUDE(0, PREFIX + FORTITUDE_ADD_MAX_HEALTH, FORTITUDE_ADD_MAX_HEALTH),
+		FORTITUDE(0, PREFIX + "fortitude", "fortitude"),
 		/** 谨慎 - 影响最大精神 */
-		PRUDENCE(1, PREFIX + PRUDENCE_ADD_MAX_SPIRIT, PRUDENCE_ADD_MAX_SPIRIT),
+		PRUDENCE(1, PREFIX + "prudence", "prudence"),
 		/** 自律 - 影响挖掘速度 TODO 补充 */
 		TEMPERANCE(2, PREFIX + "temperance", "temperance"),
 		/** 正义 - 影响移动速度和攻击速度 */
