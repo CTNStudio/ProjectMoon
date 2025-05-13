@@ -26,7 +26,7 @@ public class MobGeneralAttribute {
 	public static void addSpiritAttribute(LivingEntity entity) {
 		CompoundTag nbt = entity.getPersistentData();
 		if (!nbt.contains(SPIRIT_VALUE)) nbt.putDouble(SPIRIT_VALUE, 0);
-		if (!nbt.contains(SPIRIT_RECOVERY_TICK)) nbt.putDouble(SPIRIT_RECOVERY_TICK, 0);
-		if (!nbt.contains(INJURY_TICK)) nbt.putDouble(INJURY_TICK, 0);
+		if (!nbt.contains(SPIRIT_RECOVERY_TICK)) nbt.putInt(SPIRIT_RECOVERY_TICK, 0);
+		if (!nbt.contains(INJURY_TICK)) nbt.putInt(INJURY_TICK, 0);
 	}
 }

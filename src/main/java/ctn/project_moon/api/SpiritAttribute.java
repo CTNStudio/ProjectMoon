@@ -32,16 +32,16 @@ public class SpiritAttribute {
 		restrictSpirit(entity);
 	}
 
-	/** 设置生物恢复理智tick每次成功恢复理智重置 */
-	public static void setSpiritRecoveryCount(LivingEntity entity, double value) {
+	/** 设置生物恢复理智tick,每次成功恢复理智重置 */
+	public static void setSpiritRecoveryCount(LivingEntity entity, int value) {
 		CompoundTag nbt = entity.getPersistentData();
 		nbt.putDouble(SPIRIT_RECOVERY_TICK, value);
 	}
 
 	/** 设置生物受伤tick */
-	public static void setInjuryCount(LivingEntity entity, double value) {
+	public static void setInjuryCount(LivingEntity entity, int value) {
 		CompoundTag nbt = entity.getPersistentData();
-		nbt.putDouble(INJURY_TICK, value);
+		nbt.putInt(INJURY_TICK, value);
 	}
 
 	/** 增加生物当前理智 */
@@ -52,15 +52,15 @@ public class SpiritAttribute {
 	}
 
 	/** 增加生物恢复理智tick */
-	public static void incrementSpiritRecoveryTicks(LivingEntity entity, double value) {
+	public static void incrementSpiritRecoveryTicks(LivingEntity entity, int value) {
 		CompoundTag nbt = entity.getPersistentData();
-		nbt.putDouble(SPIRIT_RECOVERY_TICK, getSpiritRecoveryTicks(entity) + value);
+		nbt.putInt(SPIRIT_RECOVERY_TICK, getSpiritRecoveryTicks(entity) + value);
 	}
 
 	/** 增加生物受伤tick */
-	public static void incrementInjuryCount(LivingEntity entity, double value) {
+	public static void incrementInjuryCount(LivingEntity entity, int value) {
 		CompoundTag nbt = entity.getPersistentData();
-		nbt.putDouble(INJURY_TICK, getInjuryCount(entity) + value);
+		nbt.putInt(INJURY_TICK, getInjuryCount(entity) + value);
 	}
 
 	/** 设置生物最大理智 */
@@ -85,12 +85,12 @@ public class SpiritAttribute {
 		return entity.getPersistentData().getDouble(SPIRIT_VALUE);
 	}
 
-	public static double getSpiritRecoveryTicks(LivingEntity entity) {
-		return entity.getPersistentData().getDouble(SPIRIT_RECOVERY_TICK);
+	public static int getSpiritRecoveryTicks(LivingEntity entity) {
+		return entity.getPersistentData().getInt(SPIRIT_RECOVERY_TICK);
 	}
 
-	public static double getInjuryCount(LivingEntity entity) {
-		return entity.getPersistentData().getDouble(INJURY_TICK);
+	public static int getInjuryCount(LivingEntity entity) {
+		return entity.getPersistentData().getInt(INJURY_TICK);
 	}
 
 	public static double getMaxSpiritValue(LivingEntity entity) {
@@ -105,12 +105,12 @@ public class SpiritAttribute {
 		return nbt.getDouble(SPIRIT_VALUE);
 	}
 
-	public static double getSpiritRecoveryTicks(CompoundTag nbt) {
-		return nbt.getDouble(SPIRIT_RECOVERY_TICK);
+	public static int getSpiritRecoveryTicks(CompoundTag nbt) {
+		return nbt.getInt(SPIRIT_RECOVERY_TICK);
 	}
 
-	public static double getInjuryCount(CompoundTag nbt) {
-		return nbt.getDouble(INJURY_TICK);
+	public static int getInjuryCount(CompoundTag nbt) {
+		return nbt.getInt(INJURY_TICK);
 	}
 
 	/** 如果受伤者有理智，则仅减少理智 */
