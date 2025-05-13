@@ -1,9 +1,13 @@
 package ctn.project_moon.registrar;
 
+import ctn.project_moon.common.item.curio.CurioItem;
+import ctn.project_moon.common.renderers.PmCuriosItemRenderer;
+import ctn.project_moon.init.PmItems;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
@@ -12,5 +16,10 @@ public class CurioEvents {
 	/** 注册饰品渲染 */
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
+		register(PmItems.PARADISE_LOST_WINGS.get());
+	}
+
+	private static void register(CurioItem item) {
+		CuriosRendererRegistry.register(item, () -> new PmCuriosItemRenderer(item));
 	}
 }

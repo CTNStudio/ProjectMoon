@@ -2,7 +2,7 @@ package ctn.project_moon.common.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import ctn.project_moon.common.item.curios.CurioItem;
+import ctn.project_moon.common.item.curio.CurioItem;
 import ctn.project_moon.common.models.PmGeoCurioModel;
 import ctn.project_moon.datagen.DatagenCuriosTest;
 import net.minecraft.client.model.EntityModel;

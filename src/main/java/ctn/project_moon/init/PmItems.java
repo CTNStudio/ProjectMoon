@@ -55,7 +55,7 @@ public class PmItems {
 			PmArmor::new, new PmArmor.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
 
 	/// 饰品
-	public static final DeferredItem<Item> PARADISE_LOST_WINGS = createCuriosItem("paradise_lost_wings",
+	public static final DeferredItem<CurioItem> PARADISE_LOST_WINGS = createCuriosItem("paradise_lost_wings",
 			CurioItem::new, new CurioItem.Builder(10, 10, 10, 10,new PmGeoCurioModel<>("paradise_lost_wings")));
 
 	private static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props) {
@@ -101,7 +101,7 @@ public class PmItems {
 	private static DeferredItem<Item> createEgoWeaponItem(String name, Function<Weapon.Builder, ? extends EgoWeapon> weaponItem, Weapon.Builder builder) {
 		return ITEM_REGISTER.register(name, () -> weaponItem.apply(builder));
 	}
-	private static DeferredItem<Item> createCuriosItem(String name, Function<CurioItem.Builder, ? extends CurioItem> curiosItem, CurioItem.Builder builder) {
+	private static DeferredItem<CurioItem> createCuriosItem(String name, Function<CurioItem.Builder, ? extends CurioItem> curiosItem, CurioItem.Builder builder) {
 		return ITEM_REGISTER.register(name, () -> curiosItem.apply(builder));
 	}
 }

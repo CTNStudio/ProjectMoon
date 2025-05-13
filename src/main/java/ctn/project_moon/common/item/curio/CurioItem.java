@@ -77,19 +77,17 @@ public class CurioItem extends Item implements ICurioItem, GeoItem {
     @Override
     public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation id, ItemStack stack) {
         Multimap<Holder<Attribute>, AttributeModifier> modifier = LinkedHashMultimap.create();
-        if(addFortitude!=0)
-            modifier.put(PmEntityAttributes.FORTITUDE_ADDITIONAL,
-                    new AttributeModifier(id, addFortitude, AttributeModifier.Operation.ADD_VALUE));
-        if(addPrudence!=0)
-            modifier.put(PmEntityAttributes.PRUDENCE_ADDITIONAL,
-                    new AttributeModifier(id, addPrudence, AttributeModifier.Operation.ADD_VALUE));
-        if(addTemperance!=0)
-            modifier.put(PmEntityAttributes.TEMPERANCE_ADDITIONAL,
-                    new AttributeModifier(id, addTemperance, AttributeModifier.Operation.ADD_VALUE));
-        if(addJustice!=0)
-            modifier.put(PmEntityAttributes.JUSTICE_ADDITIONAL,
-                    new AttributeModifier(id, addJustice, AttributeModifier.Operation.ADD_VALUE));
+        addAttribute(addFortitude, modifier, PmEntityAttributes.FORTITUDE_ADDITIONAL, id);
+        addAttribute(addPrudence, modifier, PmEntityAttributes.PRUDENCE_ADDITIONAL, id);
+        addAttribute(addTemperance, modifier, PmEntityAttributes.TEMPERANCE_ADDITIONAL, id);
+        addAttribute(addJustice, modifier, PmEntityAttributes.JUSTICE_ADDITIONAL, id);
         return modifier;
+    }
+
+    private void addAttribute(float addFortitude, Multimap<Holder<Attribute>, AttributeModifier> modifier, Holder<Attribute> fortitudeAdditional, ResourceLocation id) {
+        if (addFortitude != 0)
+            modifier.put(fortitudeAdditional,
+                    new AttributeModifier(id, addFortitude, AttributeModifier.Operation.ADD_VALUE));
     }
 
     @Override
