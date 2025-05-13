@@ -26,7 +26,7 @@ import static ctn.project_moon.tool.PmTool.i18ColorText;
 import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
 
 /**
- * 物品四色属性能力使用要求
+ * 物品四色属性能力使用要求提示
  * <p>
  * 当一个最后一个值为-1就是包括大于
  */

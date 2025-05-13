@@ -28,13 +28,28 @@ import java.util.function.IntFunction;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.PlayerAttribute.*;
 
-/*
+/**
  * 四色属性系统
- *
- * 这个类实现了游戏中的四色属性机制，包括勇气（Fortitude）、谨慎（Prudence）、自律（Temperance）和正义（Justice），
+ * <p>
+ * 属性机制，包括勇气（Fortitude）、谨慎（Prudence）、自律（Temperance）和正义（Justice），
  * 每种属性都会影响玩家的不同能力。
  */
 public class FourColorAttribute {
+	/**
+	 * 更新四色属性
+	 * <p>
+	 * 当玩家重生，进入世界（更换维度），更改四色属性调用
+	 * TODO 补充
+	 */
+	public static void updateColorAttributes(Player player){
+		if (!(player instanceof ServerPlayer serverPlayer)) {
+			return;
+		}
+
+		// 同步属性
+		syncFourColorAttribute(serverPlayer);
+	}
+
 	/** 同步四色基础属性 */
 	public static void syncFourColorAttribute(Player player){
 		if (player instanceof ServerPlayer serverPlayer) {
@@ -331,12 +346,14 @@ public class FourColorAttribute {
 
 	/// 事件处理方法
 
+	// TODO 注释！
 	public static void fortitudeRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			setFortitude(player,(int) Objects.requireNonNull(player.getAttribute(Attributes.MAX_HEALTH)).getValue());
 		}
 	}
 
+	// TODO 注释！
 	public static void prudenceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			if(! player.getPersistentData().contains(BASE_PRUDENCE))
@@ -348,6 +365,7 @@ public class FourColorAttribute {
 		}
 	}
 
+	// TODO 注释！
 	public static void temperanceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			if (!player.getPersistentData().contains(BASE_TEMPERANCE))
@@ -361,6 +379,7 @@ public class FourColorAttribute {
 		}
 	}
 
+	// TODO 注释！
 	public static void justiceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			if (!player.getPersistentData().contains(BASE_JUSTICE))

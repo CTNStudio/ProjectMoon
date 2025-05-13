@@ -1,6 +1,5 @@
 package ctn.project_moon.events.entity.player;
 
-import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.api.TempNbtAttribute;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,7 +12,8 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.FourColorAttribute.*;
-import static ctn.project_moon.api.PlayerAttribute.*;
+import static ctn.project_moon.api.PlayerAttribute.processAttribute;
+import static ctn.project_moon.api.PlayerAttribute.resetAttribute;
 import static ctn.project_moon.api.SpiritAttribute.syncSpiritValue;
 
 /**
@@ -30,13 +30,16 @@ public class PlayerEvents {
 	}
 
 	/**
-	 * 加载玩家属性
+	 * 加载玩家-此时客户端玩家未创建
 	 */
 	@SubscribeEvent
 	public static void loading(PlayerEvent.LoadFromFile event) {
-		loadAttribute(event.getEntity());
+		Player player = event.getEntity();
+		TempNbtAttribute.resetTemporaryAttribute(player);
+		processAttribute(player);
 	}
 
+	/** 登录到世界-此时客户端玩家已创建 */
 	@SubscribeEvent
 	public static void loggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 		if (event.getEntity() instanceof ServerPlayer player) {
@@ -54,20 +57,18 @@ public class PlayerEvents {
 	@SubscribeEvent
 	public static void reset(PlayerEvent.Clone event) {
 		Player player = event.getEntity();
+		TempNbtAttribute.resetTemporaryAttribute(player);
+
+		// 如果玩家是因为死亡...
 		if (event.isWasDeath()) {
+			syncFourColorAttribute(player);
 			resetAttribute(player);
 			setBasePrudence(player, getBasePrudence(event.getOriginal()));
-			setBaseTemperance(player,getBaseTemperance(event.getOriginal()));
-			setBaseJustice(player,getBaseJustice(event.getOriginal()));
+			setBaseTemperance(player, getBaseTemperance(event.getOriginal()));
+			setBaseJustice(player, getBaseJustice(event.getOriginal()));
+			renewFourColorAttribute(player);
 		}
 		// 重置临时属性
-		TempNbtAttribute.resetTemporaryAttribute(player);
-		renewFourColorAttribute(player);
-	}
-
-	public static void loadAttribute(Player player) {
-		processAttribute(player);
-		TempNbtAttribute.resetTemporaryAttribute(player);
 	}
 
 	@SubscribeEvent
@@ -77,10 +78,13 @@ public class PlayerEvents {
 		if (player instanceof ServerPlayer serverPlayer) {
 			syncSpiritValue(serverPlayer);
 			//同步属性
-			syncFourColorAttribute(player);
+
 			//TODO：改事件
-			if(getFortitude(player) != (int)player.getAttributeValue(Attributes.MAX_HEALTH))
+			if (getFortitude(player) != (int) player.getAttributeValue(Attributes.MAX_HEALTH)) {
 				fortitudeRelated(player);
+			}
+
+			// TODO 不应该在这更新
 			renewPlayerCompositeRatting(player);
 		}
 	}
