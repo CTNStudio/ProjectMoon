@@ -1,4 +1,4 @@
-// 1.21.1	2025-05-12T02:25:54.307706	Item Models: project_moon
+// 1.21.1	2025-05-14T16:14:21.8766496	Item Models: project_moon
 8f15049c97724ced2a59592db325903757064a01 assets/project_moon/models/item/chaos_sword.json
 24162638f2fc460740d3499e7d7fd3bf61c12def assets/project_moon/models/item/chaos_sword_erosion.json
 18d02083ece00bf0ce0f2f64e0afb0e6b4baa4ed assets/project_moon/models/item/chaos_sword_physics.json
@@ -11,4 +11,8 @@ f199262102bf25ee2be8cb5ee1b16a3565979494 assets/project_moon/models/item/creativ
 86fcf0319fc3972c6e87f16be11ff23714d63926 assets/project_moon/models/item/ego_curios_icon.json
 9763c6eaf36eed2ec07279758efc0f806ef43b4b assets/project_moon/models/item/ego_suit_icon.json
 068aa409504787377d3fe8c80130b9ed423ad8bd assets/project_moon/models/item/ego_weapon_icon.json
+28aa246915e31ef2734330bc9380030dfa67bafd assets/project_moon/models/item/magic_bullet_boots.json
+07af69de9a89130f4913781755f95772772ef830 assets/project_moon/models/item/magic_bullet_chestplate.json
+8921247df369970bbbd86e2553dd60d70231eabd assets/project_moon/models/item/magic_bullet_leggings.json
+3216e9a86b4c7800f221883562eee9d55b99ff41 assets/project_moon/models/item/magic_bullet_pipe.json
 db0e8451c1c7871a06fa2a5fce35091be386163b assets/project_moon/models/item/paradise_lost_wings.json

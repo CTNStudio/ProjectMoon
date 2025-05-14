@@ -10,6 +10,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * 玩家属性容器提供程序
+ */
 public class PlayerAttributeContainerProvider implements MenuProvider {
 
 	@Nonnull

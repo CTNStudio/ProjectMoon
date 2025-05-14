@@ -2,9 +2,9 @@ package ctn.project_moon.events;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import ctn.project_moon.common.RandomDamageProcessor;
-import ctn.project_moon.common.item.RequestItems;
+import ctn.project_moon.common.item.RequestItem;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
-import ctn.project_moon.common.item.weapon.ChaosKnifeItem;
+import ctn.project_moon.common.item.weapon.close.ChaosKnifeItem;
 import ctn.project_moon.tool.GradeTypeTool;
 import ctn.project_moon.tool.PmColourTool;
 import net.minecraft.client.Minecraft;
@@ -62,7 +62,7 @@ public class ItemTooltipEvents {
 
 	/** 提示文本 */
 	private static void itemReminderText(ItemStack stack, List<Component> components) {
-		if (!(stack.getItem() instanceof RequestItems)) {
+		if (!(stack.getItem() instanceof RequestItem)) {
 			return;
 		}
 		components.add(2, Component.translatable(MOD_ID + ".item_tooltip.press_the_key",
@@ -97,7 +97,7 @@ public class ItemTooltipEvents {
 
 	/** 详细描述文本 */
 	private static void detailedText(ItemTooltipEvent event, ItemStack stack, List<Component> components) {
-		if (stack.getItem() instanceof RequestItems && !Minecraft.ON_OSX ? !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_LEFT_CONTROL) : !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_RIGHT_CONTROL)) {
+		if (stack.getItem() instanceof RequestItem && !Minecraft.ON_OSX ? !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_LEFT_CONTROL) : !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW_KEY_RIGHT_CONTROL)) {
 			return;
 		}
 		components.clear();

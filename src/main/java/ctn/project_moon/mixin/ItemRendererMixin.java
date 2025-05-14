@@ -1,7 +1,7 @@
 package ctn.project_moon.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import ctn.project_moon.common.item.weapon.Weapon;
+import ctn.project_moon.common.item.weapon.abstract_ltem.Weapon;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;

@@ -16,7 +16,7 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class TrainingRabbits extends AbnosEntity {
-	private final AnimatableInstanceCache ANIMS = GeckoLibUtil.createInstanceCache(this);
+	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
 	public TrainingRabbits(EntityType<? extends Mob> entityType, Level level) {
 		super(entityType, level, GradeTypeTool.Level.ZAYIN);
@@ -35,7 +35,7 @@ public class TrainingRabbits extends AbnosEntity {
 
 	@Override
 	public AnimatableInstanceCache getAnimatableInstanceCache() {
-		return ANIMS;
+		return cache;
 	}
 
 	public static class TrainingRabbitsRenderer extends GeoEntityRenderer<TrainingRabbits> {

@@ -1,0 +1,28 @@
+package ctn.project_moon.client.geo;
+
+import ctn.project_moon.common.renderers.PmGeoItemRenderer;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.world.item.Item;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
+import software.bernie.geckolib.model.GeoModel;
+
+public class PmGeoItemRenderProvider<T extends Item & GeoItem> implements GeoRenderProvider {
+	private PmGeoItemRenderer<T> renderer;
+	protected final GeoModel<T>  defaultModel;
+	protected final GeoModel<T>  guiModel;
+
+	public PmGeoItemRenderProvider(GeoModel<T> defaultModel, GeoModel<T> guiModel) {
+		this.defaultModel = defaultModel;
+		this.guiModel = guiModel;
+	}
+
+	@Override
+	public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
+		if (this.renderer == null) {
+			this.renderer = new PmGeoItemRenderer<>(defaultModel, guiModel);
+		}
+
+		return this.renderer;
+	}
+}

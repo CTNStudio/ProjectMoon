@@ -62,12 +62,17 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		addItem(PmItems.BEAR_PAWS, "熊熊抱");
 		addItem(PmItems.LOVE_HATE, "以爱与恨之名");
 		addItem(PmItems.PARADISE_LOST, "失乐园");
+		addItem(PmItems.MAGIC_BULLET, "魔弹");
 
 		addItem(PmItems.SUIT, "西装");
 		addItem(PmItems.DRESS_PANTS, "西裤");
 		addItem(PmItems.LOAFERS, "便鞋");
+		addItem(PmItems.MAGIC_BULLET_CHESTPLATE, "魔弹");
+		addItem(PmItems.MAGIC_BULLET_LEGGINGS, "魔弹");
+		addItem(PmItems.MAGIC_BULLET_BOOTS, "魔弹");
 
 		addItem(PmItems.PARADISE_LOST_WINGS, "失乐园之翼");
+		addItem(PmItems.MAGIC_BULLET_PIPE, "魔弹射手的烟斗");
 
 		addCurios(DatagenCuriosTest.HEADWEAR_CURIOS, "头饰");
 		addCurios(DatagenCuriosTest.HEAD_CURIOS, "头部");

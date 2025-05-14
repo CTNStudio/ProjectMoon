@@ -34,6 +34,10 @@ public class DatagenItemModel extends ItemModelProvider {
 		basicItem(PmItems.EGO_WEAPON_ICON.get());
 		basicItem(PmItems.CREATIVE_TOOL_ICON.get());
 		basicItem(PmItems.PARADISE_LOST_WINGS.get());
+		basicItem(PmItems.MAGIC_BULLET_PIPE.get());
+		basicItem(PmItems.MAGIC_BULLET_CHESTPLATE.get());
+		basicItem(PmItems.MAGIC_BULLET_LEGGINGS.get());
+		basicItem(PmItems.MAGIC_BULLET_BOOTS.get());
 
 		LinkedHashMap<Float, String> creativeSpiritTool = new LinkedHashMap<>();
 		creativeSpiritTool.put(0F, "add");

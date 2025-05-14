@@ -30,8 +30,7 @@ public class PmItemDataComponents {
 	 */
 	public static final Supplier<DataComponentType<String>> CURRENT_DAMAGE_TYPE = recordComponent("current_damage_type");
 	/** 物品四色属性能力使用要求 */
-	public static final Supplier<DataComponentType<ItemColorUsageReq>> ITEM_COLOR_USAGE_REQ =
-			register("item_color_usage_req", builder -> builder.persistent(ItemColorUsageReq.CODEC).networkSynchronized(ItemColorUsageReq.STREAM_CODEC).cacheEncoding());
+	public static final Supplier<DataComponentType<ItemColorUsageReq>> ITEM_COLOR_USAGE_REQ = register("item_color_usage_req", builder -> builder.persistent(ItemColorUsageReq.CODEC).networkSynchronized(ItemColorUsageReq.STREAM_CODEC).cacheEncoding());
 
 	private static final EncoderCache ENCODER_CACHE = new EncoderCache(512);
 

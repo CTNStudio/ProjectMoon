@@ -27,11 +27,11 @@ import java.util.concurrent.CompletableFuture;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static net.minecraft.tags.DamageTypeTags.ALWAYS_HURTS_ENDER_DRAGONS;
+import static net.minecraft.world.damagesource.DamageTypes.*;
 import static net.minecraft.world.damagesource.DamageTypes.ARROW;
 import static net.minecraft.world.damagesource.DamageTypes.CACTUS;
 import static net.minecraft.world.damagesource.DamageTypes.TRIDENT;
 import static net.minecraft.world.damagesource.DamageTypes.WIND_CHARGE;
-import static net.minecraft.world.damagesource.DamageTypes.*;
 import static net.minecraft.world.item.Items.*;
 
 public class PmTags {
@@ -110,9 +110,14 @@ public class PmTags {
 			tag(TETH)
 					.add(PmItems.WRIST_CUTTER.get());
 			tag(HE)
-					.add(PmItems.BEAR_PAWS.get());
+					.add(PmItems.BEAR_PAWS.get())
+					.add(PmItems.MAGIC_BULLET_PIPE.get())
+					.add(PmItems.MAGIC_BULLET_CHESTPLATE.get())
+					.add(PmItems.MAGIC_BULLET_LEGGINGS.get())
+					.add(PmItems.MAGIC_BULLET_BOOTS.get());
 			tag(WAW)
-					.add(PmItems.LOVE_HATE.get());
+					.add(PmItems.LOVE_HATE.get())
+					.add(PmItems.MAGIC_BULLET.get());
 			tag(ALEPH)
 					.add(PmItems.PARADISE_LOST.get())
 					.add(PmItems.CREATIVE_SPIRIT_TOOL.get())
@@ -127,7 +132,8 @@ public class PmTags {
 					.add(PmItems.LOVE_HATE.get())
 					.add(PmItems.WRIST_CUTTER.get());
 			tag(EROSION) // 侵蚀
-					.add(PmItems.LOVE_HATE.get());
+					.add(PmItems.LOVE_HATE.get())
+					.add(PmItems.MAGIC_BULLET.get());
 			tag(THE_SOUL) // 灵魂
 					.add(PmItems.LOVE_HATE.get())
 					.add(PmItems.PARADISE_LOST.get());
@@ -138,12 +144,14 @@ public class PmTags {
 			tag(EGO_CURIOS_FACE);
 			tag(EGO_CURIOS_CHEEK);
 			tag(EGO_CURIOS_MASK);
-			tag(EGO_CURIOS_MOUTH);
+			tag(EGO_CURIOS_MOUTH)
+					.add(PmItems.MAGIC_BULLET_PIPE.get());
 			tag(EGO_CURIOS_NECK);
 			tag(EGO_CURIOS_CHEST);
 			tag(EGO_CURIOS_HAND);
 			tag(EGO_CURIOS_GLOVE);
-			tag(EGO_CURIOS_RIGHT_BACK);
+			tag(EGO_CURIOS_RIGHT_BACK)
+					.add(PmItems.PARADISE_LOST_WINGS.get());
 			tag(EGO_CURIOS_LEFT_BACK);
 			tag(EGO_CURIOS)
 					.addTags(EGO_CURIOS_HEADWEAR, EGO_CURIOS_CHEEK, EGO_CURIOS_HEAD, EGO_CURIOS_HINDBRAIN, EGO_CURIOS_EYE_AREA, EGO_CURIOS_FACE, EGO_CURIOS_MASK, EGO_CURIOS_MOUTH, EGO_CURIOS_NECK, EGO_CURIOS_CHEST, EGO_CURIOS_HAND, EGO_CURIOS_GLOVE, EGO_CURIOS_RIGHT_BACK, EGO_CURIOS_LEFT_BACK);

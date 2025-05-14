@@ -1,7 +1,7 @@
 package ctn.project_moon.registrar;
 
-import ctn.project_moon.common.item.curio.CurioItem;
-import ctn.project_moon.common.renderers.PmCuriosItemRenderer;
+import ctn.project_moon.common.item.curio.EgoCurioItem;
+import ctn.project_moon.common.renderers.CuriosItemRenderer;
 import ctn.project_moon.init.PmItems;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -17,9 +17,10 @@ public class CurioEvents {
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		register(PmItems.PARADISE_LOST_WINGS.get());
+		register(PmItems.MAGIC_BULLET_PIPE.get());
 	}
 
-	private static void register(CurioItem item) {
-		CuriosRendererRegistry.register(item, () -> new PmCuriosItemRenderer(item));
+	private static void register(EgoCurioItem item) {
+		CuriosRendererRegistry.register(item, () -> new CuriosItemRenderer(item));
 	}
 }

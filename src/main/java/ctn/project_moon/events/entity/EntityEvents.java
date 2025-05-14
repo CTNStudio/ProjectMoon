@@ -26,7 +26,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.MobGeneralAttribute.*;
 import static ctn.project_moon.api.SpiritAttribute.*;
 import static ctn.project_moon.common.item.Ego.getItemLevelValue;
-import static ctn.project_moon.common.item.weapon.ego.CloseCombatEgo.isCloseCombatEgo;
+import static ctn.project_moon.common.item.weapon.abstract_ltem.CloseEgoWeapon.isCloseCombatEgo;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.getType;
 import static ctn.project_moon.init.PmEntityAttributes.*;

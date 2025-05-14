@@ -27,6 +27,7 @@ public class PmCreativeModeTab extends CreativeModeTabs {
 						output.accept(PmItems.BEAR_PAWS.get());
 						output.accept(PmItems.LOVE_HATE.get());
 						output.accept(PmItems.PARADISE_LOST.get());
+						output.accept(PmItems.MAGIC_BULLET.get());
 					}, () -> PmItems.EGO_WEAPON_ICON.get().getDefaultInstance()));
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_SUIT =
@@ -35,12 +36,16 @@ public class PmCreativeModeTab extends CreativeModeTabs {
 						output.accept(PmItems.SUIT);
 						output.accept(PmItems.DRESS_PANTS);
 						output.accept(PmItems.LOAFERS);
+						output.accept(PmItems.MAGIC_BULLET_CHESTPLATE);
+						output.accept(PmItems.MAGIC_BULLET_LEGGINGS);
+						output.accept(PmItems.MAGIC_BULLET_BOOTS);
 					}, () -> PmItems.EGO_SUIT_ICON.get().getDefaultInstance()));
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_CURIOS =
 			register("ego_curios", (name) -> createCreativeModeTab(name,
 					(parameters, output) -> {
 						output.accept(PmItems.PARADISE_LOST_WINGS);
+						output.accept(PmItems.MAGIC_BULLET_PIPE);
 					}, () -> PmItems.EGO_CURIOS_ICON.get().getDefaultInstance()));
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TOOL =
