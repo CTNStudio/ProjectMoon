@@ -99,7 +99,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		Component component2 = getAdditionalComponent(getBasePrudence(player), PmEntityAttributes.PRUDENCE_ADDITIONAL);
 		Component component3 = getAdditionalComponent(getBaseTemperance(player), PmEntityAttributes.TEMPERANCE_ADDITIONAL);
 		Component component4 = getAdditionalComponent(getBaseJustice(player), PmEntityAttributes.JUSTICE_ADDITIONAL);
-		if (!isCapacity) {
+		if (! isCapacity) {
 			component1 = Component.literal(getResistanceString(PHYSICS_RESISTANCE));
 			component2 = Component.literal(getResistanceString(SPIRIT_RESISTANCE));
 			component3 = Component.literal(getResistanceString(EROSION_RESISTANCE));
@@ -141,11 +141,11 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 	/** 初始化 */
 	@Override
 	public void init() {
-		isCapacity = true;
-		imageWidth = 198;
+		isCapacity  = true;
+		imageWidth  = 198;
 		imageHeight = 182;
-		leftPos = (this.width - this.imageWidth) / 2 - 11;
-		topPos = (this.height - this.imageHeight) / 2 - 8;
+		leftPos     = (this.width - this.imageWidth) / 2 - 11;
+		topPos      = (this.height - this.imageHeight) / 2 - 8;
 
 		/// 评级图片控件
 		{
@@ -154,8 +154,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 					createCompositeStateWidget(x, topPos + 25),
 					createCompositeStateWidget(x, topPos + 42),
 					createCompositeStateWidget(x, topPos + 59),
-					createCompositeStateWidget(x, topPos + 76)
-			);
+					createCompositeStateWidget(x, topPos + 76));
 		}
 		// 综合评级图片控件
 		compositeRating = new RatingWidget(leftPos + 92, topPos + 2, true);
@@ -163,7 +162,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 
 		for (Slot inventorySlot : this.menu.slots) {
 			// 饰品插槽
-			if (inventorySlot instanceof CurioSlot curioSlot && !(inventorySlot instanceof CosmeticCurioSlot) && curioSlot.canToggleRender()) {
+			if (inventorySlot instanceof CurioSlot curioSlot && ! (inventorySlot instanceof CosmeticCurioSlot) && curioSlot.canToggleRender()) {
 				// 切换是否渲染饰品
 				this.addRenderableWidget(new ToggleCurioRenderButton(this, curioSlot, GUI,
 						this.leftPos + inventorySlot.x + 12,
@@ -178,16 +177,16 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		for (int i = 0; i < 4; i++) {
 			int width = 16;
 			int height = 16;
-			ImageWidget imageWidget1 = ImageWidget.texture(width, height, ATTRIBUTE[i], width, height);
-			imageWidget1.setMessage(Component.translatable(ATTRIBUTE_TOOLTIP[i]));
-			ImageWidget imageWidget2 = ImageWidget.texture(width, height, RESISTANCE[i], width, height);
-			imageWidget2.setMessage(Component.translatable(RESISTANCE_TOOLTIP[i]));
+			ImageWidget attributeImageWidget = ImageWidget.texture(width, height, ATTRIBUTE[i], width, height);
+			attributeImageWidget.setMessage(Component.translatable(ATTRIBUTE_TOOLTIP[i]));
+			ImageWidget resistanceImageWidget = ImageWidget.texture(width, height, RESISTANCE[i], width, height);
+			resistanceImageWidget.setMessage(Component.translatable(RESISTANCE_TOOLTIP[i]));
 			CompositeWidget<ImageWidget> compositeWidget = new CompositeWidget<>(
 					this.leftPos + 123,
 					this.topPos + 24 + ((16 + 1) * i),
 					width, height,
-					imageWidget1,
-					imageWidget2);
+					attributeImageWidget,
+					resistanceImageWidget);
 			addRenderableWidget(compositeWidget);
 			addRenderableWidget(ratingImages.get(i));
 		}
@@ -219,7 +218,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 					256, 256);
 			CuriosApi.getCuriosInventory(this.minecraft.player).ifPresent((handler) -> {
 				for (Slot inventorySlot : this.menu.slots) {
-					if (!(inventorySlot instanceof CurioSlot curioSlot) || !curioSlot.isCosmetic()) {
+					if (! (inventorySlot instanceof CurioSlot curioSlot) || ! curioSlot.isCosmetic()) {
 						continue;
 					}
 					RenderSystem.enableBlend();
@@ -287,7 +286,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 							.getSlotTooltip(slotCurio.getSlotContext(), ClientTooltipFlag.of(this.minecraft.options.advancedItemTooltips
 									? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL));
 
-					if (!slotTooltips.isEmpty()) {
+					if (! slotTooltips.isEmpty()) {
 						guiGraphics.renderComponentTooltip(font, slotTooltips, mouseX, mouseY);
 					} else {
 						guiGraphics.renderTooltip(font, Component.literal(slotCurio.getSlotName()), mouseX, mouseY);
@@ -300,7 +299,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 
 	/** 切换属性或抗性 */
 	public void toggleCapacity() {
-		isCapacity = !isCapacity;
+		isCapacity = ! isCapacity;
 		for (Renderable renderable : this.renderables) {
 			if (renderable instanceof CompositeWidget button) {
 				button.setState(isCapacity);

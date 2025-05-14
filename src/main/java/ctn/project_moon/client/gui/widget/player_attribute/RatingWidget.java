@@ -32,7 +32,7 @@ public final class RatingWidget extends StateWidget {
 
 	@Override
 	public void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-		if (stateV == 1) {
+		if (stateU == 1) {
 			guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.translatable(COMPOSITE_RATING), mouseX, mouseY);
 		}
 	}

@@ -36,7 +36,7 @@ import static ctn.project_moon.api.PlayerAttribute.*;
  */
 public class FourColorAttribute {
 	private static final float VANILLA_FLYING_SPEED = 0.05f;
-
+	// TODO 待将这些写入到配置文件
 	public static final int    PRUDENCE_INITIAL_VALUE       = 20;
 	public static final int    FORTITUDE_INITIAL_VALUE      = 20;
 	public static final int    TEMPERANCE_INITIAL_VALUE     = 1;
