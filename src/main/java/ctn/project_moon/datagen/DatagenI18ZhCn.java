@@ -2,9 +2,6 @@ package ctn.project_moon.datagen;
 
 import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.client.gui.widget.player_attribute.PlayerAttributeButton;
-import ctn.project_moon.client.gui.widget.player_attribute.RatingWidget;
-import ctn.project_moon.client.gui.widget.player_attribute.ToggleCapacityButton;
-import ctn.project_moon.client.gui.widget.player_attribute.ToggleCurioCosmeticButton;
 import ctn.project_moon.client.screen.PlayerAttributeScreen;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.config.PmConfig;
@@ -96,6 +93,7 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(PmEntityAttributes.ENTITY_LEVEL, "生物等级");
 		add(PmEntityAttributes.MAX_FORTITUDE, "勇气最大点数");
 		add(PmEntityAttributes.MAX_PRUDENCE, "谨慎最大点数");
+		add(PmEntityAttributes.MAX_SPIRIT, "最大理智值");
 		add(PmEntityAttributes.MAX_TEMPERANCE, "自律最大点数");
 		add(PmEntityAttributes.FORTITUDE_ADDITIONAL, "附加勇气");
 		add(PmEntityAttributes.PRUDENCE_ADDITIONAL, "附加谨慎");
@@ -169,13 +167,19 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add("project_moon.configuration.section.project.moon.client.toml.title", "客户端设置 · 这些仅会修改视觉效果不会修改游戏内容");
 
 		add(PlayerAttributeButton.MESSAGE, "打开月亮计划玩家属性面板");
-		add(ToggleCurioCosmeticButton.TOOLTIP, "切换装饰饰品");
-		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[0], "物理");
-		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[1], "精神");
-		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[2], "侵蚀");
-		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[3], "灵魂");
-		add(RatingWidget.COMPOSITE_RATING, "综合评级");
-		add(ToggleCapacityButton.TOOLTIP, "切换属性/抗性");
+		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[0], "物理抗性");
+		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[1], "精神抗性");
+		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[2], "侵蚀抗性");
+		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[3], "灵魂抗性");
+		add(PlayerAttributeScreen.ATTRIBUTE_TOOLTIP[0], "勇气评级");
+		add(PlayerAttributeScreen.ATTRIBUTE_TOOLTIP[1], "谨慎评级");
+		add(PlayerAttributeScreen.ATTRIBUTE_TOOLTIP[2], "自律评级");
+		add(PlayerAttributeScreen.ATTRIBUTE_TOOLTIP[3], "正义评级");
+		add(PlayerAttributeScreen.ATTRIBUTE_TOOLTIP[4], "综合评级");
+		add(PlayerAttributeScreen.ATTRIBUTE_POINTS_TOOLTIP, "属性点数：%s");
+		add(PlayerAttributeScreen.ATTRIBUTE_EXPERIENCE_TOOLTIP, "属性经验：%s");
+		add(PlayerAttributeScreen.DAMAGE_RESISTANCE_TOOLTIP, "伤害抗性：%s");
+		add(PlayerAttributeScreen.DAMAGE_RESISTANCE1, "数字越大抵抗效果越差");
 
 		add(ATTRIBUTE_TO_SET + FourColorAttribute.Type.JUSTICE.getName(), "更改玩家正义点数为 %d");
 		add(ATTRIBUTE_TO_SET + FourColorAttribute.Type.COMPOSITE_RATING.getName(), "更改玩家综合评级为 %d");

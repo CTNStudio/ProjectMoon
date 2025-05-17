@@ -187,7 +187,7 @@ public class FourColorAttribute {
 	public static void renewFortitudeAttribute(Player player) {
 		if (player.getAttribute(PmEntityAttributes.FORTITUDE_ADDITIONAL) != null) {
 			double addMaxHealth = player.getAttribute(PmEntityAttributes.FORTITUDE_ADDITIONAL).getValue();
-			AttributeModifier addMaxHealthModifier = newAttributeModifier_ADD_VALUE(FORTITUDE_ADD_MAX_HEALTH, addMaxHealth);
+			AttributeModifier addMaxHealthModifier = newAttributeModifierAddValue(FORTITUDE_ADD_MAX_HEALTH, addMaxHealth);
 			addOrUpdateTransientModifier(player, Attributes.MAX_HEALTH, addMaxHealthModifier);
 		}
 	}
@@ -222,7 +222,7 @@ public class FourColorAttribute {
 	public static void renewPrudenceAttribute(Player player) {
 		if (player.getAttribute(PmEntityAttributes.PRUDENCE_ADDITIONAL) != null) {
 			double addMaxSpirit = getPrudence(player) - PRUDENCE_INITIAL_VALUE;//减去初始值20
-			AttributeModifier addMaxSpiritModifier = newAttributeModifier_ADD_VALUE(PRUDENCE_ADD_MAX_SPIRIT, addMaxSpirit);
+			AttributeModifier addMaxSpiritModifier = newAttributeModifierAddValue(PRUDENCE_ADD_MAX_SPIRIT, addMaxSpirit);
 			addOrUpdateTransientModifier(player, PmEntityAttributes.MAX_SPIRIT, addMaxSpiritModifier);
 		}
 	}
@@ -270,8 +270,8 @@ public class FourColorAttribute {
 		//获取玩家的自律值
 		int temperance = getTemperance(player);
 		//创建自律加成
-		AttributeModifier blockBreakSpeedModifier = newAttributeModifier_ADD_VALUE(TEMPERANCE_ADD_BLOCK_BREAK_SPEED, temperance * TEMPERANCE_BLOCK_BREAK_SPEED);
-		AttributeModifier knockbackModifier = newAttributeModifier_ADD_VALUE(TEMPERANCE_ADD_KNOCKBACK, temperance * TEMPERANCE_KNOCKBACK_SPEED);
+		AttributeModifier blockBreakSpeedModifier = newAttributeModifierAddValue(TEMPERANCE_ADD_BLOCK_BREAK_SPEED, temperance * TEMPERANCE_BLOCK_BREAK_SPEED);
+		AttributeModifier knockbackModifier = newAttributeModifierAddValue(TEMPERANCE_ADD_KNOCKBACK, temperance * TEMPERANCE_KNOCKBACK_SPEED);
 		//将自律加成添加到玩家的挖掘速度与击退属性中
 		addOrUpdateTransientModifier(player, Attributes.BLOCK_BREAK_SPEED, blockBreakSpeedModifier);
 		addOrUpdateTransientModifier(player, Attributes.ATTACK_KNOCKBACK, knockbackModifier);
@@ -319,9 +319,9 @@ public class FourColorAttribute {
 		//获取玩家的正义值
 		double justice = getJustice(player);
 		//创建正义加成
-		AttributeModifier movementSpeedModifier = newAttributeModifier_ADD_VALUE(JUSTICE_ADD_MOVEMENT_SPEED, justice * JUSTICE_MOVEMENT_SPEED);
-		AttributeModifier attackSpeedModifier = newAttributeModifier_ADD_VALUE(JUSTICE_ADD_ATTACK_SPEED, justice * JUSTICE_ATTACK_SPEED);
-		AttributeModifier swimSpeedModifier = newAttributeModifier_ADD_VALUE(JUSTICE_ADD_SWIM_SPEED, justice * JUSTICE_SWIM_SPEED);
+		AttributeModifier movementSpeedModifier = newAttributeModifierAddValue(JUSTICE_ADD_MOVEMENT_SPEED, justice * JUSTICE_MOVEMENT_SPEED);
+		AttributeModifier attackSpeedModifier = newAttributeModifierAddValue(JUSTICE_ADD_ATTACK_SPEED, justice * JUSTICE_ATTACK_SPEED);
+		AttributeModifier swimSpeedModifier = newAttributeModifierAddValue(JUSTICE_ADD_SWIM_SPEED, justice * JUSTICE_SWIM_SPEED);
 		//将正义加成添加到玩家的移动与攻击速度属性中
 		addOrUpdateTransientModifier(player, Attributes.MOVEMENT_SPEED, movementSpeedModifier);
 		addOrUpdateTransientModifier(player, Attributes.ATTACK_SPEED, attackSpeedModifier);
@@ -536,7 +536,7 @@ public class FourColorAttribute {
 		return Objects.requireNonNull(player.getAttribute(attribute)).hasModifier(getResourceLocation(name));
 	}
 
-	private static @NotNull AttributeModifier newAttributeModifier_ADD_VALUE(String justiceAddMovementSpeed, double justice) {
-		return new AttributeModifier(getResourceLocation(justiceAddMovementSpeed), justice, AttributeModifier.Operation.ADD_VALUE);
+	private static @NotNull AttributeModifier newAttributeModifierAddValue(String name, double value) {
+		return new AttributeModifier(getResourceLocation(name), value, AttributeModifier.Operation.ADD_VALUE);
 	}
 }

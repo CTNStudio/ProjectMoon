@@ -1,312 +1,289 @@
 package ctn.project_moon.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import ctn.project_moon.api.FourColorAttribute;
+import ctn.project_moon.client.gui.widget.PmImageWidget;
 import ctn.project_moon.client.gui.widget.StateWidget;
-import ctn.project_moon.client.gui.widget.Switch2Button;
-import ctn.project_moon.client.gui.widget.player_attribute.*;
 import ctn.project_moon.common.menu.PlayerAttributeMenu;
-import ctn.project_moon.init.PmEntityAttributes;
-import ctn.project_moon.tool.PmTool;
-import net.minecraft.client.Minecraft;
+import ctn.project_moon.tool.PmColourTool;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.ImageWidget;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.CommonColors;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.ClientTooltipFlag;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.client.ICuriosScreen;
-import top.theillusivec4.curios.common.inventory.CosmeticCurioSlot;
-import top.theillusivec4.curios.common.inventory.CurioSlot;
-import top.theillusivec4.curios.common.network.client.CPacketToggleRender;
 
-import javax.annotation.Nonnull;
+import java.text.MessageFormat;
 import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.FourColorAttribute.*;
 import static ctn.project_moon.init.PmEntityAttributes.*;
-
-// TODO 装饰品槽有问题 fixme
+import static net.minecraft.world.entity.ai.attributes.Attributes.*;
+import static net.neoforged.neoforge.common.NeoForgeMod.SWIM_SPEED;
 
 /**
  * @author 小尽
  */
 @OnlyIn(Dist.CLIENT)
 public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<PlayerAttributeMenu> implements ICuriosScreen {
-	public static final ResourceLocation GUI = getResourceLocation("textures/gui/container/player_attribute.png");
-	public static final ResourceLocation[] ATTRIBUTE = {
-			getResourceLocation("textures/gui/sprites/player_attribute/fortitude.png"),
-			getResourceLocation("textures/gui/sprites/player_attribute/prudence.png"),
-			getResourceLocation("textures/gui/sprites/player_attribute/temperance.png"),
-			getResourceLocation("textures/gui/sprites/player_attribute/justice.png")
+	public static final String PREFIX = MOD_ID + ".gui.player_attribute_v2.";
+	public static final ResourceLocation TEXTURE = getResourceLocation("textures/gui/container/player_attribute_v2.png");
+	public static final String ATTRIBUTE_POINTS_TOOLTIP = PREFIX + "attribute_points.message";
+	public static final String ATTRIBUTE_EXPERIENCE_TOOLTIP = PREFIX + "attribute_experience.message";
+	public static final String DAMAGE_RESISTANCE_TOOLTIP = PREFIX + "damage_resistance.message";
+	public static final String DAMAGE_RESISTANCE1 = PREFIX + "damage_resistance.message1";
+	public static final String[] ATTRIBUTE_TOOLTIP = new String[]{
+			PREFIX + "fortitude.message",
+			PREFIX + "prudence.message",
+			PREFIX + "temperance.message",
+			PREFIX + "justice.message",
+			PREFIX + "composite_rating.message"
 	};
-	public static final ResourceLocation[] RESISTANCE = {
-			getResourceLocation("textures/particle/physics_particle.png"),
-			getResourceLocation("textures/particle/spirit_particle.png"),
-			getResourceLocation("textures/particle/erosion_particle.png"),
-			getResourceLocation("textures/particle/the_soul_particle.png")
+	public static final String[] RESISTANCE_TOOLTIP = new String[]{
+			PREFIX + "physics.message",
+			PREFIX + "spirit.message",
+			PREFIX + "erosion.message",
+			PREFIX + "the_soul.message"
 	};
-	public static final String[] ATTRIBUTE_TOOLTIP = {
-			FourColorAttribute.Type.FORTITUDE.getSerializedName(),
-			FourColorAttribute.Type.PRUDENCE.getSerializedName(),
-			FourColorAttribute.Type.TEMPERANCE.getSerializedName(),
-			FourColorAttribute.Type.JUSTICE.getSerializedName()
-	};
-	public static final String[] RESISTANCE_TOOLTIP = {
-			MOD_ID + ".gui.player_attribute.physics.message",
-			MOD_ID + ".gui.player_attribute.spirit.message",
-			MOD_ID + ".gui.player_attribute.erosion.message",
-			MOD_ID + ".gui.player_attribute.the_soul.message"
-	};
-	private final Player player;
-	private boolean isCapacity = true;
-	private List<CompositeWidget<StateWidget>> ratingImages;
-	private RatingWidget compositeRating;
-
+	private StateWidget         compositeRatingWidget;
+	private final StateWidget[] attributeRatingWidget = new StateWidget[4];
+	private final StateWidget[] resistanceWidget      = new StateWidget[4];
+	private final Player        player;
 
 	public PlayerAttributeScreen(PlayerAttributeMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title);
 		player = playerInventory.player;
 	}
 
-	private static @NotNull ResourceLocation getResourceLocation(String path) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
-	}
-
-	// TODO 如果太长会溢出 fixme
 	@Override
-	protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-		int x = 159;
-		int y = 30;
-		Component component1 = getAdditionalComponent(getBaseFortitude(player), PmEntityAttributes.FORTITUDE_ADDITIONAL);
-		Component component2 = getAdditionalComponent(getBasePrudence(player), PmEntityAttributes.PRUDENCE_ADDITIONAL);
-		Component component3 = getAdditionalComponent(getBaseTemperance(player), PmEntityAttributes.TEMPERANCE_ADDITIONAL);
-		Component component4 = getAdditionalComponent(getBaseJustice(player), PmEntityAttributes.JUSTICE_ADDITIONAL);
-		if (! isCapacity) {
-			component1 = Component.literal(getResistanceString(PHYSICS_RESISTANCE));
-			component2 = Component.literal(getResistanceString(SPIRIT_RESISTANCE));
-			component3 = Component.literal(getResistanceString(EROSION_RESISTANCE));
-			component4 = Component.literal(getResistanceString(THE_SOUL_RESISTANCE));
+	protected void init() {
+		imageWidth  = 176;
+		imageHeight = 166;
+		leftPos     = (this.width - this.imageWidth) / 2;
+		topPos      = (this.height - this.imageHeight) / 2;
+		addRenderableWidget(compositeRatingWidget = new StateWidget(
+				leftPos + 80, topPos + 19,
+				16, 16,
+				194, 0,
+				TEXTURE, Component.translatable(ATTRIBUTE_TOOLTIP[4])));
+
+		for (int i = 0; i < 4; i++) {
+			addRenderableWidget(new PmImageWidget(
+					leftPos + 7, topPos + 7 + 18 * i,
+					18, 18,
+					TEXTURE,
+					(18 + 1) * i, 186,
+					Component.translatable(ATTRIBUTE_TOOLTIP[i])));
+			addRenderableWidget(attributeRatingWidget[i] = new StateWidget(
+					leftPos + 27, topPos + 8 + (16 + 2) * i,
+					16, 16,
+					177, 0,
+					TEXTURE, Component.empty()));
 		}
-		guiGraphics.drawString(font, component1, x, y, 0xFFFFFF, false);
-		guiGraphics.drawString(font, component2, x, y += 17, 0xFFFFFF, false);
-		guiGraphics.drawString(font, component3, x, y += 17, 0xFFFFFF, false);
-		guiGraphics.drawString(font, component4, x, y + 17, 0xFFFFFF, false);
+		for (int i = 0; i < 4; i++) {
+			addRenderableWidget(new PmImageWidget(
+					leftPos + 151, topPos + 7 + 18 * i,
+					18, 18,
+					TEXTURE,
+					(18 + 1) * i, 167,
+					Component.translatable(RESISTANCE_TOOLTIP[i])));
+			addRenderableWidget(resistanceWidget[i] = new StateWidget(
+					leftPos + 133, topPos + 8 + (16 + 2) * i,
+					16, 16,
+					211, 0,
+					TEXTURE, Component.empty()));
+		}
+
+		attributeRatingWidget[0].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
+			List<Component> list = addAttributeTooltip(widget, getBaseFortitude(player), FORTITUDE_ADDITIONAL);
+			addAttributeBonusTooltip(list, "attribute.name.max_health", player.getAttribute(MAX_HEALTH).getValue() - 20);
+		});
+		attributeRatingWidget[1].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
+			List<Component> list = addAttributeTooltip(widget, getBasePrudence(player), PRUDENCE_ADDITIONAL);
+			addAttributeBonusTooltip(list, "attribute.name.generic.max_spirit", player.getAttribute(MAX_SPIRIT).getValue() - 20);
+		});
+		attributeRatingWidget[2].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
+			List<Component> list = addAttributeTooltip(widget, getBaseTemperance(player), TEMPERANCE_ADDITIONAL);
+			addAttributeBonusTooltip(list, "attribute.name.player.block_break_speed",
+			                         getAttributeModifierValue(BLOCK_BREAK_SPEED, TEMPERANCE_ADD_BLOCK_BREAK_SPEED));
+			addAttributeBonusTooltip(list, "attribute.name.generic.attack_knockback",
+			                         getAttributeModifierValue(ATTACK_KNOCKBACK, TEMPERANCE_ADD_KNOCKBACK));
+		});
+		attributeRatingWidget[3].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
+			List<Component> list = addAttributeTooltip(widget, getBaseJustice(player), JUSTICE_ADDITIONAL);
+			addAttributeBonusTooltip(list, "attribute.name.generic.movement_speed", getAttributeModifierValue(MOVEMENT_SPEED, JUSTICE_ADD_MOVEMENT_SPEED));
+			addAttributeBonusTooltip(list, "attribute.name.generic.attack_speed", getAttributeModifierValue(ATTACK_SPEED, JUSTICE_ADD_ATTACK_SPEED));
+			addAttributeBonusTooltip(list, "neoforge.swim_speed", getAttributeModifierValue(SWIM_SPEED, JUSTICE_ADD_SWIM_SPEED));
+		});
+
+		resistanceWidget[0].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
+			addResistanceTooltip(widget, PHYSICS_RESISTANCE);
+		});
+		resistanceWidget[1].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
+			addResistanceTooltip(widget, SPIRIT_RESISTANCE);
+		});
+		resistanceWidget[2].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
+			addResistanceTooltip(widget, EROSION_RESISTANCE);
+		});
+		resistanceWidget[3].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
+			addResistanceTooltip(widget, THE_SOUL_RESISTANCE);
+		});
 	}
 
-	private @NotNull String getResistanceString(Holder<Attribute> attribute) {
-		return String.format("%.2f", player.getAttribute(attribute).getValue());
+	@Override
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		compositeRatingWidget.setStateV(getCompositeRatting(player) - 1);
+		modifyRatingWidget(0, getFortitudeRating(player) - 1);
+		modifyRatingWidget(1, getPrudenceRating(player) - 1);
+		modifyRatingWidget(2, getTemperanceRating(player) - 1);
+		modifyRatingWidget(3, getJusticeRating(player) - 1);
+		modifyResistanceWidget(0, PHYSICS_RESISTANCE);
+		modifyResistanceWidget(1, SPIRIT_RESISTANCE);
+		modifyResistanceWidget(2, EROSION_RESISTANCE);
+		modifyResistanceWidget(3, THE_SOUL_RESISTANCE);
+		super.render(guiGraphics, mouseX, mouseY, partialTick);
+		super.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 
-	private @NotNull Component getAdditionalComponent(final int originalValue, Holder<Attribute> attribute) {
-		MutableComponent c = Component.literal("").append(Component.literal(String.valueOf(originalValue)));
+	private void addResistanceTooltip(StateWidget widget, Holder<Attribute> theSoulResistance) {
+		widget.getMessageList().clear();
+		List<Component> list = widget.getMessageList();
+		list.add(Component.translatable(DAMAGE_RESISTANCE_TOOLTIP, player.getAttributeValue(theSoulResistance)));
+		list.add(Component.translatable(DAMAGE_RESISTANCE1));
+	}
+
+	private void modifyRatingWidget(int index, int value) {
+		attributeRatingWidget[index].setStateV(value);
+	}
+
+	private void modifyResistanceWidget(int index, Holder<Attribute> physicsResistance) {
+		double state = player.getAttributeValue(physicsResistance);
+		int i = 0;
+		if (state < 0.5) {
+			i = 1;
+		} else if (state < 1.0) {
+			i = 2;
+		} else if (state == 1.0) {
+			i = 3;
+		} else if (state >= 2.0) {
+			i = 5;
+		} else if (state > 1.0) {
+			i = 4;
+		}
+		resistanceWidget[index].setStateV(i);
+	}
+
+	@Override
+	protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {}
+
+	@Override
+	protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+		guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, 256, 256);
+	}
+
+	/** 获取属性修改器 */
+	private AttributeModifier getAttributeModifierValue(Holder<Attribute> attribute, String attributeModifierName) {
+		return player.getAttribute(attribute).getModifiers().stream()
+				.filter((a) -> a.id().equals(getResourceLocation(attributeModifierName)))
+				.findFirst().orElse(null);
+	}
+
+	/** 添加属性加成文本 */
+	private void addAttributeBonusTooltip(List<Component> list, String key, double bonus) {
+		list.add(getBonusComponent(bonus).append(Component.translatable(key)));
+	}
+
+	/** 添加属性加成文本 */
+	private void addAttributeBonusTooltip(List<Component> list, String key, AttributeModifier attributeModifier) {
+		if (attributeModifier == null) {
+			return;
+		}
+		list.add(getBonusComponent(attributeModifier).append(Component.translatable(key)));
+	}
+
+	/** 添加属性点数和属性经验文本 */
+	private List<Component> addAttributeTooltip(StateWidget widget, final int baseValue, Holder<Attribute> attribute) {
+		widget.getMessageList().clear();
+		List<Component> MessageList = widget.getMessageList();
+		MessageList.add(getAttributePoints(baseValue, attribute));
+		MessageList.add(gerAttributeExperience(0));
+		return MessageList;
+	}
+
+	/**
+	 * 获取属性点数
+	 */
+	private @NotNull Component getAttributePoints(final int baseValue, Holder<Attribute> attribute) {
+		return Component.translatable(ATTRIBUTE_POINTS_TOOLTIP, getAdditionalComponent(baseValue, attribute));
+	}
+
+	/** 获取属性点数加成 */
+	private @NotNull Component getAdditionalComponent(final int baseValue, Holder<Attribute> attribute) {
+		MutableComponent c = Component.literal("").append(Component.literal(String.valueOf(baseValue)));
 		final int additionalValue = (int) player.getAttribute(attribute).getValue();
 		MutableComponent additionalComponent = Component.literal(String.valueOf(additionalValue));
 		if (additionalValue == 0) {
 			return c;
 		}
 		if (additionalValue < 0) {
-			additionalComponent.withColor(PmTool.colorConversion("#dc1a1a"));
+			additionalComponent.withColor(CommonColors.SOFT_RED);
 		} else {
-			additionalComponent = Component.literal("+" + additionalValue).withColor(PmTool.colorConversion("#2399b9"));
+			additionalComponent = Component.literal("+" + additionalValue).withColor(PmColourTool.TETH.getColourRGB());
 		}
 		return c.append(additionalComponent);
 	}
 
-	// TODO 添加详细按钮
-
-	private CompositeWidget<StateWidget> createCompositeStateWidget(int x, int y) {
-		RatingWidget rating = new RatingWidget(x, y);
-		ResistanceWidget resistance = new ResistanceWidget(x, y);
-		return new CompositeWidget<>(x, y, 16, 13, rating, resistance);
-	}
-
-	/** 初始化 */
-	@Override
-	public void init() {
-		isCapacity  = true;
-		imageWidth  = 198;
-		imageHeight = 182;
-		leftPos     = (this.width - this.imageWidth) / 2 - 11;
-		topPos      = (this.height - this.imageHeight) / 2 - 8;
-
-		/// 评级图片控件
-		{
-			int x = leftPos + 141;
-			ratingImages = List.of(
-					createCompositeStateWidget(x, topPos + 25),
-					createCompositeStateWidget(x, topPos + 42),
-					createCompositeStateWidget(x, topPos + 59),
-					createCompositeStateWidget(x, topPos + 76));
-		}
-		// 综合评级图片控件
-		compositeRating = new RatingWidget(leftPos + 92, topPos + 2, true);
-		addRenderableWidget(compositeRating);
-
-		for (Slot inventorySlot : this.menu.slots) {
-			// 饰品插槽
-			if (inventorySlot instanceof CurioSlot curioSlot && ! (inventorySlot instanceof CosmeticCurioSlot) && curioSlot.canToggleRender()) {
-				// 切换是否渲染饰品
-				this.addRenderableWidget(new ToggleCurioRenderButton(this, curioSlot, GUI,
-						this.leftPos + inventorySlot.x + 12,
-						this.topPos + inventorySlot.y + 12,
-						5, 5,
-						199, 31,
-						(button) -> PacketDistributor.sendToServer(new CPacketToggleRender(curioSlot.getIdentifier(), inventorySlot.getSlotIndex()))));
-			}
-		}
-
-		// 属性\抗性图片控件
-		for (int i = 0; i < 4; i++) {
-			int width = 16;
-			int height = 16;
-			ImageWidget attributeImageWidget = ImageWidget.texture(width, height, ATTRIBUTE[i], width, height);
-			attributeImageWidget.setMessage(Component.translatable(ATTRIBUTE_TOOLTIP[i]));
-			ImageWidget resistanceImageWidget = ImageWidget.texture(width, height, RESISTANCE[i], width, height);
-			resistanceImageWidget.setMessage(Component.translatable(RESISTANCE_TOOLTIP[i]));
-			CompositeWidget<ImageWidget> compositeWidget = new CompositeWidget<>(
-					this.leftPos + 123,
-					this.topPos + 24 + ((16 + 1) * i),
-					width, height,
-					attributeImageWidget,
-					resistanceImageWidget);
-			addRenderableWidget(compositeWidget);
-			addRenderableWidget(ratingImages.get(i));
-		}
-
-		// 切换属性/抗性控件
-		addRenderableWidget(new ToggleCapacityButton(this, GUI,
-				this.leftPos + 178, this.topPos + 3, 12, 12, 199, 18));
-
-		// 切换装饰饰品和饰品控件
-		addRenderableWidget(new ToggleCurioCosmeticButton(this, GUI,
-				this.leftPos + 10, this.topPos + 11, 11, 6, 199, 37));
-	}
-
-
-//	@Override
-//	protected void renderSlot(GuiGraphics guiGraphics, Slot slot) {
-//		super.renderSlot(guiGraphics, slot);
-//
-//	}
-
-	/** 绘制背景 */
-	@Override
-	protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-		if (this.minecraft != null && this.minecraft.player != null) {
-			guiGraphics.blit(GUI, leftPos, topPos,
-					imageWidth, imageHeight,
-					0, 0,
-					imageWidth, imageHeight,
-					256, 256);
-			CuriosApi.getCuriosInventory(this.minecraft.player).ifPresent((handler) -> {
-				for (Slot inventorySlot : this.menu.slots) {
-					if (! (inventorySlot instanceof CurioSlot curioSlot) || ! curioSlot.isCosmetic()) {
-						continue;
-					}
-					RenderSystem.enableBlend();
-					guiGraphics.blit(GUI,
-							leftPos + inventorySlot.x, topPos + inventorySlot.y,
-							199, 79, 16, 16);
-					RenderSystem.disableBlend();
-				}
-			});
-			InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics,
-					leftPos + 47, topPos + 24,
-					leftPos + 96, topPos + 91,
-					30, 0.0625F,
-					mouseX, mouseY, this.minecraft.player);
-		}
-	}
-
-	@Override
-	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		compositeRating.setStateV((int) (player.getAttribute(PmEntityAttributes.COMPOSITE_RATING).getValue() - 1));
-		if (isCapacity) {
-			modifyRatingWidget(0, getFortitudeRating(player));
-			modifyRatingWidget(1, getPrudenceRating(player));
-			modifyRatingWidget(2, getTemperanceRating(player));
-			modifyRatingWidget(3, getJusticeRating(player));
+	/** 获取属性加成 */
+	private static @NotNull MutableComponent getBonusComponent(double bonus) {
+		MutableComponent component;
+		if (bonus == 0) {
+			component = Component.literal("+0 ");
+		} else if (bonus < 0) {
+			component = Component.literal(bonus + " ").withColor(CommonColors.SOFT_RED);
 		} else {
-			modifyResistanceWidget(0, PmEntityAttributes.PHYSICS_RESISTANCE);
-			modifyResistanceWidget(1, PmEntityAttributes.SPIRIT_RESISTANCE);
-			modifyResistanceWidget(2, PmEntityAttributes.EROSION_RESISTANCE);
-			modifyResistanceWidget(3, PmEntityAttributes.THE_SOUL_RESISTANCE);
+			component = Component.literal("+" + bonus + " ").withColor(PmColourTool.TETH.getColourRGB());
 		}
-		super.render(guiGraphics, mouseX, mouseY, partialTick);
-		for (Renderable renderable : this.renderables) {
-			if (renderable instanceof Switch2Button button) {
-				button.renderWidgetOverlay(guiGraphics, mouseX, mouseY, partialTick);
-			}
-		}
-		renderTooltip(guiGraphics, mouseX, mouseY);
+		return component;
 	}
 
-	private void modifyRatingWidget(int index, int player) {
-		ratingImages.get(index).widget1.setStateV(player - 1);
+	/** 获取属性加成 */
+	private static @NotNull MutableComponent getBonusComponent(AttributeModifier attributeModifier) {
+		if (attributeModifier == null) {
+			return Component.literal("");
+		}
+		final double amount = attributeModifier.amount();
+		if (amount == 0) {
+			return Component.literal(String.valueOf(0));
+		}
+		String symbol = amount > 0 ? "+" : "-";
+		return Component.literal(MessageFormat.format(
+				"{0}{1} ", switch (attributeModifier.operation()) {
+					case ADD_VALUE -> symbol;
+					case ADD_MULTIPLIED_BASE -> symbol + "*";
+					case ADD_MULTIPLIED_TOTAL -> "*1" + symbol;
+					}, Math.abs(amount))
+        ).withColor(amount > 0 ? PmColourTool.TETH.getColourRGB() : CommonColors.SOFT_RED);
 	}
 
-	private void modifyResistanceWidget(int index, Holder<Attribute> physicsResistance) {
-		((ResistanceWidget) ratingImages.get(index).widget2).setState(player.getAttribute(physicsResistance).getValue());
+	/** 获取属性经验 */
+	private @NotNull Component gerAttributeExperience(final int exValue){
+		return Component.translatable(ATTRIBUTE_EXPERIENCE_TOOLTIP, exValue).withColor(CommonColors.GREEN);
 	}
 
-	@Override
-	protected void renderTooltip(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY) {
-		for (Renderable renderable : this.renderables) {
-			if (renderable instanceof ToggleCurioRenderButton button && button.isHovered()) {
-				return;
-			}
-		}
-		super.renderTooltip(guiGraphics, mouseX, mouseY);
-		LocalPlayer clientPlayer = Minecraft.getInstance().player;
-
-		if (clientPlayer != null && clientPlayer.inventoryMenu.getCarried().isEmpty() && getSlotUnderMouse() != null) {
-			Slot slot = getSlotUnderMouse();
-			if (slot instanceof CurioSlot slotCurio && minecraft != null) {
-				ItemStack stack = slotCurio.getSlotExtension().getDisplayStack(slotCurio.getSlotContext(), slot.getItem());
-				if (stack.isEmpty()) {
-					List<Component> slotTooltips = slotCurio.getSlotExtension()
-							.getSlotTooltip(slotCurio.getSlotContext(), ClientTooltipFlag.of(this.minecraft.options.advancedItemTooltips
-									? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL));
-
-					if (! slotTooltips.isEmpty()) {
-						guiGraphics.renderComponentTooltip(font, slotTooltips, mouseX, mouseY);
-					} else {
-						guiGraphics.renderTooltip(font, Component.literal(slotCurio.getSlotName()), mouseX, mouseY);
-					}
-				}
-			}
-		}
-
+	/** 获取抗性 */
+	private @NotNull String getResistanceString(Holder<Attribute> attribute) {
+		return String.format("%.2f", player.getAttribute(attribute).getValue());
 	}
 
-	/** 切换属性或抗性 */
-	public void toggleCapacity() {
-		isCapacity = ! isCapacity;
-		for (Renderable renderable : this.renderables) {
-			if (renderable instanceof CompositeWidget button) {
-				button.setState(isCapacity);
-			}
-		}
-		for (int i = 0; i < 4; i++) {
-			ratingImages.get(i).setState(isCapacity);
-		}
+	private static @NotNull ResourceLocation getResourceLocation(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

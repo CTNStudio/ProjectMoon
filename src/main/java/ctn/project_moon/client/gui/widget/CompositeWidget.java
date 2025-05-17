@@ -1,4 +1,4 @@
-package ctn.project_moon.client.gui.widget.player_attribute;
+package ctn.project_moon.client.gui.widget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
