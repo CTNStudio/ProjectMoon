@@ -136,35 +136,46 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(PmItemDataComponents.IS_RESTRAIN, "抑制器影响");
 		add(PmItemDataComponents.CURRENT_DAMAGE_TYPE, "伤害类型");
 
-		add(PmConfig.translationKey("enable_four_color_damage"), "四色伤害（物理、精神、侵蚀、灵魂）");
-		add(PmConfig.commentKey("enable_four_color_damage"), "同时也会禁用对应的抗性，以及对应的效果");
-		add(PmConfig.translationKey("enable_spirit_damage"), "精神伤害");
-		add(PmConfig.commentKey("enable_spirit_damage"), "不会受到精神伤害但仍然会被EGO扣除理智值");
-		add(PmConfig.translationKey("enable_rationality"), "理智值");
-		add(PmConfig.commentKey("enable_rationality"), "禁用理智相关的所有的并判断为物理属性");
-		add(PmConfig.translationKey("enable_natural_rationality_spirit"), "自然恢复理智值");
-		add(PmConfig.commentKey("enable_natural_rationality_spirit"), "生物是否可以自然恢复理智值");
-		add(PmConfig.translationKey("enable_low_rationality_negative_effect"), "玩家低理智负面效果");
-		add(PmConfig.commentKey("enable_low_rationality_negative_effect"), "关闭这个玩家将不会在低理智的时候获得负面效果以及EGO侵蚀，或低理智触发的任何事情");
-		add(PmConfig.translationKey("enable_the_soul_damage"), "灵魂伤害");
-		add(PmConfig.commentKey("enable_the_soul_damage"), "禁用灵魂相关的所有的并判断为物理属性");
-		add(PmConfig.translationKey("the_soul_affect_abominations"), "灵魂伤害对异想体生效");
-		add(PmConfig.commentKey("the_soul_affect_abominations"), "开启将时灵魂伤害将会对异想体造成百分比伤害");
-		add(PmConfig.translationKey("the_soul_affect_players"), "灵魂伤害对玩家生效");
-		add(PmConfig.commentKey("the_soul_affect_players"), "关闭将时灵魂伤害将不会对玩家造成百分比伤害");
-		add(PmConfig.translationKey("the_soul_affect_entities"), "灵魂伤害对非异想体的生物生效");
-		add(PmConfig.commentKey("the_soul_affect_entities"), "开启将时灵魂伤害将会对非异想体的生物造成百分比伤害");
-		add(PmConfig.translationKey("enable_low_rationality_filter"), "玩家低理智滤镜");
-		add(PmConfig.commentKey("enable_low_rationality_filter"), "低理智的滤镜");
-		add(PmConfig.translationKey("enable_four_color_damage_filter"), "遭受四色伤害滤镜");
-		add(PmConfig.commentKey("enable_four_color_damage_filter"), "遭受四色伤害时会有的滤镜");
-		add("project_moon.configuration.title", "月亮计划配置");
+		addConfig("enable_four_color_damage", "四色伤害（物理、精神、侵蚀、灵魂）", "同时也会禁用对应的抗性，以及对应的效果");
+		addConfig("enable_spirit_damage", "精神伤害", "不会受到精神伤害但仍然会被EGO扣除理智值");
+		addConfig("enable_rationality", "理智值", "禁用理智相关的所有的并判断为物理属性");
+		addConfig("enable_natural_rationality_spirit", "自然恢复理智值", "生物是否可以自然恢复理智值");
+		addConfig("enable_low_rationality_negative_effect", "玩家低理智负面效果", "关闭这个玩家将不会在低理智的时候获得负面效果以及EGO侵蚀，或低理智触发的任何事情");
+		addConfig("enable_the_soul_damage", "灵魂伤害", "禁用灵魂相关的所有的并判断为物理属性");
+		addConfig("the_soul_affect_abominations", "灵魂伤害对异想体生效", "开启将时灵魂伤害将会对异想体造成百分比伤害");
+		addConfig("the_soul_affect_players", "灵魂伤害对玩家生效", "关闭将时灵魂伤害将不会对玩家造成百分比伤害");
+		addConfig("the_soul_affect_entities", "灵魂伤害对非异想体的生物生效", "开启将时灵魂伤害将会对非异想体的生物造成百分比伤害");
+		addConfig("enable_low_rationality_filter", "玩家低理智滤镜", "低理智的滤镜");
+		addConfig("enable_four_color_damage_filter", "遭受四色伤害滤镜", "遭受四色伤害时会有的滤镜");
+		addConfig("prudence_initial_value", "谨慎始默认值");
+		addConfig("fortitude_initial_value", "勇气初始默认值");
+		addConfig("temperance_initial_value", "自律初始默认值");
+		addConfig("justice_initial_value", "正义初始默认值");
+		addConfig("temperance_block_break_speed", "每点方块挖掘速度加成");
+		addConfig("temperance_knockback_speed", "每点近战击退加成");
+		addConfig("justice_movement_speed", "每点移速加成");
+		addConfig("justice_attack_speed", "每点近战攻击速度加成");
+		addConfig("justice_swim_speed", "每点游泳速度加成");
+		addConfig("justice_flight_speed", "每点飞行速度加成");
+		addConfig("vanilla_flying_speed", "玩家飞行速度默认值");
+		add("project_moon.configuration.title", "月亮计划MOD配置");
 		add("project_moon.configuration.section.project.moon.server.toml", "服务端设置");
-		add("project_moon.configuration.section.project.moon.server.toml.title", "服务端设置 · 这些仅会修改游戏内容不会修改视觉效果");
+		add("project_moon.configuration.section.project.moon.server.toml.title", "服务端设置");
 		add("project_moon.configuration.section.project.moon.common.toml", "通用/双端设置");
-		add("project_moon.configuration.section.project.moon.common.toml.title", "通用/双端设置 · 这些会修改游戏内容和修改视觉效果");
+		add("project_moon.configuration.section.project.moon.common.toml.title", "通用/双端设置 ");
 		add("project_moon.configuration.section.project.moon.client.toml", "客户端设置");
-		add("project_moon.configuration.section.project.moon.client.toml.title", "客户端设置 · 这些仅会修改视觉效果不会修改游戏内容");
+		add("project_moon.configuration.section.project.moon.client.toml.title", "客户端设置");
+
+		add("project_moon.configuration.temperance", "自律属性配置");
+		add("project_moon.configuration.temperance.button", "配置自律属性");
+		add("project_moon.configuration.prudence", "谨慎属性配置");
+		add("project_moon.configuration.prudence.button", "配置谨慎属性");
+		add("project_moon.configuration.justice", "正义属性配置");
+		add("project_moon.configuration.justice.button", "配置正义属性");
+		add("project_moon.configuration.fortitude", "勇气属性配置");
+		add("project_moon.configuration.fortitude.button", "配置勇气属性");
+		add("project_moon.configuration.enable_four_color_damage", "四色伤害配置");
+		add("project_moon.configuration.enable_four_color_damage.button", "配置四色伤害");
 
 		add(PlayerAttributeButton.MESSAGE, "打开月亮计划玩家属性面板");
 		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[0], "物理抗性");
@@ -186,6 +197,15 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(ATTRIBUTE_TO_SET + FourColorAttribute.Type.FORTITUDE.getName(), "更改玩家勇气点数为 %d");
 		add(ATTRIBUTE_TO_SET + FourColorAttribute.Type.TEMPERANCE.getName(), "更改玩家自律点数为 %d");
 		add(ATTRIBUTE_TO_SET + FourColorAttribute.Type.PRUDENCE.getName(), "更改玩家谨慎点数为 %d");
+	}
+
+	public void addConfig(String configKey, String translationDescribe, String commentDescribe) {
+		add(PmConfig.translationKey(configKey), translationDescribe);
+		add(PmConfig.commentKey(configKey), commentDescribe);
+	}
+	
+	public void addConfig(String configKey, String translationDescribe) {
+		add(PmConfig.translationKey(configKey), translationDescribe);
 	}
 
 	public <T> void add(Supplier<DataComponentType<T>> dataComponentType, String name) {
