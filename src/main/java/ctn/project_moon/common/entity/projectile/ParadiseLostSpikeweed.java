@@ -89,7 +89,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 	public void tick() {
 		super.tick();
 		if (level().isClientSide) {
-			// TODO 之后写入动画
+			// TODO 等资源重置 之后写入动画
 			return;
 		}
 		if (!isAttack && tickCount < 2) {
