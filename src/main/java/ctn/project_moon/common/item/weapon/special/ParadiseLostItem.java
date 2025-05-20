@@ -182,8 +182,6 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim, Re
 		}
 	}
 
-	// TODO 待证明 尖刺不会锁定创造玩家
-
 	/** 召唤一个 */
 	public static void normalAttack(Level level, LivingEntity entity) {
 		if (!(level instanceof ServerLevel serverLevel)) {
@@ -201,7 +199,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim, Re
 			z = vec3.z;
 			double v = 2;
 			AABB aabb = new AABB(x - v, y - v, z - v, x + v, y + v, z + v);
-			List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, aabb, (livingEntity) -> !livingEntity.getUUID().equals(entity.getUUID()) && livingEntity.isAlive() && livingEntity.isAttackable());
+			List<LivingEntity> entityList = getAttackableTarget(entity, serverLevel, aabb);
 			int i = entityList.size();
 			if (i > 0) {
 				LivingEntity livingEntity = entityList.get(entity.level().getRandom().nextInt(i));
@@ -235,7 +233,7 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim, Re
 		double z = entity.position().z;
 		double v = 8;
 		AABB aabb = new AABB(x - v, y - 3, z - v, x + v, y + 3, z + v);
-		List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, aabb, (livingEntity) -> !livingEntity.getUUID().equals(entity.getUUID()) && livingEntity.isAlive() && livingEntity.isAttackable());
+		List<LivingEntity> entityList = getAttackableTarget(entity, serverLevel, aabb);
 		int i = entityList.size();
 		if (i > 0) {
 			for (LivingEntity livingEntity : entityList) {
@@ -252,6 +250,17 @@ public class ParadiseLostItem extends SpecialEgoWeapon implements PlayerAnim, Re
 				serverLevel.addFreshEntityWithPassengers(ParadiseLostSpikeweed.create(serverLevel, x, y, z, i, entity, livingEntity));
 			}
 		}
+	}
+
+	/** 获取可攻击目标 */
+	private static @NotNull List<LivingEntity> getAttackableTarget(LivingEntity entity, ServerLevel serverLevel, AABB aabb) {
+		return serverLevel.getEntitiesOfClass(LivingEntity.class, aabb, (livingEntity) -> {
+			boolean playerCreative = false;
+			if (livingEntity instanceof Player player){
+				playerCreative = player.isCreative();
+			}
+			return !livingEntity.getUUID().equals(entity.getUUID()) && livingEntity.isAlive() && livingEntity.isAttackable() && !playerCreative;
+		});
 	}
 
 	//延伸限制

@@ -69,13 +69,13 @@ public class PmItems {
 	public static final DeferredItem<Item> LOAFERS = createArmorItem("loafers",
 			PmArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
 	public static final DeferredItem<Item> MAGIC_BULLET_CHESTPLATE = createGeoArmorItem("magic_bullet_chestplate",
-			GeoEgoArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.CHESTPLATE),
+			GeoEgoArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.CHESTPLATE),
 			new PmGeoArmorModel<>("magic_bullet_armor"));
 	public static final DeferredItem<Item> MAGIC_BULLET_LEGGINGS = createGeoArmorItem("magic_bullet_leggings",
-			GeoEgoArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.LEGGINGS),
+			GeoEgoArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.LEGGINGS),
 			new PmGeoArmorModel<>("magic_bullet_armor"));
 	public static final DeferredItem<Item> MAGIC_BULLET_BOOTS = createGeoArmorItem("magic_bullet_boots",
-			GeoEgoArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS),
+			GeoEgoArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.BOOTS),
 			new PmGeoArmorModel<>("magic_bullet_armor"));
 
 	/// 饰品

@@ -5,12 +5,15 @@ import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.events.DourColorDamageTypesEvent;
 import ctn.project_moon.init.PmDamageTypes;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.monster.warden.Warden;
@@ -29,7 +32,9 @@ import static ctn.project_moon.api.SpiritAttribute.*;
 import static ctn.project_moon.common.item.weapon.abstract_ltem.CloseEgoWeapon.isCloseCombatEgo;
 import static ctn.project_moon.init.PmCommonHooks.dourColorDamageType;
 import static ctn.project_moon.init.PmDamageTypes.Types.*;
+import static ctn.project_moon.init.PmEntityAttributes.*;
 import static ctn.project_moon.init.PmItemDataComponents.CURRENT_DAMAGE_TYPE;
+import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
 @EventBusSubscriber(modid = MOD_ID)
 public class DourColorDamageEvents {
@@ -55,8 +60,6 @@ public class DourColorDamageEvents {
 		events.setDourColorDamageTypes(types);
 	}
 
-	// TODO 需要添加抗性大于1.0导致的减速
-
 	/**
 	 * 处理伤害效果
 	 */
@@ -81,21 +84,37 @@ public class DourColorDamageEvents {
 			types = getType(damageSource);
 		}
 
-
 		switch (types) {
-			case SPIRIT -> executeSpiritDamage(event, entity);
-			case EROSION -> executeErosionDamage(event, entity);
+			case PHYSICS -> {
+				applySlowdownIfAttributeExceedsOne(PHYSICS_RESISTANCE, entity);
+			}
+			case SPIRIT -> {
+				executeSpiritDamage(event, entity);
+				applySlowdownIfAttributeExceedsOne(SPIRIT_RESISTANCE, entity);
+			}
+			case EROSION -> {
+				executeErosionDamage(event, entity);
+				applySlowdownIfAttributeExceedsOne(EROSION_RESISTANCE, entity);
+			}
 			case THE_SOUL -> {
 				if (doesTheOrganismSufferFromTheSoulDamage(entity)) {
 					break;
 				}
 				executeTheSoulDamage(event, entity);
+				applySlowdownIfAttributeExceedsOne(THE_SOUL_RESISTANCE, entity);
 				return;
 			}
-			case null, default -> {
-			}
+			case null, default -> {}
 		}
 		reply(event, entity);
+	}
+
+	private static boolean applySlowdownIfAttributeExceedsOne(Holder<Attribute> attribute, LivingEntity entity) {
+		if (entity.getAttributeValue(attribute) > 1.0) {
+			entity.addEffect(new MobEffectInstance(MOVEMENT_SLOWDOWN, 20, 2));
+			return true;
+		}
+		return false;
 	}
 
 	/** 灵魂伤害判断 */
