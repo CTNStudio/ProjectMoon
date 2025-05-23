@@ -1,6 +1,7 @@
 package ctn.project_moon.init;
 
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
+import ctn.project_moon.common.entity.projectile.MagicBulletEntity;
 import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
@@ -29,6 +30,12 @@ public class PmEntity {
 					.sized(2F, 2.5F)
 					.clientTrackingRange(6)
 					.updateInterval(2));
+
+	public static final Supplier<EntityType<MagicBulletEntity>> MAGIC_BULLET_ENTITY = registerEntity("magic_bullet",
+			EntityType.Builder.<MagicBulletEntity>of(MagicBulletEntity::new, MobCategory.MISC)
+					.sized(0.2F, 0.2F)
+					.clientTrackingRange(6)
+					.updateInterval(1));
 
 	public static <I extends Entity> Supplier<EntityType<I>> registerEntity(final String name, final EntityType.Builder<I> sup) {
 		return register(name, () -> sup.build(name));

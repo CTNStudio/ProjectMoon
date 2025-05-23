@@ -12,7 +12,7 @@ import ctn.project_moon.common.item.weapon.abstract_ltem.Weapon;
 import ctn.project_moon.common.item.weapon.close.BearPawsItem;
 import ctn.project_moon.common.item.weapon.close.ChaosKnifeItem;
 import ctn.project_moon.common.item.weapon.close.WristCutterItem;
-import ctn.project_moon.common.item.weapon.remote.MagicBullet;
+import ctn.project_moon.common.item.weapon.remote.MagicBulletItem;
 import ctn.project_moon.common.item.weapon.special.LoveHateItem;
 import ctn.project_moon.common.item.weapon.special.ParadiseLostItem;
 import ctn.project_moon.common.models.GeoCurioModel;
@@ -58,7 +58,7 @@ public class PmItems {
 	public static final DeferredItem<Item> PARADISE_LOST = createEgoWeaponItem("paradise_lost",
 			ParadiseLostItem::new, new Weapon.Builder(12, 16, -2.3F));
 	public static final DeferredItem<Item> MAGIC_BULLET = createRemoteEgoWeaponItem("magic_bullet",
-			MagicBullet::new, new Weapon.Builder(10, 11, -2.7F));
+			MagicBulletItem::new, new Weapon.Builder(10, 11, -2.7F));
 
 	/// 护甲
 
