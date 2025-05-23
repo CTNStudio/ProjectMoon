@@ -1,7 +1,7 @@
 package ctn.project_moon.registrar;
 
+import ctn.project_moon.client.renderers.CuriosItemRenderer;
 import ctn.project_moon.common.item.curio.EgoCurioItem;
-import ctn.project_moon.common.renderers.CuriosItemRenderer;
 import ctn.project_moon.init.PmItems;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;

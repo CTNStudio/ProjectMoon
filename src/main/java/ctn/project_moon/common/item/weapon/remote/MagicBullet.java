@@ -1,11 +1,11 @@
 package ctn.project_moon.common.item.weapon.remote;
 
 import ctn.project_moon.api.FourColorAttribute;
+import ctn.project_moon.client.models.GuiItemModel;
+import ctn.project_moon.client.models.PmGeoItemModel;
 import ctn.project_moon.common.item.RequestItem;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.item.weapon.abstract_ltem.RemoteEgoWeapon;
-import ctn.project_moon.common.models.GuiItemModel;
-import ctn.project_moon.common.models.PmGeoItemModel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

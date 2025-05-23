@@ -1,9 +1,9 @@
 package ctn.project_moon.common.item.weapon.close;
 
+import ctn.project_moon.client.models.PmGeoItemModel;
 import ctn.project_moon.common.SetInvulnerabilityTick;
 import ctn.project_moon.common.item.weapon.abstract_ltem.CloseEgoWeapon;
 import ctn.project_moon.common.item.weapon.abstract_ltem.Weapon;
-import ctn.project_moon.common.models.PmGeoItemModel;
 import ctn.project_moon.init.PmDamageTypes;
 
 

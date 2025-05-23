@@ -1,9 +1,9 @@
-package ctn.project_moon.common.renderers;
+package ctn.project_moon.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import ctn.project_moon.client.models.GeoCurioModel;
 import ctn.project_moon.common.item.curio.EgoCurioItem;
-import ctn.project_moon.common.models.GeoCurioModel;
 import ctn.project_moon.datagen.DatagenCuriosTest;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;

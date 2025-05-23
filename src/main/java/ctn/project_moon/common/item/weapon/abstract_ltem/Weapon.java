@@ -1,6 +1,6 @@
 package ctn.project_moon.common.item.weapon.abstract_ltem;
 
-import ctn.project_moon.client.geo.PmGeoItemRenderProvider;
+import ctn.project_moon.client.renderer_providers.PmGeoItemRenderProvider;
 import ctn.project_moon.common.RandomDamageProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;

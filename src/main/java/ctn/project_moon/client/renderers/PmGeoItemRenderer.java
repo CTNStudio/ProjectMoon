@@ -1,4 +1,4 @@
-package ctn.project_moon.common.renderers;
+package ctn.project_moon.client.renderers;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;

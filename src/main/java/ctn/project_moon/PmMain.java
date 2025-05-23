@@ -58,7 +58,7 @@ public class PmMain {
 		NeoForge.EVENT_BUS.register(this);
 	}
 
-	private void commonSetup(final FMLCommonSetupEvent event) {
+	public void commonSetup(final FMLCommonSetupEvent event) {
 		LOGGER.info("ProjectMoon from common setup");
 	}
 

@@ -1,6 +1,6 @@
 package ctn.project_moon.common.entity.abnos;
 
-import ctn.project_moon.common.models.PmGeoEntityModel;
+import ctn.project_moon.client.models.PmGeoEntityModel;
 import ctn.project_moon.init.PmEntityAttributes;
 import ctn.project_moon.tool.GradeTypeTool;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

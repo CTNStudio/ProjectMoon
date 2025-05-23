@@ -1,9 +1,9 @@
 package ctn.project_moon.common.entity.projectile;
 
 import ctn.project_moon.api.SpiritAttribute;
+import ctn.project_moon.client.models.PmGeoEntityModel;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.SetInvulnerabilityTick;
-import ctn.project_moon.common.models.PmGeoEntityModel;
 import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
