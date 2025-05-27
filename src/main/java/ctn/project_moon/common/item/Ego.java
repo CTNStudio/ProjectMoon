@@ -1,14 +1,14 @@
 package ctn.project_moon.common.item;
 
-import ctn.project_moon.tool.GradeTypeTool;
+import ctn.project_moon.api.tool.PmDamageTool;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
+import static ctn.project_moon.api.tool.PmDamageTool.Level.getEgoLevelTag;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
-import static ctn.project_moon.tool.GradeTypeTool.Level.getEgoLevelTag;
 
 public interface Ego {
 	List<TagKey<Item>> DAMAGE_TYPE = List.of(PHYSICS, SPIRIT, EROSION, THE_SOUL);
@@ -29,22 +29,22 @@ public interface Ego {
 	}
 
 	/**
-	 * @return {@link GradeTypeTool.Level}
+	 * @return {@link PmDamageTool.Level}
 	 */
-	static GradeTypeTool.Level getItemLevel(ItemStack item) {
-		return GradeTypeTool.Level.getItemLevel(getEgoLevelTag(item));
+	static PmDamageTool.Level getItemLevel(ItemStack item) {
+		return PmDamageTool.Level.getItemLevel(getEgoLevelTag(item));
 	}
 
 	/** 获取武器等级 */
-	static GradeTypeTool.Level getItemLevel(TagKey<Item> egoLevelTag) {
-		return GradeTypeTool.Level.getItemLevel(egoLevelTag);
+	static PmDamageTool.Level getItemLevel(TagKey<Item> egoLevelTag) {
+		return PmDamageTool.Level.getItemLevel(egoLevelTag);
 	}
 
 	/**
 	 * 返回物品等级
 	 */
 	static int getItemLevelValue(TagKey<Item> itemLevelTag) {
-		final GradeTypeTool.Level type = GradeTypeTool.Level.getItemLevel(itemLevelTag);
+		final PmDamageTool.Level type = PmDamageTool.Level.getItemLevel(itemLevelTag);
 		return type.getLevelValue();
 	}
 

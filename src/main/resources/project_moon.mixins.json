@@ -3,6 +3,7 @@
   "package": "ctn.project_moon.mixin",
   "mixins": [
     "AttributeSupplier$BuilderMixin",
+    "DamageSourceMixin",
     "InventoryMixin",
     "KeyboardInputMixin"
   ],

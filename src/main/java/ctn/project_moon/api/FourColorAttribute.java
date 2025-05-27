@@ -58,7 +58,6 @@ public class FourColorAttribute {
 	public static final String PRUDENCE_ADD_MAX_SPIRIT          = "prudence_add_max_spirit";
 	public static final String FORTITUDE_ADD_MAX_HEALTH         = "fortitude_add_max_health";
 
-
 	/**
 	 * 更新四色属性
 	 * <p>

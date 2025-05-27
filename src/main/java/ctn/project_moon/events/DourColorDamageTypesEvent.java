@@ -1,31 +1,29 @@
 package ctn.project_moon.events;
 
-import ctn.project_moon.init.PmDamageTypes;
+import ctn.project_moon.api.tool.PmDamageTool;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
 import javax.annotation.Nullable;
 
 /**
  * {@link ICancellableEvent} 用于防止其他继续覆盖伤害类型
  */
-public class DourColorDamageTypesEvent extends LivingEvent implements ICancellableEvent {
+public class DourColorDamageTypesEvent extends Event implements ICancellableEvent {
 	@Nullable
 	private final DamageContainer container;
-	private final DamageSource source;
-	private PmDamageTypes.Types dourColorDamageTypes;
+	private final DamageSource               source;
+	private       PmDamageTool.FourColorType fourColorDourColorDamageTypes;
 
-	public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source, @org.jetbrains.annotations.Nullable DamageContainer container) {
-		super(entity);
+	public DourColorDamageTypesEvent(DamageSource source, @org.jetbrains.annotations.Nullable DamageContainer container) {
+
 		this.source = source;
 		this.container = container;
 	}
 
-	public DourColorDamageTypesEvent(LivingEntity entity, DamageSource source) {
-		super(entity);
+	public DourColorDamageTypesEvent(DamageSource source) {
 		this.source = source;
 		this.container = null;
 	}
@@ -38,11 +36,11 @@ public class DourColorDamageTypesEvent extends LivingEvent implements ICancellab
 		return source;
 	}
 
-	public PmDamageTypes.Types getDamageTypes() {
-		return dourColorDamageTypes;
+	public PmDamageTool.FourColorType getDamageTypes() {
+		return fourColorDourColorDamageTypes;
 	}
 
-	public void setDourColorDamageTypes(PmDamageTypes.Types dourColorDamageTypes) {
-		this.dourColorDamageTypes = dourColorDamageTypes;
+	public void setDourColorDamageTypes(PmDamageTool.FourColorType fourColorDourColorDamageTypes) {
+		this.fourColorDourColorDamageTypes = fourColorDourColorDamageTypes;
 	}
 }

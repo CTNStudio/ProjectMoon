@@ -1,7 +1,7 @@
 package ctn.project_moon.common.item.weapon.close;
 
+import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.common.item.weapon.abstract_ltem.CloseEgoWeapon;
-import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.init.PmItemDataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -14,8 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static ctn.project_moon.init.PmDamageTypes.Types.*;
-import static ctn.project_moon.init.PmDamageTypes.getDamageTypeLocation;
+import static ctn.project_moon.api.tool.PmDamageTool.FourColorType.*;
 import static ctn.project_moon.init.PmItemDataComponents.CURRENT_DAMAGE_TYPE;
 
 public class ChaosKnifeItem extends CloseEgoWeapon {
@@ -26,14 +25,14 @@ public class ChaosKnifeItem extends CloseEgoWeapon {
 	@Override
 	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
 		ItemStack itemStack = player.getItemInHand(usedHand);
-		PmDamageTypes.Types s = switch (getType(itemStack.get(PmItemDataComponents.CURRENT_DAMAGE_TYPE))) {
+		PmDamageTool.FourColorType s = switch (getType(itemStack.get(PmItemDataComponents.CURRENT_DAMAGE_TYPE))) {
 			case PHYSICS -> THE_SOUL;
 			case SPIRIT -> PHYSICS;
 			case EROSION -> SPIRIT;
 			case THE_SOUL -> EROSION;
 			case null -> PHYSICS;
 		};
-		itemStack.set(CURRENT_DAMAGE_TYPE, getDamageTypeLocation(s));
+		itemStack.set(CURRENT_DAMAGE_TYPE, s.getLocationString());
 		return InteractionResultHolder.success(itemStack);
 	}
 

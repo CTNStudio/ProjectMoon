@@ -3,20 +3,56 @@ package ctn.project_moon.api;
 import ctn.project_moon.common.payload.data.SpiritValueData;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.PmEntityAttributes;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Objects;
 
 import static ctn.project_moon.api.MobGeneralAttribute.*;
+import static ctn.project_moon.init.PmEntityAttributes.SPIRIT_NATURAL_RECOVERY_RATE;
+import static ctn.project_moon.init.PmEntityAttributes.SPIRIT_RECOVERY_AMOUNT;
 
 /**
  * 理智值相关
  */
 public class SpiritAttribute {
+
+	/**
+	 * 自然恢复理智值
+	 */
+	public static void refreshSpiritValue(EntityTickEvent.Pre event) {
+		if (!(event.getEntity() instanceof LivingEntity entity)) {
+			return;
+		}
+		if (entity instanceof AbstractClientPlayer) {
+			return;
+		}
+		CompoundTag nbt = entity.getPersistentData();
+		if (!nbt.contains(INJURY_TICK)) {
+			return;
+		}
+		if (getInjuryCount(entity) != 0) {
+			incrementInjuryCount(entity, -1);
+		}
+		if (!PmConfig.SERVER.ENABLE_LOW_RATIONALITY_NEGATIVE_EFFECT.get() ||
+		    !(nbt.contains(SPIRIT_VALUE) && nbt.contains(SPIRIT_RECOVERY_TICK)) ||
+		    getSpiritValue(entity) < 0 ||
+		    getInjuryCount(entity) != 0) {
+			return;
+		}
+		incrementSpiritRecoveryTicks(entity, 1);
+		if (getSpiritRecoveryTicks(entity) < (int) (20 / entity.getAttributeValue(SPIRIT_NATURAL_RECOVERY_RATE))) {
+			return;
+		}
+		incrementSpiritValue(entity, (int) entity.getAttributeValue(SPIRIT_RECOVERY_AMOUNT));
+		setSpiritRecoveryCount(entity, 0);
+	}
+
 	/** 同步理智值 */
 	public static void syncSpiritValue(ServerPlayer player) {
 		restrictSpirit(player);

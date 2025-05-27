@@ -9,6 +9,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+/** 声音类型 */
 public class PmSoundEvents {
 	public static final DeferredRegister<SoundEvent> SOUND_EVENT_TYPE_REGISTER = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, MOD_ID);
 

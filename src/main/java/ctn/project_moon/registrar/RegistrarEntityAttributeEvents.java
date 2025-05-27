@@ -1,9 +1,9 @@
 package ctn.project_moon.registrar;
 
+import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
 import ctn.project_moon.init.PmEntity;
 import ctn.project_moon.init.PmEntityAttributes;
-import ctn.project_moon.tool.GradeTypeTool;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -12,7 +12,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.tool.GradeTypeTool.Level.*;
+import static ctn.project_moon.api.tool.PmDamageTool.Level.*;
 import static net.minecraft.world.entity.EntityType.*;
 import static net.neoforged.fml.common.EventBusSubscriber.Bus.MOD;
 
@@ -70,7 +70,7 @@ public class RegistrarEntityAttributeEvents {
 		setFourColorResistanceAttributes(event, CAVE_SPIDER, TETH, 0.7, 1.1, 1.0, 1.1);
 	}
 
-	private static void setFourColorResistanceAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, GradeTypeTool.Level level, double physics, double spirit, double erosion, double theSoul) {
+	private static void setFourColorResistanceAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, PmDamageTool.Level level, double physics, double spirit, double erosion, double theSoul) {
 		setLevelAttributes(event, entityType, level);
 		setFourColorResistanceAttributes(event, entityType, physics, spirit, erosion, theSoul);
 	}
@@ -98,7 +98,7 @@ public class RegistrarEntityAttributeEvents {
 		event.add(entityType, PmEntityAttributes.THE_SOUL_RESISTANCE, theSoul);
 	}
 
-	private static void setLevelAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, GradeTypeTool.Level level) {
+	private static void setLevelAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, PmDamageTool.Level level) {
 		event.add(entityType, PmEntityAttributes.ENTITY_LEVEL, level.getLevelValue());
 	}
 }

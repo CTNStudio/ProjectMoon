@@ -10,7 +10,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-
+/** 菜单类型 */
 public class PmMenuType {
 	public static final DeferredRegister<MenuType<?>> MENU_TYPE_REGISTER = DeferredRegister.create(BuiltInRegistries.MENU, MOD_ID);
 

@@ -1,6 +1,6 @@
 package ctn.project_moon.linkage.jade;
 
-import ctn.project_moon.tool.GradeTypeTool;
+import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.tool.PmTool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -12,7 +12,7 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.tool.GradeTypeTool.Level.getEntityLevel;
+import static ctn.project_moon.api.tool.PmDamageTool.Level.getEntityLevel;
 
 public enum MobEntityLevel implements IEntityComponentProvider {
 	INSTANCE;
@@ -22,7 +22,7 @@ public enum MobEntityLevel implements IEntityComponentProvider {
 		if (!(entityAccessor.getEntity() instanceof LivingEntity entity)) {
 			return;
 		}
-		GradeTypeTool.Level level = getEntityLevel(entity);
+		PmDamageTool.Level level = getEntityLevel(entity);
 		iTooltip.add(1, Component.literal(level.getName()).withColor(PmTool.colorConversion(level.getColourText())));
 	}
 

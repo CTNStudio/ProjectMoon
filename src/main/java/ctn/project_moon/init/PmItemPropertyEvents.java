@@ -1,5 +1,6 @@
 package ctn.project_moon.init;
 
+import ctn.project_moon.api.tool.PmDamageTool;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +23,7 @@ public class PmItemPropertyEvents {
 	public static final ClampedItemPropertyFunction PROPERTY_MODE_BOOLEAN = (itemStack, clientLevel, livingEntity, i) ->
 			Boolean.TRUE.equals(itemStack.get(PmItemDataComponents.MODE_BOOLEAN)) ? 1 : 0;
 	public static final ClampedItemPropertyFunction PROPERTY_CURRENT_DAMAGE_TYPE = (itemStack, clientLevel, livingEntity, i) ->
-			switch (PmDamageTypes.Types.getType(itemStack.get(PmItemDataComponents.CURRENT_DAMAGE_TYPE))) {
+			switch (PmDamageTool.FourColorType.getType(itemStack.get(PmItemDataComponents.CURRENT_DAMAGE_TYPE))) {
 				case PHYSICS -> 0;
 				case SPIRIT -> 0.1F;
 				case EROSION -> 0.2F;

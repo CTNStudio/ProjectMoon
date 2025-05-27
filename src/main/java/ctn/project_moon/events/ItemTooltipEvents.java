@@ -1,11 +1,11 @@
 package ctn.project_moon.events;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.item.RequestItem;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.item.weapon.close.ChaosKnifeItem;
-import ctn.project_moon.tool.GradeTypeTool;
 import ctn.project_moon.tool.PmColourTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -26,9 +26,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.api.tool.PmDamageTool.FourColorType.egoDamageTypes;
 import static ctn.project_moon.common.item.Ego.getItemLevel;
 import static ctn.project_moon.datagen.PmTags.PmItem.*;
-import static ctn.project_moon.init.PmDamageTypes.Types.egoDamageTypes;
 import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
 import static ctn.project_moon.tool.PmTool.*;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
@@ -115,11 +115,11 @@ public class ItemTooltipEvents {
 	 */
 	private static void levelText(List<Component> components, ItemStack stack) {
 		MutableComponent mutableComponent = switch (getItemLevel(stack)) {
-			case ZAYIN -> createColorText(GradeTypeTool.Level.ZAYIN.getName(), PmColourTool.ZAYIN.getColour());
-			case TETH -> createColorText(GradeTypeTool.Level.TETH.getName(), PmColourTool.TETH.getColour());
-			case HE -> createColorText(GradeTypeTool.Level.HE.getName(), PmColourTool.HE.getColour());
-			case WAW -> createColorText(GradeTypeTool.Level.WAW.getName(), PmColourTool.WAW.getColour());
-			case ALEPH -> createColorText(GradeTypeTool.Level.ALEPH.getName(), PmColourTool.ALEPH.getColour());
+			case ZAYIN -> createColorText(PmDamageTool.Level.ZAYIN.getName(), PmColourTool.ZAYIN.getColour());
+			case TETH -> createColorText(PmDamageTool.Level.TETH.getName(), PmColourTool.TETH.getColour());
+			case HE -> createColorText(PmDamageTool.Level.HE.getName(), PmColourTool.HE.getColour());
+			case WAW -> createColorText(PmDamageTool.Level.WAW.getName(), PmColourTool.WAW.getColour());
+			case ALEPH -> createColorText(PmDamageTool.Level.ALEPH.getName(), PmColourTool.ALEPH.getColour());
 		};
 		components.add(Mth.clamp(components.size(), 0, 1), mutableComponent);
 	}

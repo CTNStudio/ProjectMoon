@@ -74,8 +74,7 @@ public class PmItems {
 			"loafers", PmArmorItem::new,
 			new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
 	public static final DeferredItem<Item> MAGIC_BULLET_CHESTPLATE = createGeoArmorItem(
-			"magic_bullet_chestplate",
-			GeoEgoArmorItem::new,
+			"magic_bullet_chestplate", GeoEgoArmorItem::new,
 			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.CHESTPLATE),
 			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
 	public static final DeferredItem<Item> MAGIC_BULLET_LEGGINGS = createGeoArmorItem(
