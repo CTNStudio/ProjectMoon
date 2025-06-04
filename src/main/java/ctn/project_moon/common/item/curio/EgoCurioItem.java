@@ -3,7 +3,7 @@ package ctn.project_moon.common.item.curio;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import ctn.project_moon.api.FourColorAttribute;
-import ctn.project_moon.common.models.GeoCurioModel;
+import ctn.project_moon.client.models.GeoCurioModel;
 import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;

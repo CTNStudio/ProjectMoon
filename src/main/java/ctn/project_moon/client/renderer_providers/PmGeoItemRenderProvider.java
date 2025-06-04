@@ -1,12 +1,13 @@
-package ctn.project_moon.client.geo;
+package ctn.project_moon.client.renderer_providers;
 
-import ctn.project_moon.common.renderers.PmGeoItemRenderer;
+import ctn.project_moon.client.renderers.PmGeoItemRenderer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.Item;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.model.GeoModel;
 
+/** 物品渲染提供程序 */
 public class PmGeoItemRenderProvider<T extends Item & GeoItem> implements GeoRenderProvider {
 	private PmGeoItemRenderer<T> renderer;
 	protected final GeoModel<T>  defaultModel;

@@ -1,9 +1,9 @@
 package ctn.project_moon.common.entity.projectile;
 
 import ctn.project_moon.api.SpiritAttribute;
+import ctn.project_moon.client.models.PmGeoEntityModel;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.SetInvulnerabilityTick;
-import ctn.project_moon.common.models.PmGeoEntityModel;
 import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -33,8 +33,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.List;
 import java.util.UUID;
 
+import static ctn.project_moon.api.tool.PmDamageTool.Level.ALEPH;
 import static ctn.project_moon.init.PmEntity.PARADISE_LOST_SPIKEWEED;
-import static ctn.project_moon.tool.GradeTypeTool.Level.ALEPH;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
 public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, GeoEntity, RandomDamageProcessor, SetInvulnerabilityTick {

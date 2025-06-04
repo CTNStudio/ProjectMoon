@@ -1,6 +1,6 @@
-package ctn.project_moon.common.renderers;
+package ctn.project_moon.client.renderers;
 
-import ctn.project_moon.common.models.PmGeoArmorModel;
+import ctn.project_moon.client.models.PmGeoArmorModel;
 import net.minecraft.world.item.Item;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;

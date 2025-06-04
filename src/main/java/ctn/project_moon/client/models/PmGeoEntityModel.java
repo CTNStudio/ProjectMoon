@@ -1,4 +1,4 @@
-package ctn.project_moon.common.models;
+package ctn.project_moon.client.models;
 
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.animatable.GeoAnimatable;

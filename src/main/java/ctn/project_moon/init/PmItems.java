@@ -1,5 +1,8 @@
 package ctn.project_moon.init;
 
+import ctn.project_moon.client.models.GeoCurioModel;
+import ctn.project_moon.client.models.PmGeoArmorModel;
+import ctn.project_moon.client.renderer_providers.PmGeoArmourRenderProvider.GeoBuilder;
 import ctn.project_moon.common.item.CreativeSpiritToolItem;
 import ctn.project_moon.common.item.armor.EgoArmorItem;
 import ctn.project_moon.common.item.armor.GeoEgoArmorItem;
@@ -15,14 +18,13 @@ import ctn.project_moon.common.item.weapon.close.WristCutterItem;
 import ctn.project_moon.common.item.weapon.remote.MagicBulletItem;
 import ctn.project_moon.common.item.weapon.special.LoveHateItem;
 import ctn.project_moon.common.item.weapon.special.ParadiseLostItem;
-import ctn.project_moon.common.models.GeoCurioModel;
-import ctn.project_moon.common.models.PmGeoArmorModel;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import software.bernie.geckolib.animatable.GeoItem;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -62,21 +64,27 @@ public class PmItems {
 
 	/// 护甲
 
-	public static final DeferredItem<Item> SUIT = createArmorItem("suit",
-			PmArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.CHESTPLATE));
-	public static final DeferredItem<Item> DRESS_PANTS = createArmorItem("dress_pants",
-			PmArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.LEGGINGS));
-	public static final DeferredItem<Item> LOAFERS = createArmorItem("loafers",
-			PmArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
-	public static final DeferredItem<Item> MAGIC_BULLET_CHESTPLATE = createGeoArmorItem("magic_bullet_chestplate",
-			GeoEgoArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.CHESTPLATE),
-			new PmGeoArmorModel<>("magic_bullet_armor"));
-	public static final DeferredItem<Item> MAGIC_BULLET_LEGGINGS = createGeoArmorItem("magic_bullet_leggings",
-			GeoEgoArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.LEGGINGS),
-			new PmGeoArmorModel<>("magic_bullet_armor"));
-	public static final DeferredItem<Item> MAGIC_BULLET_BOOTS = createGeoArmorItem("magic_bullet_boots",
-			GeoEgoArmorItem::new, new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.BOOTS),
-			new PmGeoArmorModel<>("magic_bullet_armor"));
+	public static final DeferredItem<Item> SUIT = createArmorItem(
+			"suit", PmArmorItem::new,
+			new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.CHESTPLATE));
+	public static final DeferredItem<Item> DRESS_PANTS = createArmorItem(
+			"dress_pants", PmArmorItem::new,
+			new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.LEGGINGS));
+	public static final DeferredItem<Item> LOAFERS = createArmorItem(
+			"loafers", PmArmorItem::new,
+			new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
+	public static final DeferredItem<Item> MAGIC_BULLET_CHESTPLATE = createGeoArmorItem(
+			"magic_bullet_chestplate", GeoEgoArmorItem::new,
+			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.CHESTPLATE),
+			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
+	public static final DeferredItem<Item> MAGIC_BULLET_LEGGINGS = createGeoArmorItem(
+			"magic_bullet_leggings", GeoEgoArmorItem::new,
+			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.LEGGINGS),
+			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
+	public static final DeferredItem<Item> MAGIC_BULLET_BOOTS = createGeoArmorItem(
+			"magic_bullet_boots", GeoEgoArmorItem::new,
+			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.BOOTS),
+			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
 
 	/// 饰品
 
@@ -118,11 +126,11 @@ public class PmItems {
 		return ITEM_REGISTER.register(name, () -> armorItem.apply(builder));
 	}
 
-	private static DeferredItem<Item> createGeoArmorItem(String name,
-	                                                     BiFunction<PmArmorItem.Builder, PmGeoArmorModel<GeoEgoArmorItem>, ? extends GeoEgoArmorItem> armorItem,
-	                                                     PmArmorItem.Builder builder,
-	                                                     PmGeoArmorModel<GeoEgoArmorItem> model) {
-		return ITEM_REGISTER.register(name, () -> armorItem.apply(builder, model));
+	private static<T extends Item & GeoItem> DeferredItem<Item> createGeoArmorItem(String name,
+	                                                                               BiFunction<PmArmorItem.Builder, GeoBuilder, GeoEgoArmorItem> armorItem,
+	                                                                               PmArmorItem.Builder builder,
+	                                                                               GeoBuilder geoBuilder) {
+		return ITEM_REGISTER.register(name, () -> armorItem.apply(builder, geoBuilder));
 	}
 
 	private static DeferredItem<Item> createEgoArmorItem(String name, Function<PmArmorItem.Builder, ? extends EgoArmorItem> armorItem, PmArmorItem.Builder builder) {
