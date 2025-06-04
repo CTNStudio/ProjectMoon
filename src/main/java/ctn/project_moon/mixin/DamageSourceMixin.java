@@ -1,7 +1,7 @@
 package ctn.project_moon.mixin;
 
 import ctn.project_moon.api.tool.PmDamageTool;
-import ctn.project_moon.events.DourColorDamageTypesEvent;
+import ctn.project_moon.event.DourColorDamageTypesEvent;
 import ctn.project_moon.mixin_extend.PmDamageSourceMixin;
 import net.minecraft.core.Holder;
 import net.minecraft.tags.TagKey;
@@ -9,7 +9,10 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Implements;
+import org.spongepowered.asm.mixin.Interface;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,9 +35,6 @@ public abstract class DamageSourceMixin implements PmDamageSourceMixin {
 	@Unique
 	private PmDamageTool.Level projectMoon$damageLevel;
 
-	@Shadow @Final
-	private Holder<DamageType> type;
-
 	@Inject(method = "<init>(Lnet/minecraft/core/Holder;" +
 	                 "Lnet/minecraft/world/entity/Entity;" +
 	                 "Lnet/minecraft/world/entity/Entity;" +
@@ -50,10 +50,8 @@ public abstract class DamageSourceMixin implements PmDamageSourceMixin {
 				projectMoon$fourColorType = dourColorEvents.getDamageTypes();
 			} else {
 				for (PmDamageTool.FourColorType types : PmDamageTool.FourColorType.values()) {
-					TagKey<DamageType> damageTypeTagKey =
-							type.tags().filter(tag -> types.getDamageTypeTag().equals(tag))
-									.findFirst()
-									.orElse(null);
+					TagKey<DamageType> damageTypeTagKey = type.tags().filter(tag -> types.getDamageTypeTag().equals(tag))
+							.findFirst().orElse(null);
 					if (damageTypeTagKey != null) {
 						projectMoon$fourColorType = types;
 						break;

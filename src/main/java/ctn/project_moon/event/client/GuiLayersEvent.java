@@ -1,4 +1,4 @@
-package ctn.project_moon.events.client;
+package ctn.project_moon.event.client;
 
 import ctn.project_moon.client.gui.SpiritLayersDraw;
 import net.minecraft.client.Minecraft;

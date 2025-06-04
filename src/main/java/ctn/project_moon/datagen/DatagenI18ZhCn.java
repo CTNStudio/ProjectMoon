@@ -108,8 +108,8 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(MobEntityResistance.EROSION_KEY, "侵蚀");
 		add(MobEntityResistance.THE_SOUL_KEY, "灵魂");
 
-		addEntityType(PmEntity.TRAINING_RABBITS, "教学兔兔");
-		addEntityType(PmEntity.PARADISE_LOST_SPIKEWEED, "失乐园尖刺");
+		addEntityType(PmEntitys.TRAINING_RABBITS, "教学兔兔");
+		addEntityType(PmEntitys.PARADISE_LOST_SPIKEWEED, "失乐园尖刺");
 
 		add("config.jade.plugin_project_moon.level", "生物/方块等级");
 		add("config.jade.plugin_project_moon.resistance", "实体抗性");

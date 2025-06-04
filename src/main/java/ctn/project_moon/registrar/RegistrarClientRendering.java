@@ -4,7 +4,7 @@ import ctn.project_moon.client.particles.DamageParticle;
 import ctn.project_moon.client.screen.PlayerAttributeScreen;
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
 import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
-import ctn.project_moon.init.PmEntity;
+import ctn.project_moon.init.PmEntitys;
 import ctn.project_moon.init.PmParticleTypes;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
@@ -25,8 +25,8 @@ public class RegistrarClientRendering {
 	 */
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
-		EntityRenderers.register(PmEntity.TRAINING_RABBITS.get(), TrainingRabbits.TrainingRabbitsRenderer::new);
-		EntityRenderers.register(PmEntity.PARADISE_LOST_SPIKEWEED.get(), ParadiseLostSpikeweed.TrainingRabbitsRenderer::new);
+		EntityRenderers.register(PmEntitys.TRAINING_RABBITS.get(), TrainingRabbits.TrainingRabbitsRenderer::new);
+		EntityRenderers.register(PmEntitys.PARADISE_LOST_SPIKEWEED.get(), ParadiseLostSpikeweed.TrainingRabbitsRenderer::new);
 	}
 
 	/** 注册粒子渲染器 */

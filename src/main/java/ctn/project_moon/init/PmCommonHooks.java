@@ -1,6 +1,6 @@
 package ctn.project_moon.init;
 
-import ctn.project_moon.events.DourColorDamageTypesEvent;
+import ctn.project_moon.event.DourColorDamageTypesEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;

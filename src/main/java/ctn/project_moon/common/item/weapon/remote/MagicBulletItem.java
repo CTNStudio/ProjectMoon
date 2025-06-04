@@ -1,13 +1,13 @@
 package ctn.project_moon.common.item.weapon.remote;
 
 import ctn.project_moon.api.FourColorAttribute;
+import ctn.project_moon.client.models.GuiItemModel;
+import ctn.project_moon.client.models.PmGeoItemModel;
 import ctn.project_moon.common.entity.projectile.MagicBulletEntity;
 import ctn.project_moon.common.item.PlayerAnim;
 import ctn.project_moon.common.item.RequestItem;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.item.weapon.abstract_ltem.RemoteEgoWeapon;
-import ctn.project_moon.common.models.GuiItemModel;
-import ctn.project_moon.common.models.PmGeoItemModel;
 import ctn.project_moon.tool.PmTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -22,7 +22,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.api.TempNbtAttribute.*;
-import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_MOVED;
 import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
 import static net.minecraft.world.InteractionHand.OFF_HAND;
 

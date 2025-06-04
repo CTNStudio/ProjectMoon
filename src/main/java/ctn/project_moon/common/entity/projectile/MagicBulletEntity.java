@@ -4,7 +4,7 @@ package ctn.project_moon.common.entity.projectile;
 import ctn.project_moon.common.RandomDamageProcessor;
 import ctn.project_moon.common.SetInvulnerabilityTick;
 import ctn.project_moon.init.PmDamageTypes;
-import ctn.project_moon.init.PmEntity;
+import ctn.project_moon.init.PmEntitys;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -54,7 +54,7 @@ public class MagicBulletEntity extends ThrowableProjectile implements SetInvulne
     }
 
     public MagicBulletEntity(Level level, LivingEntity shooter){
-        super(PmEntity.MAGIC_BULLET_ENTITY.get(), shooter, level);
+        super(PmEntitys.MAGIC_BULLET_ENTITY.get(), shooter, level);
         this.setNoGravity(true);
     }
 

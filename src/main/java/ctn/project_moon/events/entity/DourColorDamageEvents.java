@@ -2,7 +2,7 @@ package ctn.project_moon.events.entity;
 
 import ctn.project_moon.client.particles.DamageParticle;
 import ctn.project_moon.config.PmConfig;
-import ctn.project_moon.events.DourColorDamageTypesEvent;
+import ctn.project_moon.event.DourColorDamageTypesEvent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;

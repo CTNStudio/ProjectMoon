@@ -4,7 +4,7 @@ import ctn.project_moon.common.entity.abnos.Abnos;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.datagen.PmTags;
-import ctn.project_moon.events.DourColorDamageTypesEvent;
+import ctn.project_moon.event.DourColorDamageTypesEvent;
 import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.mixin_extend.PmDamageSourceMixin;
 import ctn.project_moon.tool.PmColourTool;
@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.CheckForNull;
@@ -167,7 +168,7 @@ public class PmDamageTool {
 	}
 
 	/** 低抗减慢 */
-	public static boolean applySlowdownIfAttributeExceedsOne(Holder<Attribute> attribute, LivingEntity entity) {
+	public static boolean applySlowdownIfAttributeExceedsOne(Holder<Attribute> attribute, @NotNull LivingEntity entity) {
 		if (entity.getAttributeValue(attribute) > 1.0) {
 			entity.addEffect(new MobEffectInstance(MOVEMENT_SLOWDOWN, 20, 2));
 			return true;
@@ -192,7 +193,7 @@ public class PmDamageTool {
 	/** 扣除生命 */
 	public static boolean reply(LivingDamageEvent.Pre event, LivingEntity entity) {
 		float newDamage = event.getNewDamage();
-		if (newDamage <= 0) {
+		if (newDamage <= 0) { // 如果低于0则恢复生命值
 			entity.heal(-newDamage);
 			event.getContainer().setPostAttackInvulnerabilityTicks(0);
 			return true;
@@ -290,6 +291,11 @@ public class PmDamageTool {
 				types = getFourColorDamageType(itemStack, damageSource);
 			}
 			return types;
+		}
+
+		/** 获取四色伤害类型 */
+		public static @Nullable PmDamageTool.FourColorType getFourColorDamageTypeDefault(DamageSource damageSource){
+			return getFourColorDamageTypeDefault(damageSource, getDamageItemStack(damageSource));
 		}
 
 		public static FourColorType getType(final DamageSource damageSource) {
@@ -393,6 +399,11 @@ public class PmDamageTool {
 				types = getDamageLevel(damageSource, itemStack);
 			}
 			return types;
+		}
+
+		/** 获取伤害来源等级 */
+		public static @Nullable Level getDamageLevelDefault(DamageSource damageSource) {
+			return getDamageLevelDefault(damageSource, getDamageItemStack(damageSource));
 		}
 
 		/**

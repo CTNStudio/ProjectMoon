@@ -126,10 +126,10 @@ public class PmItems {
 		return ITEM_REGISTER.register(name, () -> armorItem.apply(builder));
 	}
 
-	private static<T extends Item & GeoItem> DeferredItem<Item> createGeoArmorItem(String name,
-	                                                                               BiFunction<PmArmorItem.Builder, GeoBuilder, GeoEgoArmorItem> armorItem,
-	                                                                               PmArmorItem.Builder builder,
-	                                                                               GeoBuilder geoBuilder) {
+	private static <T extends Item & GeoItem> DeferredItem<Item> createGeoArmorItem(String name,
+			BiFunction<PmArmorItem.Builder, GeoBuilder, GeoEgoArmorItem> armorItem,
+			PmArmorItem.Builder builder,
+			GeoBuilder geoBuilder) {
 		return ITEM_REGISTER.register(name, () -> armorItem.apply(builder, geoBuilder));
 	}
 

@@ -2,8 +2,8 @@ package ctn.project_moon.registrar;
 
 import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
-import ctn.project_moon.init.PmEntity;
 import ctn.project_moon.init.PmEntityAttributes;
+import ctn.project_moon.init.PmEntitys;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -24,7 +24,7 @@ public class RegistrarEntityAttributeEvents {
 	 */
 	@SubscribeEvent
 	public static void entityAttribute(EntityAttributeCreationEvent event) {
-		event.put(PmEntity.TRAINING_RABBITS.get(), TrainingRabbits.createAttributes().build());
+		event.put(PmEntitys.TRAINING_RABBITS.get(), TrainingRabbits.createAttributes().build());
 	}
 
 	/** 添加或修改属性 */

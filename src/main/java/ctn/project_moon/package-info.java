@@ -1,5 +1,5 @@
 /**
- * <br> 包类：{@link ctn.project_moon.api}-一些独特系统的工具类，如理智
+ * <br> 包类：{@link ctn.project_moon.api}-一些独特系统的工具类，如理智，或者一些逻辑部分
  * <p>
  * <p>
  * <br> 包类：{@link ctn.project_moon.client}-仅用于客户端

@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-/** 不保存在存档的实体临时属性 */
+/** 不保存在存档的实体临时属性 TODO 待重置 */
 public class TempNbtAttribute {
 	private static final String PREFIX = MOD_ID + ":temp_nbt_attr.";
 	/** 正在使用武器 类型 Boolean */
@@ -16,15 +16,15 @@ public class TempNbtAttribute {
 	 * 为true时 禁用对方块、实体使用，攻击
 	 */
 	public static final String PLAYER_ATTACK = PREFIX + "player.attack";
-	/** 使用物品tick 类型 Int */
+	/** 使用物品tick 类型 Int TODO 待重置 */
 	public static final String PLAYER_USE_ITEM_TICK = PREFIX + "player.use_item_tick";
-	/** 使用(长按)物品tick 类型 Int */
+	/** 使用(长按)物品tick 类型 Int TODO 待重置 */
 	public static final String PLAYER_USE_TICK = PREFIX + "player.use_tick";
 	/**
 	 * 禁用切换物品插槽 类型 Boolean
 	 * <p>
 	 * 为true时 禁用交换左右手物品，滚轮、数字键切换物品，<br>
-	 * 丢弃物品，鼠标中键复制等，打开背包<br>
+	 * 丢弃物品，鼠标中键复制，打开背包等<br>
 	 * 注：在ui中或者强制扔掉、移除物品会导致这些无法正常关闭，死亡或重进恢复
 	 */
 	public static final String CANNOT_PLAYER_SWITCH_ITEMS = PREFIX + "player.cannot_switch_items";
@@ -41,7 +41,7 @@ public class TempNbtAttribute {
 	 * 注：对应的是按键绑定的按键
 	 */
 	public static final String CANNOT_PLAYER_MOVED = PREFIX + "player.cannot_moved";
-	/** 物品计时 类型 Int */
+	/** 物品计时 类型 Int TODO 待重置 */
 	public static final String ITEM_TICK = PREFIX + "player.item_tick";
 
 	/** 重置临时属性 */

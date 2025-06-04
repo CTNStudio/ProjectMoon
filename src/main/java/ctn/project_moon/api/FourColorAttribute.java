@@ -62,7 +62,7 @@ public class FourColorAttribute {
 	 * 更新四色属性
 	 * <p>
 	 * 当玩家重生，进入世界（更换维度），更改四色属性调用
-	 * TODO 补充
+	 * TODO 需要补充
 	 */
 	public static void updateColorAttributes(Player player) {
 		if (! (player instanceof ServerPlayer serverPlayer)) {

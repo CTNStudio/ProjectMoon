@@ -1,7 +1,7 @@
 package ctn.project_moon.events.client;
 
 import ctn.project_moon.common.entity.projectile.MagicBulletEntityRenderer;
-import ctn.project_moon.init.PmEntity;
+import ctn.project_moon.init.PmEntitys;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,6 +20,6 @@ public class ItemRenderEvents {
 	}
 	@SubscribeEvent
 	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-		event.registerEntityRenderer(PmEntity.MAGIC_BULLET_ENTITY.get(), MagicBulletEntityRenderer::new);
+		event.registerEntityRenderer(PmEntitys.MAGIC_BULLET_ENTITY.get(), MagicBulletEntityRenderer::new);
 	}
 }

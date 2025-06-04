@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static ctn.project_moon.api.tool.PmDamageTool.Level.ALEPH;
-import static ctn.project_moon.init.PmEntity.PARADISE_LOST_SPIKEWEED;
+import static ctn.project_moon.init.PmEntitys.PARADISE_LOST_SPIKEWEED;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
 public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, GeoEntity, RandomDamageProcessor, SetInvulnerabilityTick {
