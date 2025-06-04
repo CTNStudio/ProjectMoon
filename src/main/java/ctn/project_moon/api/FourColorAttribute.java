@@ -2,6 +2,7 @@ package ctn.project_moon.api;
 
 import com.mojang.serialization.Codec;
 import ctn.project_moon.common.payload.data.FourColorData;
+import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.PmEntityAttributes;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Holder;
@@ -35,18 +36,18 @@ import static ctn.project_moon.api.PlayerAttribute.*;
  * 每种属性都会影响玩家的不同能力。
  */
 public class FourColorAttribute {
-	private static final float VANILLA_FLYING_SPEED = 0.05f;
-	// TODO 待将这些写入到配置文件
-	public static final int    PRUDENCE_INITIAL_VALUE       = 20;
-	public static final int    FORTITUDE_INITIAL_VALUE      = 20;
-	public static final int    TEMPERANCE_INITIAL_VALUE     = 1;
-	public static final int    JUSTICE_INITIAL_VALUE        = 1;
-	public static final double TEMPERANCE_BLOCK_BREAK_SPEED = 0.02;
-	public static final double TEMPERANCE_KNOCKBACK_SPEED   = 0.015;
-	public static final double JUSTICE_MOVEMENT_SPEED       = 0.001;
-	public static final double JUSTICE_ATTACK_SPEED         = 0.01;
-	public static final double JUSTICE_SWIM_SPEED           = 0.01;
-	public static final double JUSTICE_FLIGHT_SPEED         = 0.00013;
+	// 仅做原始标记
+	private static final int    PRUDENCE_INITIAL_VALUE       = 20;
+	private static final int    FORTITUDE_INITIAL_VALUE      = 20;
+	private static final int    TEMPERANCE_INITIAL_VALUE     = 1;
+	private static final int    JUSTICE_INITIAL_VALUE        = 1;
+	private static final float  VANILLA_FLYING_SPEED         = 0.05f;
+	private static final double TEMPERANCE_BLOCK_BREAK_SPEED = 0.02;
+	private static final double TEMPERANCE_KNOCKBACK_SPEED   = 0.015;
+	private static final double JUSTICE_MOVEMENT_SPEED       = 0.001;
+	private static final double JUSTICE_ATTACK_SPEED         = 0.01;
+	private static final double JUSTICE_SWIM_SPEED           = 0.01;
+	private static final double JUSTICE_FLIGHT_SPEED         = 0.00013;
 
 	public static final String TEMPERANCE_ADD_KNOCKBACK         = "temperance_add_knockback";
 	public static final String TEMPERANCE_ADD_BLOCK_BREAK_SPEED = "temperance_add_block_break_speed";
@@ -99,18 +100,18 @@ public class FourColorAttribute {
 	 */
 	public static void addFourColorAttribute(LivingEntity entity) {
 		CompoundTag nbt = entity.getPersistentData();
-		if (! nbt.contains(BASE_FORTITUDE)) setFortitude(entity, FORTITUDE_INITIAL_VALUE);//TODO:无用
-		if (! nbt.contains(BASE_PRUDENCE)) setBasePrudence(entity, PRUDENCE_INITIAL_VALUE);//TODO:无用
-		if (! nbt.contains(BASE_TEMPERANCE)) setBaseTemperance(entity, TEMPERANCE_INITIAL_VALUE);
-		if (! nbt.contains(BASE_JUSTICE)) setBaseJustice(entity, JUSTICE_INITIAL_VALUE);
+		if (! nbt.contains(BASE_FORTITUDE)) setFortitude(entity, PmConfig.SERVER.FORTITUDE_INITIAL_VALUE.get());//TODO:无用
+		if (! nbt.contains(BASE_PRUDENCE)) setBasePrudence(entity, PmConfig.SERVER.PRUDENCE_INITIAL_VALUE.get());//TODO:无用
+		if (! nbt.contains(BASE_TEMPERANCE)) setBaseTemperance(entity, PmConfig.SERVER.TEMPERANCE_INITIAL_VALUE.get());
+		if (! nbt.contains(BASE_JUSTICE)) setBaseJustice(entity, PmConfig.SERVER.JUSTICE_INITIAL_VALUE.get());
 	}
 
 	/** 添加四色属性 */
 	public static void fourColorDefaultValue(LivingEntity entity) {
-		setFortitude(entity, FORTITUDE_INITIAL_VALUE);
-		setBasePrudence(entity, PRUDENCE_INITIAL_VALUE);
-		setBaseTemperance(entity, TEMPERANCE_INITIAL_VALUE);
-		setBaseJustice(entity, JUSTICE_INITIAL_VALUE);
+		setFortitude(entity, PmConfig.SERVER.FORTITUDE_INITIAL_VALUE.get());
+		setBasePrudence(entity, PmConfig.SERVER.PRUDENCE_INITIAL_VALUE.get());
+		setBaseTemperance(entity, PmConfig.SERVER.TEMPERANCE_INITIAL_VALUE.get());
+		setBaseJustice(entity, PmConfig.SERVER.JUSTICE_INITIAL_VALUE.get());
 	}
 
 	/**
@@ -221,7 +222,7 @@ public class FourColorAttribute {
 	 */
 	public static void renewPrudenceAttribute(Player player) {
 		if (player.getAttribute(PmEntityAttributes.PRUDENCE_ADDITIONAL) != null) {
-			double addMaxSpirit = getPrudence(player) - PRUDENCE_INITIAL_VALUE;//减去初始值20
+			double addMaxSpirit = getPrudence(player) - PmConfig.SERVER.PRUDENCE_INITIAL_VALUE.get();//减去初始值20
 			AttributeModifier addMaxSpiritModifier = newAttributeModifierAddValue(PRUDENCE_ADD_MAX_SPIRIT, addMaxSpirit);
 			addOrUpdateTransientModifier(player, PmEntityAttributes.MAX_SPIRIT, addMaxSpiritModifier);
 		}
@@ -270,8 +271,8 @@ public class FourColorAttribute {
 		//获取玩家的自律值
 		int temperance = getTemperance(player);
 		//创建自律加成
-		AttributeModifier blockBreakSpeedModifier = newAttributeModifierAddValue(TEMPERANCE_ADD_BLOCK_BREAK_SPEED, temperance * TEMPERANCE_BLOCK_BREAK_SPEED);
-		AttributeModifier knockbackModifier = newAttributeModifierAddValue(TEMPERANCE_ADD_KNOCKBACK, temperance * TEMPERANCE_KNOCKBACK_SPEED);
+		AttributeModifier blockBreakSpeedModifier = newAttributeModifierAddValue(TEMPERANCE_ADD_BLOCK_BREAK_SPEED, temperance * PmConfig.SERVER.TEMPERANCE_BLOCK_BREAK_SPEED.get());
+		AttributeModifier knockbackModifier = newAttributeModifierAddValue(TEMPERANCE_ADD_KNOCKBACK, temperance * PmConfig.SERVER.TEMPERANCE_KNOCKBACK_SPEED.get());
 		//将自律加成添加到玩家的挖掘速度与击退属性中
 		addOrUpdateTransientModifier(player, Attributes.BLOCK_BREAK_SPEED, blockBreakSpeedModifier);
 		addOrUpdateTransientModifier(player, Attributes.ATTACK_KNOCKBACK, knockbackModifier);
@@ -319,15 +320,16 @@ public class FourColorAttribute {
 		//获取玩家的正义值
 		double justice = getJustice(player);
 		//创建正义加成
-		AttributeModifier movementSpeedModifier = newAttributeModifierAddValue(JUSTICE_ADD_MOVEMENT_SPEED, justice * JUSTICE_MOVEMENT_SPEED);
-		AttributeModifier attackSpeedModifier = newAttributeModifierAddValue(JUSTICE_ADD_ATTACK_SPEED, justice * JUSTICE_ATTACK_SPEED);
-		AttributeModifier swimSpeedModifier = newAttributeModifierAddValue(JUSTICE_ADD_SWIM_SPEED, justice * JUSTICE_SWIM_SPEED);
+		AttributeModifier movementSpeedModifier = newAttributeModifierAddValue(JUSTICE_ADD_MOVEMENT_SPEED, justice * PmConfig.SERVER.JUSTICE_MOVEMENT_SPEED.get());
+		AttributeModifier attackSpeedModifier = newAttributeModifierAddValue(JUSTICE_ADD_ATTACK_SPEED, justice * PmConfig.SERVER.JUSTICE_ATTACK_SPEED.get());
+		AttributeModifier swimSpeedModifier = newAttributeModifierAddValue(JUSTICE_ADD_SWIM_SPEED, justice * PmConfig.SERVER.JUSTICE_SWIM_SPEED.get());
 		//将正义加成添加到玩家的移动与攻击速度属性中
 		addOrUpdateTransientModifier(player, Attributes.MOVEMENT_SPEED, movementSpeedModifier);
 		addOrUpdateTransientModifier(player, Attributes.ATTACK_SPEED, attackSpeedModifier);
 		addOrUpdateTransientModifier(player, NeoForgeMod.SWIM_SPEED, swimSpeedModifier);
 
-		player.getAbilities().setFlyingSpeed(VANILLA_FLYING_SPEED + (float) (justice * JUSTICE_FLIGHT_SPEED));//飞行速度
+		//飞行速度
+		player.getAbilities().setFlyingSpeed((float) (PmConfig.SERVER.VANILLA_FLYING_SPEED.get() + (float) (justice * PmConfig.SERVER.JUSTICE_FLIGHT_SPEED.get())));
 	}
 
 	/// 事件处理方法
@@ -349,7 +351,7 @@ public class FourColorAttribute {
 	public static void prudenceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			if (! player.getPersistentData().contains(BASE_PRUDENCE)) {
-				setBasePrudence(player, PRUDENCE_INITIAL_VALUE);//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
+				setBasePrudence(player, PmConfig.SERVER.PRUDENCE_INITIAL_VALUE.get());//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
 			}
 			if (! hasModifier(player, Attributes.MAX_HEALTH, PRUDENCE_ADD_MAX_HEALTH)) {
 				renewPrudenceAttribute(player);
@@ -364,7 +366,7 @@ public class FourColorAttribute {
 	public static void temperanceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			if (! player.getPersistentData().contains(BASE_TEMPERANCE)) {
-				setBaseTemperance(player, TEMPERANCE_INITIAL_VALUE);//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
+				setBaseTemperance(player, PmConfig.SERVER.TEMPERANCE_INITIAL_VALUE.get());//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
 			}
 			if (! hasModifier(player, Attributes.BLOCK_BREAK_SPEED, TEMPERANCE_ADD_BLOCK_BREAK_SPEED) ||
 			    ! hasModifier(player, Attributes.ATTACK_KNOCKBACK, TEMPERANCE_ADD_KNOCKBACK)) {
@@ -380,7 +382,7 @@ public class FourColorAttribute {
 	public static void justiceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
 			if (! player.getPersistentData().contains(BASE_JUSTICE)) {
-				setBaseJustice(player, JUSTICE_INITIAL_VALUE);//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
+				setBaseJustice(player, PmConfig.SERVER.JUSTICE_INITIAL_VALUE.get());//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
 			}
 			if (! hasModifier(player, Attributes.ATTACK_SPEED, JUSTICE_ADD_ATTACK_SPEED) ||
 			    ! hasModifier(player, Attributes.MOVEMENT_SPEED, JUSTICE_ADD_MOVEMENT_SPEED) ||
