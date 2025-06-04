@@ -7,6 +7,7 @@ import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.init.PmEntitys;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -28,7 +29,7 @@ import java.util.Objects;
  * @author dusttt
  * @date 2025-5-23
  */
-public class MagicBulletEntity extends ThrowableProjectile implements SetInvulnerabilityTick, RandomDamageProcessor {
+public class MagicBulletEntity extends PmBulletEntity implements SetInvulnerabilityTick, RandomDamageProcessor {
     private int maxDamage;
     private int minDamage;
     private final float distance = 30.0f;//追踪距离

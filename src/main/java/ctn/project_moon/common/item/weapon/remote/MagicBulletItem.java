@@ -8,6 +8,11 @@ import ctn.project_moon.common.item.PlayerAnim;
 import ctn.project_moon.common.item.RequestItem;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.item.weapon.abstract_ltem.RemoteEgoWeapon;
+<<<<<<< HEAD
+=======
+import ctn.project_moon.client.models.GuiItemModel;
+import ctn.project_moon.client.models.PmGeoItemModel;
+>>>>>>> origin/main
 import ctn.project_moon.tool.PmTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
