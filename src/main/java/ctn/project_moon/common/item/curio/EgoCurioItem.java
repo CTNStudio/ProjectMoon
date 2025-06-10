@@ -23,137 +23,140 @@ import static ctn.project_moon.init.PmItemDataComponents.IS_RESTRAIN;
 
 /**
  * ego饰品 普通饰品请额外建个类
+ *
  * @author Dusttt
  */
 public class EgoCurioItem extends Item implements ICurioItem, GeoItem {
-    protected final float                         addFortitude;
-    protected final float                         addPrudence;
-    protected final float                         addTemperance;
-    protected final float                         addJustice;
-    private final   AnimatableInstanceCache     cache = GeckoLibUtil.createInstanceCache(this);
-    protected final GeoCurioModel<EgoCurioItem> model;
+	protected final float                       addFortitude;
+	protected final float                       addPrudence;
+	protected final float                       addTemperance;
+	protected final float                       addJustice;
+	protected final GeoCurioModel<EgoCurioItem> model;
+	private final   AnimatableInstanceCache     cache = GeckoLibUtil.createInstanceCache(this);
 
-    public EgoCurioItem(float addFortitude, float addPrudence, float addTemperance, float addJustice, Builder builder) {
-        super(builder.properties.component(IS_RESTRAIN, false).stacksTo(1).durability(0));
-        this.model = builder.model;
-        this.addFortitude = addFortitude;
-        this.addPrudence = addPrudence;
-        this.addTemperance = addTemperance;
-        this.addJustice = addJustice;
-    }
+	public EgoCurioItem(float addFortitude, float addPrudence, float addTemperance, float addJustice, Builder builder) {
+		super(builder.properties.component(IS_RESTRAIN, false).stacksTo(1).durability(0));
+		this.model         = builder.model;
+		this.addFortitude  = addFortitude;
+		this.addPrudence   = addPrudence;
+		this.addTemperance = addTemperance;
+		this.addJustice    = addJustice;
+	}
 
-    public EgoCurioItem(Builder builder){
-        this(builder.addFortitude, builder.addPrudence, builder.addTemperance, builder.addJustice, builder);
-    }
+	public EgoCurioItem(Builder builder) {
+		this(builder.addFortitude, builder.addPrudence, builder.addTemperance, builder.addJustice, builder);
+	}
 
-    @Override
-    public void curioTick(SlotContext slotContext, ItemStack stack) {
-        ICurioItem.super.curioTick(slotContext, stack);
-    }
+	@Override
+	public void curioTick(SlotContext slotContext, ItemStack stack) {
+		ICurioItem.super.curioTick(slotContext, stack);
+	}
 
-    @Override
-    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        if (slotContext.entity() instanceof ServerPlayer player)
-            FourColorAttribute.renewFourColorAttribute(player);
-        ICurioItem.super.onEquip(slotContext, prevStack, stack);
-    }
-    public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
-        if (slotContext.entity() instanceof ServerPlayer player)
-            FourColorAttribute.renewFourColorAttribute(player);
-        ICurioItem.super.onUnequip(slotContext, newStack, stack);
-    }
+	@Override
+	public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
+		if (slotContext.entity() instanceof ServerPlayer player)
+			FourColorAttribute.renewFourColorAttribute(player);
+		ICurioItem.super.onEquip(slotContext, prevStack, stack);
+	}
 
-    @Override
-    public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
-        return true;
-    }
+	public void onUnequip(SlotContext slotContext, ItemStack newStack, ItemStack stack) {
+		if (slotContext.entity() instanceof ServerPlayer player)
+			FourColorAttribute.renewFourColorAttribute(player);
+		ICurioItem.super.onUnequip(slotContext, newStack, stack);
+	}
 
-    @Override
-    public boolean canEquip(SlotContext slotContext, ItemStack stack) {
-        return ICurioItem.super.canEquip(slotContext, stack);
-    }
+	@Override
+	public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
+		return true;
+	}
 
-    /**
-     * 属性加成
-     */
-    @Override
-    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation id, ItemStack stack) {
-        Multimap<Holder<Attribute>, AttributeModifier> modifier = LinkedHashMultimap.create();
-        addAttribute(addFortitude, modifier, PmEntityAttributes.FORTITUDE_ADDITIONAL, id);
-        addAttribute(addPrudence, modifier, PmEntityAttributes.PRUDENCE_ADDITIONAL, id);
-        addAttribute(addTemperance, modifier, PmEntityAttributes.TEMPERANCE_ADDITIONAL, id);
-        addAttribute(addJustice, modifier, PmEntityAttributes.JUSTICE_ADDITIONAL, id);
-        return modifier;
-    }
+	@Override
+	public boolean canEquip(SlotContext slotContext, ItemStack stack) {
+		return ICurioItem.super.canEquip(slotContext, stack);
+	}
 
-    private void addAttribute(float addFortitude, Multimap<Holder<Attribute>, AttributeModifier> modifier, Holder<Attribute> fortitudeAdditional, ResourceLocation id) {
-        if (addFortitude != 0)
-            modifier.put(fortitudeAdditional,
-                    new AttributeModifier(id, addFortitude, AttributeModifier.Operation.ADD_VALUE));
-    }
+	/**
+	 * 属性加成
+	 */
+	@Override
+	public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation id, ItemStack stack) {
+		Multimap<Holder<Attribute>, AttributeModifier> modifier = LinkedHashMultimap.create();
+		addAttribute(addFortitude, modifier, PmEntityAttributes.FORTITUDE_ADDITIONAL, id);
+		addAttribute(addPrudence, modifier, PmEntityAttributes.PRUDENCE_ADDITIONAL, id);
+		addAttribute(addTemperance, modifier, PmEntityAttributes.TEMPERANCE_ADDITIONAL, id);
+		addAttribute(addJustice, modifier, PmEntityAttributes.JUSTICE_ADDITIONAL, id);
+		return modifier;
+	}
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-    }
+	private void addAttribute(float addFortitude, Multimap<Holder<Attribute>, AttributeModifier> modifier, Holder<Attribute> fortitudeAdditional, ResourceLocation id) {
+		if (addFortitude != 0)
+			modifier.put(
+					fortitudeAdditional,
+					new AttributeModifier(id, addFortitude, AttributeModifier.Operation.ADD_VALUE));
+	}
 
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
+	@Override
+	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+	}
 
-    public GeoCurioModel<EgoCurioItem> getModel() {
-        return model;
-    }
+	@Override
+	public AnimatableInstanceCache getAnimatableInstanceCache() {
+		return cache;
+	}
 
-    public static class Builder {
-        private float addFortitude;
-        private float addPrudence;
-        private float addTemperance;
-        private float addJustice;
-        private Item.Properties             properties = new Item.Properties();
-        private GeoCurioModel<EgoCurioItem> model;
+	public GeoCurioModel<EgoCurioItem> getModel() {
+		return model;
+	}
 
-        public Builder(GeoCurioModel<EgoCurioItem> model) {
-            this.model = model;
-        }
+	public static class Builder {
+		private float                       addFortitude;
+		private float                       addPrudence;
+		private float                       addTemperance;
+		private float                       addJustice;
+		private Item.Properties             properties = new Item.Properties();
+		private GeoCurioModel<EgoCurioItem> model;
 
-        public Builder(float addFortitude, float addPrudence, float addTemperance, float addJustice, GeoCurioModel<EgoCurioItem> model) {
-            this(model);
-            this.fortitude(addFortitude);
-            this.prudence(addPrudence);
-            this.temperance(addTemperance);
-            this.justice(addJustice);
-        }
+		public Builder(GeoCurioModel<EgoCurioItem> model) {
+			this.model = model;
+		}
 
-        public Builder properties(Item.Properties properties) {
-            this.properties = properties;
-            return this;
-        }
+		public Builder(float addFortitude, float addPrudence, float addTemperance, float addJustice, GeoCurioModel<EgoCurioItem> model) {
+			this(model);
+			this.fortitude(addFortitude);
+			this.prudence(addPrudence);
+			this.temperance(addTemperance);
+			this.justice(addJustice);
+		}
 
-        public Builder model(GeoCurioModel<EgoCurioItem> model) {
-            this.model = model;
-            return this;
-        }
+		public Builder properties(Item.Properties properties) {
+			this.properties = properties;
+			return this;
+		}
 
-        public Builder fortitude(float addFortitude) {
-            this.addFortitude = addFortitude;
-            return this;
-        }
+		public Builder model(GeoCurioModel<EgoCurioItem> model) {
+			this.model = model;
+			return this;
+		}
 
-        public Builder prudence(float addPrudence) {
-            this.addPrudence = addPrudence;
-            return this;
-        }
+		public Builder fortitude(float addFortitude) {
+			this.addFortitude = addFortitude;
+			return this;
+		}
 
-        public Builder temperance(float addTemperance) {
-            this.addTemperance = addTemperance;
-            return this;
-        }
+		public Builder prudence(float addPrudence) {
+			this.addPrudence = addPrudence;
+			return this;
+		}
 
-        public Builder justice(float addJustice) {
-            this.addJustice = addJustice;
-            return this;
-        }
+		public Builder temperance(float addTemperance) {
+			this.addTemperance = addTemperance;
+			return this;
+		}
 
-    }
+		public Builder justice(float addJustice) {
+			this.addJustice = addJustice;
+			return this;
+		}
+
+	}
 }

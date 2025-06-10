@@ -15,17 +15,17 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class PmImageWidget extends AbstractWidget {
 	private final ResourceLocation texture;
-	private final int textureWidth;
-	private final int textureHeight;
-	private final float uOffset;
-	private final float vOffset;
+	private final int              textureWidth;
+	private final int              textureHeight;
+	private final float            uOffset;
+	private final float            vOffset;
 
 	public PmImageWidget(int x, int y,
-	                     int width, int height,
-	                     ResourceLocation texture,
-	                     int textureWidth, int textureHeight,
-	                     float uOffset, float vOffset,
-	                     Component component) {
+			int width, int height,
+			ResourceLocation texture,
+			int textureWidth, int textureHeight,
+			float uOffset, float vOffset,
+			Component component) {
 		super(x, y, width, height, component);
 		this.texture       = texture;
 		this.textureWidth  = textureWidth;
@@ -33,11 +33,12 @@ public class PmImageWidget extends AbstractWidget {
 		this.uOffset       = uOffset;
 		this.vOffset       = vOffset;
 	}
+
 	public PmImageWidget(int x, int y,
-	                     int width, int height,
-	                     ResourceLocation texture,
-	                     float uOffset, float vOffset,
-	                     Component component) {
+			int width, int height,
+			ResourceLocation texture,
+			float uOffset, float vOffset,
+			Component component) {
 		this(x, y, width, height, texture, 256, 256, uOffset, vOffset, component);
 	}
 
@@ -56,7 +57,8 @@ public class PmImageWidget extends AbstractWidget {
 	}
 
 	@Override
-	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {}
+	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+	}
 
 	public void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
 		guiGraphics.renderTooltip(Minecraft.getInstance().font, getMessage(), mouseX, mouseY);

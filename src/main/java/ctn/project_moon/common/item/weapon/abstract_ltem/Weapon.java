@@ -1,14 +1,20 @@
 package ctn.project_moon.common.item.weapon.abstract_ltem;
 
+import ctn.project_moon.api.tool.PmDamageTool;
+import ctn.project_moon.capability.ILevel;
+import ctn.project_moon.capability.IRandomDamage;
+import ctn.project_moon.capability.item.IColorDamageTypeItem;
+import ctn.project_moon.capability.item.IInvincibleTickItem;
 import ctn.project_moon.client.renderer_providers.PmGeoItemRenderProvider;
-import ctn.project_moon.common.RandomDamageProcessor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,96 +26,120 @@ import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.init.PmItemDataComponents.MODE_BOOLEAN;
 
-public abstract class Weapon extends Item implements GeoItem, RandomDamageProcessor {
-	public static final ResourceLocation  ENTITY_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "entity_range");
-	public static final ResourceLocation  BLOCK_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "block_range");
-	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-	private final int                     maxDamage;
-	private final int                     minDamage;
-	/**
-	 * 是否是特殊武器
-	 */
-	private final boolean                 isSpecialTemplate;
-	protected GeoModel<Weapon>            defaultModel;
-	protected GeoModel<Weapon>            guiModel;
+/**
+ * 武器基类
+ */
+public abstract class Weapon extends Item implements
+		GeoItem, IRandomDamage, IColorDamageTypeItem, ILevel, IInvincibleTickItem {
+	public static final ResourceLocation        ENTITY_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "entity_range");
+	public static final ResourceLocation        BLOCK_RANGE  = ResourceLocation.fromNamespaceAndPath(MOD_ID, "block_range");
+	@Nullable
+	protected final     PmDamageTool.Level      itemLevel;
+	private final       AnimatableInstanceCache cache        = GeckoLibUtil.createInstanceCache(this);
+	private final       int                     maxDamage;
+	private final       int                     minDamage;
+	protected           GeoModel<Weapon>        defaultModel;
+	protected           GeoModel<Weapon>        guiModel;
 
 	public Weapon(Builder builder) {
-		this(builder.build(), false, builder.maxDamage, builder.minDamage);
-	}
-
-	public Weapon(Builder builder, boolean isSpecialTemplate) {
-		this(builder.build(), isSpecialTemplate, builder.maxDamage, builder.minDamage);
+		this(builder.build(), builder);
 	}
 
 	public Weapon(Item.Properties properties, Builder builder) {
-		this(properties.attributes(builder.getItemAttributeModifiers()), false, builder.maxDamage, builder.minDamage);
+		super(properties.attributes(builder.getItemAttributeModifiers()).component(MODE_BOOLEAN, false).stacksTo(1));
+		this.maxDamage = builder.maxDamage;
+		this.minDamage = builder.minDamage;
+		this.itemLevel = builder.itemLevel;
 	}
 
-	public Weapon(Item.Properties properties, boolean isSpecialTemplate, Builder builder) {
-		this(properties.attributes(builder.getItemAttributeModifiers()), isSpecialTemplate, builder.maxDamage, builder.minDamage);
+	/// 获取武器攻击时造成的无敌帧
+	@Override
+	public int getInvincibleTick(ItemStack stack) {
+		return 20;
 	}
 
-	private Weapon(Item.Properties properties, boolean isSpecialTemplate, int maxDamage, int minDamage) {
-		super(properties.component(MODE_BOOLEAN, false).stacksTo(1));
-		this.isSpecialTemplate = isSpecialTemplate;
-		this.maxDamage = maxDamage;
-		this.minDamage = minDamage;
-	}
-
+	/// 设置模型
 	public void setDefaultModel(GeoModel<Weapon> defaultModel) {
 		this.defaultModel = defaultModel;
 	}
 
+	/// 设置在GUI中的模型
 	public void setGuiModel(GeoModel<Weapon> guiModel) {
 		this.guiModel = guiModel;
 	}
 
+	/// 创建GEO模型渲染
 	@Override
 	public void createGeoRenderer(Consumer<GeoRenderProvider> consumer) {
-		consumer.accept(new PmGeoItemRenderProvider(defaultModel, guiModel));
+		consumer.accept(new PmGeoItemRenderProvider<>(defaultModel, guiModel));
 	}
 
+	/// 是否可以挖掘方块
 	@Override
 	public boolean canAttackBlock(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player) {
 		return !player.isCreative();
 	}
 
-	public boolean isSpecialTemplate() {
-		return isSpecialTemplate;
-	}
-
+	/// 获取最小伤害
 	@Override
 	public int getMinDamage() {
 		return minDamage;
 	}
 
+	/// 获取最大伤害
 	@Override
 	public int getMaxDamage() {
 		return maxDamage;
 	}
 
+	/// 创建动画控制器
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 	}
 
+	/// 获取动画实例缓存
 	@Override
 	public AnimatableInstanceCache getAnimatableInstanceCache() {
 		return cache;
 	}
 
+	/// 获取物品等级
+	@Override
+	@CheckForNull
+	public PmDamageTool.Level getItemLevel() {
+		return itemLevel;
+	}
+
+	/// 获取物品伤害颜色
+	@Override
+	@CheckForNull
+	public PmDamageTool.ColorType getDamageType(ItemStack stack) {
+		return PmDamageTool.ColorType.PHYSICS;
+	}
+
+	/// 获取伤害类型描述
+	@Override
+	public Component getFourColorDamageTypeToTooltip(){
+		return null;
+	}
+
+	/// 武器属性构造器
 	public static class Builder {
 		// EGO伤害
 		private int minDamage, maxDamage;
+		private PmDamageTool.Level itemLevel  = PmDamageTool.Level.ZAYIN;
 		// 适用与近战EGO，和部分远程EGO
 		private float attackSpeed;
 		// 近战攻击距离 & 可以摸到方块的距离
 		private float attackDistance;
-		// 预留给劣质EGO的耐久
+		// 预留的耐久
 		private int durability;
 		private Item.Properties properties = new Item.Properties();
 
@@ -117,8 +147,8 @@ public abstract class Weapon extends Item implements GeoItem, RandomDamageProces
 		}
 
 		public Builder(int minDamage, int maxDamage, float attackSpeed) {
-			this.minDamage = minDamage;
-			this.maxDamage = maxDamage;
+			this.minDamage   = minDamage;
+			this.maxDamage   = maxDamage;
 			this.attackSpeed = attackSpeed;
 		}
 
@@ -147,7 +177,6 @@ public abstract class Weapon extends Item implements GeoItem, RandomDamageProces
 
 		public ItemAttributeModifiers getItemAttributeModifiers() {
 			ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-
 			builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, maxDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
 			builder.add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
 			builder.add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(ENTITY_RANGE, attackDistance, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.HAND);
@@ -189,6 +218,10 @@ public abstract class Weapon extends Item implements GeoItem, RandomDamageProces
 		public Builder properties(Properties properties) {
 			this.properties = properties;
 			return this;
+		}
+
+		public void level(PmDamageTool.Level itemLevel) {
+			this.itemLevel = itemLevel;
 		}
 	}
 }

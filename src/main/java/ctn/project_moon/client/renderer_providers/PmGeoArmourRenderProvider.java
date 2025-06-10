@@ -10,15 +10,14 @@ import net.minecraft.world.item.ItemStack;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 import java.util.function.Supplier;
 
 /** 盔甲渲染提供程序 */
 public class PmGeoArmourRenderProvider<T extends Item & GeoItem> implements GeoRenderProvider {
-	private         PmGeoArmorRenderer<T> renderer;
 	protected final PmGeoArmorModel<T>    roughHandModel;
 	protected final PmGeoArmorModel<T>    fineHandedModel;
-
+	private         PmGeoArmorRenderer<T> renderer;
 
 
 	public PmGeoArmourRenderProvider(GeoBuilder<T> builder) {
@@ -31,12 +30,12 @@ public class PmGeoArmourRenderProvider<T extends Item & GeoItem> implements GeoR
 		this.renderer        = renderer;
 	}
 
-	@org.jetbrains.annotations.Nullable
+	@CheckForNull
 	@Override
-	public <E extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(@Nullable E livingEntity,
-	                                                                     ItemStack itemStack,
-	                                                                     @Nullable EquipmentSlot equipmentSlot,
-	                                                                     @Nullable HumanoidModel<E> original) {
+	public <E extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(@CheckForNull E livingEntity,
+			ItemStack itemStack,
+			@CheckForNull EquipmentSlot equipmentSlot,
+			@CheckForNull HumanoidModel<E> original) {
 //		original.body
 		if (this.renderer == null) {
 			if (fineHandedModel == null) {
@@ -48,12 +47,12 @@ public class PmGeoArmourRenderProvider<T extends Item & GeoItem> implements GeoR
 
 	public static class GeoBuilder<T extends Item & GeoItem> {
 		private PmGeoArmorRenderer<T> renderer;
-		private PmGeoArmorModel<T> roughHandModel;
-		private PmGeoArmorModel<T> fineHandModel;
-		private Supplier<Item>     boots;
-		private Supplier<Item>     leggings;
-		private Supplier<Item> chestplate;
-		private Supplier<Item> helmet;
+		private PmGeoArmorModel<T>    roughHandModel;
+		private PmGeoArmorModel<T>    fineHandModel;
+		private Supplier<Item>        boots;
+		private Supplier<Item>        leggings;
+		private Supplier<Item>        chestplate;
+		private Supplier<Item>        helmet;
 
 		public PmGeoArmorRenderer<T> renderer() {
 			return renderer;

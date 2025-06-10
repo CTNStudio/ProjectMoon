@@ -17,7 +17,8 @@ import static ctn.project_moon.PmMain.MOD_ID;
 public class PmEntitys {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPE_REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MOD_ID);
 
-	public static final Supplier<EntityType<TrainingRabbits>> TRAINING_RABBITS = registerEntity("training_rabbits",
+	public static final Supplier<EntityType<TrainingRabbits>> TRAINING_RABBITS = registerEntity(
+			"training_rabbits",
 			EntityType.Builder.of(TrainingRabbits::new, MobCategory.MISC)
 					.sized(0.625F, 1.375F)
 					.eyeHeight(1F)
@@ -25,13 +26,15 @@ public class PmEntitys {
 					.updateInterval(2)
 					.canSpawnFarFromPlayer());
 
-	public static final Supplier<EntityType<ParadiseLostSpikeweed>> PARADISE_LOST_SPIKEWEED = registerEntity("paradise_lost_spikeweed",
+	public static final Supplier<EntityType<ParadiseLostSpikeweed>> PARADISE_LOST_SPIKEWEED = registerEntity(
+			"paradise_lost_spikeweed",
 			EntityType.Builder.of(ParadiseLostSpikeweed::new, MobCategory.MISC)
 					.sized(2F, 2.5F)
 					.clientTrackingRange(6)
 					.updateInterval(2));
 
-	public static final Supplier<EntityType<MagicBulletEntity>> MAGIC_BULLET_ENTITY = registerEntity("magic_bullet",
+	public static final Supplier<EntityType<MagicBulletEntity>> MAGIC_BULLET_ENTITY = registerEntity(
+			"magic_bullet",
 			EntityType.Builder.<MagicBulletEntity>of(MagicBulletEntity::new, MobCategory.MISC)
 					.sized(0.2F, 0.2F)
 					.clientTrackingRange(6)

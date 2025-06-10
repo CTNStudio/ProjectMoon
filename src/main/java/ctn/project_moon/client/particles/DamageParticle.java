@@ -29,13 +29,13 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import static ctn.project_moon.init.PmParticleTypes.DAMAGE_PARTICLE_TYPE;
 import static net.minecraft.world.damagesource.DamageTypes.GENERIC;
 
 // TODO 优化伤害显示粒子
+
 /**
  * 本文件参考汇流来世的伤害显示粒子制作
  */
@@ -52,8 +52,12 @@ public class DamageParticle extends TextureSheetParticle {
 		super(level, x, y, z);
 		this.text         = text;
 		this.damageTypeId = damageTypeId;
-		maxSize = 0.05f;
-		maxTick = 20 * 4;
+		maxSize           = 0.05f;
+		maxTick           = 20 * 4;
+	}
+
+	private static double smoothEntryFactor(double tickIn) {
+		return Math.pow(Math.pow((-2 + tickIn), 2) * tickIn, 2);
 	}
 
 	@Override
@@ -93,10 +97,6 @@ public class DamageParticle extends TextureSheetParticle {
 		poseStack.popPose();
 	}
 
-	private static double smoothEntryFactor(double tickIn) {
-		return Math.pow(Math.pow((-2 + tickIn), 2) * tickIn, 2);
-	}
-
 	@Override
 	public void tick() {
 		age++;
@@ -110,10 +110,11 @@ public class DamageParticle extends TextureSheetParticle {
 		super.remove();
 	}
 
-	/** 粒子提供者*/
+	/** 粒子提供者 */
 	public static class Provider implements ParticleProvider<Options> {
 		@Override
-		public @Nullable Particle createParticle(
+		@javax.annotation.CheckForNull
+		public Particle createParticle(
 				Options type, @NotNull ClientLevel level,
 				double x, double y, double z,
 				double xSpeed, double ySpeed, double zSpeed) {
@@ -122,7 +123,7 @@ public class DamageParticle extends TextureSheetParticle {
 		}
 	}
 
-	/** 粒子参数*/
+	/** 粒子参数 */
 	@OnlyIn(Dist.CLIENT)
 	public record Options(Component component, String damageTypeId) implements ParticleOptions {
 		public static final MapCodec<Options> CODEC = RecordCodecBuilder.mapCodec(
@@ -137,7 +138,7 @@ public class DamageParticle extends TextureSheetParticle {
 				Options::new
 		);
 
-		public Options(Component text){
+		public Options(Component text) {
 			this(text, GENERIC.location().toString());
 		}
 

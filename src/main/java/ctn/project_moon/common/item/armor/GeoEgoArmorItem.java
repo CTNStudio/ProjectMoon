@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class GeoEgoArmorItem extends EgoArmorItem implements GeoItem {
 	protected final PmGeoArmourRenderProvider.GeoBuilder<GeoEgoArmorItem> geoBuilder;
-	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+	private final   AnimatableInstanceCache                               cache = GeckoLibUtil.createInstanceCache(this);
 
 	public GeoEgoArmorItem(Builder builder, PmGeoArmourRenderProvider.GeoBuilder<GeoEgoArmorItem> geoBuilder) {
 		super(builder);
@@ -24,7 +24,8 @@ public class GeoEgoArmorItem extends EgoArmorItem implements GeoItem {
 	}
 
 	@Override
-	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {}
+	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+	}
 
 	@Override
 	public AnimatableInstanceCache getAnimatableInstanceCache() {

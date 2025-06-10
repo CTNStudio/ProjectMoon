@@ -18,42 +18,50 @@ import static ctn.project_moon.PmMain.MOD_ID;
 
 /** 创造模式物品栏 */
 public class PmCreativeModeTab extends CreativeModeTabs {
-	public static final DeferredRegister<CreativeModeTab> PROJECT_MOON_TAB_REGISTER = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
-	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_WEAPON =
-			register("ego_weapon", (name) -> createCreativeModeTab(name,
-					(parameters, output) -> {
-						output.accept(PmItems.DETONATING_BATON.get());
-						output.accept(PmItems.WRIST_CUTTER.get());
-						output.accept(PmItems.BEAR_PAWS.get());
-						output.accept(PmItems.LOVE_HATE.get());
-						output.accept(PmItems.PARADISE_LOST.get());
-						output.accept(PmItems.MAGIC_BULLET.get());
-					}, () -> PmItems.EGO_WEAPON_ICON.get().getDefaultInstance()));
+	public static final DeferredRegister<CreativeModeTab>                PROJECT_MOON_TAB_REGISTER = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_WEAPON                =
+			register(
+					"ego_weapon", (name) -> createCreativeModeTab(
+							name,
+							(parameters, output) -> {
+								output.accept(PmItems.DETONATING_BATON.get());
+								output.accept(PmItems.WRIST_CUTTER.get());
+								output.accept(PmItems.BEAR_PAWS.get());
+								output.accept(PmItems.LOVE_HATE.get());
+								output.accept(PmItems.PARADISE_LOST.get());
+								output.accept(PmItems.MAGIC_BULLET.get());
+							}, () -> PmItems.EGO_WEAPON_ICON.get().getDefaultInstance()));
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_SUIT =
-			register("ego_suit", (name) -> createCreativeModeTab(name,
-					(parameters, output) -> {
-						output.accept(PmItems.SUIT);
-						output.accept(PmItems.DRESS_PANTS);
-						output.accept(PmItems.LOAFERS);
-						output.accept(PmItems.MAGIC_BULLET_CHESTPLATE);
-						output.accept(PmItems.MAGIC_BULLET_LEGGINGS);
-						output.accept(PmItems.MAGIC_BULLET_BOOTS);
-					}, () -> PmItems.EGO_SUIT_ICON.get().getDefaultInstance()));
+			register(
+					"ego_suit", (name) -> createCreativeModeTab(
+							name,
+							(parameters, output) -> {
+								output.accept(PmItems.SUIT);
+								output.accept(PmItems.DRESS_PANTS);
+								output.accept(PmItems.LOAFERS);
+								output.accept(PmItems.MAGIC_BULLET_CHESTPLATE);
+								output.accept(PmItems.MAGIC_BULLET_LEGGINGS);
+								output.accept(PmItems.MAGIC_BULLET_BOOTS);
+							}, () -> PmItems.EGO_SUIT_ICON.get().getDefaultInstance()));
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EGO_CURIOS =
-			register("ego_curios", (name) -> createCreativeModeTab(name,
-					(parameters, output) -> {
-						output.accept(PmItems.PARADISE_LOST_WINGS);
-						output.accept(PmItems.MAGIC_BULLET_PIPE);
-					}, () -> PmItems.EGO_CURIOS_ICON.get().getDefaultInstance()));
+			register(
+					"ego_curios", (name) -> createCreativeModeTab(
+							name,
+							(parameters, output) -> {
+								output.accept(PmItems.PARADISE_LOST_WINGS);
+								output.accept(PmItems.MAGIC_BULLET_PIPE);
+							}, () -> PmItems.EGO_CURIOS_ICON.get().getDefaultInstance()));
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TOOL =
-			register("creative_tool", (name) -> createCreativeModeTab(name,
-					(parameters, output) -> {
-						output.accept(PmItems.CREATIVE_SPIRIT_TOOL.get());
-						output.accept(PmItems.CHAOS_SWORD.get());
-					}, () -> PmItems.CREATIVE_TOOL_ICON.get().getDefaultInstance()));
+			register(
+					"creative_tool", (name) -> createCreativeModeTab(
+							name,
+							(parameters, output) -> {
+								output.accept(PmItems.CREATIVE_SPIRIT_TOOL.get());
+								output.accept(PmItems.CHAOS_SWORD.get());
+							}, () -> PmItems.CREATIVE_TOOL_ICON.get().getDefaultInstance()));
 
 
 	public static DeferredHolder<CreativeModeTab, CreativeModeTab> register(String name, Function<String, CreativeModeTab.Builder> builder) {

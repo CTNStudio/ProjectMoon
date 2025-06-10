@@ -134,7 +134,7 @@ public class DatagenI18ZhCn extends LanguageProvider {
 
 		add(PmItemDataComponents.MODE_BOOLEAN, "模式开关");
 		add(PmItemDataComponents.IS_RESTRAIN, "抑制器影响");
-		add(PmItemDataComponents.CURRENT_DAMAGE_TYPE, "伤害类型");
+		add(PmItemDataComponents.COLOR_DAMAGE_TYPE, "伤害类型");
 
 		addConfig("enable_four_color_damage", "四色伤害（物理、精神、侵蚀、灵魂）", "同时也会禁用对应的抗性，以及对应的效果");
 		addConfig("enable_spirit_damage", "精神伤害", "不会受到精神伤害但仍然会被EGO扣除理智值");
@@ -203,7 +203,7 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(PmConfig.translationKey(configKey), translationDescribe);
 		add(PmConfig.commentKey(configKey), commentDescribe);
 	}
-	
+
 	public void addConfig(String configKey, String translationDescribe) {
 		add(PmConfig.translationKey(configKey), translationDescribe);
 	}

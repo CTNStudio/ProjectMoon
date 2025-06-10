@@ -1,9 +1,0 @@
-{
-  "values": [
-    "minecraft:sonic_boom",
-    {
-      "id": "project_moon:the_soul",
-      "required": false
-    }
-  ]
-}

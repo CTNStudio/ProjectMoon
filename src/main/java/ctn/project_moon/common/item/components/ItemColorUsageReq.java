@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.api.UniqueList;
+import ctn.project_moon.capability.item.IColorUsageReqItem;
 import ctn.project_moon.tool.PmColourTool;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -12,8 +13,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.TooltipFlag;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -21,6 +20,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static ctn.project_moon.PmMain.MOD_ID;
+import static ctn.project_moon.api.FourColorAttribute.Type.*;
 import static ctn.project_moon.init.PmEntityAttributes.ID_ACT;
 import static ctn.project_moon.tool.PmTool.i18ColorText;
 import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
@@ -29,37 +29,28 @@ import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
  * 物品四色属性能力使用要求提示
  * <p>
  * 当一个最后一个值为-1就是包括大于
+ * <p>
+ * 随便一提我已经忘了我这类的东西了（
  */
-public final class ItemColorUsageReq implements PmToTooltip {
-	public static ItemColorUsageReq empty() {
-		LinkedHashMap<FourColorAttribute.Type, List<Integer>> map = new LinkedHashMap<>();
-		map.put(FourColorAttribute.Type.FORTITUDE, new UniqueList<>());
-		map.put(FourColorAttribute.Type.PRUDENCE, new UniqueList<>());
-		map.put(FourColorAttribute.Type.TEMPERANCE, new UniqueList<>());
-		map.put(FourColorAttribute.Type.JUSTICE, new UniqueList<>());
-		return new ItemColorUsageReq(map);
-	}
-
-	private static final String PREFIX = MOD_ID + ":data_components.item_color_usage_req.";
-	public static final String All = PREFIX + "all";
-	public static final String REQUIREMENT = PREFIX + "requirement";
-	public static final String INTERVAL = PREFIX + "interval";
-	public static final String NOT_TO_EXCEED = PREFIX + "not_to_exceed";
-	public static final String NOT_LOWER_THAN = PREFIX + "not_lower_than";
-	public static final String USE_CONDITION = PREFIX + "use_condition";
-
-	private final LinkedHashMap<FourColorAttribute.Type, List<Integer>> requireMap;
-
-	private static final Codec<LinkedHashMap<FourColorAttribute.Type, List<Integer>>> LEVELS_CODEC = Codec.unboundedMap(FourColorAttribute.Type.CODEC, Codec.list(Codec.INT)).xmap(LinkedHashMap::new, Function.identity());
-	private static final Codec<ItemColorUsageReq> FULL_CODEC = RecordCodecBuilder.create(instance -> instance
-			.group(LEVELS_CODEC.fieldOf("require").forGetter(req -> req.requireMap))
-			.apply(instance, ItemColorUsageReq::new));
-	public static final Codec<ItemColorUsageReq> CODEC = Codec.withAlternative(FULL_CODEC, LEVELS_CODEC, ItemColorUsageReq::new);
-	public static final StreamCodec<ByteBuf, ItemColorUsageReq> STREAM_CODEC = StreamCodec.composite(
+public class ItemColorUsageReq implements IColorUsageReqItem {
+	public static final  StreamCodec<ByteBuf, ItemColorUsageReq>                      STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.map(LinkedHashMap::new, FourColorAttribute.Type.STREAM_CODEC, ByteBufCodecs.INT.apply(ByteBufCodecs.list())),
 			ItemColorUsageReq::apply,
 			ItemColorUsageReq::new
 	);
+	private static final String PREFIX         = MOD_ID + ":data_components.item_color_usage_req.";
+	public static final  String All            = PREFIX + "all";
+	public static final  String REQUIREMENT    = PREFIX + "requirement";
+	public static final  String INTERVAL       = PREFIX + "interval";
+	public static final  String NOT_TO_EXCEED  = PREFIX + "not_to_exceed";
+	public static final  String NOT_LOWER_THAN = PREFIX + "not_lower_than";
+	public static final  String USE_CONDITION  = PREFIX + "use_condition";
+	private static final Codec<LinkedHashMap<FourColorAttribute.Type, List<Integer>>> LEVELS_CODEC = Codec.unboundedMap(FourColorAttribute.Type.CODEC, Codec.list(Codec.INT)).xmap(LinkedHashMap::new, Function.identity());
+	private static final Codec<ItemColorUsageReq>                                     FULL_CODEC   = RecordCodecBuilder.create(instance -> instance
+			.group(LEVELS_CODEC.fieldOf("require").forGetter(req -> req.requireMap))
+			.apply(instance, ItemColorUsageReq::new));
+	public static final  Codec<ItemColorUsageReq>                                     CODEC        = Codec.withAlternative(FULL_CODEC, LEVELS_CODEC, ItemColorUsageReq::new);
+	private final LinkedHashMap<FourColorAttribute.Type, List<Integer>> requireMap;
 
 	public ItemColorUsageReq(LinkedHashMap<FourColorAttribute.Type, List<Integer>> map) {
 		this.requireMap = map;
@@ -67,6 +58,24 @@ public final class ItemColorUsageReq implements PmToTooltip {
 
 	private static LinkedHashMap<FourColorAttribute.Type, List<Integer>> apply(ItemColorUsageReq p_340784_) {
 		return p_340784_.requireMap;
+	}
+
+	public static ItemColorUsageReq empty() {
+		LinkedHashMap<FourColorAttribute.Type, List<Integer>> map = new LinkedHashMap<>();
+		map.put(FORTITUDE, new UniqueList<>());
+		map.put(PRUDENCE, new UniqueList<>());
+		map.put(TEMPERANCE, new UniqueList<>());
+		map.put(JUSTICE, new UniqueList<>());
+		map.put(COMPOSITE_RATING, new UniqueList<>());
+		return new ItemColorUsageReq(map);
+	}
+
+	private static void validateCompositeRatingValue(FourColorAttribute.Type attribute, int value) {
+		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || value != 6 : String.format("Composite Rating must be between [-1, 1, 2, 3, 4, 5]. Currently, it is: %d", value);
+	}
+
+	private static Component getParameterComponent(boolean detailed, int value) {
+		return detailed ? Component.literal(String.valueOf(value)) : Component.translatable(FourColorAttribute.Rating.getRating(value).getIdName());
 	}
 
 	public List<Integer> getValue(FourColorAttribute.Type attribute) {
@@ -101,6 +110,8 @@ public final class ItemColorUsageReq implements PmToTooltip {
 
 	/**
 	 * 适合仅对应的值可用 -1代表没有限制
+	 * <p>
+	 * 注意{@link FourColorAttribute.Type#COMPOSITE_RATING}只有6个值（-1、1、2、3、4、5）
 	 */
 	public ItemColorUsageReq setValue(FourColorAttribute.Type attribute, int... values) {
 		if (attribute == FourColorAttribute.Type.COMPOSITE_RATING) {
@@ -137,10 +148,6 @@ public final class ItemColorUsageReq implements PmToTooltip {
 		list.add(value);
 		list.add(-1);
 		return this;
-	}
-
-	private static void validateCompositeRatingValue(FourColorAttribute.Type attribute, int value) {
-		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || value != 6 : String.format("Composite Rating must be between [-1, 1, 2, 3, 4, 5]. Currently, it is: %d", value);
 	}
 
 	public ItemColorUsageReq setMaxValue(FourColorAttribute.Type attribute, int value) {
@@ -183,6 +190,9 @@ public final class ItemColorUsageReq implements PmToTooltip {
 		return this;
 	}
 
+	/**
+	 * 列表是否为空
+	 */
 	public boolean isListEmpty(List<Integer> list) {
 		if (list.size() == 0) {
 			return true;
@@ -193,8 +203,10 @@ public final class ItemColorUsageReq implements PmToTooltip {
 		return false;
 	}
 
-	// 说真的我并不清楚这些奇奇怪怪的功能到底会有多少人用，但凭借着有比没有好的原则还是加上比较好
-	public Component getComponent(FourColorAttribute.Type attribute, boolean detailed) {
+	/**
+	 * 获取属性对应的使用要求
+	 */
+	public Component analysisUsageReq(FourColorAttribute.Type attribute, boolean detailed) {
 		List<Integer> list = getAttributeList(attribute);
 		if (attribute == FourColorAttribute.Type.COMPOSITE_RATING) {
 			detailed = false;
@@ -206,6 +218,8 @@ public final class ItemColorUsageReq implements PmToTooltip {
 			case JUSTICE -> PmColourTool.THE_SOUL.getColour();
 			case COMPOSITE_RATING -> null;
 		};
+
+		// 根据类型生成
 		MutableComponent component = attribute != FourColorAttribute.Type.COMPOSITE_RATING ?
 				Component.literal("").append(i18ColorText(attribute.getSerializedName(), color)) :
 				Component.translatable(FourColorAttribute.Type.COMPOSITE_RATING.getSerializedName());
@@ -220,6 +234,7 @@ public final class ItemColorUsageReq implements PmToTooltip {
 							.append(getParameterComponent(detailed, list.get(0)));
 				}
 			}
+			// 说真的我并不清楚这些奇奇怪怪的功能到底会有多少人用，但凭借着有比没有好的原则还是加上比较好
 			case 2 -> {
 				if (list.get(0) == -1) {
 					component.append(Component.translatable(NOT_TO_EXCEED))
@@ -228,7 +243,8 @@ public final class ItemColorUsageReq implements PmToTooltip {
 					component.append(Component.translatable(NOT_LOWER_THAN))
 							.append(" ").append(getParameterComponent(detailed, list.get(0)));
 				} else {
-					component.append(Component.translatable(INTERVAL,
+					component.append(Component.translatable(
+							INTERVAL,
 							getParameterComponent(detailed, list.get(0)),
 							getParameterComponent(detailed, list.get(1))));
 				}
@@ -243,16 +259,45 @@ public final class ItemColorUsageReq implements PmToTooltip {
 		return component;
 	}
 
-	private static Component getParameterComponent(boolean detailed, int value) {
-		return detailed ? Component.literal(String.valueOf(value)) : Component.translatable(FourColorAttribute.Rating.getRating(value).getIdName());
+
+	@Override
+	public boolean isAccord(FourColorAttribute.Type attribute, int value) {
+		List<Integer> attributeUsageReq = getAttributeList(attribute);
+		if (isListEmpty(attributeUsageReq)) {
+			return true;
+		}
+		final int i1 = attributeUsageReq.get(0);
+		return switch (attributeUsageReq.size()) {
+			case 1 -> i1 == value;
+			// 在这 -1 等于 <= 或 >=
+			case 2 -> {
+				final int i2 = attributeUsageReq.get(1);
+				if (i1 == -1 && i2 == -1) {
+					yield true;
+				} else if (i1 == -1) {
+					yield value <= i2;
+				} else if (i2 == -1) {
+					yield value >= i1;
+				} else {
+					yield i2 >= value && value >= i1;
+				}
+			}
+			// 在这理论上不应该有-1
+			default -> {
+				for (int i : attributeUsageReq) {
+					if (i == value) yield true;
+				}
+				yield false;
+			}
+		};
 	}
 
 	@Override
 	public String toString() {
-		return getComponent(FourColorAttribute.Type.FORTITUDE, true).tryCollapseToString() + "," +
-				getComponent(FourColorAttribute.Type.PRUDENCE, true).tryCollapseToString() + "," +
-				getComponent(FourColorAttribute.Type.TEMPERANCE, true).tryCollapseToString() + "," +
-				getComponent(FourColorAttribute.Type.JUSTICE, true).tryCollapseToString();
+		return analysisUsageReq(FORTITUDE, true).tryCollapseToString() + "," +
+		       analysisUsageReq(PRUDENCE, true).tryCollapseToString() + "," +
+		       analysisUsageReq(TEMPERANCE, true).tryCollapseToString() + "," +
+		       analysisUsageReq(JUSTICE, true).tryCollapseToString();
 	}
 
 	public boolean isEmpty() {
@@ -266,20 +311,46 @@ public final class ItemColorUsageReq implements PmToTooltip {
 	}
 
 	@Override
-	public void addToTooltip(Item.TooltipContext context, List<Component> tooltipAdder, TooltipFlag tooltipFlag) {
+	public Component getToTooltip() {
 		if (isEmpty()) {
-			return;
+			return Component.empty();
 		}
+		MutableComponent tooltip = i18ColorText(USE_CONDITION, "#AAAAAA");
 		Minecraft minecraft = Minecraft.getInstance();
 		Player player = minecraft.player;
 		boolean detailed = player != null && (player.getAttributeValue(ID_ACT) == 1 || player.isCreative() && hasShiftDown());
-		FourColorAttribute.Type[] values = FourColorAttribute.Type.values();
-		tooltipAdder.add(i18ColorText(USE_CONDITION, "#AAAAAA"));
-		for (FourColorAttribute.Type type : values) {
+		for (FourColorAttribute.Type type : FourColorAttribute.Type.values()) {
 			if (isListEmpty(getAttributeList(type))) {
 				continue;
 			}
-			tooltipAdder.add(Component.literal(" ").append(getComponent(type, detailed)));
+			tooltip.append(Component.literal(" ").append(analysisUsageReq(type, detailed)));
 		}
+		return tooltip;
+	}
+
+
+	@Override
+	public List<Integer> getFortitudeUsageReq() {
+		return getAttributeList(FORTITUDE);
+	}
+
+	@Override
+	public List<Integer> getPrudenceUsageReq() {
+		return getAttributeList(PRUDENCE);
+	}
+
+	@Override
+	public List<Integer> getTemperanceUsageReq() {
+		return getAttributeList(TEMPERANCE);
+	}
+
+	@Override
+	public List<Integer> getJusticeUsageReq() {
+		return getAttributeList(JUSTICE);
+	}
+
+	@Override
+	public List<Integer> getCompositeRatingUsageReq() {
+		return getAttributeList(COMPOSITE_RATING);
 	}
 }

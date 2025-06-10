@@ -29,11 +29,11 @@ public class PmDamageSources extends DamageSources {
 	public PmDamageSources(RegistryAccess registry) {
 		super(registry);
 		physics = source(PHYSICS);
-		spirit = source(SPIRIT);
+		spirit  = source(SPIRIT);
 		erosion = source(EROSION);
 		theSoul = source(THE_SOUL);
-		abnos = source(ABNOS);
-		ego = source(EGO);
+		abnos   = source(ABNOS);
+		ego     = source(EGO);
 	}
 
 	public static BiFunction<LivingEntity, LivingEntity, ? extends DamageSource> physicsDamage() {

@@ -16,8 +16,8 @@ import static ctn.project_moon.api.FourColorAttribute.*;
 
 public class PmCommands {
 
-	public static final DoubleArgumentType FOUR_COLOR_ARG = DoubleArgumentType.doubleArg(1d, 500d);
-	public static final String ATTRIBUTE_TO_SET = MOD_ID + ".commands.attribute_to_set.";
+	public static final DoubleArgumentType FOUR_COLOR_ARG   = DoubleArgumentType.doubleArg(1d, 500d);
+	public static final String             ATTRIBUTE_TO_SET = MOD_ID + ".commands.attribute_to_set.";
 
 	/**
 	 * 四色属性设置命令
@@ -48,7 +48,8 @@ public class PmCommands {
 			case PRUDENCE -> setBasePrudence(player, (int) value);
 			case TEMPERANCE -> setBaseTemperance(player, (int) value);
 			case JUSTICE -> setBaseJustice(player, (int) value);
-			case COMPOSITE_RATING -> throw new UnsupportedOperationException("Composite rating cannot be set directly.");
+			case COMPOSITE_RATING ->
+					throw new UnsupportedOperationException("Composite rating cannot be set directly.");
 		}
 		context.getSource().sendSuccess(() -> Component.translatable(ATTRIBUTE_TO_SET + type.getName(), value), true);
 		return 1;

@@ -36,6 +36,14 @@ import static ctn.project_moon.api.PlayerAttribute.*;
  * 每种属性都会影响玩家的不同能力。
  */
 public class FourColorAttribute {
+	public static final String TEMPERANCE_ADD_KNOCKBACK         = "temperance_add_knockback";
+	public static final String TEMPERANCE_ADD_BLOCK_BREAK_SPEED = "temperance_add_block_break_speed";
+	public static final String JUSTICE_ADD_MOVEMENT_SPEED       = "justice_add_movement_speed";
+	public static final String JUSTICE_ADD_ATTACK_SPEED         = "justice_add_attack_speed";
+	public static final String JUSTICE_ADD_SWIM_SPEED           = "justice_add_swim_speed";
+	public static final String PRUDENCE_ADD_MAX_HEALTH          = "prudence_add_max_health";
+	public static final String PRUDENCE_ADD_MAX_SPIRIT          = "prudence_add_max_spirit";
+	public static final String FORTITUDE_ADD_MAX_HEALTH         = "fortitude_add_max_health";
 	// 仅做原始标记
 	private static final int    PRUDENCE_INITIAL_VALUE       = 20;
 	private static final int    FORTITUDE_INITIAL_VALUE      = 20;
@@ -49,15 +57,6 @@ public class FourColorAttribute {
 	private static final double JUSTICE_SWIM_SPEED           = 0.01;
 	private static final double JUSTICE_FLIGHT_SPEED         = 0.00013;
 
-	public static final String TEMPERANCE_ADD_KNOCKBACK         = "temperance_add_knockback";
-	public static final String TEMPERANCE_ADD_BLOCK_BREAK_SPEED = "temperance_add_block_break_speed";
-	public static final String JUSTICE_ADD_MOVEMENT_SPEED       = "justice_add_movement_speed";
-	public static final String JUSTICE_ADD_ATTACK_SPEED         = "justice_add_attack_speed";
-	public static final String JUSTICE_ADD_SWIM_SPEED           = "justice_add_swim_speed";
-	public static final String PRUDENCE_ADD_MAX_HEALTH          = "prudence_add_max_health";
-	public static final String PRUDENCE_ADD_MAX_SPIRIT          = "prudence_add_max_spirit";
-	public static final String FORTITUDE_ADD_MAX_HEALTH         = "fortitude_add_max_health";
-
 	/**
 	 * 更新四色属性
 	 * <p>
@@ -65,7 +64,7 @@ public class FourColorAttribute {
 	 * TODO 需要补充
 	 */
 	public static void updateColorAttributes(Player player) {
-		if (! (player instanceof ServerPlayer serverPlayer)) {
+		if (!(player instanceof ServerPlayer serverPlayer)) {
 			return;
 		}
 		// 重新计算四色属性 例如限制 TODO 填写你的限制处理
@@ -81,12 +80,13 @@ public class FourColorAttribute {
 	/** 同步四色基础属性 */
 	public static void syncFourColorAttribute(Player player) {
 		if (player instanceof ServerPlayer serverPlayer) {
-			PacketDistributor.sendToPlayer(serverPlayer, new FourColorData(
-					serverPlayer.getPersistentData().getInt(BASE_FORTITUDE),
-					serverPlayer.getPersistentData().getInt(BASE_PRUDENCE),
-					serverPlayer.getPersistentData().getInt(BASE_TEMPERANCE),
-					serverPlayer.getPersistentData().getInt(BASE_JUSTICE)
-			));
+			PacketDistributor.sendToPlayer(
+					serverPlayer, new FourColorData(
+							serverPlayer.getPersistentData().getInt(BASE_FORTITUDE),
+							serverPlayer.getPersistentData().getInt(BASE_PRUDENCE),
+							serverPlayer.getPersistentData().getInt(BASE_TEMPERANCE),
+							serverPlayer.getPersistentData().getInt(BASE_JUSTICE)
+					));
 		}
 	}
 
@@ -99,10 +99,10 @@ public class FourColorAttribute {
 	 */
 	public static void addFourColorAttribute(LivingEntity entity) {
 		CompoundTag nbt = entity.getPersistentData();
-		if (! nbt.contains(BASE_FORTITUDE)) setFortitude(entity, PmConfig.SERVER.FORTITUDE_INITIAL_VALUE.get());//TODO:无用
-		if (! nbt.contains(BASE_PRUDENCE)) setBasePrudence(entity, PmConfig.SERVER.PRUDENCE_INITIAL_VALUE.get());//TODO:无用
-		if (! nbt.contains(BASE_TEMPERANCE)) setBaseTemperance(entity, PmConfig.SERVER.TEMPERANCE_INITIAL_VALUE.get());
-		if (! nbt.contains(BASE_JUSTICE)) setBaseJustice(entity, PmConfig.SERVER.JUSTICE_INITIAL_VALUE.get());
+		if (!nbt.contains(BASE_FORTITUDE)) setFortitude(entity, PmConfig.SERVER.FORTITUDE_INITIAL_VALUE.get());//TODO:无用
+		if (!nbt.contains(BASE_PRUDENCE)) setBasePrudence(entity, PmConfig.SERVER.PRUDENCE_INITIAL_VALUE.get());//TODO:无用
+		if (!nbt.contains(BASE_TEMPERANCE)) setBaseTemperance(entity, PmConfig.SERVER.TEMPERANCE_INITIAL_VALUE.get());
+		if (!nbt.contains(BASE_JUSTICE)) setBaseJustice(entity, PmConfig.SERVER.JUSTICE_INITIAL_VALUE.get());
 	}
 
 	/** 添加四色属性 */
@@ -335,6 +335,7 @@ public class FourColorAttribute {
 
 	/**
 	 * 使玩家勇气基础值与最大生命值-附加值相同。
+	 *
 	 * @param player
 	 */
 	public static void fortitudeRelated(Player player) {
@@ -345,14 +346,15 @@ public class FourColorAttribute {
 
 	/**
 	 * load时调用谨慎更新
+	 *
 	 * @param player
 	 */
 	public static void prudenceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
-			if (! player.getPersistentData().contains(BASE_PRUDENCE)) {
+			if (!player.getPersistentData().contains(BASE_PRUDENCE)) {
 				setBasePrudence(player, PmConfig.SERVER.PRUDENCE_INITIAL_VALUE.get());//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
 			}
-			if (! hasModifier(player, Attributes.MAX_HEALTH, PRUDENCE_ADD_MAX_HEALTH)) {
+			if (!hasModifier(player, Attributes.MAX_HEALTH, PRUDENCE_ADD_MAX_HEALTH)) {
 				renewPrudenceAttribute(player);
 			}
 		}
@@ -360,15 +362,16 @@ public class FourColorAttribute {
 
 	/**
 	 * load时调用自律更新
+	 *
 	 * @param player
 	 */
 	public static void temperanceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
-			if (! player.getPersistentData().contains(BASE_TEMPERANCE)) {
+			if (!player.getPersistentData().contains(BASE_TEMPERANCE)) {
 				setBaseTemperance(player, PmConfig.SERVER.TEMPERANCE_INITIAL_VALUE.get());//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
 			}
-			if (! hasModifier(player, Attributes.BLOCK_BREAK_SPEED, TEMPERANCE_ADD_BLOCK_BREAK_SPEED) ||
-			    ! hasModifier(player, Attributes.ATTACK_KNOCKBACK, TEMPERANCE_ADD_KNOCKBACK)) {
+			if (!hasModifier(player, Attributes.BLOCK_BREAK_SPEED, TEMPERANCE_ADD_BLOCK_BREAK_SPEED) ||
+			    !hasModifier(player, Attributes.ATTACK_KNOCKBACK, TEMPERANCE_ADD_KNOCKBACK)) {
 				renewTemperanceAttribute(player);
 			}
 		}
@@ -376,19 +379,74 @@ public class FourColorAttribute {
 
 	/**
 	 * load时调用正义更新
+	 *
 	 * @param player
 	 */
 	public static void justiceRelated(Player player) {
 		if (player instanceof ServerPlayer) {
-			if (! player.getPersistentData().contains(BASE_JUSTICE)) {
+			if (!player.getPersistentData().contains(BASE_JUSTICE)) {
 				setBaseJustice(player, PmConfig.SERVER.JUSTICE_INITIAL_VALUE.get());//TODO:此处先于之前的初始化，故在此初始化,看看是否需要修改
 			}
-			if (! hasModifier(player, Attributes.ATTACK_SPEED, JUSTICE_ADD_ATTACK_SPEED) ||
-			    ! hasModifier(player, Attributes.MOVEMENT_SPEED, JUSTICE_ADD_MOVEMENT_SPEED) ||
-			    ! hasModifier(player, NeoForgeMod.SWIM_SPEED, JUSTICE_ADD_SWIM_SPEED)) {
+			if (!hasModifier(player, Attributes.ATTACK_SPEED, JUSTICE_ADD_ATTACK_SPEED) ||
+			    !hasModifier(player, Attributes.MOVEMENT_SPEED, JUSTICE_ADD_MOVEMENT_SPEED) ||
+			    !hasModifier(player, NeoForgeMod.SWIM_SPEED, JUSTICE_ADD_SWIM_SPEED)) {
 				renewJusticeAttribute(player);
 			}
 		}
+	}
+
+	private static @NotNull ResourceLocation getResourceLocation(String name) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+	}
+
+	/** 添加或更新临时属性 */
+	private static void addOrUpdateTransientModifier(Player player, Holder<Attribute> attribute, AttributeModifier movementSpeedModifier) {
+		Objects.requireNonNull(player.getAttribute(attribute)).addOrUpdateTransientModifier(movementSpeedModifier);
+	}
+
+	/** 获取基础加附加值的值 */
+	private static int getValue(int baseValue, LivingEntity entity, Holder<Attribute> additional) {
+		int result = baseValue;
+		if (entity.getAttribute(additional) != null) {
+			result += (int) Objects.requireNonNull(entity.getAttribute(additional)).getValue();
+		}
+		return result;
+	}
+
+	/**
+	 * 评级计算方法
+	 * <p>
+	 * 根据属性值计算相应的评级。
+	 *
+	 * @param value 属性值
+	 * @return 评级
+	 */
+	private static int getColorAttributeRating(int value) {
+		if (value < 30) {
+			return 1;
+		}
+		if (value < 45) {
+			return 2;
+		}
+		if (value < 65) {
+			return 3;
+		}
+		if (value < 85) {
+			return 4;
+		}
+		if (value <= 100) {
+			return 5;
+		}
+		return 6;
+	}
+
+	/** 检查玩家是否有指定属性的指定附加值 */
+	private static boolean hasModifier(Player player, Holder<Attribute> attribute, String name) {
+		return Objects.requireNonNull(player.getAttribute(attribute)).hasModifier(getResourceLocation(name));
+	}
+
+	private static @NotNull AttributeModifier newAttributeModifierAddValue(String name, double value) {
+		return new AttributeModifier(getResourceLocation(name), value, AttributeModifier.Operation.ADD_VALUE);
 	}
 
 	/** 四色属性类型枚举 */
@@ -485,59 +543,5 @@ public class FourColorAttribute {
 		public String getName() {
 			return name;
 		}
-	}
-
-	private static @NotNull ResourceLocation getResourceLocation(String name) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
-	}
-
-	/** 添加或更新临时属性 */
-	private static void addOrUpdateTransientModifier(Player player, Holder<Attribute> attribute, AttributeModifier movementSpeedModifier) {
-		Objects.requireNonNull(player.getAttribute(attribute)).addOrUpdateTransientModifier(movementSpeedModifier);
-	}
-
-	/** 获取基础加附加值的值 */
-	private static int getValue(int baseValue, LivingEntity entity, Holder<Attribute> additional) {
-		int result = baseValue;
-		if (entity.getAttribute(additional) != null) {
-			result += (int) Objects.requireNonNull(entity.getAttribute(additional)).getValue();
-		}
-		return result;
-	}
-
-	/**
-	 * 评级计算方法
-	 * <p>
-	 * 根据属性值计算相应的评级。
-	 *
-	 * @param value 属性值
-	 * @return 评级
-	 */
-	private static int getColorAttributeRating(int value) {
-		if (value < 30) {
-			return 1;
-		}
-		if (value < 45) {
-			return 2;
-		}
-		if (value < 65) {
-			return 3;
-		}
-		if (value < 85) {
-			return 4;
-		}
-		if (value <= 100) {
-			return 5;
-		}
-		return 6;
-	}
-
-	/** 检查玩家是否有指定属性的指定附加值 */
-	private static boolean hasModifier(Player player, Holder<Attribute> attribute, String name) {
-		return Objects.requireNonNull(player.getAttribute(attribute)).hasModifier(getResourceLocation(name));
-	}
-
-	private static @NotNull AttributeModifier newAttributeModifierAddValue(String name, double value) {
-		return new AttributeModifier(getResourceLocation(name), value, AttributeModifier.Operation.ADD_VALUE);
 	}
 }

@@ -7,8 +7,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * 玩家属性容器提供程序
@@ -21,10 +21,10 @@ public class PlayerAttributeContainerProvider implements MenuProvider {
 		return Component.empty();
 	}
 
-	@Nullable
+	@CheckForNull
 	@Override
 	public AbstractContainerMenu createMenu(int i, @Nonnull Inventory playerInventory,
-	                                        @Nonnull Player playerEntity) {
+			@Nonnull Player playerEntity) {
 		return new PlayerAttributeMenu(i, playerInventory);
 	}
 }

@@ -1,5 +1,4 @@
-// 1.21.1	2025-05-14T16:14:21.8798035	Tags for minecraft:item mod id project_moon
-43fee5059073e7abd821c4aa09fc5c18e7b36fbc data/project_moon/tags/item/aleph.json
+// 1.21.1	2025-06-11T15:25:01.705101	Tags for minecraft:item mod id project_moon
 174d9e8594428112d6f5798b5f6433683efd74f7 data/project_moon/tags/item/ego.json
 51ccd035bcac683e59f049979035c5a525ba40a6 data/project_moon/tags/item/ego_curios.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_curios_cheek.json
@@ -18,11 +17,3 @@
 69b95c0a9905399876ac22c2a22464d440442445 data/project_moon/tags/item/ego_curios_right_back.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/project_moon/tags/item/ego_suit.json
 5574d11b9880fedafd6725c012c5e4d6c06b8ce3 data/project_moon/tags/item/ego_weapon.json
-c4f7d3ecf740d6988bf277d67d3bf0225c9561a4 data/project_moon/tags/item/erosion.json
-bfcd4390bd9e189a8f66a4485dd57c8866ebe80c data/project_moon/tags/item/he.json
-f133d04d820633e1b1e1e02dbe512e46553e0ff7 data/project_moon/tags/item/physics.json
-55e83a2719bdeeb6951ba2e6c04d6ad8d7715529 data/project_moon/tags/item/spirit.json
-7ee30ddc81e78ed2c0d436242bcf18a8184de0ca data/project_moon/tags/item/teth.json
-7c58447b2f29ac48ac9db443f5417775850a08de data/project_moon/tags/item/the_soul.json
-c4f7d3ecf740d6988bf277d67d3bf0225c9561a4 data/project_moon/tags/item/waw.json
-b946db85756a18628ac4bfa75257c1cbabe48d34 data/project_moon/tags/item/zayin.json

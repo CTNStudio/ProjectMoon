@@ -18,15 +18,14 @@ import static ctn.project_moon.api.TempNbtAttribute.PLAYER_ATTACK;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnable> implements WindowEventHandler, net.neoforged.neoforge.client.extensions.IMinecraftExtension {
+	@Final
+	@Shadow
+	public Options     options;
+	@Shadow
+	public LocalPlayer player;
 	public MinecraftMixin(String name) {
 		super(name);
 	}
-
-	@Final
-	@Shadow
-	public Options options;
-	@Shadow
-	public LocalPlayer player;
 
 	@Inject(method = "handleKeybinds", at = @At("HEAD"), cancellable = true)
 	protected void projectMoon$handleKeybinds(CallbackInfo ci) {

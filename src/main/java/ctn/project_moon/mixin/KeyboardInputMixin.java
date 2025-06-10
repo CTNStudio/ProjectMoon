@@ -23,14 +23,14 @@ public abstract class KeyboardInputMixin extends Input {
 	public void projectMoon$tick(boolean isSneaking, float sneakingSpeedMultiplier, CallbackInfo ci) {
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.player != null && minecraft.player.getPersistentData().getBoolean(CANNOT_PLAYER_MOVED)) {
-			this.up = false;
-			this.down = false;
-			this.left = false;
-			this.right = false;
-			this.jumping = false;
-			this.shiftKeyDown = false;
+			this.up             = false;
+			this.down           = false;
+			this.left           = false;
+			this.right          = false;
+			this.jumping        = false;
+			this.shiftKeyDown   = false;
 			this.forwardImpulse = 0;
-			this.leftImpulse = 0;
+			this.leftImpulse    = 0;
 			ci.cancel();
 		}
 	}

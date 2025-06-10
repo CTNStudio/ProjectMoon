@@ -21,19 +21,25 @@ public class PmArmorMaterials {
 	public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS_TYPE_REGISTER = DeferredRegister.create(BuiltInRegistries.ARMOR_MATERIAL, MOD_ID);
 
 	// EGO护甲
-	public static final Holder<ArmorMaterial> ZAYIN = register("zayin", 1, 2, 3, 1, 3, 9,
+	public static final Holder<ArmorMaterial> ZAYIN = register(
+			"zayin", 1, 2, 3, 1, 3, 9,
 			PmSoundEvents.ARMOR_EQUIP_ZAYIN, 0.5F, 0.0F);
-	public static final Holder<ArmorMaterial> TETH = register("teth", 2, 5, 6, 2, 5, 9,
+	public static final Holder<ArmorMaterial> TETH  = register(
+			"teth", 2, 5, 6, 2, 5, 9,
 			PmSoundEvents.ARMOR_EQUIP_TETH, 1.0F, 0.0F);
-	public static final Holder<ArmorMaterial> HE = register("he", 3, 6, 8, 3, 11, 9,
+	public static final Holder<ArmorMaterial> HE    = register(
+			"he", 3, 6, 8, 3, 11, 9,
 			PmSoundEvents.ARMOR_EQUIP_HE, 2.0F, 0.0F);
-	public static final Holder<ArmorMaterial> WAW = register("waw", 4, 7, 9, 4, 12, 9,
+	public static final Holder<ArmorMaterial> WAW   = register(
+			"waw", 4, 7, 9, 4, 12, 9,
 			PmSoundEvents.ARMOR_EQUIP_WAW, 3.0F, 0.1F);
-	public static final Holder<ArmorMaterial> ALEPH = register("aleph", 4, 8, 10, 5, 13, 9,
+	public static final Holder<ArmorMaterial> ALEPH = register(
+			"aleph", 4, 8, 10, 5, 13, 9,
 			PmSoundEvents.ARMOR_EQUIP_ALEPH, 4.0F, 0.1F);
 
 	// 其他
-	public static final Holder<ArmorMaterial> SUIT = register("suit", 1, 2, 3, 1, 3, 9,
+	public static final Holder<ArmorMaterial> SUIT = register(
+			"suit", 1, 2, 3, 1, 3, 9,
 			PmSoundEvents.ARMOR_EQUIP_ZAYIN, 0.0F, 0.0F);
 
 	public static Holder<ArmorMaterial> register(
@@ -54,13 +60,15 @@ public class PmArmorMaterials {
 			float toughness,
 			float knockbackResistance,
 			Supplier<Ingredient> repairIngredient) {
-		return register(name, Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-			map.put(ArmorItem.Type.BOOTS, boots);
-			map.put(ArmorItem.Type.LEGGINGS, leggings);
-			map.put(ArmorItem.Type.CHESTPLATE, chestplate);
-			map.put(ArmorItem.Type.HELMET, helmet);
-			map.put(ArmorItem.Type.BODY, body);
-		}), enchantmentValue, equipSound, toughness, knockbackResistance, repairIngredient);
+		return register(
+				name, Util.make(
+						new EnumMap<>(ArmorItem.Type.class), map -> {
+							map.put(ArmorItem.Type.BOOTS, boots);
+							map.put(ArmorItem.Type.LEGGINGS, leggings);
+							map.put(ArmorItem.Type.CHESTPLATE, chestplate);
+							map.put(ArmorItem.Type.HELMET, helmet);
+							map.put(ArmorItem.Type.BODY, body);
+						}), enchantmentValue, equipSound, toughness, knockbackResistance, repairIngredient);
 	}
 
 	private static Holder<ArmorMaterial> register(

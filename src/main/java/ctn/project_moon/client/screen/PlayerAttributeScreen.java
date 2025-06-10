@@ -34,33 +34,69 @@ import static net.neoforged.neoforge.common.NeoForgeMod.SWIM_SPEED;
  */
 @OnlyIn(Dist.CLIENT)
 public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<PlayerAttributeMenu> implements ICuriosScreen {
-	public static final String PREFIX = MOD_ID + ".gui.player_attribute_v2.";
-	public static final ResourceLocation TEXTURE = getResourceLocation("textures/gui/container/player_attribute_v2.png");
-	public static final String ATTRIBUTE_POINTS_TOOLTIP = PREFIX + "attribute_points.message";
-	public static final String ATTRIBUTE_EXPERIENCE_TOOLTIP = PREFIX + "attribute_experience.message";
-	public static final String DAMAGE_RESISTANCE_TOOLTIP = PREFIX + "damage_resistance.message";
-	public static final String DAMAGE_RESISTANCE1 = PREFIX + "damage_resistance.message1";
-	public static final String[] ATTRIBUTE_TOOLTIP = new String[]{
+	public static final String           PREFIX                       = MOD_ID + ".gui.player_attribute_v2.";
+	public static final ResourceLocation TEXTURE                      = getResourceLocation("textures/gui/container/player_attribute_v2.png");
+	public static final String           ATTRIBUTE_POINTS_TOOLTIP     = PREFIX + "attribute_points.message";
+	public static final String           ATTRIBUTE_EXPERIENCE_TOOLTIP = PREFIX + "attribute_experience.message";
+	public static final String           DAMAGE_RESISTANCE_TOOLTIP    = PREFIX + "damage_resistance.message";
+	public static final String           DAMAGE_RESISTANCE1           = PREFIX + "damage_resistance.message1";
+	public static final String[]         ATTRIBUTE_TOOLTIP            = new String[]{
 			PREFIX + "fortitude.message",
 			PREFIX + "prudence.message",
 			PREFIX + "temperance.message",
 			PREFIX + "justice.message",
 			PREFIX + "composite_rating.message"
 	};
-	public static final String[] RESISTANCE_TOOLTIP = new String[]{
+	public static final String[]         RESISTANCE_TOOLTIP           = new String[]{
 			PREFIX + "physics.message",
 			PREFIX + "spirit.message",
 			PREFIX + "erosion.message",
 			PREFIX + "the_soul.message"
 	};
-	private StateWidget         compositeRatingWidget;
-	private final StateWidget[] attributeRatingWidget = new StateWidget[4];
-	private final StateWidget[] resistanceWidget      = new StateWidget[4];
-	private final Player        player;
+	private final       StateWidget[]    attributeRatingWidget        = new StateWidget[4];
+	private final       StateWidget[]    resistanceWidget             = new StateWidget[4];
+	private final       Player           player;
+	private             StateWidget      compositeRatingWidget;
 
 	public PlayerAttributeScreen(PlayerAttributeMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title);
 		player = playerInventory.player;
+	}
+
+	/** 获取属性加成 */
+	private static @NotNull MutableComponent getBonusComponent(double bonus) {
+		MutableComponent component;
+		if (bonus == 0) {
+			component = Component.literal("+0 ");
+		} else if (bonus < 0) {
+			component = Component.literal(bonus + " ").withColor(CommonColors.SOFT_RED);
+		} else {
+			component = Component.literal("+" + bonus + " ").withColor(PmColourTool.TETH.getColourRGB());
+		}
+		return component;
+	}
+
+	/** 获取属性加成 */
+	private static @NotNull MutableComponent getBonusComponent(AttributeModifier attributeModifier) {
+		if (attributeModifier == null) {
+			return Component.literal("");
+		}
+		final double amount = attributeModifier.amount();
+		if (amount == 0) {
+			return Component.literal(String.valueOf(0));
+		}
+		String symbol = amount > 0 ? "+" : "-";
+		return Component.literal(MessageFormat.format(
+				"{0}{1} ", switch (attributeModifier.operation()) {
+					case ADD_VALUE -> symbol;
+					case ADD_MULTIPLIED_BASE -> symbol + "*";
+					case ADD_MULTIPLIED_TOTAL -> "*1" + symbol;
+				}, Math.abs(amount))
+		).withColor(amount > 0 ? PmColourTool.TETH.getColourRGB() : CommonColors.SOFT_RED);
+	}
+
+	private static @NotNull ResourceLocation getResourceLocation(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 
 	@Override
@@ -112,10 +148,12 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		});
 		attributeRatingWidget[2].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
 			List<Component> list = addAttributeTooltip(widget, getBaseTemperance(player), TEMPERANCE_ADDITIONAL);
-			addAttributeBonusTooltip(list, "attribute.name.player.block_break_speed",
-			                         getAttributeModifierValue(BLOCK_BREAK_SPEED, TEMPERANCE_ADD_BLOCK_BREAK_SPEED));
-			addAttributeBonusTooltip(list, "attribute.name.generic.attack_knockback",
-			                         getAttributeModifierValue(ATTACK_KNOCKBACK, TEMPERANCE_ADD_KNOCKBACK));
+			addAttributeBonusTooltip(
+					list, "attribute.name.player.block_break_speed",
+					getAttributeModifierValue(BLOCK_BREAK_SPEED, TEMPERANCE_ADD_BLOCK_BREAK_SPEED));
+			addAttributeBonusTooltip(
+					list, "attribute.name.generic.attack_knockback",
+					getAttributeModifierValue(ATTACK_KNOCKBACK, TEMPERANCE_ADD_KNOCKBACK));
 		});
 		attributeRatingWidget[3].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
 			List<Component> list = addAttributeTooltip(widget, getBaseJustice(player), JUSTICE_ADDITIONAL);
@@ -182,7 +220,8 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 	}
 
 	@Override
-	protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {}
+	protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
+	}
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
@@ -241,49 +280,13 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		return c.append(additionalComponent);
 	}
 
-	/** 获取属性加成 */
-	private static @NotNull MutableComponent getBonusComponent(double bonus) {
-		MutableComponent component;
-		if (bonus == 0) {
-			component = Component.literal("+0 ");
-		} else if (bonus < 0) {
-			component = Component.literal(bonus + " ").withColor(CommonColors.SOFT_RED);
-		} else {
-			component = Component.literal("+" + bonus + " ").withColor(PmColourTool.TETH.getColourRGB());
-		}
-		return component;
-	}
-
-	/** 获取属性加成 */
-	private static @NotNull MutableComponent getBonusComponent(AttributeModifier attributeModifier) {
-		if (attributeModifier == null) {
-			return Component.literal("");
-		}
-		final double amount = attributeModifier.amount();
-		if (amount == 0) {
-			return Component.literal(String.valueOf(0));
-		}
-		String symbol = amount > 0 ? "+" : "-";
-		return Component.literal(MessageFormat.format(
-				"{0}{1} ", switch (attributeModifier.operation()) {
-					case ADD_VALUE -> symbol;
-					case ADD_MULTIPLIED_BASE -> symbol + "*";
-					case ADD_MULTIPLIED_TOTAL -> "*1" + symbol;
-					}, Math.abs(amount))
-        ).withColor(amount > 0 ? PmColourTool.TETH.getColourRGB() : CommonColors.SOFT_RED);
-	}
-
 	/** 获取属性经验 */
-	private @NotNull Component gerAttributeExperience(final int exValue){
+	private @NotNull Component gerAttributeExperience(final int exValue) {
 		return Component.translatable(ATTRIBUTE_EXPERIENCE_TOOLTIP, exValue).withColor(CommonColors.GREEN);
 	}
 
 	/** 获取抗性 */
 	private @NotNull String getResistanceString(Holder<Attribute> attribute) {
 		return String.format("%.2f", player.getAttribute(attribute).getValue());
-	}
-
-	private static @NotNull ResourceLocation getResourceLocation(String path) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

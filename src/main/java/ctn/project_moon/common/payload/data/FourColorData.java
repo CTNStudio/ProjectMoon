@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.PlayerAttribute.*;
 
-public record FourColorData(int fortitude, int prudence, int temperance, int justice)  implements CustomPacketPayload {
+public record FourColorData(int fortitude, int prudence, int temperance, int justice) implements CustomPacketPayload {
 
 	public static final CustomPacketPayload.Type<FourColorData> TYPE =
 			new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "data.four_color"));
@@ -25,11 +25,6 @@ public record FourColorData(int fortitude, int prudence, int temperance, int jus
 			FourColorData::new
 	);
 
-	@Override
-	public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
-		return TYPE;
-	}
-
 	public static void server(final FourColorData data, final IPayloadContext context) {
 		CompoundTag nbt = context.player().getPersistentData();
 		nbt.putInt(BASE_FORTITUDE, data.fortitude());
@@ -37,5 +32,10 @@ public record FourColorData(int fortitude, int prudence, int temperance, int jus
 		nbt.putInt(BASE_TEMPERANCE, data.temperance());
 		nbt.putInt(BASE_JUSTICE, data.justice());
 
+	}
+
+	@Override
+	public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
 }

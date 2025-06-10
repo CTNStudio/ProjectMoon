@@ -26,21 +26,23 @@ import static ctn.project_moon.PmMain.MOD_ID;
  */
 @OnlyIn(Dist.CLIENT)
 public final class PlayerAttributeButton extends ImageButton {
-	public static final String MESSAGE = MOD_ID + ".gui.player_attribute_button.message";
-	private final AbstractContainerScreen<?> parentGui;
-	public static final WidgetSprites DEFAULT = new WidgetSprites(getResourceLocation("player_attribute_button_enabled"),
+	public static final String                     MESSAGE = MOD_ID + ".gui.player_attribute_button.message";
+	public static final WidgetSprites              DEFAULT = new WidgetSprites(
+			getResourceLocation("player_attribute_button_enabled"),
 			getResourceLocation("player_attribute_button_disabled"), getResourceLocation("player_attribute_button_enabled_focused"));
+	private final       AbstractContainerScreen<?> parentGui;
 
 	public PlayerAttributeButton(AbstractContainerScreen<?> parentGui) {
-		super(12, 12, DEFAULT, (button) -> {
-			Minecraft minecraft = Minecraft.getInstance();
-			LocalPlayer player = minecraft.player;
-			if (player != null) {
-				ItemStack stack = player.containerMenu.getCarried();
-				player.containerMenu.setCarried(ItemStack.EMPTY);
-				PacketDistributor.sendToServer(new OpenPlayerAttributeScreenData(stack));
-			}
-		}, Component.translatable(MESSAGE));
+		super(
+				12, 12, DEFAULT, (button) -> {
+					Minecraft minecraft = Minecraft.getInstance();
+					LocalPlayer player = minecraft.player;
+					if (player != null) {
+						ItemStack stack = player.containerMenu.getCarried();
+						player.containerMenu.setCarried(ItemStack.EMPTY);
+						PacketDistributor.sendToServer(new OpenPlayerAttributeScreenData(stack));
+					}
+				}, Component.translatable(MESSAGE));
 		this.parentGui = parentGui;
 	}
 
@@ -50,9 +52,9 @@ public final class PlayerAttributeButton extends ImageButton {
 
 	@Override
 	public void renderWidget(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY,
-	                         float partialTicks) {
+			float partialTicks) {
 		if (!(parentGui instanceof InventoryScreen ||
-				parentGui instanceof CreativeModeInventoryScreen creativeInventory && creativeInventory.isInventoryOpen())) {
+		      parentGui instanceof CreativeModeInventoryScreen creativeInventory && creativeInventory.isInventoryOpen())) {
 			this.active = false;
 			return;
 		}

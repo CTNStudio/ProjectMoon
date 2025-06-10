@@ -167,7 +167,7 @@
   "project_moon.player_attr.temperance": "自律",
   "project_moon.player_attr.three": "III",
   "project_moon.player_attr.two": "II",
-  "project_moon:data_components.current_damage_type": "伤害类型",
+  "project_moon:data_components.color_damage_type": "伤害类型",
   "project_moon:data_components.is_restrain": "抑制器影响",
   "project_moon:data_components.item_color_usage_req.all": "无",
   "project_moon:data_components.item_color_usage_req.interval": "只能为 %d 至 %d ",

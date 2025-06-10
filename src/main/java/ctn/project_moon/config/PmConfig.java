@@ -18,6 +18,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 public class PmConfig {
 	public static final Common        COMMON;
 	public static final ModConfigSpec COMMON_SPEC;
+
 	static {
 		Pair<Common, ModConfigSpec> pair = new Builder().configure(Common::new);
 		COMMON      = pair.getLeft();
@@ -26,6 +27,7 @@ public class PmConfig {
 
 	public static final Server        SERVER;
 	public static final ModConfigSpec SERVER_SPEC;
+
 	static {
 		Pair<Server, ModConfigSpec> pair = new Builder().configure(Server::new);
 		SERVER      = pair.getLeft();
@@ -34,6 +36,7 @@ public class PmConfig {
 
 	public static final ClientConfig  CLIENT;
 	public static final ModConfigSpec CLIENT_SPEC;
+
 	static {
 		Pair<ClientConfig, ModConfigSpec> pair = new Builder().configure(ClientConfig::new);
 		CLIENT      = pair.getLeft();

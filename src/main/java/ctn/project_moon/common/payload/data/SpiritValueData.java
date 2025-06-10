@@ -14,7 +14,7 @@ import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_VALUE;
 import static ctn.project_moon.api.SpiritAttribute.getSpiritValue;
 
 public record SpiritValueData(double spiritValue) implements CustomPacketPayload {
-	public static final CustomPacketPayload.Type<SpiritValueData> TYPE =
+	public static final CustomPacketPayload.Type<SpiritValueData>     TYPE  =
 			new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MOD_ID, "data.spirit_value"));
 	public static final StreamCodec<FriendlyByteBuf, SpiritValueData> CODEC =
 			CustomPacketPayload.codec(SpiritValueData::write, SpiritValueData::of);
@@ -27,6 +27,13 @@ public record SpiritValueData(double spiritValue) implements CustomPacketPayload
 		return new SpiritValueData(getSpiritValue(serverPlayer));
 	}
 
+	public static void server(final SpiritValueData data, final IPayloadContext context) {
+		context.player().getPersistentData().putDouble(SPIRIT_VALUE, data.spiritValue);
+	}
+
+	public static void client(final SpiritValueData data, final IPayloadContext context) {
+	}
+
 	public void write(ByteBuf buffer) {
 		buffer.writeDouble(this.spiritValue);
 	}
@@ -34,12 +41,5 @@ public record SpiritValueData(double spiritValue) implements CustomPacketPayload
 	@Override
 	public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
 		return TYPE;
-	}
-
-	public static void server(final SpiritValueData data, final IPayloadContext context) {
-		context.player().getPersistentData().putDouble(SPIRIT_VALUE, data.spiritValue);
-	}
-
-	public static void client(final SpiritValueData data, final IPayloadContext context) {
 	}
 }

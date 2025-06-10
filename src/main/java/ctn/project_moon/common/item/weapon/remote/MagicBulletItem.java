@@ -1,18 +1,14 @@
 package ctn.project_moon.common.item.weapon.remote;
 
 import ctn.project_moon.api.FourColorAttribute;
+import ctn.project_moon.api.tool.PmDamageTool;
+import ctn.project_moon.capability.item.IPlayerAnim;
+import ctn.project_moon.capability.item.IUsageReqItem;
 import ctn.project_moon.client.models.GuiItemModel;
 import ctn.project_moon.client.models.PmGeoItemModel;
 import ctn.project_moon.common.entity.projectile.MagicBulletEntity;
-import ctn.project_moon.common.item.PlayerAnim;
-import ctn.project_moon.common.item.RequestItem;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.item.weapon.abstract_ltem.RemoteEgoWeapon;
-<<<<<<< HEAD
-=======
-import ctn.project_moon.client.models.GuiItemModel;
-import ctn.project_moon.client.models.PmGeoItemModel;
->>>>>>> origin/main
 import ctn.project_moon.tool.PmTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -26,23 +22,30 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.CheckForNull;
+import java.util.List;
+
 import static ctn.project_moon.api.TempNbtAttribute.*;
 import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
 import static net.minecraft.world.InteractionHand.OFF_HAND;
 
 /**
+ * 魔弹武器
+ *
  * @author dusttt
  * @date 2025-5-23
  */
-public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , PlayerAnim {
-	private int shootCount = 0;
-	private final float BULLET_SPEED = 1.0f;// 子弹速度
-	private final int NORMAL_ATTACK_TICK = 8;
-	private final int CHARGING_ATTACK_TICK = 10;
+public class MagicBulletItem extends RemoteEgoWeapon implements IUsageReqItem, IPlayerAnim {
+	private final float BULLET_SPEED         = 1.0f;// 子弹速度
+	private final int   NORMAL_ATTACK_TICK   = 8;
+	private final int   CHARGING_ATTACK_TICK = 10;
+	private       int   shootCount           = 0;
 
 	public MagicBulletItem(Builder builder) {
-		super(builder.build().component(ITEM_COLOR_USAGE_REQ,
-				ItemColorUsageReq.empty().setValue(FourColorAttribute.Type.TEMPERANCE, FourColorAttribute.Rating.III)),
+		super(
+				builder.build().component(
+						ITEM_COLOR_USAGE_REQ,
+						ItemColorUsageReq.empty().setValue(FourColorAttribute.Type.TEMPERANCE, FourColorAttribute.Rating.III)),
 				builder, false);
 		setDefaultModel(new PmGeoItemModel<>("magic_bullet"));
 		setGuiModel(new GuiItemModel<>("magic_bullet"));
@@ -57,9 +60,9 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 		ItemStack itemstack = super.use(level, player, hand).getObject();
 		CompoundTag nbt = player.getPersistentData();
 		if (hand == OFF_HAND ||
-				Minecraft.getInstance().player == null||
-				nbt.getBoolean(PLAYER_USE_ITEM) ||
-				nbt.getBoolean(PLAYER_ATTACK)) {
+		    Minecraft.getInstance().player == null ||
+		    nbt.getBoolean(PLAYER_USE_ITEM) ||
+		    nbt.getBoolean(PLAYER_ATTACK)) {
 			return InteractionResultHolder.fail(itemstack);
 		}
 //		enterAttackState(level, player, null);// TODO:播放动画
@@ -102,7 +105,7 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 //						PlayerParts.allExceptHeadRot(), null, 2000);
 //			}
 			nbt.putBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE, true);
-			if(!level.isClientSide()) {
+			if (!level.isClientSide()) {
 				/**
 				 * 特殊技能释放
 				 */
@@ -163,11 +166,11 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 			}
 			PmTool.incrementNbt(player, PLAYER_USE_ITEM_TICK, 1);
 			if (nbt.getInt(PLAYER_USE_ITEM_TICK) == NORMAL_ATTACK_TICK) {
-				if (!level.isClientSide){
+				if (!level.isClientSide) {
 					//  普通攻击（第七发特殊）
-					if(this.shootCount !=7) {
+					if (this.shootCount != 7) {
 						normalShoot(player, stack, this.getMaxDamage(), this.getMinDamage());//测试用
-					}else {
+					} else {
 						SeventhShoot(player, stack, this.getMaxDamage(), this.getMinDamage());
 					}
 				}
@@ -184,16 +187,17 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 
 	/**
 	 * 普通攻击
-	 * @param shooter 射击者
-	 * @param gunStack 射击物品
+	 *
+	 * @param shooter   射击者
+	 * @param gunStack  射击物品
 	 * @param maxDamage 最大伤害
 	 * @param minDamage 最小伤害
 	 */
-	private void normalShoot(Player shooter, ItemStack gunStack, int maxDamage, int minDamage){
+	private void normalShoot(Player shooter, ItemStack gunStack, int maxDamage, int minDamage) {
 		Level level = shooter.level();
 
-		MagicBulletEntity magicBullet = MagicBulletEntity.create(level, shooter, maxDamage,  minDamage);
-		magicBullet.shootFromRotation(shooter,shooter.getXRot(),shooter.getYRot(),  0.0F, BULLET_SPEED, 1.0F);
+		MagicBulletEntity magicBullet = MagicBulletEntity.create(level, shooter, maxDamage, minDamage);
+		magicBullet.shootFromRotation(shooter, shooter.getXRot(), shooter.getYRot(), 0.0F, BULLET_SPEED, 1.0F);
 		level.addFreshEntity(magicBullet);
 
 		//TODO:播放音效
@@ -204,15 +208,16 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 	/**
 	 * 第七发魔弹（普通攻击）
 	 * 第七发魔弹会穿透追踪玩家与队友
-	 * @param shooter 射击者
-	 * @param gunStack 射击物品
+	 *
+	 * @param shooter   射击者
+	 * @param gunStack  射击物品
 	 * @param maxDamage 最大伤害
 	 * @param minDamage 最小伤害
 	 */
-	private void SeventhShoot(Player shooter, ItemStack gunStack, int maxDamage, int minDamage){
+	private void SeventhShoot(Player shooter, ItemStack gunStack, int maxDamage, int minDamage) {
 		Level level = shooter.level();
 
-		MagicBulletEntity seventh_bullet = MagicBulletEntity.create(level, shooter, maxDamage,  minDamage);
+		MagicBulletEntity seventh_bullet = MagicBulletEntity.create(level, shooter, maxDamage, minDamage);
 		/**
 		 * 使其会追踪队友
 		 */
@@ -224,7 +229,7 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 		/**
 		 * 玩家可攻击时追踪玩家
 		 */
-		if (!shooter.isCreative()&&!shooter.isSpectator()&&shooter.isAlive()&&shooter.isAttackable()){
+		if (!shooter.isCreative() && !shooter.isSpectator() && shooter.isAlive() && shooter.isAttackable()) {
 			seventh_bullet.setTrackingTarget(shooter);
 		}
 		seventh_bullet.shoot(playerLook.x, playerLook.y, playerLook.z, BULLET_SPEED, 0.5f);
@@ -234,12 +239,13 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 
 		addShootCount();
 	}
+
 	/**
 	 * 蓄力攻击
 	 * 在玩家身后扇形生成6枚子弹向前射去
 	 * 以及一枚子弹穿过玩家身体
 	 */
-	private void chargingShoot(Player player, ItemStack stack, int maxDamage, int minDamage){
+	private void chargingShoot(Player player, ItemStack stack, int maxDamage, int minDamage) {
 		Level level = player.level();
 
 		// 获取玩家后方基准点
@@ -266,7 +272,7 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 			// 计算生成位置（在垂直平面上呈直线排列）
 			Vec3 spawnPos = backwardPos
 					.add(planeRight.scale(currentOffset)) // 水平偏移
-					.add(planeUp.scale(fanWidth/2.0f * Math.sin(i * 0.628f))); // 添加垂直波动
+					.add(planeUp.scale(fanWidth / 2.0f * Math.sin(i * 0.628f))); // 添加垂直波动
 
 			// 创建并发射子弹（全部朝玩家视线方向）
 			MagicBulletEntity bullet = MagicBulletEntity.create(level, player, maxDamage, minDamage);
@@ -288,7 +294,7 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 		MagicBulletEntity seventh_bullet = MagicBulletEntity.create(level, player, maxDamage, minDamage);
 		seventh_bullet.setDealDamageToAllies(true);
 		seventh_bullet.setPos(backwardPos.subtract(playerLook.scale(1.5)));
-		if (!player.isCreative() && player.isAlive() && player.isAttackable()){
+		if (!player.isCreative() && player.isAlive() && player.isAttackable()) {
 			seventh_bullet.setTrackingTarget(player);
 		}
 		seventh_bullet.setCanGoThroughWallsWhenNoTarget(true);//无目标时可穿墙
@@ -302,24 +308,29 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 	/**
 	 * 计算射击次数
 	 */
-	private void addShootCount(){
-		this.shootCount = this.shootCount %7 + 1;
+	private void addShootCount() {
+		this.shootCount = this.shootCount % 7 + 1;
 	}
 
 	@Override
-	public void useImpede(ItemStack itemStack, Level level, LivingEntity entity) {}
+	public void useImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+	}
 
 	@Override
-	public void attackImpede(ItemStack itemStack, Level level, LivingEntity entity) {}
+	public void attackImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+	}
 
 	@Override
-	public void onTheHandImpede(ItemStack itemStack, Level level, LivingEntity entity) {}
+	public void onTheHandImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+	}
 
 	@Override
-	public void inTheBackpackImpede(ItemStack itemStack, Level level, LivingEntity entity) {}
+	public void inTheBackpackImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+	}
 
 	@Override
-	public void equipmentImpede(ItemStack itemStack, Level level, LivingEntity entity) {}
+	public void equipmentImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+	}
 
 	@Override
 	public void forcedInterruption(Level level, Player player) {
@@ -330,4 +341,9 @@ public class MagicBulletItem extends RemoteEgoWeapon implements RequestItem , Pl
 		player.releaseUsingItem();
 	}
 
+	@CheckForNull
+	@Override
+	public List<PmDamageTool.ColorType> getCanCauseDamageTypes() {
+		return List.of(PmDamageTool.ColorType.EROSION);
+	}
 }

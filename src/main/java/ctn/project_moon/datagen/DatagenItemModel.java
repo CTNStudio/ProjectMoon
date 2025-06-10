@@ -62,7 +62,7 @@ public class DatagenItemModel extends ItemModelProvider {
 		Float key;
 		String value;
 		for (int i = 0; i < texture.size(); i++) {
-			key = iteratorKey.next();
+			key   = iteratorKey.next();
 			value = texture.get(key);
 			if (predicates.length > 1) {
 				predicate = predicates[i];
@@ -79,7 +79,7 @@ public class DatagenItemModel extends ItemModelProvider {
 		Float key;
 		String value;
 		for (int i = 0; i < texture.size(); i++) {
-			key = iteratorKey.next();
+			key   = iteratorKey.next();
 			value = texture.get(key);
 			if (predicates.length > 1) {
 				predicate = predicates[i];

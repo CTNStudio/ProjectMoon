@@ -20,15 +20,15 @@ import static ctn.project_moon.PmMain.MOD_ID;
 public class PmItemDataComponents {
 	public static final DeferredRegister<DataComponentType<?>> ITEM_DATA_COMPONENT_REGISTER = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, MOD_ID);
 
-	public static final Supplier<DataComponentType<Boolean>> MODE_BOOLEAN = recordBoolean("mode_boolean");
+	public static final Supplier<DataComponentType<Boolean>>           MODE_BOOLEAN         = recordBoolean("mode_boolean");
 	/**
 	 * 是否正在受到抑制器的影响属性
 	 */
-	public static final Supplier<DataComponentType<Boolean>> IS_RESTRAIN = recordBoolean("is_restrain");
+	public static final Supplier<DataComponentType<Boolean>>           IS_RESTRAIN          = recordBoolean("is_restrain");
 	/**
 	 * 此组件用于近战EGO判断伤害类型
 	 */
-	public static final Supplier<DataComponentType<String>> CURRENT_DAMAGE_TYPE = recordComponent("current_damage_type");
+	public static final Supplier<DataComponentType<String>>            COLOR_DAMAGE_TYPE    = recordComponent("color_damage_type");
 	/** 物品四色属性能力使用要求 */
 	public static final Supplier<DataComponentType<ItemColorUsageReq>> ITEM_COLOR_USAGE_REQ = register("item_color_usage_req", builder -> builder.persistent(ItemColorUsageReq.CODEC).networkSynchronized(ItemColorUsageReq.STREAM_CODEC).cacheEncoding());
 

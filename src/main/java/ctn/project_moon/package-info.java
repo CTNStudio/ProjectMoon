@@ -2,6 +2,12 @@
  * <br> 包类：{@link ctn.project_moon.api}-一些独特系统的工具类，如理智，或者一些逻辑部分
  * <p>
  * <p>
+ * <br> 包类：{@link ctn.project_moon.capability}-能力
+ * <p>
+ * <p>
+ * <br> 包类：{@link ctn.project_moon.capability_provider}-能力供应商
+ * <p>
+ * <p>
  * <br> 包类：{@link ctn.project_moon.client}-仅用于客户端
  * <p>
  * <p>

@@ -7,6 +7,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class GeoPmArmorItem extends PmArmorItem implements GeoItem {
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
 	public GeoPmArmorItem(Builder builder) {
 		super(builder);
 	}

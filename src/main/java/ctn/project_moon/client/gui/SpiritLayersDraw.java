@@ -13,7 +13,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
@@ -23,9 +23,9 @@ import static ctn.project_moon.PmMain.MOD_ID;
 @OnlyIn(Dist.CLIENT)
 public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
 	private static final ResourceLocation DEFAULT_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/default");
-	private static final ResourceLocation FULL_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/full");
-	private static final ResourceLocation FEW_SPIRIT_TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/few");
-	private final Minecraft minecraft;
+	private static final ResourceLocation FULL_SPIRIT_TEXTURE    = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/full");
+	private static final ResourceLocation FEW_SPIRIT_TEXTURE     = ResourceLocation.fromNamespaceAndPath(MOD_ID, "spirit_hud/few");
+	private final        Minecraft        minecraft;
 
 	public SpiritLayersDraw(GuiGraphics guiGraphics, DeltaTracker deltaTracker, Minecraft minecraft) {
 		this.minecraft = minecraft;
@@ -58,13 +58,13 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
 
 		if (spiritValue >= maxSpiritValue * 0.7) {
 			currentTexture = FULL_SPIRIT_TEXTURE;
-			textColor = 0x4f6175;
+			textColor      = 0x4f6175;
 		} else if (spiritValue <= minSpiritValue * 0.7) {
 			currentTexture = FEW_SPIRIT_TEXTURE;
-			textColor = 0x962c2a;
+			textColor      = 0x962c2a;
 		} else {
 			currentTexture = DEFAULT_SPIRIT_TEXTURE;
-			textColor = 0x878e91;
+			textColor      = 0x878e91;
 		}
 		guiGraphics.blitSprite(currentTexture, width, height, spriteWidth, spriteHeight);
 		renderSpiritValue(guiGraphics, player, height, textColor);
@@ -92,7 +92,7 @@ public class SpiritLayersDraw extends LayeredDraw implements LayeredDraw.Layer {
 		guiGraphics.drawString(minecraft.font, text, x, spiritValueY, color, false);
 	}
 
-	@Nullable
+	@CheckForNull
 	private LivingEntity getPlayer() {
 		Player player = this.getCameraPlayer();
 		if (player != null) {

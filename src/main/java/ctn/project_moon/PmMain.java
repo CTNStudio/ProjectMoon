@@ -58,6 +58,10 @@ public class PmMain {
 		NeoForge.EVENT_BUS.register(this);
 	}
 
+	public static void createValidators(ResourceLocation name, TagKey<Item> tagKey) {
+		registerCurioPredicate(name, (slotResult) -> slotResult.stack().is(tagKey));
+	}
+
 	public void commonSetup(final FMLCommonSetupEvent event) {
 		LOGGER.info("ProjectMoon from common setup");
 	}
@@ -84,10 +88,6 @@ public class PmMain {
 		createValidators(GLOVE_TAG, EGO_CURIOS_GLOVE);
 		createValidators(RIGHT_BACK_TAG, EGO_CURIOS_RIGHT_BACK);
 		createValidators(LEFT_BACK_TAG, EGO_CURIOS_LEFT_BACK);
-	}
-
-	public static void createValidators(ResourceLocation name, TagKey<Item> tagKey) {
-		registerCurioPredicate(name, (slotResult) -> slotResult.stack().is(tagKey));
 	}
 
 

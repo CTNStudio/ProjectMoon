@@ -14,31 +14,48 @@ group = mod_group_id
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://maven.theillusivec4.top/")
-    }
+
+    maven { url = uri("https://jitpack.io") }
+
+    // GeckoLib 官方仓库
     maven {
         url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
         content {
             includeGroup("software.bernie.geckolib")
         }
     }
-    maven {
-        url = uri("https://maven.kosmx.dev/")
-    }
 
+    // Curse Maven (用于 CurseForge 模组)
     maven {
         url = uri("https://www.cursemaven.com")
         content {
             includeGroup "curse.maven"
         }
     }
-    repositories {
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
+
+    // Kosmx 的个人仓库
+    maven {
+        url = uri("https://maven.kosmx.dev/")
     }
+
+    // Bernie's 仓库（部分模组依赖）
+    maven {
+        url = uri("https://maven.theillusivec4.top/")
+    }
+
+    // Ziggy 的模组仓库
     maven {
         url = uri("https://maven.zigythebird.com/mods")
+    }
+
+    // Modrinth Maven 仓库
+    maven {
+        url = uri("https://api.modrinth.com/maven")
+    }
+
+    // BlameJared 的 Forge 相关仓库
+    maven {
+        url = uri("https://maven.blamejared.com/")
     }
     mavenLocal()
 }

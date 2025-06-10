@@ -25,18 +25,18 @@ public class PmArmorItem extends ArmorItem {
 	}
 
 	public static class Builder {
-		private double physicsResistance = 0;
-		private double spiritResistance = 0;
-		private double erosionResistance = 0;
-		private double theSoulResistance = 0;
-		private int durability;
-		private Item.Properties properties = new Item.Properties();
 		private final Holder<ArmorMaterial> material;
-		private final ArmorItem.Type type;
+		private final ArmorItem.Type        type;
+		private       double                physicsResistance = 0;
+		private       double                spiritResistance  = 0;
+		private       double                erosionResistance = 0;
+		private       double                theSoulResistance = 0;
+		private       int                   durability;
+		private       Item.Properties       properties        = new Item.Properties();
 
 		public Builder(Holder<ArmorMaterial> material, ArmorItem.Type type) {
 			this.material = material;
-			this.type = type;
+			this.type     = type;
 		}
 
 		private ItemAttributeModifiers getItemAttributeModifiers(ArmorItem.Type type) {
@@ -72,10 +72,10 @@ public class PmArmorItem extends ArmorItem {
 
 		public Builder set(double physics, double spirit, double erosion, double theSoul, int durability) {
 			this.physicsResistance = -physics;
-			this.spiritResistance = -spirit;
+			this.spiritResistance  = -spirit;
 			this.erosionResistance = -erosion;
 			this.theSoulResistance = -theSoul;
-			this.durability = durability;
+			this.durability        = durability;
 			return this;
 		}
 

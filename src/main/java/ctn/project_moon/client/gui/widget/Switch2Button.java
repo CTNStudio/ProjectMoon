@@ -26,22 +26,22 @@ import org.jetbrains.annotations.NotNull;
  */
 @OnlyIn(Dist.CLIENT)
 public class Switch2Button extends ImageButton {
-	protected Component message;
-	protected final Screen screen;
+	protected final Screen           screen;
 	// 按钮纹理资源的位置
 	protected final ResourceLocation resourceLocation;
 	// 按钮纹理在资源图像中的起始x坐标
-	protected final int xTexStart;
+	protected final int              xTexStart;
 	// 按钮纹理在资源图像中的起始y坐标
-	protected final int yTexStart;
+	protected final int              yTexStart;
 	// 按钮纹理的宽度
-	protected final int textureWidth;
+	protected final int              textureWidth;
 	// 按钮纹理的高度
-	protected final int textureHeight;
-	// 按钮当前是否处于打开状态
-	protected boolean isOpen;
+	protected final int              textureHeight;
 	// 按钮是否具有特殊渲染逻辑
-	private final boolean isSpecial;
+	private final   boolean          isSpecial;
+	protected       Component        message;
+	// 按钮当前是否处于打开状态
+	protected       boolean          isOpen;
 
 	/**
 	 * 构造一个 Switch2Button 实例
@@ -111,19 +111,20 @@ public class Switch2Button extends ImageButton {
 	 * @param isSpecial        按钮是否具有特殊渲染逻辑
 	 */
 	public Switch2Button(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress, boolean isSpecial) {
-		super(x, y, width, height, null, new PmOnPressAbstract(onPress) {
-			@Override
-			public void on(Button button) {
-				if (button instanceof Switch2Button switchButton) switchButton.change();
-			}
-		});
-		this.screen = screen;
+		super(
+				x, y, width, height, null, new PmOnPressAbstract(onPress) {
+					@Override
+					public void on(Button button) {
+						if (button instanceof Switch2Button switchButton) switchButton.change();
+					}
+				});
+		this.screen           = screen;
 		this.resourceLocation = resourceLocation;
-		this.xTexStart = xTexStart;
-		this.yTexStart = yTexStart;
-		this.textureWidth = textureWidth;
-		this.textureHeight = textureHeight;
-		this.isSpecial = isSpecial;
+		this.xTexStart        = xTexStart;
+		this.yTexStart        = yTexStart;
+		this.textureWidth     = textureWidth;
+		this.textureHeight    = textureHeight;
+		this.isSpecial        = isSpecial;
 	}
 
 	/**
@@ -184,7 +185,8 @@ public class Switch2Button extends ImageButton {
 	 */
 	protected void render(GuiGraphics guiGraphics, float x) {
 		RenderSystem.disableDepthTest();
-		guiGraphics.blit(this.resourceLocation,
+		guiGraphics.blit(
+				this.resourceLocation,
 				this.getX(), this.getY(),
 				x, this.yTexStart,
 				this.width, this.height,

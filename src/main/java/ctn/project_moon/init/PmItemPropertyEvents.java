@@ -17,13 +17,14 @@ import static ctn.project_moon.PmMain.MOD_ID;
  */
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class PmItemPropertyEvents {
-	public static final ResourceLocation MODE_BOOLEAN = createProperties("mode_boolean");
+	public static final ResourceLocation MODE_BOOLEAN        = createProperties("mode_boolean");
 	public static final ResourceLocation CURRENT_DAMAGE_TYPE = createProperties("current_damage_type");
 
-	public static final ClampedItemPropertyFunction PROPERTY_MODE_BOOLEAN = (itemStack, clientLevel, livingEntity, i) ->
+	public static final ClampedItemPropertyFunction PROPERTY_MODE_BOOLEAN        = (itemStack, clientLevel, livingEntity, i) ->
 			Boolean.TRUE.equals(itemStack.get(PmItemDataComponents.MODE_BOOLEAN)) ? 1 : 0;
+
 	public static final ClampedItemPropertyFunction PROPERTY_CURRENT_DAMAGE_TYPE = (itemStack, clientLevel, livingEntity, i) ->
-			switch (PmDamageTool.FourColorType.getType(itemStack.get(PmItemDataComponents.CURRENT_DAMAGE_TYPE))) {
+			switch (PmDamageTool.ColorType.is(itemStack.get(PmItemDataComponents.COLOR_DAMAGE_TYPE))) {
 				case PHYSICS -> 0;
 				case SPIRIT -> 0.1F;
 				case EROSION -> 0.2F;

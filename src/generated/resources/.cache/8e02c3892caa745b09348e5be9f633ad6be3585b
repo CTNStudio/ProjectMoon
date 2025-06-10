@@ -1,8 +1,4 @@
-// 1.21.1	2025-04-27T01:02:26.2696881	Tags for minecraft:damage_type mod id project_moon
-7552c3f35707bac545653c98dcf864e5021244b5 data/minecraft/tags/damage_type/always_hurts_ender_dragons.json
+// 1.21.1	2025-06-11T15:25:01.7000842	Tags for minecraft:damage_type mod id project_moon
+48ed4b94e326333de7e97dcf37fd076a5c857ae7 data/minecraft/tags/damage_type/always_hurts_ender_dragons.json
 7ae03370de5b87b27fafb4d14c3ff22045d4c8a6 data/project_moon/tags/damage_type/abnos.json
 1e3211029c890cda522855688099814e3ab851c2 data/project_moon/tags/damage_type/ego.json
-6e926671226209e93c1e1c01cb2bd3b48b9e5c7a data/project_moon/tags/damage_type/erosion.json
-d17f182919d76a18d814fca99ee791a86280833c data/project_moon/tags/damage_type/physics.json
-cb738fc95cf2f114c787547662d468e199f7af8e data/project_moon/tags/damage_type/spirit.json
-bd32057ba9965458875a0a666ad0abd7a11d861b data/project_moon/tags/damage_type/the_soul.json

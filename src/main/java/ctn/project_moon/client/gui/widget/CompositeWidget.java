@@ -10,13 +10,14 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * 复合控件
+ *
  * @author 小尽
  */
 @OnlyIn(Dist.CLIENT)
-public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget{
-	public final T widget1;
-	public final T widget2;
-	private boolean state = true;
+public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget {
+	public final T       widget1;
+	public final T       widget2;
+	private      boolean state = true;
 
 	public CompositeWidget(int x, int y, int width, int height, T widget1, T widget2) {
 		super(x, y, width, height, Component.empty());
@@ -34,7 +35,7 @@ public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget{
 	}
 
 	@Override
-	public void setY(int y){
+	public void setY(int y) {
 		super.setY(y);
 		widget1.setY(y);
 		widget2.setY(y);
@@ -44,7 +45,7 @@ public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget{
 	protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		T widget = isState() ? widget1 : widget2;
 		widget.render(guiGraphics, mouseX, mouseY, partialTick);
-		if (isHovered()){
+		if (isHovered()) {
 			renderTooltip(guiGraphics, mouseX, mouseY);
 		}
 	}
@@ -59,7 +60,8 @@ public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget{
 
 
 	@Override
-	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {}
+	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+	}
 
 	public boolean isState() {
 		return state;

@@ -1,9 +1,9 @@
 package ctn.project_moon.common.entity.projectile;
 
 import ctn.project_moon.api.SpiritAttribute;
+import ctn.project_moon.capability.IRandomDamage;
+import ctn.project_moon.capability.item.IInvincibleTickItem;
 import ctn.project_moon.client.models.PmGeoEntityModel;
-import ctn.project_moon.common.RandomDamageProcessor;
-import ctn.project_moon.common.SetInvulnerabilityTick;
 import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -23,13 +23,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,16 +37,16 @@ import static ctn.project_moon.api.tool.PmDamageTool.Level.ALEPH;
 import static ctn.project_moon.init.PmEntitys.PARADISE_LOST_SPIKEWEED;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
-public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, GeoEntity, RandomDamageProcessor, SetInvulnerabilityTick {
-	private final AnimatableInstanceCache ANIMS = GeckoLibUtil.createInstanceCache(this);
+public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, GeoEntity, IRandomDamage, IInvincibleTickItem {
+	private final AnimatableInstanceCache ANIMS        = GeckoLibUtil.createInstanceCache(this);
+	private final int                     lifeTicks    = 22;
 	@Nullable
-	private LivingEntity owner;
+	private       LivingEntity            owner;
 	@Nullable
-	private UUID ownerUUID;
-	private final int lifeTicks = 22;
-	private boolean clientSideAttackStarted;
-	private int targetNumber = 1;
-	private boolean isAttack = false;
+	private       UUID                    ownerUUID;
+	private       boolean                 clientSideAttackStarted;
+	private       int                     targetNumber = 1;
+	private       boolean                 isAttack     = false;
 
 	private LivingEntity targetEntity;
 
@@ -93,21 +93,22 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 			return;
 		}
 		if (!isAttack && tickCount < 2) {
-			List<Entity> entityList = level().getEntitiesOfClass(Entity.class, getBoundingBox(), (entity) -> {
-				if (entity instanceof ItemEntity) {
-					return false;
-				}
-				if (entity instanceof ExperienceOrb) {
-					return false;
-				}
-				if (entity instanceof ParadiseLostSpikeweed) {
-					return false;
-				}
-				if (entity instanceof Projectile) {
-					return false;
-				}
-				return getOwner() != null && !entity.getUUID().equals(getOwner().getUUID());
-			});
+			List<Entity> entityList = level().getEntitiesOfClass(
+					Entity.class, getBoundingBox(), (entity) -> {
+						if (entity instanceof ItemEntity) {
+							return false;
+						}
+						if (entity instanceof ExperienceOrb) {
+							return false;
+						}
+						if (entity instanceof ParadiseLostSpikeweed) {
+							return false;
+						}
+						if (entity instanceof Projectile) {
+							return false;
+						}
+						return getOwner() != null && !entity.getUUID().equals(getOwner().getUUID());
+					});
 			int i = entityList.size();
 			if (i > 0) {
 				for (int j = 0; j < i; j++) {
@@ -144,7 +145,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 
 	private boolean dealDamageTo(Entity target) {
 		LivingEntity livingentity = getOwner();
-		float damage = getDamage(target.getRandom());
+		float damage = getDamageValue(target.getRandom());
 		final ResourceKey<DamageType> THE_SOUL = PmDamageTypes.THE_SOUL;
 		if (livingentity == null && !(target.isAlive() && !target.isInvulnerable() && target.getUUID().equals(livingentity.getUUID()))) {
 			return target.hurt(damageSources().source(THE_SOUL, this, null), damage);
@@ -157,7 +158,8 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 	}
 
 	@Override
-	public @Nullable ItemStack getWeaponItem() {
+	@javax.annotation.CheckForNull
+	public ItemStack getWeaponItem() {
 		return owner != null ? owner.getMainHandItem() : null;
 	}
 
@@ -176,7 +178,8 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 	}
 
 	@Override
-	public @Nullable LivingEntity getOwner() {
+	@javax.annotation.CheckForNull
+	public LivingEntity getOwner() {
 		if (owner == null && ownerUUID != null && level() instanceof ServerLevel) {
 			Entity entity = ((ServerLevel) level()).getEntity(ownerUUID);
 			if (entity instanceof LivingEntity) {
@@ -185,6 +188,11 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 		}
 
 		return owner;
+	}
+
+	public void setOwner(@javax.annotation.CheckForNull LivingEntity owner) {
+		this.owner = owner;
+		ownerUUID  = owner == null ? null : owner.getUUID();
 	}
 
 	/**
@@ -208,7 +216,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 	}
 
 	@Override
-	public int getTicks() {
+	public int getInvincibleTick(ItemStack stack) {
 		return 10;
 	}
 
@@ -255,11 +263,6 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 			int i = lifeTicks - 2;
 			return i <= 0 ? 1.0F : 1.0F - ((float) i - partialTicks) / 20.0F;
 		}
-	}
-
-	public void setOwner(@Nullable LivingEntity owner) {
-		this.owner = owner;
-		ownerUUID = owner == null ? null : owner.getUUID();
 	}
 
 	public static class TrainingRabbitsRenderer extends GeoEntityRenderer<ParadiseLostSpikeweed> {

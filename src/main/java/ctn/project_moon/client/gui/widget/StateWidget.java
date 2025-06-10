@@ -14,21 +14,22 @@ import java.util.List;
 
 /**
  * 多重状态图像控件(2维)
+ *
  * @author 小尽
  */
 @OnlyIn(Dist.CLIENT)
 public class StateWidget extends AbstractWidget {
 	protected final ResourceLocation texture;
-	protected final List<Component> messages = new ArrayList<>();
-	protected int stateU = 0;// 序列从0开始
-	protected int stateV = 0;// 序列从0开始
-	protected final int uOffset;
-	protected final int vOffset;
-	protected Tooltip tooltip;
+	protected final List<Component>  messages = new ArrayList<>();
+	protected final int              uOffset;
+	protected final int              vOffset;
+	protected       int              stateU   = 0;// 序列从0开始
+	protected       int              stateV   = 0;// 序列从0开始
+	protected       Tooltip          tooltip;
 
 	public StateWidget(int x, int y,
-	                   int width, int height,
-	                   int uOffset, int vOffset, ResourceLocation texture, Component component) {
+			int width, int height,
+			int uOffset, int vOffset, ResourceLocation texture, Component component) {
 		super(x, y, width, height, component);
 		this.uOffset = uOffset;
 		this.vOffset = vOffset;
@@ -37,11 +38,11 @@ public class StateWidget extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics guiGraphics,
-	                            int mouseX, int mouseY, float partialTick) {
+			int mouseX, int mouseY, float partialTick) {
 		int uOffset = this.uOffset + (width + 1) * stateU;
 		int vOffset = this.vOffset + (height + 1) * stateV;
 		guiGraphics.blit(texture, getX(), getY(), uOffset, vOffset, width, height);
-		if (isHovered()){
+		if (isHovered()) {
 			renderTooltip(guiGraphics, mouseX, mouseY);
 		}
 	}
@@ -66,7 +67,8 @@ public class StateWidget extends AbstractWidget {
 	}
 
 	@Override
-	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {}
+	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+	}
 
 	public int getStateU() {
 		return stateU;

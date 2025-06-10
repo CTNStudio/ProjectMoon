@@ -9,17 +9,17 @@ import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_VALUE;
 import static ctn.project_moon.api.MobGeneralAttribute.addSpiritAttribute;
 
 public class PlayerAttribute {
-	public static final String PREFIX = MOD_ID + ".player_attr.";
+	public static final String PREFIX          = MOD_ID + ".player_attr.";
 	/** 勇气点数 类型Int */
-	public static final String BASE_FORTITUDE = PREFIX + "fortitude";
+	public static final String BASE_FORTITUDE  = PREFIX + "fortitude";
 	/** 谨慎点数 类型Int */
-	public static final String BASE_PRUDENCE = PREFIX + "prudence";
+	public static final String BASE_PRUDENCE   = PREFIX + "prudence";
 	/**
 	 * 自律点数 类型Int
 	 */
 	public static final String BASE_TEMPERANCE = PREFIX + "temperance";
 	/** 正义点数 类型Int */
-	public static final String BASE_JUSTICE = PREFIX + "justice";
+	public static final String BASE_JUSTICE    = PREFIX + "justice";
 
 	/** 玩家死亡重置属性 */
 	public static void resetAttribute(LivingEntity entity) {

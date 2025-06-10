@@ -31,11 +31,6 @@ public record TempNbtAttrData(boolean isPlayerUseItem, boolean isPlayerAttack, b
 			TempNbtAttrData::new
 	);
 
-	@Override
-	public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
-		return TYPE;
-	}
-
 	public static void server(final TempNbtAttrData data, final IPayloadContext context) {
 		CompoundTag nbt = context.player().getPersistentData();
 		nbt.putBoolean(PLAYER_USE_ITEM, data.isPlayerUseItem());
@@ -45,5 +40,10 @@ public record TempNbtAttrData(boolean isPlayerUseItem, boolean isPlayerAttack, b
 		nbt.putBoolean(CANNOT_PLAYER_MOVED, data.isPlayerMoved());
 		nbt.putInt(PLAYER_USE_ITEM_TICK, data.playerUseItemTick());
 		nbt.putInt(PLAYER_USE_TICK, data.playerUseTick());
+	}
+
+	@Override
+	public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
 }

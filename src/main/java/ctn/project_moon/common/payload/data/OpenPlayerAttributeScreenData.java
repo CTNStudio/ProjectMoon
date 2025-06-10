@@ -30,11 +30,6 @@ public record OpenPlayerAttributeScreenData(ItemStack carried) implements Custom
 					OpenPlayerAttributeScreenData::carried,
 					OpenPlayerAttributeScreenData::new);
 
-	@Nonnull
-	@Override
-	public Type<? extends CustomPacketPayload> type() {
-		return TYPE;
-	}
 	public static void client(final OpenPlayerAttributeScreenData data, final IPayloadContext context) {
 		context.enqueueWork(() -> {
 			Player player = context.player();
@@ -50,5 +45,11 @@ public record OpenPlayerAttributeScreenData(ItemStack carried) implements Custom
 				}
 			}
 		});
+	}
+
+	@Nonnull
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
 }

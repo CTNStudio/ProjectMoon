@@ -15,7 +15,7 @@ public enum PmColourTool {
 	private final String colourText;
 
 	PmColourTool(String colour, String colourText) {
-		this.colour = colour;
+		this.colour     = colour;
 		this.colourText = colourText;
 	}
 

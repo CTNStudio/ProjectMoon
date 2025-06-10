@@ -9,13 +9,13 @@ import software.bernie.geckolib.model.GeoModel;
 
 /** 物品渲染提供程序 */
 public class PmGeoItemRenderProvider<T extends Item & GeoItem> implements GeoRenderProvider {
-	private PmGeoItemRenderer<T> renderer;
-	protected final GeoModel<T>  defaultModel;
-	protected final GeoModel<T>  guiModel;
+	protected final GeoModel<T>          defaultModel;
+	protected final GeoModel<T>          guiModel;
+	private         PmGeoItemRenderer<T> renderer;
 
 	public PmGeoItemRenderProvider(GeoModel<T> defaultModel, GeoModel<T> guiModel) {
 		this.defaultModel = defaultModel;
-		this.guiModel = guiModel;
+		this.guiModel     = guiModel;
 	}
 
 	@Override

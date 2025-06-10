@@ -1,9 +1,0 @@
-{
-  "values": [
-    "minecraft:mob_projectile",
-    {
-      "id": "project_moon:spirit",
-      "required": false
-    }
-  ]
-}

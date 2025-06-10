@@ -29,7 +29,8 @@ public class PlayerAttributeMenu extends AbstractContainerMenu {
 		// 添加背包
 		for (int row = 0; row < 3; ++row) {
 			for (int column = 0; column < 9; ++column) {
-				this.addSlot(new Slot(playerInventory,
+				this.addSlot(new Slot(
+						playerInventory,
 						column + (row + 1) * 9,
 						8 + 18 * column,
 						84 + 18 * row));

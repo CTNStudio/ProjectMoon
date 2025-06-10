@@ -18,6 +18,7 @@ public class ItemRenderEvents {
 ////        paradiseLost.
 //        event.registerItem(paradiseLost, PmItems.PARADISE_LOST);
 	}
+
 	@SubscribeEvent
 	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(PmEntitys.MAGIC_BULLET_ENTITY.get(), MagicBulletEntityRenderer::new);

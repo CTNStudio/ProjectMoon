@@ -12,7 +12,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 
 @WailaPlugin
 public class PmPlugin implements IWailaPlugin {
-	public static final ResourceLocation LEVEL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "level");
+	public static final ResourceLocation LEVEL      = ResourceLocation.fromNamespaceAndPath(MOD_ID, "level");
 	public static final ResourceLocation RESISTANCE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "resistance");
 
 	@Override

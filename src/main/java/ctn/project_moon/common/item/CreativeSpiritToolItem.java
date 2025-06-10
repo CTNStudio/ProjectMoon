@@ -15,6 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import static ctn.project_moon.api.SpiritAttribute.getSpiritValue;
 import static ctn.project_moon.init.PmItemDataComponents.MODE_BOOLEAN;
 
+/**
+ * 理智值控制工具
+ */
 public class CreativeSpiritToolItem extends Item {
 	public CreativeSpiritToolItem(Properties properties) {
 		super(properties.component(MODE_BOOLEAN, false));
