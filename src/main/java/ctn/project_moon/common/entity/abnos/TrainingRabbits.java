@@ -1,6 +1,5 @@
 package ctn.project_moon.common.entity.abnos;
 
-import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.client.models.PmGeoEntityModel;
 import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,7 +18,7 @@ public class TrainingRabbits extends AbnosEntity {
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
 	public TrainingRabbits(EntityType<? extends Mob> entityType, Level level) {
-		super(entityType, level, PmDamageTool.Level.ZAYIN);
+		super(entityType, level);
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

@@ -5,7 +5,6 @@ import ctn.project_moon.capability.IRandomDamage;
 import ctn.project_moon.capability.item.IInvincibleTickItem;
 import ctn.project_moon.client.models.PmGeoEntityModel;
 import ctn.project_moon.init.PmDamageTypes;
-import ctn.project_moon.init.PmEntityAttributes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -16,7 +15,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +31,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-import static ctn.project_moon.api.tool.PmDamageTool.Level.ALEPH;
 import static ctn.project_moon.init.PmEntitys.PARADISE_LOST_SPIKEWEED;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
@@ -74,10 +71,6 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 		entity.setPos(vec3);
 		entity.setOwner(owner);
 		return entity;
-	}
-
-	public static AttributeSupplier.Builder createAttributes() {
-		return AttributeSupplier.builder().add(PmEntityAttributes.ENTITY_LEVEL, ALEPH.getLevelValue());
 	}
 
 	@Override

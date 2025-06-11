@@ -35,8 +35,8 @@ public class ChaosKnifeItem extends EgoWeapon {
 		if (type == null) {
 			return InteractionResultHolder.success(itemStack);
 		}
-		var damageIndex = type.getIndex()+1;
-		if (damageIndex >= values().length){
+		var damageIndex = type.getIndex() + 1;
+		if (damageIndex >= values().length) {
 			damageIndex = 0;
 		}
 		itemStack.set(COLOR_DAMAGE_TYPE, values()[damageIndex].getName());
@@ -44,7 +44,7 @@ public class ChaosKnifeItem extends EgoWeapon {
 	}
 
 	@Override
-	public Component getFourColorDamageTypeToTooltip(){
+	public Component getFourColorDamageTypeToTooltip() {
 		MutableComponent component = i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA");
 		component.append(Component.literal(" ").append(createColorText(" ????", "#ffb638")));
 		return component;
@@ -58,7 +58,7 @@ public class ChaosKnifeItem extends EgoWeapon {
 
 	@Override
 	public List<PmDamageTool.ColorType> getCanCauseDamageTypes() {
-		return  List.of(PmDamageTool.ColorType.values());
+		return List.of(PmDamageTool.ColorType.values());
 	}
 
 	@Override

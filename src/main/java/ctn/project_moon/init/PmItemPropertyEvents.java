@@ -20,7 +20,7 @@ public class PmItemPropertyEvents {
 	public static final ResourceLocation MODE_BOOLEAN        = createProperties("mode_boolean");
 	public static final ResourceLocation CURRENT_DAMAGE_TYPE = createProperties("current_damage_type");
 
-	public static final ClampedItemPropertyFunction PROPERTY_MODE_BOOLEAN        = (itemStack, clientLevel, livingEntity, i) ->
+	public static final ClampedItemPropertyFunction PROPERTY_MODE_BOOLEAN = (itemStack, clientLevel, livingEntity, i) ->
 			Boolean.TRUE.equals(itemStack.get(PmItemDataComponents.MODE_BOOLEAN)) ? 1 : 0;
 
 	public static final ClampedItemPropertyFunction PROPERTY_CURRENT_DAMAGE_TYPE = (itemStack, clientLevel, livingEntity, i) ->

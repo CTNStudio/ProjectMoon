@@ -28,11 +28,11 @@ public class CreativeSpiritToolItem extends Item {
 		ItemStack itemStack = player.getItemInHand(usedHand);
 		if (player.isCreative()) {
 			if (player.isShiftKeyDown()) {
-				itemStack.set(MODE_BOOLEAN, !itemStack.get(MODE_BOOLEAN));
+				itemStack.set(MODE_BOOLEAN, Boolean.FALSE.equals(itemStack.get(MODE_BOOLEAN)));
 				return InteractionResultHolder.success(itemStack);
 			}
 			if (!level.isClientSide()) {
-				SpiritAttribute.incrementSpiritValue(player, itemStack.get(MODE_BOOLEAN) ? -1 : 1);
+				SpiritAttribute.incrementSpiritValue(player, Boolean.TRUE.equals(itemStack.get(MODE_BOOLEAN)) ? -1 : 1);
 				return InteractionResultHolder.success(itemStack);
 			}
 		}

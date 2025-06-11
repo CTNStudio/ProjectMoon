@@ -97,6 +97,7 @@ public class PmTags {
 					.add(PmItems.WRIST_CUTTER.get())
 					.add(PmItems.BEAR_PAWS.get())
 					.add(PmItems.LOVE_HATE.get())
+					.add(PmItems.MAGIC_BULLET.get())
 					.add(PmItems.PARADISE_LOST.get());
 			tag(EGO)
 					.addTags(EGO_CURIOS, EGO_SUIT, EGO_WEAPON);

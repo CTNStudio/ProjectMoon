@@ -36,26 +36,26 @@ import static ctn.project_moon.api.PlayerAttribute.*;
  * 每种属性都会影响玩家的不同能力。
  */
 public class FourColorAttribute {
-	public static final String TEMPERANCE_ADD_KNOCKBACK         = "temperance_add_knockback";
-	public static final String TEMPERANCE_ADD_BLOCK_BREAK_SPEED = "temperance_add_block_break_speed";
-	public static final String JUSTICE_ADD_MOVEMENT_SPEED       = "justice_add_movement_speed";
-	public static final String JUSTICE_ADD_ATTACK_SPEED         = "justice_add_attack_speed";
-	public static final String JUSTICE_ADD_SWIM_SPEED           = "justice_add_swim_speed";
-	public static final String PRUDENCE_ADD_MAX_HEALTH          = "prudence_add_max_health";
-	public static final String PRUDENCE_ADD_MAX_SPIRIT          = "prudence_add_max_spirit";
-	public static final String FORTITUDE_ADD_MAX_HEALTH         = "fortitude_add_max_health";
+	public static final  String TEMPERANCE_ADD_KNOCKBACK         = "temperance_add_knockback";
+	public static final  String TEMPERANCE_ADD_BLOCK_BREAK_SPEED = "temperance_add_block_break_speed";
+	public static final  String JUSTICE_ADD_MOVEMENT_SPEED       = "justice_add_movement_speed";
+	public static final  String JUSTICE_ADD_ATTACK_SPEED         = "justice_add_attack_speed";
+	public static final  String JUSTICE_ADD_SWIM_SPEED           = "justice_add_swim_speed";
+	public static final  String PRUDENCE_ADD_MAX_HEALTH          = "prudence_add_max_health";
+	public static final  String PRUDENCE_ADD_MAX_SPIRIT          = "prudence_add_max_spirit";
+	public static final  String FORTITUDE_ADD_MAX_HEALTH         = "fortitude_add_max_health";
 	// 仅做原始标记
-	private static final int    PRUDENCE_INITIAL_VALUE       = 20;
-	private static final int    FORTITUDE_INITIAL_VALUE      = 20;
-	private static final int    TEMPERANCE_INITIAL_VALUE     = 1;
-	private static final int    JUSTICE_INITIAL_VALUE        = 1;
-	private static final float  VANILLA_FLYING_SPEED         = 0.05f;
-	private static final double TEMPERANCE_BLOCK_BREAK_SPEED = 0.02;
-	private static final double TEMPERANCE_KNOCKBACK_SPEED   = 0.015;
-	private static final double JUSTICE_MOVEMENT_SPEED       = 0.001;
-	private static final double JUSTICE_ATTACK_SPEED         = 0.01;
-	private static final double JUSTICE_SWIM_SPEED           = 0.01;
-	private static final double JUSTICE_FLIGHT_SPEED         = 0.00013;
+	private static final int    PRUDENCE_INITIAL_VALUE           = 20;
+	private static final int    FORTITUDE_INITIAL_VALUE          = 20;
+	private static final int    TEMPERANCE_INITIAL_VALUE         = 1;
+	private static final int    JUSTICE_INITIAL_VALUE            = 1;
+	private static final float  VANILLA_FLYING_SPEED             = 0.05f;
+	private static final double TEMPERANCE_BLOCK_BREAK_SPEED     = 0.02;
+	private static final double TEMPERANCE_KNOCKBACK_SPEED       = 0.015;
+	private static final double JUSTICE_MOVEMENT_SPEED           = 0.001;
+	private static final double JUSTICE_ATTACK_SPEED             = 0.01;
+	private static final double JUSTICE_SWIM_SPEED               = 0.01;
+	private static final double JUSTICE_FLIGHT_SPEED             = 0.00013;
 
 	/**
 	 * 更新四色属性

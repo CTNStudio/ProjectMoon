@@ -12,6 +12,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Implements;
 import org.spongepowered.asm.mixin.Interface;
@@ -50,9 +51,9 @@ public abstract class DamageSourceMixin implements IModDamageSource {
 	                 "Lnet/minecraft/world/entity/Entity;" +
 	                 "Lnet/minecraft/world/entity/Entity;" +
 	                 "Lnet/minecraft/world/phys/Vec3;)V", at = @At("RETURN"))
-	private void DamageSource(Holder<DamageType> type, Entity directEntity, Entity causingEntity, Vec3 damageSourcePosition, CallbackInfo ci) {
-		var damageSource = (DamageSource) (Object) this;
-		var itemStack = getDamageItemStack(damageSource);
+	private void projectMoon$DamageSource(Holder<DamageType> type, Entity directEntity, Entity causingEntity, Vec3 damageSourcePosition, CallbackInfo ci) {
+		DamageSource damageSource = (DamageSource) (Object) this;
+		ItemStack itemStack = getDamageItemStack(damageSource);
 		ILevel level;
 		if (itemStack != null) {
 			IColorDamageTypeItem colorDamageTypeItem = itemStack.getCapability(COLOR_DAMAGE_TYPE_ITEM);
@@ -88,7 +89,7 @@ public abstract class DamageSourceMixin implements IModDamageSource {
 		ILevel level;
 		if (entity != null) {
 			colorDamageTypeEntity = entity.getCapability(COLOR_DAMAGE_TYPE_ENTITY);
-			invincibleTickEntity = entity.getCapability(INVINCIBLE_TICK_ENTITY);
+			invincibleTickEntity  = entity.getCapability(INVINCIBLE_TICK_ENTITY);
 			if (projectMoon$ColorType == null) {
 				if (colorDamageTypeEntity != null) {
 					projectMoon$ColorType = colorDamageTypeEntity.getDamageType(entity);

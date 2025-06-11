@@ -1,5 +1,6 @@
 package ctn.project_moon.api.tool;
 
+import ctn.project_moon.capability.ILevel;
 import ctn.project_moon.capability.entity.IAbnos;
 import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.config.PmConfig;
@@ -7,6 +8,7 @@ import ctn.project_moon.tool.PmColourTool;
 import net.minecraft.core.Holder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
@@ -21,6 +23,7 @@ import java.util.Iterator;
 
 import static ctn.project_moon.PmMain.LOGGER;
 import static ctn.project_moon.api.SpiritAttribute.handleRationally;
+import static ctn.project_moon.api.tool.PmDamageTool.Level.getEntityLevel;
 import static ctn.project_moon.capability.ILevel.getItemLevelValue;
 import static ctn.project_moon.init.PmCapability.Level.LEVEL_ENTITY;
 import static ctn.project_moon.init.PmEntityAttributes.*;
@@ -48,17 +51,14 @@ public class PmDamageTool {
 			DamageSource damageSource,
 			@Nullable PmDamageTool.Level damageLevel,
 			@Nullable ColorType fourColorDamageTypes) {
-		if (damageLevel == null && fourColorDamageTypes == null) {
-			return;
-		}
-
 		float newDamageAmount = event.getAmount();
 		int armorItemStackLaval = 0; // 盔甲等级
 		int number = 0; // 护甲数量
 		boolean isArmorItemStackEmpty = true;
-		boolean flag = !(event.getEntity() instanceof IAbnos);
+		LivingEntity entity = event.getEntity();
+		boolean flag = !(entity instanceof IAbnos);
 		//  盔甲
-		Iterator<ItemStack> itor = event.getEntity().getArmorAndBodyArmorSlots().iterator();
+		Iterator<ItemStack> itor = entity.getArmorAndBodyArmorSlots().iterator();
 
 		ItemStack[] armorSlots = new ItemStack[4];
 		for (int i = 0; i < 4; i++) {
@@ -75,34 +75,24 @@ public class PmDamageTool {
 
 		/// 等级处理
 		/// 判断实体是否有护甲如果没有就用实体的等级
-		if (damageLevel != null) {
-			if (!isArmorItemStackEmpty) {
-				armorItemStackLaval /= number;
-				newDamageAmount *= getDamageMultiple(armorItemStackLaval - damageLevel.getLevelValue());
-			} else {
-				var level = event.getEntity().getCapability(LEVEL_ENTITY);
-				if (level != null) {
-					PmDamageTool.Level entityLaval = level.getItemLevel();
-					newDamageAmount *= getDamageMultiple(entityLaval, damageLevel);
-				} else {
-				}
-			}
+		if (damageLevel == null) {
+			damageLevel = Level.ZAYIN;
 		}
 
+		if (!isArmorItemStackEmpty) {
+			armorItemStackLaval /= number;
+			newDamageAmount *= getDamageMultiple(armorItemStackLaval - damageLevel.getLevelValue());
+		} else {
+			newDamageAmount *= getDamageMultiple(getEntityLevel(entity), damageLevel);
+		}
 
 		if (fourColorDamageTypes != null) {
 			if (PmConfig.SERVER.ENABLE_FOUR_COLOR_DAMAGE.get()) {
 				if (fourColorDamageConfigImpact(fourColorDamageTypes)) {
 					fourColorDamageTypes = ColorType.PHYSICS;
 				}
-
 				/// 抗性处理
-				newDamageAmount *= (float) switch (fourColorDamageTypes) {
-					case PHYSICS -> event.getEntity().getAttributeValue(PHYSICS_RESISTANCE);
-					case SPIRIT -> event.getEntity().getAttributeValue(SPIRIT_RESISTANCE);
-					case EROSION -> event.getEntity().getAttributeValue(EROSION_RESISTANCE);
-					case THE_SOUL -> event.getEntity().getAttributeValue(THE_SOUL_RESISTANCE);
-				};
+				newDamageAmount *= (float) entity.getAttributeValue(fourColorDamageTypes.resistance);
 			}
 		}
 
@@ -123,14 +113,14 @@ public class PmDamageTool {
 	/**
 	 * 返回实体或物品的伤害倍数
 	 */
-	public static float getDamageMultiple(Level laval, Level laval2) {
+	public static float getDamageMultiple(@NotNull Level laval, @NotNull Level laval2) {
 		return getDamageMultiple(leveDifferenceValue(laval, laval2));
 	}
 
 	/**
 	 * 返回实体或物品之间的等级差值
 	 */
-	public static int leveDifferenceValue(Level level, Level level2) {
+	public static int leveDifferenceValue(@NotNull Level level, @NotNull Level level2) {
 		return level.getLevelValue() - level2.getLevelValue();
 	}
 
@@ -155,8 +145,11 @@ public class PmDamageTool {
 	}
 
 	/** 低抗减慢 */
-	public static boolean applySlowdownIfAttributeExceedsOne(Holder<Attribute> attribute, @NotNull LivingEntity entity) {
-		if (entity.getAttributeValue(attribute) > 1.0) {
+	public static boolean applySlowdownIfAttributeExceedsOne(PmDamageTool.ColorType colorType, @NotNull LivingEntity entity) {
+		if (colorType == null) {
+			return false;
+		}
+		if (entity.getAttributeValue(colorType.getResistance()) > 1.0) {
 			entity.addEffect(new MobEffectInstance(MOVEMENT_SLOWDOWN, 20, 2));
 			return true;
 		}
@@ -205,34 +198,37 @@ public class PmDamageTool {
 		/**
 		 * 物理
 		 */
-		PHYSICS(0, "physics", PmColourTool.PHYSICS),
+		PHYSICS(0, "physics", PHYSICS_RESISTANCE, PmColourTool.PHYSICS),
 		/**
 		 * 精神
 		 */
-		SPIRIT(1, "spirit", PmColourTool.SPIRIT),
+		SPIRIT(1, "spirit", SPIRIT_RESISTANCE, PmColourTool.SPIRIT),
 		/**
 		 * 侵蚀
 		 */
-		EROSION(2, "erosion", PmColourTool.EROSION),
+		EROSION(2, "erosion", EROSION_RESISTANCE, PmColourTool.EROSION),
 		/**
 		 * 灵魂
 		 */
-		THE_SOUL(3, "the_soul", PmColourTool.THE_SOUL),
+		THE_SOUL(3, "the_soul", THE_SOUL_RESISTANCE, PmColourTool.THE_SOUL),
 		;
 
-		private final int index;
-		private final String       name;
-		private final PmColourTool colour;
+		private final int               index;
+		private final String            name;
+		// 对应的抗性属性
+		private final Holder<Attribute> resistance;
+		private final PmColourTool      colour;
 
-		ColorType(int index, String name, PmColourTool colour) {
-			this.index  = index;
-			this.name   = name;
-			this.colour = colour;
+		ColorType(int index, String name, Holder<Attribute> resistance, PmColourTool colour) {
+			this.index      = index;
+			this.name       = name;
+			this.resistance = resistance;
+			this.colour     = colour;
 		}
 
 		public static ColorType is(String name) {
 			for (ColorType colorType : ColorType.values()) {
-				if (colorType.name.equals(name)){
+				if (colorType.name.equals(name)) {
 					return colorType;
 				}
 			}
@@ -249,6 +245,10 @@ public class PmDamageTool {
 
 		public int getIndex() {
 			return index;
+		}
+
+		public Holder<Attribute> getResistance() {
+			return resistance;
 		}
 	}
 
@@ -268,6 +268,28 @@ public class PmDamageTool {
 			this.name       = name;
 			this.levelValue = levelValue;
 			this.colour     = colour;
+		}
+
+		public static Level is(int levelValue) {
+			for (Level level : Level.values()) {
+				if (level.levelValue == levelValue) {
+					return level;
+				}
+			}
+			return null;
+		}
+
+		@NotNull
+		public static PmDamageTool.Level getEntityLevel(@NotNull Entity entity) {
+			ILevel capability = entity.getCapability(LEVEL_ENTITY);
+			if (capability == null) {
+				return PmDamageTool.Level.ZAYIN;
+			}
+			PmDamageTool.Level level = capability.getItemLevel();
+			if (level == null) {
+				level = PmDamageTool.Level.ZAYIN;
+			}
+			return level;
 		}
 
 		public String getName() {

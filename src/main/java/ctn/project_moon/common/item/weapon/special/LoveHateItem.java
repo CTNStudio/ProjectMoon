@@ -18,12 +18,14 @@ import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
 /** 以爱与恨之名 */
 public class LoveHateItem extends EgoWeapon implements IUsageReqItem {
 	public LoveHateItem(Weapon.Builder builder) {
-		super(builder.build()
-				.component(ITEM_COLOR_USAGE_REQ, ItemColorUsageReq.empty()
-						.setValue(FourColorAttribute.Type.FORTITUDE, FourColorAttribute.Rating.III)
-						.setValue(FourColorAttribute.Type.JUSTICE, FourColorAttribute.Rating.III)
-						.setValue(FourColorAttribute.Type.COMPOSITE_RATING, FourColorAttribute.Rating.IV)
-				), builder);
+		super(
+				builder.build()
+						.component(
+								ITEM_COLOR_USAGE_REQ, ItemColorUsageReq.empty()
+										.setValue(FourColorAttribute.Type.FORTITUDE, FourColorAttribute.Rating.III)
+										.setValue(FourColorAttribute.Type.JUSTICE, FourColorAttribute.Rating.III)
+										.setValue(FourColorAttribute.Type.COMPOSITE_RATING, FourColorAttribute.Rating.IV)
+						), builder);
 	}
 
 	/**

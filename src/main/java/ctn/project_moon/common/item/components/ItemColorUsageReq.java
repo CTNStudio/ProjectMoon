@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.api.UniqueList;
-import ctn.project_moon.capability.item.IColorUsageReqItem;
 import ctn.project_moon.tool.PmColourTool;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -29,28 +28,26 @@ import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
  * 物品四色属性能力使用要求提示
  * <p>
  * 当一个最后一个值为-1就是包括大于
- * <p>
- * 随便一提我已经忘了我这类的东西了（
  */
-public class ItemColorUsageReq implements IColorUsageReqItem {
-	public static final  StreamCodec<ByteBuf, ItemColorUsageReq>                      STREAM_CODEC = StreamCodec.composite(
+public class ItemColorUsageReq {
+	public static final  StreamCodec<ByteBuf, ItemColorUsageReq>                      STREAM_CODEC   = StreamCodec.composite(
 			ByteBufCodecs.map(LinkedHashMap::new, FourColorAttribute.Type.STREAM_CODEC, ByteBufCodecs.INT.apply(ByteBufCodecs.list())),
 			ItemColorUsageReq::apply,
 			ItemColorUsageReq::new
 	);
-	private static final String PREFIX         = MOD_ID + ":data_components.item_color_usage_req.";
-	public static final  String All            = PREFIX + "all";
-	public static final  String REQUIREMENT    = PREFIX + "requirement";
-	public static final  String INTERVAL       = PREFIX + "interval";
-	public static final  String NOT_TO_EXCEED  = PREFIX + "not_to_exceed";
-	public static final  String NOT_LOWER_THAN = PREFIX + "not_lower_than";
-	public static final  String USE_CONDITION  = PREFIX + "use_condition";
-	private static final Codec<LinkedHashMap<FourColorAttribute.Type, List<Integer>>> LEVELS_CODEC = Codec.unboundedMap(FourColorAttribute.Type.CODEC, Codec.list(Codec.INT)).xmap(LinkedHashMap::new, Function.identity());
-	private static final Codec<ItemColorUsageReq>                                     FULL_CODEC   = RecordCodecBuilder.create(instance -> instance
+	private static final String                                                       PREFIX         = MOD_ID + ":data_components.item_color_usage_req.";
+	public static final  String                                                       All            = PREFIX + "all";
+	public static final  String                                                       REQUIREMENT    = PREFIX + "requirement";
+	public static final  String                                                       INTERVAL       = PREFIX + "interval";
+	public static final  String                                                       NOT_TO_EXCEED  = PREFIX + "not_to_exceed";
+	public static final  String                                                       NOT_LOWER_THAN = PREFIX + "not_lower_than";
+	public static final  String                                                       USE_CONDITION  = PREFIX + "use_condition";
+	private static final Codec<LinkedHashMap<FourColorAttribute.Type, List<Integer>>> LEVELS_CODEC   = Codec.unboundedMap(FourColorAttribute.Type.CODEC, Codec.list(Codec.INT)).xmap(LinkedHashMap::new, Function.identity());
+	private static final Codec<ItemColorUsageReq>                                     FULL_CODEC     = RecordCodecBuilder.create(instance -> instance
 			.group(LEVELS_CODEC.fieldOf("require").forGetter(req -> req.requireMap))
 			.apply(instance, ItemColorUsageReq::new));
-	public static final  Codec<ItemColorUsageReq>                                     CODEC        = Codec.withAlternative(FULL_CODEC, LEVELS_CODEC, ItemColorUsageReq::new);
-	private final LinkedHashMap<FourColorAttribute.Type, List<Integer>> requireMap;
+	public static final  Codec<ItemColorUsageReq>                                     CODEC          = Codec.withAlternative(FULL_CODEC, LEVELS_CODEC, ItemColorUsageReq::new);
+	private final        LinkedHashMap<FourColorAttribute.Type, List<Integer>>        requireMap;
 
 	public ItemColorUsageReq(LinkedHashMap<FourColorAttribute.Type, List<Integer>> map) {
 		this.requireMap = map;
@@ -260,7 +257,6 @@ public class ItemColorUsageReq implements IColorUsageReqItem {
 	}
 
 
-	@Override
 	public boolean isAccord(FourColorAttribute.Type attribute, int value) {
 		List<Integer> attributeUsageReq = getAttributeList(attribute);
 		if (isListEmpty(attributeUsageReq)) {
@@ -310,12 +306,11 @@ public class ItemColorUsageReq implements IColorUsageReqItem {
 		return i == FourColorAttribute.Type.values().length;
 	}
 
-	@Override
-	public Component getToTooltip() {
+	public void getToTooltip(List<Component> components) {
 		if (isEmpty()) {
-			return Component.empty();
+			return;
 		}
-		MutableComponent tooltip = i18ColorText(USE_CONDITION, "#AAAAAA");
+		components.add(i18ColorText(USE_CONDITION, "#AAAAAA"));
 		Minecraft minecraft = Minecraft.getInstance();
 		Player player = minecraft.player;
 		boolean detailed = player != null && (player.getAttributeValue(ID_ACT) == 1 || player.isCreative() && hasShiftDown());
@@ -323,33 +318,26 @@ public class ItemColorUsageReq implements IColorUsageReqItem {
 			if (isListEmpty(getAttributeList(type))) {
 				continue;
 			}
-			tooltip.append(Component.literal(" ").append(analysisUsageReq(type, detailed)));
+			components.add(Component.literal(" ").append(analysisUsageReq(type, detailed)));
 		}
-		return tooltip;
 	}
 
-
-	@Override
 	public List<Integer> getFortitudeUsageReq() {
 		return getAttributeList(FORTITUDE);
 	}
 
-	@Override
 	public List<Integer> getPrudenceUsageReq() {
 		return getAttributeList(PRUDENCE);
 	}
 
-	@Override
 	public List<Integer> getTemperanceUsageReq() {
 		return getAttributeList(TEMPERANCE);
 	}
 
-	@Override
 	public List<Integer> getJusticeUsageReq() {
 		return getAttributeList(JUSTICE);
 	}
 
-	@Override
 	public List<Integer> getCompositeRatingUsageReq() {
 		return getAttributeList(COMPOSITE_RATING);
 	}

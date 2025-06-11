@@ -90,7 +90,7 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(PmEntityAttributes.SPIRIT_RESISTANCE, "受精神伤害倍率");
 		add(PmEntityAttributes.EROSION_RESISTANCE, "受侵蚀伤害倍率");
 		add(PmEntityAttributes.THE_SOUL_RESISTANCE, "受灵魂伤害倍率");
-		add(PmEntityAttributes.ENTITY_LEVEL, "生物等级");
+//		add(PmEntityAttributes.ENTITY_LEVEL, "生物等级");
 		add(PmEntityAttributes.MAX_FORTITUDE, "勇气最大点数");
 		add(PmEntityAttributes.MAX_PRUDENCE, "谨慎最大点数");
 		add(PmEntityAttributes.MAX_SPIRIT, "最大理智值");

@@ -10,102 +10,28 @@ import ctn.project_moon.capability.item.IInvincibleTickItem;
 import ctn.project_moon.capability.item.IUsageReqItem;
 import ctn.project_moon.mixin.DamageSourceMixin;
 import ctn.project_moon.mixin_extend.IModDamageSource;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.EntityCapability;
 import net.neoforged.neoforge.capabilities.ItemCapability;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.init.PmCapability.ColorDamageType.COLOR_DAMAGE_TYPE_ENTITY;
-import static ctn.project_moon.init.PmCapability.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
-import static ctn.project_moon.init.PmCapability.InvincibleTick.INVINCIBLE_TICK_ENTITY;
-import static ctn.project_moon.init.PmCapability.InvincibleTick.INVINCIBLE_TICK_ITEM;
-import static ctn.project_moon.init.PmCapability.Level.LEVEL_BlOCK;
-import static ctn.project_moon.init.PmCapability.Level.LEVEL_ENTITY;
 
-@EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class PmCapability {
-
+	/// 随机伤害
 	public static final ItemCapability<IRandomDamage, Void> RANDOM_DAMAGE_ITEM =
 			ItemCapability.createVoid(getResourceLocation("random_damage"), IRandomDamage.class);
 
+	/// 物品使用条件
 	public static final ItemCapability<IUsageReqItem, Void> USAGE_REQ_ITEM =
 			ItemCapability.createVoid(getResourceLocation("usage_req_item"), IUsageReqItem.class);
-
-	@SubscribeEvent
-	public static void registrarItem(RegisterCapabilitiesEvent event) {
-		for (Item item : BuiltInRegistries.ITEM) {
-			if (item instanceof IRandomDamage capability) {
-				event.registerItem(RANDOM_DAMAGE_ITEM, (stack, ctx) -> capability, item);
-			}
-
-			if (item instanceof IInvincibleTickItem capability) {
-				event.registerItem(INVINCIBLE_TICK_ITEM, (stack, ctx) -> capability, item);
-			}
-
-			if (item instanceof IColorDamageTypeItem capability) {
-				event.registerItem(COLOR_DAMAGE_TYPE_ITEM, (stack, ctx) -> capability, item);
-			}
-
-			if (item instanceof ILevel capability) {
-				event.registerItem(Level.LEVEL_ITEM, (stack, ctx) -> capability, item);
-			}
-
-			if (item instanceof IUsageReqItem capability) {
-				event.registerItem(USAGE_REQ_ITEM, (stack, ctx) -> capability, item);
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public static void registrarEntity(RegisterCapabilitiesEvent event) {
-		for (EntityType<?> entityType : BuiltInRegistries.ENTITY_TYPE) {
-			event.registerEntity(
-					INVINCIBLE_TICK_ENTITY, entityType, (entity, ctx) ->
-							entity instanceof IInvincibleTickEntity capability ? capability : null);
-
-			event.registerEntity(
-					COLOR_DAMAGE_TYPE_ENTITY, entityType, (entity, ctx) ->
-							entity instanceof IColorDamageTypeEntity capability ? capability : null);
-
-			event.registerEntity(
-					LEVEL_ENTITY, entityType, (entity, ctx) ->
-							entity instanceof ILevel capability ? capability : null);
-		}
-	}
-
-	@SubscribeEvent
-	public static void registrarBlockEntity(RegisterCapabilitiesEvent event) {
-		for (BlockEntityType<?> blockEntityType : BuiltInRegistries.BLOCK_ENTITY_TYPE) {
-			event.registerBlockEntity(
-					LEVEL_BlOCK, blockEntityType, (blockEntity, ctx) ->
-							blockEntity instanceof ILevelBlock provider ? provider : null);
-		}
-	}
-
-	@SubscribeEvent
-	public static void registrarBlock(RegisterCapabilitiesEvent event) {
-		for (Block block : BuiltInRegistries.BLOCK) {
-			if (block instanceof ILevelBlock capability){
-				event.registerBlock(
-						LEVEL_BlOCK, (level, blockPos, blockState, blockEntity, ctx) -> capability, block);
-			}
-		}
-	}
 
 	private static @NotNull ResourceLocation getResourceLocation(String name) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
 	}
 
+	/// 等级
 	public static class Level {
 		public static final ItemCapability<ILevel, Void> LEVEL_ITEM =
 				ItemCapability.createVoid(getResourceLocation("level_item"), ILevel.class);
@@ -134,7 +60,8 @@ public class PmCapability {
 				EntityCapability.createVoid(getResourceLocation("invincible_tick_entity"), IInvincibleTickEntity.class);
 	}
 
-	public static class ColorDamageType{
+	/// 颜色伤害
+	public static class ColorDamageType {
 		public static final ItemCapability<IColorDamageTypeItem, Void> COLOR_DAMAGE_TYPE_ITEM =
 				ItemCapability.createVoid(getResourceLocation("color_damage_type_item"), IColorDamageTypeItem.class);
 

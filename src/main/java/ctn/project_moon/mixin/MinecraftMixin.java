@@ -23,6 +23,7 @@ public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnabl
 	public Options     options;
 	@Shadow
 	public LocalPlayer player;
+
 	public MinecraftMixin(String name) {
 		super(name);
 	}

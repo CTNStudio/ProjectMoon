@@ -46,13 +46,15 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim, IUsageRe
 	private final       int    CHARGING_ATTACK_TICK = 10;
 
 	public ParadiseLostItem(Weapon.Builder builder) {
-		super(builder.build()
-				.component(ITEM_COLOR_USAGE_REQ, ItemColorUsageReq.empty()
-								.setValue(FourColorAttribute.Type.FORTITUDE, FourColorAttribute.Rating.V)
-								.setValue(FourColorAttribute.Type.PRUDENCE, FourColorAttribute.Rating.V)
-								.setValue(FourColorAttribute.Type.TEMPERANCE, FourColorAttribute.Rating.V)
-								.setValue(FourColorAttribute.Type.JUSTICE, FourColorAttribute.Rating.V)
-				), builder);
+		super(
+				builder.build()
+						.component(
+								ITEM_COLOR_USAGE_REQ, ItemColorUsageReq.empty()
+										.setValue(FourColorAttribute.Type.FORTITUDE, FourColorAttribute.Rating.V)
+										.setValue(FourColorAttribute.Type.PRUDENCE, FourColorAttribute.Rating.V)
+										.setValue(FourColorAttribute.Type.TEMPERANCE, FourColorAttribute.Rating.V)
+										.setValue(FourColorAttribute.Type.JUSTICE, FourColorAttribute.Rating.V)
+						), builder);
 		setDefaultModel(new PmGeoItemModel<>("paradise_lost"));
 		setGuiModel(new GuiItemModel<>("paradise_lost"));
 	}

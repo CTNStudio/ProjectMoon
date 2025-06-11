@@ -1,7 +1,6 @@
 package ctn.project_moon.common.item.weapon.abstract_ltem;
 
 import ctn.project_moon.api.tool.PmDamageTool;
-import ctn.project_moon.capability.ILevel;
 import ctn.project_moon.capability.IRandomDamage;
 import ctn.project_moon.capability.item.IColorDamageTypeItem;
 import ctn.project_moon.capability.item.IInvincibleTickItem;
@@ -27,21 +26,18 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.init.PmItemDataComponents.MODE_BOOLEAN;
+import static ctn.project_moon.init.PmItemDataComponents.COLOR_DAMAGE_TYPE;
 
 /**
  * 武器基类
  */
 public abstract class Weapon extends Item implements
-		GeoItem, IRandomDamage, IColorDamageTypeItem, ILevel, IInvincibleTickItem {
+		GeoItem, IRandomDamage, IColorDamageTypeItem, IInvincibleTickItem {
 	public static final ResourceLocation        ENTITY_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "entity_range");
 	public static final ResourceLocation        BLOCK_RANGE  = ResourceLocation.fromNamespaceAndPath(MOD_ID, "block_range");
-	@Nullable
-	protected final     PmDamageTool.Level      itemLevel;
 	private final       AnimatableInstanceCache cache        = GeckoLibUtil.createInstanceCache(this);
 	private final       int                     maxDamage;
 	private final       int                     minDamage;
@@ -53,10 +49,11 @@ public abstract class Weapon extends Item implements
 	}
 
 	public Weapon(Item.Properties properties, Builder builder) {
-		super(properties.attributes(builder.getItemAttributeModifiers()).component(MODE_BOOLEAN, false).stacksTo(1));
+		super(properties.attributes(builder.getItemAttributeModifiers())
+				.component(COLOR_DAMAGE_TYPE.get(), PmDamageTool.ColorType.PHYSICS.getName())
+				.stacksTo(1));
 		this.maxDamage = builder.maxDamage;
 		this.minDamage = builder.minDamage;
-		this.itemLevel = builder.itemLevel;
 	}
 
 	/// 获取武器攻击时造成的无敌帧
@@ -110,13 +107,6 @@ public abstract class Weapon extends Item implements
 		return cache;
 	}
 
-	/// 获取物品等级
-	@Override
-	@CheckForNull
-	public PmDamageTool.Level getItemLevel() {
-		return itemLevel;
-	}
-
 	/// 获取物品伤害颜色
 	@Override
 	@CheckForNull
@@ -126,7 +116,7 @@ public abstract class Weapon extends Item implements
 
 	/// 获取伤害类型描述
 	@Override
-	public Component getFourColorDamageTypeToTooltip(){
+	public Component getFourColorDamageTypeToTooltip() {
 		return null;
 	}
 
@@ -134,13 +124,12 @@ public abstract class Weapon extends Item implements
 	public static class Builder {
 		// EGO伤害
 		private int minDamage, maxDamage;
-		private PmDamageTool.Level itemLevel  = PmDamageTool.Level.ZAYIN;
 		// 适用与近战EGO，和部分远程EGO
-		private float attackSpeed;
+		private float           attackSpeed;
 		// 近战攻击距离 & 可以摸到方块的距离
-		private float attackDistance;
+		private float           attackDistance;
 		// 预留的耐久
-		private int durability;
+		private int             durability;
 		private Item.Properties properties = new Item.Properties();
 
 		public Builder() {
@@ -218,10 +207,6 @@ public abstract class Weapon extends Item implements
 		public Builder properties(Properties properties) {
 			this.properties = properties;
 			return this;
-		}
-
-		public void level(PmDamageTool.Level itemLevel) {
-			this.itemLevel = itemLevel;
 		}
 	}
 }

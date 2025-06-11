@@ -9,20 +9,35 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.MobGeneralAttribute.INJURY_TICK;
 import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_RECOVERY_TICK;
-import static ctn.project_moon.api.SpiritAttribute.*;
+import static ctn.project_moon.api.SpiritAttribute.setInjuryCount;
+import static ctn.project_moon.api.SpiritAttribute.setSpiritRecoveryCount;
 import static ctn.project_moon.api.tool.PmDamageTool.*;
-import static ctn.project_moon.init.PmEntityAttributes.*;
 
 @EventBusSubscriber(modid = MOD_ID)
 public class ColorDamageEvents {
+	/** 即将受到伤害但还没处理 */
+	@SubscribeEvent
+	public static void livingIncomingDamageEvent(LivingIncomingDamageEvent event) {
+		DamageSource damageSource = event.getSource();
+		if (!(damageSource instanceof IModDamageSource iModDamageSource)){
+			return;
+		}
+		int invincibleTick = iModDamageSource.getInvincibleTick();
+		event.setInvulnerabilityTicks(invincibleTick);
+		// 根据四色伤害类型处理抗性
+		resistanceTreatment(event, damageSource, iModDamageSource.getDamageLevel(), iModDamageSource.getFourColorDamageTypes());
+	}
+
 	/**
 	 * 处理伤害效果
 	 */
@@ -37,29 +52,7 @@ public class ColorDamageEvents {
 		if (damageSource instanceof IModDamageSource modDamageSource){
 			colorType = modDamageSource.getFourColorDamageTypes();
 		}
-		switch (colorType) {
-			case PHYSICS -> {
-				applySlowdownIfAttributeExceedsOne(PHYSICS_RESISTANCE, entity);
-			}
-			case SPIRIT -> {
-				executeSpiritDamage(event, entity);
-				applySlowdownIfAttributeExceedsOne(SPIRIT_RESISTANCE, entity);
-			}
-			case EROSION -> {
-				executeErosionDamage(event, entity);
-				applySlowdownIfAttributeExceedsOne(EROSION_RESISTANCE, entity);
-			}
-			case THE_SOUL -> {
-				if (doesTheOrganismSufferFromTheSoulDamage(entity)) {
-					break;
-				}
-				executeTheSoulDamage(event, entity);
-				applySlowdownIfAttributeExceedsOne(THE_SOUL_RESISTANCE, entity);
-				return;
-			}
-			case null, default -> {
-			}
-		}
+		applySlowdownIfAttributeExceedsOne(colorType, entity);
 		reply(event, entity);
 	}
 
@@ -75,7 +68,7 @@ public class ColorDamageEvents {
 			}
 		}
 
-		var world = entity.level();
+		Level world = entity.level();
 		if (world.isClientSide()) {
 			return;
 		}

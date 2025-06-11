@@ -1,4 +1,4 @@
-package ctn.project_moon.events;
+package ctn.project_moon.events.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import ctn.project_moon.api.tool.PmDamageTool;
@@ -51,7 +51,7 @@ public class ItemTooltipEvents {
 
 	/** 提示文本 */
 	private static void itemReminderText(ItemStack stack, List<Component> components) {
-		if (stack.getCapability(USAGE_REQ_ITEM) == null || !stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get())) {
+		if (!stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get()) || stack.getCapability(USAGE_REQ_ITEM) == null) {
 			return;
 		}
 		components.add(2, Component.translatable(MOD_ID + ".item_tooltip.press_the_key"
@@ -106,16 +106,19 @@ public class ItemTooltipEvents {
 
 	/** 详细描述文本 */
 	private static void detailedText(ItemTooltipEvent event, ItemStack stack, List<Component> components) {
-		if ((!stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get()) || stack.getCapability(USAGE_REQ_ITEM) == null) &&
-		        !Minecraft.ON_OSX ? !isKeyDown(GLFW_KEY_LEFT_CONTROL) : !isKeyDown(GLFW_KEY_RIGHT_CONTROL)) {
+		if (!stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get()) || stack.getCapability(USAGE_REQ_ITEM) == null) {
+			return;
+		}
+		if (!isKeyDown(GLFW_KEY_LEFT_CONTROL) && !isKeyDown(GLFW_KEY_RIGHT_CONTROL)) {
 			return;
 		}
 		components.clear();
 		// 使用条件
 		ItemColorUsageReq itemColorUsageReq = stack.get(ITEM_COLOR_USAGE_REQ);
-		if (itemColorUsageReq != null) {
-			components.add(itemColorUsageReq.getToTooltip());
+		if (itemColorUsageReq == null) {
+			return;
 		}
+		itemColorUsageReq.getToTooltip(components);
 	}
 
 	private static boolean isKeyDown(int keyCode) {

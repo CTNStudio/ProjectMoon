@@ -7,6 +7,7 @@ import javax.annotation.CheckForNull;
 
 import static ctn.project_moon.init.PmCapability.Level.LEVEL_ITEM;
 
+@FunctionalInterface
 public interface ILevel {
 	@CheckForNull
 	PmDamageTool.Level getItemLevel();

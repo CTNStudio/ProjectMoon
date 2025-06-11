@@ -48,59 +48,102 @@ public class PmItems {
 
 	/// 武器（不一定是EGO）
 
+	/// ZAYIN
+
 	public static final DeferredItem<Item> DETONATING_BATON = createWeaponItem(
 			"detonating_baton",
 			DetonatingBatonItem::new, new Weapon.Builder(3, 4, -2.4F));
-	public static final DeferredItem<Item> WRIST_CUTTER     = createEgoWeaponItem(
+
+	/// TETH
+
+	public static final DeferredItem<Item> WRIST_CUTTER = createEgoWeaponItem(
 			"wrist_cutter",
 			WristCutterItem::new, new Weapon.Builder(2, 3, 0.2F, -0.1F));
-	public static final DeferredItem<Item> BEAR_PAWS        = createEgoWeaponItem(
+
+	///  HE
+
+	public static final DeferredItem<Item> BEAR_PAWS = createEgoWeaponItem(
 			"bear_paws",
 			BearPawsItem::new, new Weapon.Builder(7, 7, -1F, -0.3F));
+
+	///  WAW
+
 	// 原称 in the name of love and hate
-	public static final DeferredItem<Item> LOVE_HATE        = createEgoWeaponItem(
+	public static final DeferredItem<Item> LOVE_HATE = createEgoWeaponItem(
 			"love_hate",
 			LoveHateItem::new, new Weapon.Builder(3, 5, -2F));
-	public static final DeferredItem<Item> PARADISE_LOST    = createEgoWeaponItem(
-			"paradise_lost",
-			ParadiseLostItem::new, new Weapon.Builder(12, 16, -2.3F));
-	public static final DeferredItem<Item> MAGIC_BULLET     = createRemoteEgoWeaponItem(
+
+	public static final DeferredItem<Item> MAGIC_BULLET = createRemoteEgoWeaponItem(
 			"magic_bullet",
 			MagicBulletItem::new, new Weapon.Builder(10, 11, -2.7F));
 
+
+	/// ALEPH
+
+	public static final DeferredItem<Item> PARADISE_LOST = createEgoWeaponItem(
+			"paradise_lost",
+			ParadiseLostItem::new, new Weapon.Builder(12, 16, -2.3F));
+
+
 	/// 护甲
 
-	public static final DeferredItem<Item> SUIT                    = createArmorItem(
+	/// ZAYIN
+
+	public static final DeferredItem<Item> SUIT = createArmorItem(
 			"suit", PmArmorItem::new,
 			new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.CHESTPLATE));
-	public static final DeferredItem<Item> DRESS_PANTS             = createArmorItem(
+
+	public static final DeferredItem<Item> DRESS_PANTS = createArmorItem(
 			"dress_pants", PmArmorItem::new,
 			new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.LEGGINGS));
-	public static final DeferredItem<Item> LOAFERS                 = createArmorItem(
+
+	public static final DeferredItem<Item> LOAFERS = createArmorItem(
 			"loafers", PmArmorItem::new,
 			new PmArmorItem.Builder(PmArmorMaterials.SUIT, ArmorItem.Type.BOOTS));
-	public static final DeferredItem<Item> MAGIC_BULLET_CHESTPLATE = createGeoArmorItem(
-			"magic_bullet_chestplate", GeoEgoArmorItem::new,
-			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.CHESTPLATE),
-			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
-	public static final DeferredItem<Item> MAGIC_BULLET_LEGGINGS   = createGeoArmorItem(
-			"magic_bullet_leggings", GeoEgoArmorItem::new,
-			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.LEGGINGS),
-			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
-	public static final DeferredItem<Item> MAGIC_BULLET_BOOTS      = createGeoArmorItem(
+
+	/// TETH
+
+	///  HE
+
+	public static final DeferredItem<Item> MAGIC_BULLET_BOOTS = createGeoArmorItem(
 			"magic_bullet_boots", GeoEgoArmorItem::new,
 			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.BOOTS),
 			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
 
+	public static final DeferredItem<Item> MAGIC_BULLET_CHESTPLATE = createGeoArmorItem(
+			"magic_bullet_chestplate", GeoEgoArmorItem::new,
+			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.CHESTPLATE),
+			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
+
+	public static final DeferredItem<Item> MAGIC_BULLET_LEGGINGS = createGeoArmorItem(
+			"magic_bullet_leggings", GeoEgoArmorItem::new,
+			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.LEGGINGS),
+			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
+
+	///  WAW
+
+	/// ALEPH
+
+
 	/// 饰品
+
+	/// ZAYIN
+
+	/// TETH
+
+	///  HE
+
+	public static final DeferredItem<EgoCurioItem> MAGIC_BULLET_PIPE = createCuriosItem(
+			"magic_bullet_pipe",
+			EgoCurioItem::new, new EgoCurioItem.Builder(-5, -5, 0, 10, new GeoCurioModel<>("magic_bullet_pipe")));
+
+	///  WAW
+
+	/// ALEPH
 
 	public static final DeferredItem<EgoCurioItem> PARADISE_LOST_WINGS = createCuriosItem(
 			"paradise_lost_wings",
 			EgoCurioItem::new, new EgoCurioItem.Builder(10, 10, 0, 10, new GeoCurioModel<>("paradise_lost_wings")));
-	public static final DeferredItem<EgoCurioItem> MAGIC_BULLET_PIPE   = createCuriosItem(
-			"magic_bullet_pipe",
-			EgoCurioItem::new, new EgoCurioItem.Builder(-5, -5, 0, 10, new GeoCurioModel<>("magic_bullet_pipe")));
-
 
 	private static DeferredItem<Item> registerSimpleItem(String name, Item.Properties props) {
 		return ITEM_REGISTER.registerSimpleItem(name, props);

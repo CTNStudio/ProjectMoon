@@ -15,12 +15,11 @@ import static ctn.project_moon.init.PmEntityAttributes.*;
 @Mixin(AttributeSupplier.Builder.class)
 public abstract class AttributeSupplier$BuilderMixin {
 	@Inject(method = "<init>*", at = @At("TAIL"))
-	public void Builder(CallbackInfo ci) {
+	public void projectMoon$Builder(CallbackInfo ci) {
 		create(PHYSICS_RESISTANCE);
 		create(SPIRIT_RESISTANCE);
 		create(EROSION_RESISTANCE);
 		create(THE_SOUL_RESISTANCE);
-		create(ENTITY_LEVEL);
 	}
 
 	@Shadow
