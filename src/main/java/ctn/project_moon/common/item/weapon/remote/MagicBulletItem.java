@@ -218,17 +218,15 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IUsageReqItem, I
 		Level level = shooter.level();
 
 		MagicBulletEntity seventh_bullet = MagicBulletEntity.create(level, shooter, maxDamage, minDamage);
-		/**
-		 * 使其会追踪队友
-		 */
+
+		// 使其会追踪队友
 		seventh_bullet.setDealDamageToAllies(true);
 		seventh_bullet.setCanGoThroughWallsWhenNoTarget(true);//无目标时可穿墙
 
 		Vec3 playerLook = shooter.getLookAngle().normalize();
 		seventh_bullet.setPos(shooter.getEyePosition().subtract(playerLook.scale(3.0f)));//生成于玩家脑后
-		/**
-		 * 玩家可攻击时追踪玩家
-		 */
+
+		// 玩家可攻击时追踪玩家
 		if (!shooter.isCreative() && !shooter.isSpectator() && shooter.isAlive() && shooter.isAttackable()) {
 			seventh_bullet.setTrackingTarget(shooter);
 		}

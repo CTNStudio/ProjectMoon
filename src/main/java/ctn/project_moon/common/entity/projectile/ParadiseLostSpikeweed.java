@@ -1,10 +1,12 @@
 package ctn.project_moon.common.entity.projectile;
 
 import ctn.project_moon.api.SpiritAttribute;
+import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.capability.IRandomDamage;
 import ctn.project_moon.capability.item.IInvincibleTickItem;
 import ctn.project_moon.client.models.PmGeoEntityModel;
 import ctn.project_moon.init.PmDamageTypes;
+import ctn.project_moon.mixin_extend.IModDamageSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -12,6 +14,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -34,6 +37,7 @@ import java.util.UUID;
 import static ctn.project_moon.init.PmEntitys.PARADISE_LOST_SPIKEWEED;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
+/// 失乐园尖刺
 public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, GeoEntity, IRandomDamage, IInvincibleTickItem {
 	private final AnimatableInstanceCache ANIMS        = GeckoLibUtil.createInstanceCache(this);
 	private final int                     lifeTicks    = 22;
@@ -133,7 +137,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 		}
 		int value = livingentity.getRandom().nextInt(2, 4 + 1);
 		livingentity.heal(value);
-		SpiritAttribute.incrementSpiritValue(livingentity, value);
+		SpiritAttribute.healSpiritValue(livingentity, value);
 	}
 
 	private boolean dealDamageTo(Entity target) {
@@ -141,13 +145,21 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 		float damage = getDamageValue(target.getRandom());
 		final ResourceKey<DamageType> THE_SOUL = PmDamageTypes.THE_SOUL;
 		if (livingentity == null && !(target.isAlive() && !target.isInvulnerable() && target.getUUID().equals(livingentity.getUUID()))) {
-			return target.hurt(damageSources().source(THE_SOUL, this, null), damage);
+			return target.hurt(getDamageSource(THE_SOUL, null), damage);
 		} else {
 			if (livingentity.isAlliedTo(target)) {
 				return false;
 			}
-			return target.hurt(damageSources().source(THE_SOUL, this, livingentity), damage);
+			return target.hurt(getDamageSource(THE_SOUL, livingentity), damage);
 		}
+	}
+
+	private @NotNull DamageSource getDamageSource(ResourceKey<DamageType> THE_SOUL, LivingEntity livingentity) {
+		DamageSource source = damageSources().source(THE_SOUL, this, livingentity);
+		IModDamageSource damageSource = (IModDamageSource) source;
+		damageSource.setFourColorDamageTypes(PmDamageTool.ColorType.THE_SOUL);
+		damageSource.setDamageLevel(PmDamageTool.Level.ALEPH);
+		return source;
 	}
 
 	@Override

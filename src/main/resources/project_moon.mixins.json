@@ -6,13 +6,14 @@
     "DamageContainerMixin",
     "DamageSourceMixin",
     "InventoryMixin",
-    "KeyboardInputMixin"
+    "KeyboardInputMixin",
+    "LivingDamageEvent$PostMixin"
   ],
   "client": [
-    "ItemRendererMixin",
-    "MinecraftMixin",
-    "MouseHandlerMixin",
-    "MultiPlayerGameModeMixin"
+    "client.ItemRendererMixin",
+    "client.MinecraftMixin",
+    "client.MouseHandlerMixin",
+    "client.MultiPlayerGameModeMixin"
   ],
   "server": [],
   "minVersion": "0.8.7"

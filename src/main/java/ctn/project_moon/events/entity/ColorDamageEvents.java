@@ -1,16 +1,12 @@
 package ctn.project_moon.events.entity;
 
 import ctn.project_moon.api.tool.PmDamageTool;
-import ctn.project_moon.client.particles.DamageParticle;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.mixin_extend.IModDamageSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -22,6 +18,7 @@ import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_RECOVERY_TICK;
 import static ctn.project_moon.api.SpiritAttribute.setInjuryCount;
 import static ctn.project_moon.api.SpiritAttribute.setSpiritRecoveryCount;
 import static ctn.project_moon.api.tool.PmDamageTool.*;
+import static ctn.project_moon.client.particles.DamageParticle.createDamageParticles;
 
 @EventBusSubscriber(modid = MOD_ID)
 public class ColorDamageEvents {
@@ -32,8 +29,6 @@ public class ColorDamageEvents {
 		if (!(damageSource instanceof IModDamageSource iModDamageSource)){
 			return;
 		}
-		int invincibleTick = iModDamageSource.getInvincibleTick();
-		event.setInvulnerabilityTicks(invincibleTick);
 		// 根据四色伤害类型处理抗性
 		resistanceTreatment(event, damageSource, iModDamageSource.getDamageLevel(), iModDamageSource.getFourColorDamageTypes());
 	}
@@ -68,23 +63,11 @@ public class ColorDamageEvents {
 			}
 		}
 
-		Level world = entity.level();
-		if (world.isClientSide()) {
-			return;
-		}
-
-		Vec3 pos = entity.position();
-		double x = pos.x;
-		double y = (pos.y + entity.getBbHeight() * 0.8);
-		double z = pos.z;
-		Component text = Component.literal(String.valueOf(event.getNewDamage()));
-//		((ServerLevel) world).sendParticles(new DamageParticle.Options(text), x, y, z, 1, 0.1, 0.0, 0.1, 0.2);
-		((ServerLevel) world).sendParticles(
-				new DamageParticle.Options(text),
-				x, (y - pos.y) < 1 ? y + 1.3 : y, z,
-				1,
-				0.3, 0.3, 0.3,
-				0.2);
-
+		Component text = Component.literal(String.format("%.2f", event.getNewDamage()));
+		// 生成粒子
+		createDamageParticles(
+				event.getSource().typeHolder().getKey(),
+				((IModDamageSource) event.getSource()).getFourColorDamageTypes(),
+				entity, text, false);
 	}
 }

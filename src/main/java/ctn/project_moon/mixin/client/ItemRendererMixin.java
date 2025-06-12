@@ -1,4 +1,4 @@
-package ctn.project_moon.mixin;
+package ctn.project_moon.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import ctn.project_moon.common.item.weapon.abstract_ltem.Weapon;

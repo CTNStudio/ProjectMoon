@@ -1,4 +1,4 @@
-package ctn.project_moon.mixin;
+package ctn.project_moon.mixin.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;

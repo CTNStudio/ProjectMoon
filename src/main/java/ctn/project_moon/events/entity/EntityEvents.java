@@ -1,15 +1,18 @@
 package ctn.project_moon.events.entity;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.MobGeneralAttribute.addSpiritAttribute;
 import static ctn.project_moon.api.SpiritAttribute.refreshSpiritValue;
+import static ctn.project_moon.client.particles.DamageParticle.createHealParticles;
 import static ctn.project_moon.init.PmEntityAttributes.MAX_SPIRIT;
 
 /**
@@ -34,5 +37,10 @@ public class EntityEvents {
 	@SubscribeEvent
 	public static void entityTickEvent(EntityTickEvent.Pre event) {
 		refreshSpiritValue(event);
+	}
+
+	@SubscribeEvent
+	public static void entityHealEvent(LivingHealEvent event) {
+		createHealParticles(event.getEntity(), Component.literal(String.format("+%.2f", event.getAmount())), false);
 	}
 }

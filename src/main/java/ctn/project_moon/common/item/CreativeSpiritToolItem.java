@@ -32,7 +32,11 @@ public class CreativeSpiritToolItem extends Item {
 				return InteractionResultHolder.success(itemStack);
 			}
 			if (!level.isClientSide()) {
-				SpiritAttribute.incrementSpiritValue(player, Boolean.TRUE.equals(itemStack.get(MODE_BOOLEAN)) ? -1 : 1);
+				if (Boolean.TRUE.equals(itemStack.get(MODE_BOOLEAN))) {
+					SpiritAttribute.damageSpiritValue(player, 1);
+				} else {
+					SpiritAttribute.healSpiritValue(player, 1);
+				}
 				return InteractionResultHolder.success(itemStack);
 			}
 		}

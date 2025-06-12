@@ -1,4 +1,4 @@
-package ctn.project_moon.mixin;
+package ctn.project_moon.mixin.client;
 
 import com.mojang.blaze3d.platform.WindowEventHandler;
 import net.minecraft.client.Minecraft;

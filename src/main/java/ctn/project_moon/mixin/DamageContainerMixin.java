@@ -1,6 +1,7 @@
 package ctn.project_moon.mixin;
 
 import ctn.project_moon.capability.IRandomDamage;
+import ctn.project_moon.mixin_extend.IModDamageSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -20,8 +21,13 @@ public abstract class DamageContainerMixin {
 	@Shadow
 	private float newDamage;
 
+	@Shadow public abstract void setPostAttackInvulnerabilityTicks(int ticks);
+
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void projectMoon$DamageContainer(DamageSource source, float originalDamage, CallbackInfo ci) {
+		if (source instanceof IModDamageSource iModDamageSource) {
+			setPostAttackInvulnerabilityTicks(iModDamageSource.getInvincibleTick());
+		}
 		ItemStack stack = getDamageItemStack(source);
 		if (stack == null) {
 			return;

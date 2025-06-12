@@ -21,7 +21,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 
-import static ctn.project_moon.PmMain.LOGGER;
 import static ctn.project_moon.api.SpiritAttribute.handleRationally;
 import static ctn.project_moon.api.tool.PmDamageTool.Level.getEntityLevel;
 import static ctn.project_moon.capability.ILevel.getItemLevelValue;
@@ -49,7 +48,7 @@ public class PmDamageTool {
 	public static void resistanceTreatment(
 			LivingIncomingDamageEvent event,
 			DamageSource damageSource,
-			@Nullable PmDamageTool.Level damageLevel,
+			@Nullable Level damageLevel,
 			@Nullable ColorType fourColorDamageTypes) {
 		float newDamageAmount = event.getAmount();
 		int armorItemStackLaval = 0; // 盔甲等级
@@ -95,7 +94,6 @@ public class PmDamageTool {
 				newDamageAmount *= (float) entity.getAttributeValue(fourColorDamageTypes.resistance);
 			}
 		}
-
 		event.setAmount(newDamageAmount);
 	}
 
@@ -128,6 +126,14 @@ public class PmDamageTool {
 	 * 获取伤害倍数
 	 */
 	public static float getDamageMultiple(int i) {
+		if (i > 4) {
+
+			i = 4;
+		}
+		if (i < -4) {
+			i = -4;
+		}
+
 		return switch (i) {
 			case 4 -> 0.4F;
 			case 3 -> 0.6F;
@@ -137,15 +143,12 @@ public class PmDamageTool {
 			case -2 -> 1.2F;
 			case -3 -> 1.5F;
 			case -4 -> 2.0F;
-			default -> {
-				LOGGER.info("Ego difference error");
-				throw new IllegalArgumentException("Ego difference error");
-			}
+			default -> 0.0F;
 		};
 	}
 
 	/** 低抗减慢 */
-	public static boolean applySlowdownIfAttributeExceedsOne(PmDamageTool.ColorType colorType, @NotNull LivingEntity entity) {
+	public static boolean applySlowdownIfAttributeExceedsOne(ColorType colorType, @NotNull LivingEntity entity) {
 		if (colorType == null) {
 			return false;
 		}
@@ -270,24 +273,15 @@ public class PmDamageTool {
 			this.colour     = colour;
 		}
 
-		public static Level is(int levelValue) {
-			for (Level level : Level.values()) {
-				if (level.levelValue == levelValue) {
-					return level;
-				}
-			}
-			return null;
-		}
-
 		@NotNull
 		public static PmDamageTool.Level getEntityLevel(@NotNull Entity entity) {
 			ILevel capability = entity.getCapability(LEVEL_ENTITY);
 			if (capability == null) {
-				return PmDamageTool.Level.ZAYIN;
+				return Level.ZAYIN;
 			}
-			PmDamageTool.Level level = capability.getItemLevel();
+			Level level = capability.getItemLevel();
 			if (level == null) {
-				level = PmDamageTool.Level.ZAYIN;
+				level = Level.ZAYIN;
 			}
 			return level;
 		}

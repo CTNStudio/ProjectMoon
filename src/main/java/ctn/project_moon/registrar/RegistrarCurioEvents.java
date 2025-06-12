@@ -12,7 +12,7 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class CurioEvents {
+public class RegistrarCurioEvents {
 	/** 注册饰品渲染 */
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {

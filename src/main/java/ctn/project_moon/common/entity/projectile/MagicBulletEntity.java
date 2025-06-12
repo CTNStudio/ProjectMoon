@@ -1,13 +1,16 @@
 package ctn.project_moon.common.entity.projectile;
 
 
+import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.capability.IRandomDamage;
 import ctn.project_moon.init.PmDamageTypes;
 import ctn.project_moon.init.PmEntitys;
+import ctn.project_moon.mixin_extend.IModDamageSource;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -20,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 魔弹实体
@@ -138,15 +140,18 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 		if (this.tickCount > this.duration_ticks) {
 			this.discard();
 		}
+		Entity owner = getOwner();
+		if (owner == null) {
+			return;
+		}
 		//距离检查
-		if (this.distance < this.distanceTo(Objects.requireNonNull(this.getOwner()))) {
+		if (this.distance < this.distanceTo(owner)) {
 			this.discard();
 		}
 		//追踪
 		if (this.canTrack && !level().isClientSide) {
-			/**
-			 * 获取追踪目标
-			 */
+
+			// 获取追踪目标
 			if (this.trackingTarget == null) {
 				//获取范围内实体
 				AABB aabb = new AABB(
@@ -163,31 +168,26 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 							if (!entity.isAttackable() || !entity.isAlive() || (entity instanceof Player player && (player.isCreative() || player.isSpectator()))) {
 								return false;
 							}
-							/**
-							 * 默认只对非玩家队友生物进行追踪，如果要追踪玩家
-							 */
-							if (!dealDamageToAllies && entity.isAlliedTo(this.getOwner())) {
+
+							// 默认只对非玩家队友生物进行追踪，如果要追踪玩家
+							if (!dealDamageToAllies && entity.isAlliedTo(owner)) {
 								return false;
 							}
-							/**
-							 * 限制追踪距离（削圆）
-							 */
+
+							//限制追踪距离（削圆）
 							if (entity.distanceTo(this) > this.TrackingDistance) {
 								return false;
 							}
-							/**
-							 * 此处搜索时不追踪自己，但只是此处
-							 */
-							return !entity.getUUID().equals(getOwner().getUUID());
+							// 此处搜索时不追踪自己，但只是此处
+							return !entity.getUUID().equals(owner.getUUID());
 						});
 				int i = entityList.size();
 				if (i > 0) {
 					this.setTrackingTarget((LivingEntity) entityList.get(level().getRandom().nextInt(i)));
 				}
 			}
-			/**
-			 * 追踪目标
-			 */
+
+			// 追踪目标
 			else {
 				// 计算目标方向向量
 				//TODO: 现在是追踪目标眼睛的位置（但有些生物如末影龙眼睛处没有碰撞就打不到）
@@ -226,7 +226,11 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 				return;
 			}
 			float damage = getDamageValue(target.getRandom());
-			target.hurt(damageSources().source(EROSION, this, livingentity), damage);
+			DamageSource source = damageSources().source(EROSION, this, livingentity);
+			IModDamageSource damageSource = (IModDamageSource) source;
+			damageSource.setFourColorDamageTypes(PmDamageTool.ColorType.EROSION);
+			damageSource.setDamageLevel(PmDamageTool.Level.WAW);
+			target.hurt(source, damage);
 		}
 	}
 

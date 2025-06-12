@@ -1,4 +1,4 @@
-package ctn.project_moon.mixin;
+package ctn.project_moon.mixin.client;
 
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
