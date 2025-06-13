@@ -16,8 +16,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.Objects;
 
 import static ctn.project_moon.api.MobGeneralAttribute.*;
-import static ctn.project_moon.client.particles.DamageParticle.createDamageParticles;
-import static ctn.project_moon.client.particles.DamageParticle.createHealParticles;
+import static ctn.project_moon.client.particles.TextParticle.createDamageParticles;
+import static ctn.project_moon.client.particles.TextParticle.createHealParticles;
 import static ctn.project_moon.init.PmEntityAttributes.SPIRIT_NATURAL_RECOVERY_RATE;
 import static ctn.project_moon.init.PmEntityAttributes.SPIRIT_RECOVERY_AMOUNT;
 import static ctn.project_moon.init.PmEvents.spiritDamage;

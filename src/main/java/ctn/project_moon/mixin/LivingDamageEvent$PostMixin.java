@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingDamageEvent.Post.class)
 @Implements(@Interface(iface = IModLivingDamageEvent$Post.class, prefix = "projectMoonInt$"))
-public abstract class LivingDamageEvent$PostMixin {
+public abstract class LivingDamageEvent$PostMixin implements IModLivingDamageEvent$Post {
 	@Unique
 	private DamageContainer projectMoon$damageContainer;
 

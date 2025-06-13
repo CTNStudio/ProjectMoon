@@ -12,7 +12,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.MobGeneralAttribute.addSpiritAttribute;
 import static ctn.project_moon.api.SpiritAttribute.refreshSpiritValue;
-import static ctn.project_moon.client.particles.DamageParticle.createHealParticles;
+import static ctn.project_moon.client.particles.TextParticle.createHealParticles;
 import static ctn.project_moon.init.PmEntityAttributes.MAX_SPIRIT;
 
 /**

@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 
 /// 带有需求的物品 如果不满足要求则触发
 /// <p>
-/// 一般捆绑{@link IColorUsageReqItem}或{@link ItemColorUsageReq}或{@link PmItemDataComponents#ITEM_COLOR_USAGE_REQ}
+/// 一般捆绑{@link ItemColorUsageReq}或{@link PmItemDataComponents#ITEM_COLOR_USAGE_REQ}
 public interface IUsageReqItem{
 	/** 使用物品时触发 */
 	void useImpede(ItemStack itemStack, Level level, LivingEntity entity);

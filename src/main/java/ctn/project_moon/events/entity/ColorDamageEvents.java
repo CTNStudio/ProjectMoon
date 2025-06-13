@@ -18,7 +18,7 @@ import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_RECOVERY_TICK;
 import static ctn.project_moon.api.SpiritAttribute.setInjuryCount;
 import static ctn.project_moon.api.SpiritAttribute.setSpiritRecoveryCount;
 import static ctn.project_moon.api.tool.PmDamageTool.*;
-import static ctn.project_moon.client.particles.DamageParticle.createDamageParticles;
+import static ctn.project_moon.client.particles.TextParticle.createDamageParticles;
 
 @EventBusSubscriber(modid = MOD_ID)
 public class ColorDamageEvents {
@@ -26,11 +26,9 @@ public class ColorDamageEvents {
 	@SubscribeEvent
 	public static void livingIncomingDamageEvent(LivingIncomingDamageEvent event) {
 		DamageSource damageSource = event.getSource();
-		if (!(damageSource instanceof IModDamageSource iModDamageSource)){
-			return;
-		}
+		IModDamageSource modDamageSource = (IModDamageSource) damageSource;
 		// 根据四色伤害类型处理抗性
-		resistanceTreatment(event, damageSource, iModDamageSource.getDamageLevel(), iModDamageSource.getFourColorDamageTypes());
+		resistanceTreatment(event, damageSource, modDamageSource.getDamageLevel(), modDamageSource.getFourColorDamageTypes());
 	}
 
 	/**
@@ -42,11 +40,8 @@ public class ColorDamageEvents {
 			return;
 		}
 		LivingEntity entity = event.getEntity();
-		DamageSource damageSource = event.getSource();
-		PmDamageTool.ColorType colorType = null;
-		if (damageSource instanceof IModDamageSource modDamageSource){
-			colorType = modDamageSource.getFourColorDamageTypes();
-		}
+		IModDamageSource modDamageSource = (IModDamageSource) event.getSource();
+		PmDamageTool.ColorType colorType = modDamageSource.getFourColorDamageTypes();
 		applySlowdownIfAttributeExceedsOne(colorType, entity);
 		reply(event, entity);
 	}

@@ -1,6 +1,6 @@
 package ctn.project_moon.registrar;
 
-import ctn.project_moon.client.particles.DamageParticle;
+import ctn.project_moon.client.particles.TextParticle;
 import ctn.project_moon.client.screen.PlayerAttributeScreen;
 import ctn.project_moon.common.entity.abnos.TrainingRabbits;
 import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
@@ -32,7 +32,7 @@ public class RegistrarClientRendering {
 	/** 注册粒子渲染器 */
 	@SubscribeEvent
 	public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
-		event.registerSpecial(PmParticleTypes.DAMAGE_PARTICLE_TYPE.get(), new DamageParticle.Provider());
+		event.registerSpriteSet(PmParticleTypes.TEXT_PARTICLE_TYPE.get(), TextParticle.Provider::new);
 	}
 
 	/**

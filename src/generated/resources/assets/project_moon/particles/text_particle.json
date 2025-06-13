@@ -1,0 +1,10 @@
+{
+  "textures": [
+    "project_moon:physics",
+    "project_moon:spirit",
+    "project_moon:erosion",
+    "project_moon:the_soul",
+    "project_moon:add_prudence",
+    "project_moon:reduce_prudence"
+  ]
+}
