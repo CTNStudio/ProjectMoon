@@ -39,7 +39,7 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(MOD_ID + ".item_tooltip.geo_describe.spirit", "§f\ue002§r 精神");
 		add(MOD_ID + ".item_tooltip.geo_describe.erosion", "§f\ue003§r 侵蚀");
 		add(MOD_ID + ".item_tooltip.geo_describe.the_soul", "§f\ue004§r 灵魂");
-		add(MOD_ID + ".item_tooltip.press_the_key", "按下 %s 查看详细");
+		add(MOD_ID + ".item_tooltip.use_condition", "按下 %s 查看使用条件");
 
 		addPlayerDeathMessage(PmDamageTypes.PHYSICS, "%s死于%s的造成的物理伤害");
 		addPlayerDeathMessage(PmDamageTypes.SPIRIT, "%s死于%s的造成的精神污染");
@@ -90,7 +90,6 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(PmEntityAttributes.SPIRIT_RESISTANCE, "受精神伤害倍率");
 		add(PmEntityAttributes.EROSION_RESISTANCE, "受侵蚀伤害倍率");
 		add(PmEntityAttributes.THE_SOUL_RESISTANCE, "受灵魂伤害倍率");
-//		add(PmEntityAttributes.ENTITY_LEVEL, "生物等级");
 		add(PmEntityAttributes.MAX_FORTITUDE, "勇气最大点数");
 		add(PmEntityAttributes.MAX_PRUDENCE, "谨慎最大点数");
 		add(PmEntityAttributes.MAX_SPIRIT, "最大理智值");

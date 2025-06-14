@@ -2,14 +2,9 @@ package ctn.project_moon.common.item.weapon.special;
 
 import com.zigythebird.playeranimatorapi.API.PlayerAnimAPI;
 import com.zigythebird.playeranimatorapi.data.PlayerParts;
-import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.capability.item.IPlayerAnim;
-import ctn.project_moon.capability.item.IUsageReqItem;
-import ctn.project_moon.client.models.GuiItemModel;
-import ctn.project_moon.client.models.PmGeoItemModel;
 import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
-import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.item.weapon.abstract_ltem.EgoWeapon;
 import ctn.project_moon.common.item.weapon.abstract_ltem.Weapon;
 import ctn.project_moon.tool.PmTool;
@@ -34,11 +29,10 @@ import javax.annotation.CheckForNull;
 import java.util.List;
 
 import static ctn.project_moon.api.TempNbtAttribute.*;
-import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
 import static net.minecraft.world.InteractionHand.OFF_HAND;
 
 /** 失乐园武器 */
-public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim, IUsageReqItem {
+public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 	public static final String ATTACK               = "player.paradise_lost.attack";
 	public static final String CONTINUOUS_ATTACK    = "player.paradise_lost.continuous_attack";
 	public static final String END                  = "player.paradise_lost.end";
@@ -46,17 +40,8 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim, IUsageRe
 	private final       int    CHARGING_ATTACK_TICK = 10;
 
 	public ParadiseLostItem(Weapon.Builder builder) {
-		super(
-				builder.build()
-						.component(
-								ITEM_COLOR_USAGE_REQ, ItemColorUsageReq.empty()
-										.setValue(FourColorAttribute.Type.FORTITUDE, FourColorAttribute.Rating.V)
-										.setValue(FourColorAttribute.Type.PRUDENCE, FourColorAttribute.Rating.V)
-										.setValue(FourColorAttribute.Type.TEMPERANCE, FourColorAttribute.Rating.V)
-										.setValue(FourColorAttribute.Type.JUSTICE, FourColorAttribute.Rating.V)
-						), builder);
-		setDefaultModel(new PmGeoItemModel<>("paradise_lost"));
-		setGuiModel(new GuiItemModel<>("paradise_lost"));
+		super(builder.build(), builder);
+		setItemModel("paradise_lost");
 	}
 
 	/** 召唤一个 */
@@ -309,46 +294,6 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim, IUsageRe
 		IPlayerAnim.stopAnimation(level, player, CONTINUOUS_ATTACK);
 		IPlayerAnim.stopAnimation(level, player, END);
 		player.releaseUsingItem();
-	}
-
-	/**
-	 * 使用物品时触发
-	 */
-	@Override
-	public void useImpede(ItemStack itemStack, Level level, LivingEntity entity) {
-
-	}
-
-	/**
-	 * 攻击时触发
-	 */
-	@Override
-	public void attackImpede(ItemStack itemStack, Level level, LivingEntity entity) {
-
-	}
-
-	/**
-	 * 在手上时触发
-	 */
-	@Override
-	public void onTheHandImpede(ItemStack itemStack, Level level, LivingEntity entity) {
-
-	}
-
-	/**
-	 * 物品在背包里时触发
-	 */
-	@Override
-	public void inTheBackpackImpede(ItemStack itemStack, Level level, LivingEntity entity) {
-
-	}
-
-	/**
-	 * 在装备槽里时触发，如盔甲，饰品
-	 */
-	@Override
-	public void equipmentImpede(ItemStack itemStack, Level level, LivingEntity entity) {
-
 	}
 
 	@CheckForNull

@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.CheckForNull;
 
+import static ctn.project_moon.api.tool.PmDamageTool.getColorDamageType;
 import static ctn.project_moon.api.tool.PmDamageTool.getDamageItemStack;
 import static ctn.project_moon.init.PmCapability.ColorDamageType.COLOR_DAMAGE_TYPE_ENTITY;
 import static ctn.project_moon.init.PmCapability.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
@@ -60,7 +61,7 @@ public abstract class DamageSourceMixin implements IModDamageSource {
 			IInvincibleTickItem invincibleTickItem = itemStack.getCapability(INVINCIBLE_TICK_ITEM);
 			level = itemStack.getCapability(PmCapability.Level.LEVEL_ITEM);
 			if (colorDamageTypeItem != null) {
-				projectMoon$ColorType = colorDamageTypeItem.getDamageType(itemStack);
+				projectMoon$ColorType = colorDamageTypeItem.getColorDamageType(itemStack);
 			}
 			if (invincibleTickItem != null) {
 				projectMoon$invincibleTick = invincibleTickItem.getInvincibleTick(itemStack);
@@ -72,6 +73,8 @@ public abstract class DamageSourceMixin implements IModDamageSource {
 
 		projectMoon$getEntityAttribute(directEntity);
 		projectMoon$getEntityAttribute(causingEntity);
+
+		projectMoon$ColorType = getColorDamageType(projectMoon$ColorType, type);
 
 		if (projectMoon$damageLevel == null) {
 			projectMoon$damageLevel = PmDamageTool.Level.ZAYIN;

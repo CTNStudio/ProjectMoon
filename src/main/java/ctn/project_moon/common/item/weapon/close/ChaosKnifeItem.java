@@ -16,8 +16,7 @@ import javax.annotation.CheckForNull;
 import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.tool.PmDamageTool.ColorType.is;
-import static ctn.project_moon.api.tool.PmDamageTool.ColorType.values;
+import static ctn.project_moon.api.tool.PmDamageTool.ColorType.*;
 import static ctn.project_moon.init.PmItemDataComponents.COLOR_DAMAGE_TYPE;
 import static ctn.project_moon.tool.PmTool.createColorText;
 import static ctn.project_moon.tool.PmTool.i18ColorText;
@@ -25,7 +24,7 @@ import static ctn.project_moon.tool.PmTool.i18ColorText;
 /// 混沌刀
 public class ChaosKnifeItem extends EgoWeapon {
 	public ChaosKnifeItem(Properties properties) {
-		super(properties, new Builder().minDamage(6).maxDamage(7).attackSpeed(-1.4F));
+		super(properties.component(COLOR_DAMAGE_TYPE.get(), PHYSICS.getName()), new Builder().minDamage(6).maxDamage(7).attackSpeed(-1.4F));
 	}
 
 	@Override
@@ -44,7 +43,7 @@ public class ChaosKnifeItem extends EgoWeapon {
 	}
 
 	@Override
-	public Component getFourColorDamageTypeToTooltip() {
+	public Component getColorDamageTypeToTooltip() {
 		MutableComponent component = i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA");
 		component.append(Component.literal(" ").append(createColorText(" ????", "#ffb638")));
 		return component;
@@ -52,7 +51,7 @@ public class ChaosKnifeItem extends EgoWeapon {
 
 	@Override
 	@CheckForNull
-	public PmDamageTool.ColorType getDamageType(ItemStack stack) {
+	public PmDamageTool.ColorType getColorDamageType(ItemStack stack) {
 		return is(stack.get(COLOR_DAMAGE_TYPE));
 	}
 

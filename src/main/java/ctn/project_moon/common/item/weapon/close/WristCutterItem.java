@@ -12,7 +12,7 @@ import java.util.List;
 /// 割腕者
 public class WristCutterItem extends EgoWeapon {
 	public WristCutterItem(Weapon.Builder builder) {
-		super(builder);
+		super(builder, PmDamageTool.ColorType.SPIRIT);
 		setDefaultModel(new PmGeoItemModel<>("wrist_cutter"));
 	}
 
@@ -21,10 +21,6 @@ public class WristCutterItem extends EgoWeapon {
 		return 15;
 	}
 
-	@Override
-	public PmDamageTool.ColorType getDamageType(ItemStack stack) {
-		return PmDamageTool.ColorType.SPIRIT;
-	}
 
 	@CheckForNull
 	@Override

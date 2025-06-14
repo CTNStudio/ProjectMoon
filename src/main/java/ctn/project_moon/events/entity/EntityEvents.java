@@ -41,6 +41,9 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public static void entityHealEvent(LivingHealEvent event) {
-		createHealParticles(event.getEntity(), Component.literal(String.format("+%.2f", event.getAmount())), false);
+		float amount = event.getAmount();
+		if (amount > 0) {
+			createHealParticles(event.getEntity(), Component.literal(String.format("+%.2f", amount)), false);
+		}
 	}
 }

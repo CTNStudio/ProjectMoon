@@ -79,16 +79,70 @@ public class ItemColorUsageReq {
 		return getAttributeList(attribute);
 	}
 
-	/**
-	 * 没什么特殊要求的建议使用这个
-	 */
-	public ItemColorUsageReq setValue(FourColorAttribute.Type attribute, FourColorAttribute.Rating rating) {
-		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || rating != FourColorAttribute.Rating.EX : String.format("Composite Rating must be between I and V. Currently, it is: %s", rating);
+	//没什么特殊要求的建议使用这个
+	/// 至少
+	public ItemColorUsageReq setNotToExceedValue(FourColorAttribute.Type attribute, FourColorAttribute.Rating rating) {
+		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || rating != FourColorAttribute.Rating.EX :
+				String.format("Composite Rating must be between I and V. Currently, it is: %s", rating);
 		List<Integer> list = getAttributeList(attribute);
 		list.clear();
 		list.add(rating.getMinValue());
 		list.add(-1);
 		return this;
+	}
+
+	/// 至多
+	public ItemColorUsageReq setNotLowerThanValue(FourColorAttribute.Type attribute, FourColorAttribute.Rating rating) {
+		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || rating != FourColorAttribute.Rating.EX :
+				String.format("Composite Rating must be between I and V. Currently, it is: %s", rating);
+		List<Integer> list = getAttributeList(attribute);
+		list.clear();
+		list.add(-1);
+		list.add(rating.getMinValue());
+		return this;
+	}
+
+
+	/// 至少 推荐使用方法
+	public static ItemColorUsageReq notToExceed(FourColorAttribute.Rating fortitudeRating, FourColorAttribute.Rating prudenceRating, FourColorAttribute.Rating temperanceRating, FourColorAttribute.Rating justiceRating, FourColorAttribute.Rating compositeRating) {
+		final ItemColorUsageReq empty = ItemColorUsageReq.empty();
+		if (fortitudeRating != null) {
+			empty.setNotToExceedValue(FourColorAttribute.Type.FORTITUDE, fortitudeRating);
+		}
+		if (prudenceRating != null) {
+			empty.setNotToExceedValue(FourColorAttribute.Type.PRUDENCE, prudenceRating);
+		}
+		if (temperanceRating != null) {
+			empty.setNotToExceedValue(FourColorAttribute.Type.TEMPERANCE, temperanceRating);
+		}
+		if (justiceRating != null) {
+			empty.setNotToExceedValue(FourColorAttribute.Type.JUSTICE, justiceRating);
+		}
+		if (compositeRating != null) {
+			empty.setNotToExceedValue(FourColorAttribute.Type.COMPOSITE_RATING, compositeRating);
+		}
+		return empty;
+	}
+
+	/// 至多
+	public static ItemColorUsageReq notLowerThan(FourColorAttribute.Rating fortitudeRating, FourColorAttribute.Rating prudenceRating, FourColorAttribute.Rating temperanceRating, FourColorAttribute.Rating justiceRating, FourColorAttribute.Rating compositeRating) {
+		final ItemColorUsageReq empty = ItemColorUsageReq.empty();
+		if (fortitudeRating != null) {
+			empty.setNotLowerThanValue(FourColorAttribute.Type.FORTITUDE, fortitudeRating);
+		}
+		if (prudenceRating != null) {
+			empty.setNotLowerThanValue(FourColorAttribute.Type.PRUDENCE, prudenceRating);
+		}
+		if (temperanceRating != null) {
+			empty.setNotLowerThanValue(FourColorAttribute.Type.TEMPERANCE, temperanceRating);
+		}
+		if (justiceRating != null) {
+			empty.setNotLowerThanValue(FourColorAttribute.Type.JUSTICE, justiceRating);
+		}
+		if (compositeRating != null) {
+			empty.setNotLowerThanValue(FourColorAttribute.Type.COMPOSITE_RATING, compositeRating);
+		}
+		return empty;
 	}
 
 	public ItemColorUsageReq setValue(FourColorAttribute.Type attribute, FourColorAttribute.Rating... ratings) {

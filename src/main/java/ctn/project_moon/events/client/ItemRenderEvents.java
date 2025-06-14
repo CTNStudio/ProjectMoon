@@ -1,6 +1,6 @@
 package ctn.project_moon.events.client;
 
-import ctn.project_moon.common.entity.projectile.MagicBulletEntityRenderer;
+import ctn.project_moon.client.renderers.MagicBulletEntityRenderer;
 import ctn.project_moon.init.PmEntitys;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;

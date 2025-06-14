@@ -1,6 +1,7 @@
-package ctn.project_moon.common.entity.projectile;
+package ctn.project_moon.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import ctn.project_moon.common.entity.projectile.MagicBulletEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

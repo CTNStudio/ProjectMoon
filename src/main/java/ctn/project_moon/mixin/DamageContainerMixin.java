@@ -25,9 +25,7 @@ public abstract class DamageContainerMixin {
 
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void projectMoon$DamageContainer(DamageSource source, float originalDamage, CallbackInfo ci) {
-		if (source instanceof IModDamageSource iModDamageSource) {
-			setPostAttackInvulnerabilityTicks(iModDamageSource.getInvincibleTick());
-		}
+		setPostAttackInvulnerabilityTicks(((IModDamageSource) source).getInvincibleTick());
 		ItemStack stack = getDamageItemStack(source);
 		if (stack == null) {
 			return;

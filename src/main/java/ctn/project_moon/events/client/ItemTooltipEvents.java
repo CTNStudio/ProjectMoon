@@ -54,7 +54,7 @@ public class ItemTooltipEvents {
 		if (!stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get()) || stack.getCapability(USAGE_REQ_ITEM) == null) {
 			return;
 		}
-		components.add(2, Component.translatable(MOD_ID + ".item_tooltip.press_the_key"
+		components.add(2, Component.translatable(MOD_ID + ".item_tooltip.use_condition"
 				, Component.literal(Minecraft.ON_OSX ? "COMMAND" : "CTRL").withColor(colorConversion("#FFFFFF"))).withColor(colorConversion("#AAAAAA")));
 	}
 
@@ -74,7 +74,7 @@ public class ItemTooltipEvents {
 		}
 
 		// 物品是否有自定义的伤害描述
-		final Component tooltip = capability.getFourColorDamageTypeToTooltip();
+		final Component tooltip = capability.getColorDamageTypeToTooltip();
 		if (tooltip != null) {
 			components.add(Mth.clamp(components.size(), 1, 2), tooltip);
 			return;
@@ -109,7 +109,7 @@ public class ItemTooltipEvents {
 		if (!stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get()) || stack.getCapability(USAGE_REQ_ITEM) == null) {
 			return;
 		}
-		if (!isKeyDown(GLFW_KEY_LEFT_CONTROL) && !isKeyDown(GLFW_KEY_RIGHT_CONTROL)) {
+		if (!(isKeyDown(GLFW_KEY_LEFT_CONTROL)) && !isKeyDown(GLFW_KEY_RIGHT_CONTROL)) {
 			return;
 		}
 		components.clear();

@@ -154,7 +154,7 @@
   "project_moon.item_tooltip.geo_describe.physics": "§f§r 物理",
   "project_moon.item_tooltip.geo_describe.spirit": "§f§r 精神",
   "project_moon.item_tooltip.geo_describe.the_soul": "§f§r 灵魂",
-  "project_moon.item_tooltip.press_the_key": "按下 %s 查看详细",
+  "project_moon.item_tooltip.use_condition": "按下 %s 查看使用条件",
   "project_moon.player_attr.composite_rating": "综合评级",
   "project_moon.player_attr.ex": "EX",
   "project_moon.player_attr.five": "V",

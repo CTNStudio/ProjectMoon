@@ -6,7 +6,9 @@ import ctn.project_moon.common.entity.abnos.AbnosEntity;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.tool.PmColourTool;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,13 +21,14 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
-import java.util.Iterator;
+import java.util.*;
 
 import static ctn.project_moon.api.SpiritAttribute.handleRationally;
 import static ctn.project_moon.api.tool.PmDamageTool.Level.getEntityLevel;
 import static ctn.project_moon.capability.ILevel.getItemLevelValue;
 import static ctn.project_moon.init.PmCapability.Level.LEVEL_ENTITY;
 import static ctn.project_moon.init.PmEntityAttributes.*;
+import static net.minecraft.world.damagesource.DamageTypes.*;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
 /**
@@ -34,6 +37,73 @@ import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
  * @author 尽
  */
 public class PmDamageTool {
+	private static final List<ResourceKey<DamageType>> VANILLA_PHYSICS_KEYS = List.of(
+			FALLING_ANVIL,
+			FALLING_BLOCK,
+			FALLING_STALACTITE,
+			FIREWORKS,
+			FLY_INTO_WALL,
+			MOB_ATTACK,
+			MOB_ATTACK_NO_AGGRO,
+			MOB_PROJECTILE,
+			PLAYER_ATTACK,
+			SPIT,
+			STING,
+			SWEET_BERRY_BUSH,
+			THORNS,
+			THROWN,
+			TRIDENT,
+			UNATTRIBUTED_FIREBALL,
+			WIND_CHARGE,
+			ARROW,
+			CACTUS,
+			BAD_RESPAWN_POINT,
+			FALL,
+			FIREBALL,
+			FLY_INTO_WALL);
+
+	private static final List<ResourceKey<DamageType>> VANILLA_SPIRIT_KEYS = List.of(
+			MOB_PROJECTILE);
+
+	private static final List<ResourceKey<DamageType>> VANILLA_EROSION_KEYS = List.of(
+			WITHER_SKULL,
+			WITHER);
+
+	private static final List<ResourceKey<DamageType>> VANILLA_THE_SOUL_KEYS = List.of(
+			SONIC_BOOM);
+
+	private static final Map<ResourceKey<DamageType>, ColorType> DAMAGE_TYPE_MAP = new HashMap<>();
+
+	private static final List<ResourceKey<DamageType>> BYPASS_KEYS = List.of(
+			IN_WALL,
+			GENERIC,
+			FREEZE,
+			DRAGON_BREATH,
+			MAGIC,
+			FELL_OUT_OF_WORLD,
+			OUTSIDE_BORDER,
+			STARVE,
+			CRAMMING,
+			GENERIC_KILL
+	);
+
+	/// AI生成的初始化优化
+	static {
+		// 将所有伤害类型注册到 Map 中
+		for (ResourceKey<DamageType> key : VANILLA_PHYSICS_KEYS) {
+			DAMAGE_TYPE_MAP.put(key, PmDamageTool.ColorType.PHYSICS);
+		}
+		for (ResourceKey<DamageType> key : VANILLA_SPIRIT_KEYS) {
+			DAMAGE_TYPE_MAP.put(key, PmDamageTool.ColorType.SPIRIT);
+		}
+		for (ResourceKey<DamageType> key : VANILLA_EROSION_KEYS) {
+			DAMAGE_TYPE_MAP.put(key, PmDamageTool.ColorType.EROSION);
+		}
+		for (ResourceKey<DamageType> key : VANILLA_THE_SOUL_KEYS) {
+			DAMAGE_TYPE_MAP.put(key, PmDamageTool.ColorType.THE_SOUL);
+		}
+	}
+
 	/// 获取伤害物品
 	@CheckForNull
 	public static ItemStack getDamageItemStack(DamageSource damageSource) {
@@ -50,6 +120,14 @@ public class PmDamageTool {
 			DamageSource damageSource,
 			@Nullable Level damageLevel,
 			@Nullable ColorType fourColorDamageTypes) {
+		for (ResourceKey<DamageType> damageType : BYPASS_KEYS) {
+//			damageSource.is(damageType);
+//			return;
+			if (damageSource.typeHolder().is(damageType)) {
+				return;
+			}
+		}
+
 		float newDamageAmount = event.getAmount();
 		int armorItemStackLaval = 0; // 盔甲等级
 		int number = 0; // 护甲数量
@@ -194,6 +272,17 @@ public class PmDamageTool {
 	/** 如果受伤者没有理智，则理智和生命同时减少 */
 	public static void executeErosionDamage(LivingDamageEvent.Pre event, LivingEntity entity) {
 		handleRationally(event, entity);
+	}
+
+	/// 获取颜色伤害类型
+	public static PmDamageTool.ColorType getColorDamageType(PmDamageTool.ColorType colorType, Holder<DamageType> type) {
+		if (colorType != null) {
+			return colorType;
+		}
+
+		// 从 Holder 中提取 ResourceKey 并查询 Map
+		Optional<ResourceKey<DamageType>> keyOptional = type.unwrapKey();
+		return keyOptional.map(DAMAGE_TYPE_MAP::get).orElse(null);
 	}
 
 	/** 四色伤害类型 */

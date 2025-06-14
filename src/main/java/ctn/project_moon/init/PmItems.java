@@ -1,5 +1,6 @@
 package ctn.project_moon.init;
 
+import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.client.models.GeoCurioModel;
 import ctn.project_moon.client.models.PmGeoArmorModel;
 import ctn.project_moon.client.renderer_providers.PmGeoArmourRenderProvider.GeoBuilder;
@@ -64,25 +65,34 @@ public class PmItems {
 
 	public static final DeferredItem<Item> BEAR_PAWS = createEgoWeaponItem(
 			"bear_paws",
-			BearPawsItem::new, new Weapon.Builder(7, 7, -1F, -0.3F));
+			BearPawsItem::new, new Weapon.Builder(7, 7, -1F, -0.3F)
+					.fortitudeRating(FourColorAttribute.Rating.II));
 
 	///  WAW
 
 	// 原称 in the name of love and hate
 	public static final DeferredItem<Item> LOVE_HATE = createEgoWeaponItem(
 			"love_hate",
-			LoveHateItem::new, new Weapon.Builder(3, 5, -2F));
+			LoveHateItem::new, new Weapon.Builder(3, 5, -2F)
+					.fortitudeRating(FourColorAttribute.Rating.III)
+					.justiceRating(FourColorAttribute.Rating.III)
+					.compositeRating(FourColorAttribute.Rating.IV));
 
 	public static final DeferredItem<Item> MAGIC_BULLET = createRemoteEgoWeaponItem(
 			"magic_bullet",
-			MagicBulletItem::new, new Weapon.Builder(10, 11, -2.7F));
+			MagicBulletItem::new, new Weapon.Builder(10, 11, -2.7F)
+					.temperanceRating(FourColorAttribute.Rating.III));
 
 
 	/// ALEPH
 
 	public static final DeferredItem<Item> PARADISE_LOST = createEgoWeaponItem(
 			"paradise_lost",
-			ParadiseLostItem::new, new Weapon.Builder(12, 16, -2.3F));
+			ParadiseLostItem::new, new Weapon.Builder(12, 16, -2.3F)
+					.fortitudeRating(FourColorAttribute.Rating.V)
+					.prudenceRating(FourColorAttribute.Rating.V)
+					.temperanceRating(FourColorAttribute.Rating.V)
+					.justiceRating(FourColorAttribute.Rating.V));
 
 
 	/// 护甲
@@ -107,18 +117,27 @@ public class PmItems {
 
 	public static final DeferredItem<Item> MAGIC_BULLET_BOOTS = createGeoArmorItem(
 			"magic_bullet_boots", GeoEgoArmorItem::new,
-			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.BOOTS),
-			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
+			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")),
+			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.BOOTS)
+					.fortitudeRating(FourColorAttribute.Rating.III)
+					.justiceRating(FourColorAttribute.Rating.III)
+	);
 
 	public static final DeferredItem<Item> MAGIC_BULLET_CHESTPLATE = createGeoArmorItem(
 			"magic_bullet_chestplate", GeoEgoArmorItem::new,
-			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.CHESTPLATE),
-			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
+			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")),
+			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.CHESTPLATE)
+					.fortitudeRating(FourColorAttribute.Rating.III)
+					.justiceRating(FourColorAttribute.Rating.III)
+	);
 
 	public static final DeferredItem<Item> MAGIC_BULLET_LEGGINGS = createGeoArmorItem(
 			"magic_bullet_leggings", GeoEgoArmorItem::new,
-			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.LEGGINGS),
-			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")));
+			new GeoBuilder<>().roughHandModel(new PmGeoArmorModel<>("magic_bullet_armor")),
+			new PmArmorItem.Builder(PmArmorMaterials.HE, ArmorItem.Type.LEGGINGS)
+					.fortitudeRating(FourColorAttribute.Rating.III)
+					.justiceRating(FourColorAttribute.Rating.III)
+	);
 
 	///  WAW
 
@@ -179,8 +198,7 @@ public class PmItems {
 
 	private static <T extends Item & GeoItem> DeferredItem<Item> createGeoArmorItem(String name,
 			BiFunction<PmArmorItem.Builder, GeoBuilder, GeoEgoArmorItem> armorItem,
-			PmArmorItem.Builder builder,
-			GeoBuilder geoBuilder) {
+			GeoBuilder geoBuilder, PmArmorItem.Builder builder) {
 		return ITEM_REGISTER.register(name, () -> armorItem.apply(builder, geoBuilder));
 	}
 

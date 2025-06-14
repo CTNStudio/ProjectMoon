@@ -1,14 +1,19 @@
 package ctn.project_moon.common.item.weapon.abstract_ltem;
 
+import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.capability.IRandomDamage;
 import ctn.project_moon.capability.item.IColorDamageTypeItem;
 import ctn.project_moon.capability.item.IInvincibleTickItem;
+import ctn.project_moon.capability.item.IUsageReqItem;
+import ctn.project_moon.client.models.GuiItemModel;
+import ctn.project_moon.client.models.PmGeoItemModel;
 import ctn.project_moon.client.renderer_providers.PmGeoItemRenderProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -29,31 +34,42 @@ import javax.annotation.CheckForNull;
 import java.util.function.Consumer;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.init.PmItemDataComponents.COLOR_DAMAGE_TYPE;
+import static ctn.project_moon.common.item.components.ItemColorUsageReq.notToExceed;
+import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
 
 /**
  * 武器基类
  */
-public abstract class Weapon extends Item implements
-		GeoItem, IRandomDamage, IColorDamageTypeItem, IInvincibleTickItem {
+public abstract class Weapon extends Item implements GeoItem, IRandomDamage, IColorDamageTypeItem, IInvincibleTickItem, IUsageReqItem {
 	public static final ResourceLocation        ENTITY_RANGE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "entity_range");
 	public static final ResourceLocation        BLOCK_RANGE  = ResourceLocation.fromNamespaceAndPath(MOD_ID, "block_range");
 	private final       AnimatableInstanceCache cache        = GeckoLibUtil.createInstanceCache(this);
-	private final       int                     maxDamage;
 	private final       int                     minDamage;
+	private final       int                     maxDamage;
 	protected           GeoModel<Weapon>        defaultModel;
 	protected           GeoModel<Weapon>        guiModel;
+	// 注：这个只对近战攻击有效果
+	protected final     PmDamageTool.ColorType  initialColorDamageType;
 
 	public Weapon(Builder builder) {
 		this(builder.build(), builder);
 	}
 
+	public Weapon(Builder builder, PmDamageTool.ColorType initialColorDamageType) {
+		this(builder.build(), builder.initialColorDamageType(initialColorDamageType));
+	}
+
 	public Weapon(Item.Properties properties, Builder builder) {
-		super(properties.attributes(builder.getItemAttributeModifiers())
-				.component(COLOR_DAMAGE_TYPE.get(), PmDamageTool.ColorType.PHYSICS.getName())
+		this(properties, builder, builder.initialColorDamageType);
+	}
+
+	public Weapon(Item.Properties properties, Builder builder, PmDamageTool.ColorType initialColorDamageType) {
+		super(properties
+				.attributes(builder.getItemAttributeModifiers())
 				.stacksTo(1));
-		this.maxDamage = builder.maxDamage;
-		this.minDamage = builder.minDamage;
+		this.maxDamage              = builder.maxDamage;
+		this.minDamage              = builder.minDamage;
+		this.initialColorDamageType = initialColorDamageType;
 	}
 
 	/// 获取武器攻击时造成的无敌帧
@@ -70,6 +86,16 @@ public abstract class Weapon extends Item implements
 	/// 设置在GUI中的模型
 	public void setGuiModel(GeoModel<Weapon> guiModel) {
 		this.guiModel = guiModel;
+	}
+
+	public void setItemModel(GeoModel<Weapon> defaultModel, GeoModel<Weapon> guiModel) {
+		setDefaultModel(defaultModel);
+		setGuiModel(guiModel);
+	}
+
+	public void setItemModel(String modelName) {
+		setDefaultModel(new PmGeoItemModel<>(modelName));
+		setGuiModel(new GuiItemModel<>(modelName));
 	}
 
 	/// 创建GEO模型渲染
@@ -107,17 +133,58 @@ public abstract class Weapon extends Item implements
 		return cache;
 	}
 
-	/// 获取物品伤害颜色
+	/// 获取物品当前的伤害颜色<p>注：这个只对近战攻击有效果
 	@Override
 	@CheckForNull
-	public PmDamageTool.ColorType getDamageType(ItemStack stack) {
-		return PmDamageTool.ColorType.PHYSICS;
+	public PmDamageTool.ColorType getColorDamageType(ItemStack stack) {
+		return initialColorDamageType;
 	}
 
 	/// 获取伤害类型描述
 	@Override
-	public Component getFourColorDamageTypeToTooltip() {
+	public Component getColorDamageTypeToTooltip() {
 		return null;
+	}
+
+
+	/**
+	 * 使用物品时触发
+	 */
+	@Override
+	public void useImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+
+	}
+
+	/**
+	 * 攻击时触发
+	 */
+	@Override
+	public void attackImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+
+	}
+
+	/**
+	 * 在手上时触发
+	 */
+	@Override
+	public void onTheHandImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+
+	}
+
+	/**
+	 * 物品在背包时里触发
+	 */
+	@Override
+	public void inTheBackpackImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+
+	}
+
+	/**
+	 * 在装备里时触发，如盔甲，饰品
+	 */
+	@Override
+	public void equipmentImpede(ItemStack itemStack, Level level, LivingEntity entity) {
+
 	}
 
 	/// 武器属性构造器
@@ -125,12 +192,19 @@ public abstract class Weapon extends Item implements
 		// EGO伤害
 		private int minDamage, maxDamage;
 		// 适用与近战EGO，和部分远程EGO
-		private float           attackSpeed;
+		private float                     attackSpeed;
 		// 近战攻击距离 & 可以摸到方块的距离
-		private float           attackDistance;
+		private float                     attackDistance;
 		// 预留的耐久
-		private int             durability;
-		private Item.Properties properties = new Item.Properties();
+		private int                       durability;
+		private Item.Properties           properties             = new Item.Properties();
+		// 注：这个只对近战攻击有效果
+		private PmDamageTool.ColorType    initialColorDamageType = PmDamageTool.ColorType.PHYSICS;
+		private FourColorAttribute.Rating fortitudeRating;
+		private FourColorAttribute.Rating prudenceRating;
+		private FourColorAttribute.Rating temperanceRating;
+		private FourColorAttribute.Rating justiceRating;
+		private FourColorAttribute.Rating compositeRating;
 
 		public Builder() {
 		}
@@ -156,10 +230,19 @@ public abstract class Weapon extends Item implements
 			this.durability = durability;
 		}
 
+		/// 注：这个只对近战攻击有效果
+		public Builder initialColorDamageType(PmDamageTool.ColorType initialColorDamageType) {
+			this.initialColorDamageType = initialColorDamageType;
+			return this;
+		}
+
 		public Item.Properties build() {
 			properties.attributes(getItemAttributeModifiers());
 			if (durability > 0) {
 				properties.durability(durability);
+			}
+			if (fortitudeRating != null || prudenceRating != null || temperanceRating != null || justiceRating != null || compositeRating != null) {
+				properties.component(ITEM_COLOR_USAGE_REQ, notToExceed(fortitudeRating, prudenceRating, temperanceRating, justiceRating, compositeRating));
 			}
 			return properties;
 		}
@@ -206,6 +289,36 @@ public abstract class Weapon extends Item implements
 
 		public Builder properties(Properties properties) {
 			this.properties = properties;
+			return this;
+		}
+
+		/// 勇气
+		public Builder fortitudeRating(FourColorAttribute.Rating fortitudeRating) {
+			this.fortitudeRating = fortitudeRating;
+			return this;
+		}
+
+		/// 理智
+		public Builder prudenceRating(FourColorAttribute.Rating prudenceRating) {
+			this.prudenceRating = prudenceRating;
+			return this;
+		}
+
+		/// 自律
+		public Builder temperanceRating(FourColorAttribute.Rating temperanceRating) {
+			this.temperanceRating = temperanceRating;
+			return this;
+		}
+
+		/// 正义
+		public Builder justiceRating(FourColorAttribute.Rating justiceRating) {
+			this.justiceRating = justiceRating;
+			return this;
+		}
+
+		/// 综合
+		public Builder compositeRating(FourColorAttribute.Rating compositeRating) {
+			this.compositeRating = compositeRating;
 			return this;
 		}
 	}

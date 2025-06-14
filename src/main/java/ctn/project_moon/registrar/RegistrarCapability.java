@@ -194,7 +194,7 @@ public class RegistrarCapability {
 		event.registerEntity(LEVEL_ENTITY, entityType, (stack, ctx) -> (stack instanceof ILevel ilevel) ? ilevel : () -> level);
 	}
 
-	public static void registrarEntityLevel(RegisterCapabilitiesEvent event,PmDamageTool.Level level, List<EntityType<?>> entityTypeList) {
+	public static void registrarEntityLevel(RegisterCapabilitiesEvent event, PmDamageTool.Level level, List<EntityType<?>> entityTypeList) {
 		for (EntityType<?> entityType : entityTypeList) {
 			registrarEntityLevel(event, level, entityType);
 		}
