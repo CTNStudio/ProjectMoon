@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
  * <p>
  * 部分注释由AI生成并由人工补充
  *
- * @author 小尽
+ * @author 尽
  */
 @OnlyIn(Dist.CLIENT)
 public class Switch2Button extends ImageButton {
@@ -42,7 +42,7 @@ public class Switch2Button extends ImageButton {
 	protected       Component        message;
 	// 按钮当前是否处于打开状态
 	protected       boolean          isOpen;
-
+	
 	/**
 	 * 构造一个 Switch2Button 实例
 	 *
@@ -58,7 +58,7 @@ public class Switch2Button extends ImageButton {
 	public Switch2Button(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress) {
 		this(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, onPress, true);
 	}
-
+	
 	/**
 	 * 构造一个 Switch2Button 实例，包含是否特殊的标志
 	 *
@@ -75,7 +75,7 @@ public class Switch2Button extends ImageButton {
 	public Switch2Button(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, OnPress onPress, boolean isSpecial) {
 		this(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, 256, 256, onPress, isSpecial);
 	}
-
+	
 	/**
 	 * 构造一个 Switch2Button 实例，包含按钮纹理的宽度和高度
 	 *
@@ -93,7 +93,7 @@ public class Switch2Button extends ImageButton {
 	public Switch2Button(Screen screen, ResourceLocation resourceLocation, int x, int y, int width, int height, int xTexStart, int yTexStart, int textureWidth, int textureHeight, OnPress onPress) {
 		this(screen, resourceLocation, x, y, width, height, xTexStart, yTexStart, textureWidth, textureHeight, onPress, true);
 	}
-
+	
 	/**
 	 * 构造一个 Switch2Button 实例，包含是否特殊的标志，以及按钮纹理的宽度和高度
 	 *
@@ -126,21 +126,21 @@ public class Switch2Button extends ImageButton {
 		this.textureHeight    = textureHeight;
 		this.isSpecial        = isSpecial;
 	}
-
+	
 	/**
 	 * 切换按钮的打开状态
 	 */
 	public void change() {
 		this.isOpen = !isOpen;
 	}
-
+	
 	/**
 	 * 获取按钮的打开状态
 	 */
 	public boolean isOpen() {
 		return isOpen;
 	}
-
+	
 	/**
 	 * 渲染按钮，根据按钮的状态和是否悬停来确定渲染的纹理部分
 	 */
@@ -161,7 +161,7 @@ public class Switch2Button extends ImageButton {
 			renderTooltip(guiGraphics, mouseX, mouseY);
 		}
 	}
-
+	
 	/**
 	 * 在特殊情况下替换默认的按钮渲染方法
 	 */
@@ -179,7 +179,7 @@ public class Switch2Button extends ImageButton {
 			renderTooltip(guiGraphics, mouseX, mouseY);
 		}
 	}
-
+	
 	/**
 	 * 渲染按钮的纹理
 	 */
@@ -193,14 +193,14 @@ public class Switch2Button extends ImageButton {
 				textureWidth, textureHeight);
 		RenderSystem.enableDepthTest();
 	}
-
+	
 	/**
 	 * 特殊执行的渲染逻辑，返回渲染的纹理部分的偏移量
 	 */
 	public int overlayOpen(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		return 0;
 	}
-
+	
 	public void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
 		if (message == null) {
 			return;

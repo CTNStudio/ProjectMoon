@@ -11,9 +11,9 @@ public class DatagenBlockState extends BlockStateProvider {
 	public DatagenBlockState(PackOutput output, ExistingFileHelper exFileHelper) {
 		super(output, MOD_ID, exFileHelper);
 	}
-
+	
 	@Override
 	protected void registerStatesAndModels() {
-
+	
 	}
 }

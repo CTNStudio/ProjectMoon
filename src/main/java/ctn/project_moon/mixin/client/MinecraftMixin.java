@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_SWITCH_ITEMS;
-import static ctn.project_moon.api.TempNbtAttribute.PLAYER_ATTACK;
+import static ctn.project_moon.api.attr.TempNbtAttribute.CANNOT_PLAYER_SWITCH_ITEMS;
+import static ctn.project_moon.api.attr.TempNbtAttribute.PLAYER_ATTACK;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnable> implements WindowEventHandler, net.neoforged.neoforge.client.extensions.IMinecraftExtension {
@@ -23,11 +23,11 @@ public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnabl
 	public Options     options;
 	@Shadow
 	public LocalPlayer player;
-
+	
 	public MinecraftMixin(String name) {
 		super(name);
 	}
-
+	
 	@Inject(method = "handleKeybinds", at = @At("HEAD"), cancellable = true)
 	protected void projectMoon$handleKeybinds(CallbackInfo ci) {
 		if (!player.getPersistentData().getBoolean(CANNOT_PLAYER_SWITCH_ITEMS) || this.player.isSpectator()) {
@@ -48,7 +48,7 @@ public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnabl
 			ci.cancel();
 		}
 	}
-
+	
 	@Inject(method = "startAttack", at = @At("HEAD"), cancellable = true)
 	private void projectMoon$startAttack(CallbackInfoReturnable<Boolean> cir) {
 		if (!player.getPersistentData().getBoolean(PLAYER_ATTACK)) {
@@ -56,7 +56,7 @@ public abstract class MinecraftMixin extends ReentrantBlockableEventLoop<Runnabl
 		}
 		cir.setReturnValue(false);
 	}
-
+	
 	@Inject(method = "pickBlock", at = @At("HEAD"), cancellable = true)
 	private void projectMoon$pickBlock(CallbackInfo ci) {
 		if (!player.getPersistentData().getBoolean(CANNOT_PLAYER_SWITCH_ITEMS)) {

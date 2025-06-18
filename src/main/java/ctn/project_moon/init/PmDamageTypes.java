@@ -16,7 +16,7 @@ public interface PmDamageTypes extends DamageTypes {
 	/**
 	 * 精神
 	 */
-	ResourceKey<DamageType> SPIRIT   = create("spirit");
+	ResourceKey<DamageType> SPIRIT   = create("rationality");
 	/**
 	 * 侵蚀
 	 */
@@ -34,8 +34,8 @@ public interface PmDamageTypes extends DamageTypes {
 	 * EGO
 	 */
 	ResourceKey<DamageType> EGO      = create("ego");
-
-
+	
+	
 	/** 创建伤害类型 */
 	static ResourceKey<DamageType> create(final String name) {
 		return ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, name));

@@ -5,8 +5,8 @@ import com.zigythebird.playeranimatorapi.data.PlayerParts;
 import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.capability.item.IPlayerAnim;
 import ctn.project_moon.common.entity.projectile.ParadiseLostSpikeweed;
-import ctn.project_moon.common.item.weapon.abstract_ltem.EgoWeapon;
-import ctn.project_moon.common.item.weapon.abstract_ltem.Weapon;
+import ctn.project_moon.common.item.weapon.abstract_item.EgoWeapon;
+import ctn.project_moon.common.item.weapon.abstract_item.Weapon;
 import ctn.project_moon.tool.PmTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.CheckForNull;
 import java.util.List;
 
-import static ctn.project_moon.api.TempNbtAttribute.*;
+import static ctn.project_moon.api.attr.TempNbtAttribute.*;
 import static net.minecraft.world.InteractionHand.OFF_HAND;
 
 /** 失乐园武器 */
@@ -38,12 +38,12 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 	public static final String END                  = "player.paradise_lost.end";
 	private final       int    NORMAL_ATTACK_TICK   = 8;
 	private final       int    CHARGING_ATTACK_TICK = 10;
-
+	
 	public ParadiseLostItem(Weapon.Builder builder) {
 		super(builder.build(), builder);
 		setItemModel("paradise_lost");
 	}
-
+	
 	/** 召唤一个 */
 	public static void normalAttack(Level level, LivingEntity entity) {
 		if (!(level instanceof ServerLevel serverLevel)) {
@@ -84,7 +84,7 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 		}
 		serverLevel.addFreshEntityWithPassengers(ParadiseLostSpikeweed.create(serverLevel, x, y, z, 1, entity));
 	}
-
+	
 	/** 召唤多个 */
 	public static void chargingAttack(Level level, LivingEntity entity) {
 		if (!(level instanceof ServerLevel serverLevel)) {
@@ -113,7 +113,7 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 			}
 		}
 	}
-
+	
 	/** 获取可攻击目标 */
 	private static @NotNull List<LivingEntity> getAttackableTarget(LivingEntity entity, ServerLevel serverLevel, AABB aabb) {
 		return serverLevel.getEntitiesOfClass(
@@ -125,7 +125,7 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 					return !livingEntity.getUUID().equals(entity.getUUID()) && livingEntity.isAlive() && livingEntity.isAttackable() && !playerCreative;
 				});
 	}
-
+	
 	//延伸限制
 	private static boolean isArrivable(double x, double y, double z, Level level) {
 		BlockPos pos = new BlockPos(
@@ -134,19 +134,19 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 				(int) (z >= 0 ? z : z - 1));
 		return !isPointColliding(level, pos, x, y, z);
 	}
-
+	
 	public static boolean isPointColliding(Level level, BlockPos pos, double worldX, double worldY, double worldZ) {
 		BlockState state = level.getBlockState(pos);
 		VoxelShape shape = state.getCollisionShape(level, pos);
-
+		
 		if (shape.isEmpty()) {
 			return false;
 		}
-
+		
 		double x = Math.abs(worldX - pos.getX());
 		double y = Math.abs(worldY - pos.getY());
 		double z = Math.abs(worldZ - pos.getZ());
-
+		
 		for (AABB aabb : shape.toAabbs()) {
 			if (aabb.contains(x, y, z)) {
 				return true;
@@ -154,12 +154,12 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public int getUseDuration(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
 		return 666;
 	}
-
+	
 	@Override
 	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
 		ItemStack itemstack = super.use(level, player, hand).getObject();
@@ -179,7 +179,7 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 		player.startUsingItem(hand);
 		return InteractionResultHolder.success(itemstack);
 	}
-
+	
 	@Override
 	public void onUseTick(@NotNull Level level, @NotNull LivingEntity entity, @NotNull ItemStack stack, int remainingUseDuration) {
 		if (!(entity instanceof Player player) || !player.onGround() || isJumpCancellation(level, player)) {
@@ -213,7 +213,7 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 			nbt.putInt(ITEM_TICK, 0);
 		}
 	}
-
+	
 	private boolean isJumpCancellation(Level level, Player player) {
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.player != null) {
@@ -224,7 +224,7 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void onStopUsing(@NotNull ItemStack stack, @NotNull LivingEntity entity, int count) {
 		if (!(entity instanceof Player player)) {
@@ -250,7 +250,7 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 		nbt.putInt(PLAYER_USE_ITEM_TICK, 0);
 		super.onStopUsing(stack, entity, count);
 	}
-
+	
 	@Override
 	public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
 		if (!isSelected || !(entity instanceof Player player) || player.isUsingItem()) {
@@ -283,7 +283,7 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 			}
 		}
 	}
-
+	
 	/**
 	 * 強制中断
 	 */
@@ -295,7 +295,7 @@ public class ParadiseLostItem extends EgoWeapon implements IPlayerAnim {
 		IPlayerAnim.stopAnimation(level, player, END);
 		player.releaseUsingItem();
 	}
-
+	
 	@CheckForNull
 	@Override
 	public List<PmDamageTool.ColorType> getCanCauseDamageTypes() {

@@ -12,18 +12,18 @@ public class PmGeoItemRenderProvider<T extends Item & GeoItem> implements GeoRen
 	protected final GeoModel<T>          defaultModel;
 	protected final GeoModel<T>          guiModel;
 	private         PmGeoItemRenderer<T> renderer;
-
+	
 	public PmGeoItemRenderProvider(GeoModel<T> defaultModel, GeoModel<T> guiModel) {
 		this.defaultModel = defaultModel;
 		this.guiModel     = guiModel;
 	}
-
+	
 	@Override
 	public BlockEntityWithoutLevelRenderer getGeoItemRenderer() {
 		if (this.renderer == null) {
 			this.renderer = new PmGeoItemRenderer<>(defaultModel, guiModel);
 		}
-
+		
 		return this.renderer;
 	}
 }

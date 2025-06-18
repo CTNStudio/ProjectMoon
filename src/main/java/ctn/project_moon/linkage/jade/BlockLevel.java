@@ -9,11 +9,11 @@ import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
-import static ctn.project_moon.init.PmCapability.Level.LEVEL_BlOCK;
+import static ctn.project_moon.init.PmCapabilitys.Level.LEVEL_BlOCK;
 
 public enum BlockLevel implements IBlockComponentProvider {
 	INSTANCE;
-
+	
 	@Override
 	public void appendTooltip(ITooltip itooltip, BlockAccessor accessor, IPluginConfig config) {
 		var capability = accessor.getLevel().getCapability(LEVEL_BlOCK, accessor.getPosition());
@@ -26,7 +26,7 @@ public enum BlockLevel implements IBlockComponentProvider {
 		}
 		itooltip.add(1, Component.literal(level.getName()).withColor(PmTool.colorConversion(level.getColourText())));
 	}
-
+	
 	@Override
 	public ResourceLocation getUid() {
 		return PmPlugin.LEVEL;

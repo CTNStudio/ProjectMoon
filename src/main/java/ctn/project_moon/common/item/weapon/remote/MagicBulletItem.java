@@ -3,7 +3,7 @@ package ctn.project_moon.common.item.weapon.remote;
 import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.capability.item.IPlayerAnim;
 import ctn.project_moon.common.entity.projectile.MagicBulletEntity;
-import ctn.project_moon.common.item.weapon.abstract_ltem.RemoteEgoWeapon;
+import ctn.project_moon.common.item.weapon.abstract_item.RemoteEgoWeapon;
 import ctn.project_moon.tool.PmTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.CheckForNull;
 import java.util.List;
 
-import static ctn.project_moon.api.TempNbtAttribute.*;
+import static ctn.project_moon.api.attr.TempNbtAttribute.*;
 import static net.minecraft.world.InteractionHand.OFF_HAND;
 
 /**
@@ -30,18 +30,18 @@ import static net.minecraft.world.InteractionHand.OFF_HAND;
  * @date 2025-5-23
  */
 public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
-	public static final int DAMAGE = 22;
-	public static final int DAMAGE1 = 20;
-	private final float BULLET_SPEED = 1.0f;// 子弹速度
-	private final int   NORMAL_ATTACK_TICK   = 8;
-	private final int   CHARGING_ATTACK_TICK = 10;
-	private       int   shootCount           = 0;
-
+	public static final int   DAMAGE               = 22;
+	public static final int   DAMAGE1              = 20;
+	private final       float BULLET_SPEED         = 1.0f;// 子弹速度
+	private final       int   NORMAL_ATTACK_TICK   = 8;
+	private final       int   CHARGING_ATTACK_TICK = 10;
+	private             int   shootCount           = 0;
+	
 	public MagicBulletItem(Builder builder) {
 		super(builder.build(), builder, false);
 		setItemModel("magic_bullet");
 	}
-
+	
 	/**
 	 * 使用物品
 	 * 方法参照失乐园
@@ -59,19 +59,19 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 //		enterAttackState(level, player, null);// TODO:播放动画
 		nbt.putBoolean(PLAYER_USE_ITEM, true);
 		nbt.putBoolean(PLAYER_ATTACK, true);
-
+		
 		nbt.putBoolean(CANNOT_PLAYER_SWITCH_ITEMS, true);
 		nbt.putBoolean(CANNOT_PLAYER_MOVED, true);
 		player.startUsingItem(hand);
-
+		
 		return InteractionResultHolder.success(itemstack);
 	}
-
+	
 	@Override
 	public int getUseDuration(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
 		return 777;
 	}
-
+	
 	@Override
 	public void onUseTick(@NotNull Level level, @NotNull LivingEntity entity, @NotNull ItemStack stack, int remainingUseDuration) {
 		if (!(entity instanceof Player player)) {
@@ -97,7 +97,7 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 //			}
 			nbt.putBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE, true);
 			if (!level.isClientSide()) {
-
+				
 				// 特殊技能释放
 				chargingShoot(player, stack, DAMAGE, DAMAGE1);
 			}
@@ -110,7 +110,7 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 			nbt.putInt(ITEM_TICK, 0);
 		}
 	}
-
+	
 	@Override
 	public void onStopUsing(@NotNull ItemStack stack, @NotNull LivingEntity entity, int count) {
 		if (!(entity instanceof Player player)) {
@@ -135,7 +135,7 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 		nbt.putInt(PLAYER_USE_ITEM_TICK, 0);
 		super.onStopUsing(stack, entity, count);
 	}
-
+	
 	@Override
 	public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
 		if (!isSelected || !(entity instanceof Player player) || player.isUsingItem()) {
@@ -174,7 +174,7 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 			}
 		}
 	}
-
+	
 	/**
 	 * 普通攻击
 	 *
@@ -185,16 +185,16 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 	 */
 	private void normalShoot(Player shooter, ItemStack gunStack, int maxDamage, int minDamage) {
 		Level level = shooter.level();
-
+		
 		MagicBulletEntity magicBullet = MagicBulletEntity.create(level, shooter, maxDamage, minDamage);
 		magicBullet.shootFromRotation(shooter, shooter.getXRot(), shooter.getYRot(), 0.0F, BULLET_SPEED, 1.0F);
 		level.addFreshEntity(magicBullet);
-
+		
 		//TODO:播放音效
-
+		
 		addShootCount();
 	}
-
+	
 	/**
 	 * 第七发魔弹（普通攻击）
 	 * 第七发魔弹会穿透追踪玩家与队友
@@ -206,28 +206,28 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 	 */
 	private void SeventhShoot(Player shooter, ItemStack gunStack, int maxDamage, int minDamage) {
 		Level level = shooter.level();
-
+		
 		MagicBulletEntity seventh_bullet = MagicBulletEntity.create(level, shooter, maxDamage, minDamage);
-
+		
 		// 使其会追踪队友
 		seventh_bullet.setDealDamageToAllies(true);
 		seventh_bullet.setCanGoThroughWallsWhenNoTarget(true);//无目标时可穿墙
-
+		
 		Vec3 playerLook = shooter.getLookAngle().normalize();
 		seventh_bullet.setPos(shooter.getEyePosition().subtract(playerLook.scale(3.0f)));//生成于玩家脑后
-
+		
 		// 玩家可攻击时追踪玩家
 		if (!shooter.isCreative() && !shooter.isSpectator() && shooter.isAlive() && shooter.isAttackable()) {
 			seventh_bullet.setTrackingTarget(shooter);
 		}
 		seventh_bullet.shoot(playerLook.x, playerLook.y, playerLook.z, BULLET_SPEED, 0.5f);
 		level.addFreshEntity(seventh_bullet);
-
+		
 		//TODO:播放音效
-
+		
 		addShootCount();
 	}
-
+	
 	/**
 	 * 蓄力攻击
 	 * 在玩家身后扇形生成6枚子弹向前射去
@@ -235,39 +235,39 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 	 */
 	private void chargingShoot(Player player, ItemStack stack, int maxDamage, int minDamage) {
 		Level level = player.level();
-
+		
 		// 获取玩家后方基准点
 		Vec3 playerLook = player.getLookAngle().normalize();
 		Vec3 backwardPos = player.position()
-				.subtract(playerLook.scale(2.5)) // 向后移动2格
-				.add(0, player.getEyeHeight() * 0.8, 0); // 调整到腰部高度
-
+		                         .subtract(playerLook.scale(2.5)) // 向后移动2格
+		                         .add(0, player.getEyeHeight() * 0.8, 0); // 调整到腰部高度
+		
 		// 扇形参数配置
 		int bulletCount = 6;
 		float fanWidth = 5.0f; // 扇形宽度
 		float startOffset = -fanWidth / 2; // 起始横向偏移
 		float step = fanWidth / (bulletCount - 1); // 横向间隔
-
+		
 		// 计算垂直于视线的平面基向量
 		Vec3 planeRight = playerLook.cross(new Vec3(0, 1, 0)).normalize(); // 平面右向量
 		Vec3 planeUp = planeRight.cross(playerLook).normalize(); // 平面上向量
-
+		
 		// 生成子弹
 		for (int i = 0; i < bulletCount; i++) {
 			// 计算当前子弹在平面上的偏移
 			float currentOffset = startOffset + step * i;
-
+			
 			// 计算生成位置（在垂直平面上呈直线排列）
 			Vec3 spawnPos = backwardPos
 					.add(planeRight.scale(currentOffset)) // 水平偏移
 					.add(planeUp.scale(fanWidth / 2.0f * Math.sin(i * 0.628f))); // 添加垂直波动
-
+			
 			// 创建并发射子弹（全部朝玩家视线方向）
 			MagicBulletEntity bullet = MagicBulletEntity.create(level, player, maxDamage, minDamage);
-
+			
 			//  选用：设置无目标时可穿墙(否则容易被墙挡)
 			bullet.setCanGoThroughWallsWhenNoTarget(true);
-
+			
 			bullet.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 			bullet.shoot(
 					playerLook.x,
@@ -288,18 +288,18 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 		seventh_bullet.setCanGoThroughWallsWhenNoTarget(true);//无目标时可穿墙
 		seventh_bullet.shoot(playerLook.x, playerLook.y, playerLook.z, BULLET_SPEED, 0.5f);
 		level.addFreshEntity(seventh_bullet);
-
+		
 		// TODO:播放音效
-
+		
 	}
-
+	
 	/**
 	 * 计算射击次数
 	 */
 	private void addShootCount() {
 		this.shootCount = this.shootCount % 7 + 1;
 	}
-
+	
 	@Override
 	public void forcedInterruption(Level level, Player player) {
 		resetTemporaryAttribute(player);
@@ -308,7 +308,7 @@ public class MagicBulletItem extends RemoteEgoWeapon implements IPlayerAnim {
 //		PlayerAnim.stopAnimation(level, player, END);
 		player.releaseUsingItem();
 	}
-
+	
 	@CheckForNull
 	@Override
 	public List<PmDamageTool.ColorType> getCanCauseDamageTypes() {

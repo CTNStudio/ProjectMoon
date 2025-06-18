@@ -9,14 +9,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_ROTATING_PERSPECTIVE;
+import static ctn.project_moon.api.attr.TempNbtAttribute.CANNOT_PLAYER_ROTATING_PERSPECTIVE;
 
 @Mixin(MouseHandler.class)
 public abstract class MouseHandlerMixin {
 	@Shadow
 	@Final
 	private Minecraft minecraft;
-
+	
 	@Inject(method = "turnPlayer", at = @At("HEAD"), cancellable = true)
 	private void projectMoon$turnPlayer(CallbackInfo ci) {
 		if (!(minecraft.player != null && minecraft.player.getPersistentData().getBoolean(CANNOT_PLAYER_ROTATING_PERSPECTIVE))) {

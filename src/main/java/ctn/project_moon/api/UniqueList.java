@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class UniqueList<T> extends ArrayList<T> {
 	private final Set<T> set = new LinkedHashSet<>();
-
+	
 	@Override
 	public boolean add(T item) {
 		if (set.add(item)) {

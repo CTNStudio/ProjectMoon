@@ -19,10 +19,10 @@ import static ctn.project_moon.PmMain.MOD_ID;
 public class PmItemPropertyEvents {
 	public static final ResourceLocation MODE_BOOLEAN        = createProperties("mode_boolean");
 	public static final ResourceLocation CURRENT_DAMAGE_TYPE = createProperties("current_damage_type");
-
+	
 	public static final ClampedItemPropertyFunction PROPERTY_MODE_BOOLEAN = (itemStack, clientLevel, livingEntity, i) ->
 			Boolean.TRUE.equals(itemStack.get(PmItemDataComponents.MODE_BOOLEAN)) ? 1 : 0;
-
+	
 	public static final ClampedItemPropertyFunction PROPERTY_CURRENT_DAMAGE_TYPE = (itemStack, clientLevel, livingEntity, i) ->
 			switch (PmDamageTool.ColorType.is(itemStack.get(PmItemDataComponents.COLOR_DAMAGE_TYPE))) {
 				case PHYSICS -> 0;
@@ -31,20 +31,20 @@ public class PmItemPropertyEvents {
 				case THE_SOUL -> 0.3F;
 				case null -> 0;
 			};
-
+	
 	/**
 	 * 注册物品渲染附加
 	 */
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
-		createProperties(event, PmItems.CREATIVE_SPIRIT_TOOL.asItem(), MODE_BOOLEAN, PROPERTY_MODE_BOOLEAN);
+		createProperties(event, PmItems.CREATIVE_RATIONALITY_TOOL.asItem(), MODE_BOOLEAN, PROPERTY_MODE_BOOLEAN);
 		createProperties(event, PmItems.CHAOS_SWORD.asItem(), CURRENT_DAMAGE_TYPE, PROPERTY_CURRENT_DAMAGE_TYPE);
 	}
-
+	
 	private static void createProperties(FMLClientSetupEvent event, Item item, ResourceLocation propertiesName, ClampedItemPropertyFunction propertyFunction) {
 		event.enqueueWork(() -> ItemProperties.register(item, propertiesName, propertyFunction));
 	}
-
+	
 	private static ResourceLocation createProperties(String name) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
 	}

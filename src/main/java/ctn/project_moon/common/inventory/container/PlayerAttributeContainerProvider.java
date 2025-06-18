@@ -14,13 +14,13 @@ import javax.annotation.Nonnull;
  * 玩家属性容器提供程序
  */
 public class PlayerAttributeContainerProvider implements MenuProvider {
-
+	
 	@Nonnull
 	@Override
 	public Component getDisplayName() {
 		return Component.empty();
 	}
-
+	
 	@CheckForNull
 	@Override
 	public AbstractContainerMenu createMenu(int i, @Nonnull Inventory playerInventory,

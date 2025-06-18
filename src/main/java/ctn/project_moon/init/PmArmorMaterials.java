@@ -19,7 +19,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 
 public class PmArmorMaterials {
 	public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS_TYPE_REGISTER = DeferredRegister.create(BuiltInRegistries.ARMOR_MATERIAL, MOD_ID);
-
+	
 	// EGO护甲
 	public static final Holder<ArmorMaterial> ZAYIN = register(
 			"zayin", 1, 2, 3, 1, 3, 9,
@@ -36,12 +36,12 @@ public class PmArmorMaterials {
 	public static final Holder<ArmorMaterial> ALEPH = register(
 			"aleph", 4, 8, 10, 5, 13, 9,
 			PmSoundEvents.ARMOR_EQUIP_ALEPH, 4.0F, 0.1F);
-
+	
 	// 其他
 	public static final Holder<ArmorMaterial> SUIT = register(
 			"suit", 1, 2, 3, 1, 3, 9,
 			PmSoundEvents.ARMOR_EQUIP_ZAYIN, 0.0F, 0.0F);
-
+	
 	public static Holder<ArmorMaterial> register(
 			String name,
 			int boots, int leggings, int chestplate, int helmet, int body,
@@ -51,7 +51,7 @@ public class PmArmorMaterials {
 			float knockbackResistance) {
 		return register(name, boots, leggings, chestplate, helmet, body, enchantmentValue, equipSound, toughness, knockbackResistance, () -> Ingredient.of(Items.AIR));
 	}
-
+	
 	private static Holder<ArmorMaterial> register(
 			String name,
 			int boots, int leggings, int chestplate, int helmet, int body,
@@ -70,7 +70,7 @@ public class PmArmorMaterials {
 							map.put(ArmorItem.Type.BODY, body);
 						}), enchantmentValue, equipSound, toughness, knockbackResistance, repairIngredient);
 	}
-
+	
 	private static Holder<ArmorMaterial> register(
 			String name,
 			EnumMap<ArmorItem.Type, Integer> defense,
@@ -83,7 +83,7 @@ public class PmArmorMaterials {
 		List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(ResourceLocation.withDefaultNamespace(name)));
 		return register(name, defense, enchantmentValue, equipSound, toughness, knockbackResistance, repairIngredient, list);
 	}
-
+	
 	private static Holder<ArmorMaterial> register(
 			String name,
 			EnumMap<ArmorItem.Type, Integer> defense,
@@ -95,7 +95,7 @@ public class PmArmorMaterials {
 			List<ArmorMaterial.Layer> layers
 	) {
 		EnumMap<ArmorItem.Type, Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
-
+		
 		for (ArmorItem.Type armoritem$type : ArmorItem.Type.values()) {
 			enummap.put(armoritem$type, defense.get(armoritem$type));
 		}

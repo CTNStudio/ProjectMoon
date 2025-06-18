@@ -17,12 +17,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LivingDamageEvent$PostMixin implements IModLivingDamageEvent$Post {
 	@Unique
 	private DamageContainer projectMoon$damageContainer;
-
+	
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void projectMoon$Post(LivingEntity entity, DamageContainer container, CallbackInfo ci) {
 		projectMoon$damageContainer = container;
 	}
-
+	
 	@Unique
 	public DamageContainer projectMoonInt$getDamageContainer() {
 		return projectMoon$damageContainer;

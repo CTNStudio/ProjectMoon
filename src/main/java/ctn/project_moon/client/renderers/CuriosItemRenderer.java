@@ -28,7 +28,7 @@ public class CuriosItemRenderer implements ICurioRenderer {
 	protected final GeoModel<EgoCurioItem>         geoModel;
 	protected final EgoCurioItem                   animatableItem;
 	protected final RenderType                     type = RenderType.CUTOUT;
-
+	
 	public CuriosItemRenderer(EgoCurioItem curioItem) {
 		cache          = curioItem.getAnimatableInstanceCache();
 		model          = curioItem.getModel();
@@ -37,7 +37,7 @@ public class CuriosItemRenderer implements ICurioRenderer {
 		animatableItem = curioItem;
 		bakedGeoModel  = geoModel.getBakedModel(geoModel.getModelResource(animatableItem, renderer));
 	}
-
+	
 	@Override
 	public <T extends LivingEntity, M extends EntityModel<T>>
 	void render(ItemStack stack, SlotContext slotContext, PoseStack matrixStack, RenderLayerParent<T, M> renderLayerParent,
@@ -60,7 +60,7 @@ public class CuriosItemRenderer implements ICurioRenderer {
 			     DatagenCuriosTest.GLOVE_CURIOS -> EquipmentSlot.MAINHAND;
 			default -> EquipmentSlot.BODY;
 		};
-
+		
 		// 预推送当前渲染状态机
 		renderer.prepForRender(slotContext.entity(), stack, slot, (HumanoidModel<?>) renderLayerParent.getModel(), renderTypeBuffer, partialTicks, limbSwing, limbSwingAmount, netHeadYaw, headPitch);
 		VertexConsumer consumer = renderTypeBuffer.getBuffer(type);

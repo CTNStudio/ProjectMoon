@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "project_moon:item/creative_rationality_tool_add"
+  }
+}

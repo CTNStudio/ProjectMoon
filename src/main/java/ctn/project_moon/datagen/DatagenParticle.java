@@ -19,23 +19,27 @@ public class DatagenParticle extends ParticleDescriptionProvider {
 	public DatagenParticle(PackOutput output, ExistingFileHelper fileHelper) {
 		super(output, fileHelper);
 	}
-
+	
+	private static @NotNull ResourceLocation getResourceLocation(String name) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+	}
+	
 	@Override
 	protected void addDescriptions() {
 		createSprite(PmParticleTypes.TEXT_PARTICLE_TYPE,
-				"physics",
-				"spirit",
-				"erosion",
-				"the_soul",
-				"add_prudence",
-				"reduce_prudence"
+		             "physics",
+		             "spirit",
+		             "erosion",
+		             "the_soul",
+		             "add_prudence",
+		             "reduce_prudence"
 		);
 	}
-
+	
 	private <p extends ParticleOptions> void createSprite(Supplier<ParticleType<p>> type, String name) {
 		sprite(type.get(), ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
 	}
-
+	
 	private <p extends ParticleOptions> void createSprite(Supplier<ParticleType<p>> type, String... names) {
 		List<ResourceLocation> list = new ArrayList<>();
 		for (String name : names) {
@@ -43,9 +47,5 @@ public class DatagenParticle extends ParticleDescriptionProvider {
 		}
 		spriteSet(type.get(), list);
 	}
-
-	private static @NotNull ResourceLocation getResourceLocation(String name) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
-	}
-
+	
 }

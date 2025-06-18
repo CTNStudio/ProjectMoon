@@ -62,7 +62,7 @@ public class TextParticle extends TextureSheetParticle {
 	private final int                    strokeColor;
 	private final SpriteSet              spriteSet;
 	private       TextureAtlasSprite     sprite;
-
+	
 	protected TextParticle(ClientLevel level, double x, double y, double z,
 			Component text, ResourceLocation damageTypeId,
 			@Nullable PmDamageTool.ColorType colorDamageType,
@@ -132,11 +132,70 @@ public class TextParticle extends TextureSheetParticle {
 		this.strokeColor = strokeColor;
 		setSprite(sprite);
 	}
-
+	
+	/**
+	 * 创建文本粒子
+	 *
+	 * @param damageType    伤害类型
+	 * @param colorType     四色伤害类型
+	 * @param world         世界
+	 * @param text          文本
+	 * @param isHeal        是否是治疗
+	 * @param isRationality 是否是理智操作
+	 * @param fontColor     文本颜色
+	 * @param strokeColor   描边颜色
+	 * @param x             生成的X坐标
+	 * @param y             生成的Y坐标
+	 * @param z             生成的Z坐标
+	 */
+	public static void createTextParticles(ResourceKey<DamageType> damageType, PmDamageTool.ColorType colorType, ServerLevel world, Component text, boolean isHeal, boolean isRationality, int fontColor, int strokeColor, double x, double y, double z, double xOffset, double yOffset, double zOffset) {
+		world.sendParticles(new TextParticle.Options(text, damageType, colorType, isHeal, isRationality, fontColor, strokeColor), x, y, z, 1, xOffset, yOffset, zOffset, 0);
+	}
+	
+	public static void createTextParticles(ResourceKey<DamageType> damageType, PmDamageTool.ColorType colorType, LivingEntity entity, Component text, boolean isHeal, boolean isRationality, int fontColor, int strokeColor) {
+		Vec3 pos = entity.position();
+		double x = pos.x;
+		double y = pos.y + entity.getBbHeight();
+		double z = pos.z;
+		AABB aabb = entity.getHitbox();
+		double xOffset = aabb.maxX - aabb.minX;
+		double zOffset = aabb.maxZ - aabb.minZ;
+		if (!(entity.level() instanceof ServerLevel serverLevel)) {
+			return;
+		}
+		serverLevel.sendParticles(
+				new TextParticle.Options(text, damageType, colorType, isHeal, isRationality, fontColor, strokeColor),
+				x, y, z,
+				1,
+				xOffset / 2 * 0.5f,
+				0,
+				zOffset / 2 * 0.5f, 0);
+	}
+	
+	/// 伤害版本
+	public static void createDamageParticles(ResourceKey<DamageType> damageType, PmDamageTool.ColorType colorType, LivingEntity entity, Component text, boolean isRationality) {
+		createTextParticles(damageType, colorType, entity, text, false, isRationality, 0, 0);
+	}
+	
+	/// 伤害版本
+	public static void createDamageParticles(ResourceKey<DamageType> damageType, PmDamageTool.ColorType colorType, ServerLevel world, Component text, boolean isRationality, double x, double y, double z, double xOffset, double yOffset, double zOffset) {
+		createTextParticles(damageType, colorType, world, text, false, isRationality, 0, 0, x, y, z, xOffset, yOffset, zOffset);
+	}
+	
+	/// 治疗版本
+	public static void createHealParticles(LivingEntity entity, Component text, boolean isRationality) {
+		createTextParticles(null, null, entity, text, true, isRationality, 0, 0);
+	}
+	
+	/// 治疗版本
+	public static void createHealParticles(ServerLevel world, Component text, boolean isRationality, double x, double y, double z, double xOffset, double yOffset, double zOffset) {
+		createTextParticles(null, null, world, text, true, isRationality, 0, 0, x, y, z, xOffset, yOffset, zOffset);
+	}
+	
 	private TextureAtlasSprite getSprite(int index) {
 		return ((IModParticleEngine$MutableSpriteSet) spriteSet).getSprites().get(index);
 	}
-
+	
 	/**
 	 * @param buffer 顶点缓冲区写入接口
 	 * @param camera 相机
@@ -154,7 +213,7 @@ public class TextParticle extends TextureSheetParticle {
 		double dx = this.x - camPos.x;
 		double dy = Mth.lerp(partialTicks, yo, y) - camPos.y;
 		double dz = this.z - camPos.z;
-
+		
 		// 变换矩阵堆栈
 		PoseStack poseStack = new PoseStack();
 		poseStack.pushPose();
@@ -167,17 +226,17 @@ public class TextParticle extends TextureSheetParticle {
 		// 根据视角旋转
 		poseStack.mulPose(camera.rotation());
 		poseStack.mulPose(Axis.XP.rotationDegrees(180));
-
+		
 		poseStack.scale(s, s, s);  // 文本大小
 		int width = minecraft.font.width(text);
 		int height = minecraft.font.lineHeight;
 		Matrix4f matrix = new Matrix4f(poseStack.last().pose());
-
-		int getLightColor  = this.getLightColor(partialTicks);
-
+		
+		int getLightColor = this.getLightColor(partialTicks);
+		
 		float x = -width / 2f;
 		float y = -height / 2f;
-
+		
 		// 渲染缓冲区
 		MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
 		// 渲染描边
@@ -187,7 +246,7 @@ public class TextParticle extends TextureSheetParticle {
 //		bufferSource.endBatch();
 		poseStack.popPose();
 	}
-
+	
 	@Override
 	public void tick() {
 		setSprite(sprite);
@@ -196,7 +255,7 @@ public class TextParticle extends TextureSheetParticle {
 			remove();
 		}
 	}
-
+	
 	/// 判断是否是指定伤害类型
 	private boolean isEquals(@NotNull ResourceKey<DamageType> damageType) {
 		if (this.damageTypeId == null) {
@@ -204,12 +263,12 @@ public class TextParticle extends TextureSheetParticle {
 		}
 		return this.damageTypeId.equals(damageType.location());
 	}
-
+	
 	@Override
 	public @NotNull ParticleRenderType getRenderType() {
 		return ParticleRenderType.CUSTOM;
 	}
-
+	
 	/// 绘制描边
 	private void renderStroke(float oldX, float oldY, Minecraft minecraft, Matrix4f matrix, MultiBufferSource.BufferSource bufferSource, int getLightColor) {
 		// 从左上开始
@@ -230,80 +289,21 @@ public class TextParticle extends TextureSheetParticle {
 			y -= 1;
 		}
 	}
-
+	
 	@Override
 	public void remove() {
 		super.remove();
 	}
-
-	/**
-	 * 创建文本粒子
-	 *
-	 * @param damageType    伤害类型
-	 * @param colorType     四色伤害类型
-	 * @param world         世界
-	 * @param text          文本
-	 * @param isHeal        是否是治疗
-	 * @param isRationality 是否是理智操作
-	 * @param fontColor     文本颜色
-	 * @param strokeColor   描边颜色
-	 * @param x             生成的X坐标
-	 * @param y             生成的Y坐标
-	 * @param z             生成的Z坐标
-	 */
-	public static void createTextParticles(ResourceKey<DamageType> damageType, PmDamageTool.ColorType colorType, ServerLevel world, Component text, boolean isHeal, boolean isRationality, int fontColor, int strokeColor, double x, double y, double z, double xOffset, double yOffset, double zOffset) {
-		world.sendParticles(new TextParticle.Options(text, damageType, colorType, isHeal, isRationality, fontColor, strokeColor), x, y, z, 1, xOffset, yOffset, zOffset, 0);
-	}
-
-	public static void createTextParticles(ResourceKey<DamageType> damageType, PmDamageTool.ColorType colorType, LivingEntity entity, Component text, boolean isHeal, boolean isRationality, int fontColor, int strokeColor) {
-		Vec3 pos = entity.position();
-		double x = pos.x;
-		double y = pos.y + entity.getBbHeight();
-		double z = pos.z;
-		AABB aabb = entity.getHitbox();
-		double xOffset = aabb.maxX - aabb.minX;
-		double zOffset = aabb.maxZ - aabb.minZ;
-		if (!(entity.level() instanceof ServerLevel serverLevel)) {
-			return;
-		}
-		serverLevel.sendParticles(
-				new TextParticle.Options(text, damageType, colorType, isHeal, isRationality, fontColor, strokeColor),
-				x, y, z,
-				1,
-				xOffset / 2 * 0.5f,
-				0,
-				zOffset / 2 * 0.5f, 0);
-	}
-
-	/// 伤害版本
-	public static void createDamageParticles(ResourceKey<DamageType> damageType, PmDamageTool.ColorType colorType, LivingEntity entity, Component text, boolean isRationality) {
-		createTextParticles(damageType, colorType, entity, text, false, isRationality, 0, 0);
-	}
-
-	/// 伤害版本
-	public static void createDamageParticles(ResourceKey<DamageType> damageType, PmDamageTool.ColorType colorType, ServerLevel world, Component text, boolean isRationality, double x, double y, double z, double xOffset, double yOffset, double zOffset) {
-		createTextParticles(damageType, colorType, world, text, false, isRationality, 0, 0, x, y, z, xOffset, yOffset, zOffset);
-	}
-
-	/// 治疗版本
-	public static void createHealParticles(LivingEntity entity, Component text, boolean isRationality) {
-		createTextParticles(null, null, entity, text, true, isRationality, 0, 0);
-	}
-
-	/// 治疗版本
-	public static void createHealParticles(ServerLevel world, Component text, boolean isRationality, double x, double y, double z, double xOffset, double yOffset, double zOffset) {
-		createTextParticles(null, null, world, text, true, isRationality, 0, 0, x, y, z, xOffset, yOffset, zOffset);
-	}
-
+	
 	/** 粒子提供者 */
-	public static class Provider implements ParticleProvider<Options>  {
+	public static class Provider implements ParticleProvider<Options> {
 		private final SpriteSet spriteSet;
-
+		
 		// The registration function passes a SpriteSet, so we accept that and store it for further use.
 		public Provider(SpriteSet spriteSet) {
 			this.spriteSet = spriteSet;
 		}
-
+		
 		@Override
 		@CheckForNull
 		public Particle createParticle(Options type,
@@ -315,10 +315,12 @@ public class TextParticle extends TextureSheetParticle {
 					type.fontColor(), type.strokeColor(), spriteSet);
 		}
 	}
-
+	
 	/** 粒子参数 */
 	@OnlyIn(Dist.CLIENT)
-	public record Options(@NotNull Component component, @NotNull ResourceLocation damageTypeId, @NotNull String colorDamageTypeId, boolean isHeal, boolean isRationality, int fontColor, int strokeColor) implements ParticleOptions {
+	public record Options(@NotNull Component component, @NotNull ResourceLocation damageTypeId,
+	                      @NotNull String colorDamageTypeId, boolean isHeal, boolean isRationality, int fontColor,
+	                      int strokeColor) implements ParticleOptions {
 		public static final MapCodec<Options> CODEC = RecordCodecBuilder.mapCodec(
 				(thisOptionsInstance) -> thisOptionsInstance.group(
 						ComponentSerialization.CODEC.fieldOf("component").forGetter(Options::component),
@@ -329,7 +331,7 @@ public class TextParticle extends TextureSheetParticle {
 						Codec.INT.fieldOf("font_color").forGetter(Options::fontColor),
 						Codec.INT.fieldOf("stroke_color").forGetter(Options::strokeColor)
 				).apply(thisOptionsInstance, Options::new));
-
+		
 		public static final StreamCodec<RegistryFriendlyByteBuf, Options> STREAM_CODEC = NeoForgeStreamCodecs.composite(
 				ComponentSerialization.STREAM_CODEC, Options::component,
 				ResourceLocation.STREAM_CODEC, Options::damageTypeId,
@@ -340,12 +342,12 @@ public class TextParticle extends TextureSheetParticle {
 				ByteBufCodecs.INT, Options::strokeColor,
 				Options::new
 		);
-
+		
 		public static final Options BUILDER = new Options(
 				Component.empty(),
 				DamageTypes.GENERIC, PmDamageTool.ColorType.PHYSICS,
 				false, false, 0, 0);
-
+		
 		public Options(Component component, ResourceKey<DamageType> damageType, PmDamageTool.ColorType colorDamageType, boolean isHeal, boolean isRationality, int fontColor, int strokeColor) {
 			this(
 					component, damageType == null ? ResourceLocation.parse("") : damageType.location(),
@@ -353,7 +355,7 @@ public class TextParticle extends TextureSheetParticle {
 					isHeal, isRationality,
 					fontColor, strokeColor);
 		}
-
+		
 		@Override
 		public @NotNull ParticleType<Options> getType() {
 			return TEXT_PARTICLE_TYPE.get();

@@ -16,7 +16,7 @@ import static net.neoforged.fml.common.EventBusSubscriber.Bus.MOD;
 
 @EventBusSubscriber(modid = MOD_ID, bus = MOD)
 public class RegistrarEntityAttributeEvents {
-
+	
 	/**
 	 * 注册实体属性
 	 */
@@ -24,7 +24,7 @@ public class RegistrarEntityAttributeEvents {
 	public static void entityAttribute(EntityAttributeCreationEvent event) {
 		event.put(PmEntitys.TRAINING_RABBITS.get(), TrainingRabbits.createAttributes().build());
 	}
-
+	
 	/// 添加或修改属性 等级在{@link RegistrarCapability}类注册
 	@SubscribeEvent
 	public static void addAttribute(EntityAttributeModificationEvent event) {
@@ -67,18 +67,18 @@ public class RegistrarEntityAttributeEvents {
 		setFourColorResistanceAttributes(event, CAVE_SPIDER, 0.7, 1.1, 1.0, 1.1);
 		setFourColorResistanceAttributes(event, SLIME, 0.5, 0.7, 1.2, 1.1);
 	}
-
-	private static void setFourColorResistanceAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, double physics, double spirit, double erosion, double theSoul) {
+	
+	private static void setFourColorResistanceAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType, double physics, double rationality, double erosion, double theSoul) {
 		event.add(entityType, PmEntityAttributes.PHYSICS_RESISTANCE, physics);
-		event.add(entityType, PmEntityAttributes.SPIRIT_RESISTANCE, spirit);
+		event.add(entityType, PmEntityAttributes.SPIRIT_RESISTANCE, rationality);
 		event.add(entityType, PmEntityAttributes.EROSION_RESISTANCE, erosion);
 		event.add(entityType, PmEntityAttributes.THE_SOUL_RESISTANCE, theSoul);
 	}
-
+	
 	private static void addAttributes(EntityAttributeModificationEvent event, EntityType<? extends LivingEntity> entityType) {
-		event.add(entityType, PmEntityAttributes.MAX_SPIRIT);
-		event.add(entityType, PmEntityAttributes.SPIRIT_NATURAL_RECOVERY_RATE);
-		event.add(entityType, PmEntityAttributes.SPIRIT_RECOVERY_AMOUNT);
+		event.add(entityType, PmEntityAttributes.MAX_RATIONALITY);
+		event.add(entityType, PmEntityAttributes.RATIONALITY_NATURAL_RECOVERY_RATE);
+		event.add(entityType, PmEntityAttributes.RATIONALITY_RECOVERY_AMOUNT);
 		event.add(entityType, PmEntityAttributes.MAX_FORTITUDE);
 		event.add(entityType, PmEntityAttributes.MAX_PRUDENCE);
 		event.add(entityType, PmEntityAttributes.MAX_TEMPERANCE);

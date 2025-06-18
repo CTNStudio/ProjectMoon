@@ -9,17 +9,17 @@ public class GuiItemModel<T extends GeoAnimatable> extends PmGeoItemModel<T> {
 	public GuiItemModel(String path) {
 		super(path);
 	}
-
+	
 	@Override
 	public ResourceLocation getModelResource(T animatable) {
 		return modelPath("gui_item_model");
 	}
-
+	
 	@Override
 	public ResourceLocation getTextureResource(T animatable) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/item/" + path + ".png");
 	}
-
+	
 	@Override
 	public ResourceLocation getAnimationResource(T animatable) {
 		return super.getAnimationResource(animatable);

@@ -1,6 +1,6 @@
 package ctn.project_moon.common.entity.projectile;
 
-import ctn.project_moon.api.SpiritAttribute;
+import ctn.project_moon.api.attr.RationalityAttribute;
 import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.capability.IRandomDamage;
 import ctn.project_moon.capability.item.IInvincibleTickItem;
@@ -48,13 +48,13 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 	private       boolean                 clientSideAttackStarted;
 	private       int                     targetNumber = 1;
 	private       boolean                 isAttack     = false;
-
+	
 	private LivingEntity targetEntity;
-
+	
 	public ParadiseLostSpikeweed(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 	}
-
+	
 	public static ParadiseLostSpikeweed create(Level level, double x, double y, double z, int targetNumber, LivingEntity owner) {
 		ParadiseLostSpikeweed entity = new ParadiseLostSpikeweed(PARADISE_LOST_SPIKEWEED.get(), level);
 		entity.targetNumber = targetNumber == 0 ? 1 : targetNumber;
@@ -62,13 +62,13 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 		entity.setOwner(owner);
 		return entity;
 	}
-
+	
 	public static ParadiseLostSpikeweed create(Level level, double x, double y, double z, int targetNumber, LivingEntity owner, LivingEntity targetEntity) {
 		ParadiseLostSpikeweed entity = create(level, x, y, z, targetNumber, owner);
 		entity.targetEntity = targetEntity;
 		return entity;
 	}
-
+	
 	public static ParadiseLostSpikeweed create(Level level, Vec3 vec3, int targetNumber, LivingEntity owner) {
 		ParadiseLostSpikeweed entity = new ParadiseLostSpikeweed(PARADISE_LOST_SPIKEWEED.get(), level);
 		entity.targetNumber = targetNumber == 0 ? 1 : targetNumber;
@@ -76,12 +76,12 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 		entity.setOwner(owner);
 		return entity;
 	}
-
+	
 	@Override
 	protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
-
+	
 	}
-
+	
 	@Override
 	public void tick() {
 		super.tick();
@@ -120,13 +120,13 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 				}
 			}
 		}
-
+		
 		if (tickCount > 60) {
 			remove(RemovalReason.DISCARDED);
 		}
-
+		
 	}
-
+	
 	public void hit(Entity entity) {
 		if (entity instanceof LivingEntity livingEntity) {
 			livingEntity.addEffect(new MobEffectInstance(MOVEMENT_SLOWDOWN, 10, 3));
@@ -137,9 +137,9 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 		}
 		int value = livingentity.getRandom().nextInt(2, 4 + 1);
 		livingentity.heal(value);
-		SpiritAttribute.healSpiritValue(livingentity, value);
+		RationalityAttribute.healRationalityValue(livingentity, value);
 	}
-
+	
 	private boolean dealDamageTo(Entity target) {
 		LivingEntity livingentity = getOwner();
 		float damage = getDamageValue(target.getRandom());
@@ -153,7 +153,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 			return target.hurt(getDamageSource(THE_SOUL, livingentity), damage);
 		}
 	}
-
+	
 	private @NotNull DamageSource getDamageSource(ResourceKey<DamageType> THE_SOUL, LivingEntity livingentity) {
 		DamageSource source = damageSources().source(THE_SOUL, this, livingentity);
 		IModDamageSource damageSource = (IModDamageSource) source;
@@ -161,27 +161,27 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 		damageSource.setDamageLevel(PmDamageTool.Level.ALEPH);
 		return source;
 	}
-
+	
 	@Override
 	@javax.annotation.CheckForNull
 	public ItemStack getWeaponItem() {
 		return owner != null ? owner.getMainHandItem() : null;
 	}
-
+	
 	@Override
 	protected void readAdditionalSaveData(@NotNull CompoundTag compound) {
 		if (compound.hasUUID("Owner")) {
 			ownerUUID = compound.getUUID("Owner");
 		}
 	}
-
+	
 	@Override
 	protected void addAdditionalSaveData(@NotNull CompoundTag compound) {
 		if (ownerUUID != null) {
 			compound.putUUID("Owner", ownerUUID);
 		}
 	}
-
+	
 	@Override
 	@javax.annotation.CheckForNull
 	public LivingEntity getOwner() {
@@ -191,15 +191,15 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 				owner = (LivingEntity) entity;
 			}
 		}
-
+		
 		return owner;
 	}
-
+	
 	public void setOwner(@javax.annotation.CheckForNull LivingEntity owner) {
 		this.owner = owner;
 		ownerUUID  = owner == null ? null : owner.getUUID();
 	}
-
+	
 	/**
 	 * Handles an entity event received from a {@link net.minecraft.network.protocol.game.ClientboundEntityEventPacket}.
 	 */
@@ -219,36 +219,36 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 			}
 		}
 	}
-
+	
 	@Override
 	public int getInvincibleTick(ItemStack stack) {
 		return 10;
 	}
-
+	
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
+	
 	}
-
+	
 	@Override
 	public AnimatableInstanceCache getAnimatableInstanceCache() {
 		return ANIMS;
 	}
-
+	
 	public int getTargetNumber() {
 		return targetNumber;
 	}
-
+	
 	@Override
 	public int getMaxDamage() {
 		return extracted(28, 23, 20);
 	}
-
+	
 	@Override
 	public int getMinDamage() {
 		return extracted(22, 19, 16);
 	}
-
+	
 	private int extracted(int damage, int damage1, int damage2) {
 		if (targetNumber != 1) {
 			if (targetNumber >= 2) {
@@ -260,7 +260,7 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 		}
 		return damage;
 	}
-
+	
 	public float getAnimationProgress(float partialTicks) {
 		if (!clientSideAttackStarted) {
 			return 0.0F;
@@ -269,12 +269,12 @@ public class ParadiseLostSpikeweed extends Entity implements TraceableEntity, Ge
 			return i <= 0 ? 1.0F : 1.0F - ((float) i - partialTicks) / 20.0F;
 		}
 	}
-
+	
 	public static class TrainingRabbitsRenderer extends GeoEntityRenderer<ParadiseLostSpikeweed> {
 		public TrainingRabbitsRenderer(EntityRendererProvider.Context context) {
 			super(context, new PmGeoEntityModel<>("paradise_lost_spikeweed"));
 		}
-
+		
 		@Override
 		public @NotNull ResourceLocation getTextureLocation(@NotNull ParadiseLostSpikeweed animatable) {
 			return PmGeoEntityModel.texturePath("paradise_lost_spikeweed");

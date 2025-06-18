@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_SWITCH_ITEMS;
+import static ctn.project_moon.api.attr.TempNbtAttribute.CANNOT_PLAYER_SWITCH_ITEMS;
 
 @Mixin(Inventory.class)
 public abstract class InventoryMixin implements Container, Nameable {
 	@Final
 	@Shadow
 	public Player player;
-
+	
 	@Inject(method = "swapPaint", at = @At("HEAD"), cancellable = true)
 	protected void projectMoon$swapPaint(double direction, CallbackInfo ci) {
 		if (player.getPersistentData().getBoolean(CANNOT_PLAYER_SWITCH_ITEMS)) {

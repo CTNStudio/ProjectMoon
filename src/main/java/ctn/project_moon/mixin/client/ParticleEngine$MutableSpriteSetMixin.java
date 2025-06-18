@@ -10,10 +10,11 @@ import java.util.List;
 @Mixin(targets = "net.minecraft.client.particle.ParticleEngine$MutableSpriteSet")
 @Implements(@Interface(iface = IModParticleEngine$MutableSpriteSet.class, prefix = "projectMoonInt$"))
 public abstract class ParticleEngine$MutableSpriteSetMixin implements SpriteSet, IModParticleEngine$MutableSpriteSet {
-	@Shadow private List<TextureAtlasSprite> sprites;
-
+	@Shadow
+	private List<TextureAtlasSprite> sprites;
+	
 	@Unique
-	public List<TextureAtlasSprite> projectMoonInt$getSprites(){
+	public List<TextureAtlasSprite> projectMoonInt$getSprites() {
 		return sprites;
 	}
 }

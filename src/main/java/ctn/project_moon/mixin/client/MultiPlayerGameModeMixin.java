@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static ctn.project_moon.api.TempNbtAttribute.PLAYER_ATTACK;
+import static ctn.project_moon.api.attr.TempNbtAttribute.PLAYER_ATTACK;
 import static net.minecraft.world.InteractionResult.FAIL;
 
 @Mixin(MultiPlayerGameMode.class)
 public abstract class MultiPlayerGameModeMixin {
-
+	
 	@Inject(method = "interactAt", at = @At("HEAD"), cancellable = true)
 	public void projectMoon$interactAt(Player player, Entity target, EntityHitResult ray, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
 		if (!player.getPersistentData().getBoolean(PLAYER_ATTACK)) {
@@ -26,7 +26,7 @@ public abstract class MultiPlayerGameModeMixin {
 		}
 		cir.setReturnValue(FAIL);
 	}
-
+	
 	@Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
 	public void projectMoon$useItemOn(LocalPlayer player, InteractionHand hand, BlockHitResult result, CallbackInfoReturnable<InteractionResult> cir) {
 		if (!player.getPersistentData().getBoolean(PLAYER_ATTACK)) {

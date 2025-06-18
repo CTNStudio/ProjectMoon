@@ -1,7 +1,7 @@
 package ctn.project_moon.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import ctn.project_moon.common.item.weapon.abstract_ltem.Weapon;
+import ctn.project_moon.common.item.weapon.abstract_item.Weapon;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
@@ -18,7 +18,7 @@ public abstract class ItemRendererMixin implements ResourceManagerReloadListener
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	public void projectMoon$render(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel p_model, CallbackInfo ci) {
 		if (itemStack.isEmpty() && displayContext != ItemDisplayContext.GUI && itemStack.getItem() instanceof Weapon) {
-
+		
 		}
 	}
 }

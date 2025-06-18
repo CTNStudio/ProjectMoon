@@ -15,11 +15,11 @@ public interface IRandomDamage {
 		}
 		return randomSource.nextInt(minDamage, maxDamage + 1);
 	}
-
+	
 	int getMaxDamage();
-
+	
 	int getMinDamage();
-
+	
 	default int getDamageValue(RandomSource randomSource) {
 		return countDamageValue(randomSource, getMaxDamage(), getMinDamage());
 	}

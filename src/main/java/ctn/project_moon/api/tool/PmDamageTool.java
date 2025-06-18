@@ -23,12 +23,12 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static ctn.project_moon.api.SpiritAttribute.handleRationally;
+import static ctn.project_moon.api.attr.RationalityAttribute.handleSpirit;
 import static ctn.project_moon.api.tool.PmDamageTool.Level.getEntityLevel;
 import static ctn.project_moon.capability.ILevel.getItemLevelValue;
-import static ctn.project_moon.init.PmCapability.Level.LEVEL_ENTITY;
+import static ctn.project_moon.init.PmCapabilitys.Level.LEVEL_ENTITY;
+import static ctn.project_moon.init.PmDamageTypes.*;
 import static ctn.project_moon.init.PmEntityAttributes.*;
-import static net.minecraft.world.damagesource.DamageTypes.*;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
 /**
@@ -60,20 +60,24 @@ public class PmDamageTool {
 			BAD_RESPAWN_POINT,
 			FALL,
 			FIREBALL,
-			FLY_INTO_WALL);
-
-	private static final List<ResourceKey<DamageType>> VANILLA_SPIRIT_KEYS = List.of(
-			MOB_PROJECTILE);
-
+			FLY_INTO_WALL,
+			PHYSICS);
+	
+	private static final List<ResourceKey<DamageType>> VANILLA_RATIONALITY_KEYS = List.of(
+			MOB_PROJECTILE,
+			SPIRIT);
+	
 	private static final List<ResourceKey<DamageType>> VANILLA_EROSION_KEYS = List.of(
 			WITHER_SKULL,
-			WITHER);
-
+			WITHER,
+			EROSION);
+	
 	private static final List<ResourceKey<DamageType>> VANILLA_THE_SOUL_KEYS = List.of(
-			SONIC_BOOM);
-
+			SONIC_BOOM,
+			THE_SOUL);
+	
 	private static final Map<ResourceKey<DamageType>, ColorType> DAMAGE_TYPE_MAP = new HashMap<>();
-
+	
 	private static final List<ResourceKey<DamageType>> BYPASS_KEYS = List.of(
 			IN_WALL,
 			GENERIC,
@@ -86,14 +90,14 @@ public class PmDamageTool {
 			CRAMMING,
 			GENERIC_KILL
 	);
-
+	
 	/// AI生成的初始化优化
 	static {
 		// 将所有伤害类型注册到 Map 中
 		for (ResourceKey<DamageType> key : VANILLA_PHYSICS_KEYS) {
 			DAMAGE_TYPE_MAP.put(key, PmDamageTool.ColorType.PHYSICS);
 		}
-		for (ResourceKey<DamageType> key : VANILLA_SPIRIT_KEYS) {
+		for (ResourceKey<DamageType> key : VANILLA_RATIONALITY_KEYS) {
 			DAMAGE_TYPE_MAP.put(key, PmDamageTool.ColorType.SPIRIT);
 		}
 		for (ResourceKey<DamageType> key : VANILLA_EROSION_KEYS) {
@@ -103,7 +107,7 @@ public class PmDamageTool {
 			DAMAGE_TYPE_MAP.put(key, PmDamageTool.ColorType.THE_SOUL);
 		}
 	}
-
+	
 	/// 获取伤害物品
 	@CheckForNull
 	public static ItemStack getDamageItemStack(DamageSource damageSource) {
@@ -113,7 +117,7 @@ public class PmDamageTool {
 		}
 		return itemStack;
 	}
-
+	
 	/** 伤害计算 */
 	public static void resistanceTreatment(
 			LivingIncomingDamageEvent event,
@@ -121,13 +125,11 @@ public class PmDamageTool {
 			@Nullable Level damageLevel,
 			@Nullable ColorType fourColorDamageTypes) {
 		for (ResourceKey<DamageType> damageType : BYPASS_KEYS) {
-//			damageSource.is(damageType);
-//			return;
 			if (damageSource.typeHolder().is(damageType)) {
 				return;
 			}
 		}
-
+		
 		float newDamageAmount = event.getAmount();
 		int armorItemStackLaval = 0; // 盔甲等级
 		int number = 0; // 护甲数量
@@ -136,12 +138,12 @@ public class PmDamageTool {
 		boolean flag = !(entity instanceof IAbnos);
 		//  盔甲
 		Iterator<ItemStack> itor = entity.getArmorAndBodyArmorSlots().iterator();
-
+		
 		ItemStack[] armorSlots = new ItemStack[4];
 		for (int i = 0; i < 4; i++) {
 			armorSlots[i] = flag ? itor.next() : ItemStack.EMPTY;
 		}
-
+		
 		for (ItemStack armorItemStack : armorSlots) {
 			if (armorItemStack != null && !armorItemStack.isEmpty()) {
 				isArmorItemStackEmpty = false;
@@ -149,20 +151,20 @@ public class PmDamageTool {
 				number++;
 			}
 		}
-
+		
 		/// 等级处理
 		/// 判断实体是否有护甲如果没有就用实体的等级
 		if (damageLevel == null) {
 			damageLevel = Level.ZAYIN;
 		}
-
+		
 		if (!isArmorItemStackEmpty) {
 			armorItemStackLaval /= number;
 			newDamageAmount *= getDamageMultiple(armorItemStackLaval - damageLevel.getLevelValue());
 		} else {
 			newDamageAmount *= getDamageMultiple(getEntityLevel(entity), damageLevel);
 		}
-
+		
 		if (fourColorDamageTypes != null) {
 			if (PmConfig.SERVER.ENABLE_FOUR_COLOR_DAMAGE.get()) {
 				if (fourColorDamageConfigImpact(fourColorDamageTypes)) {
@@ -174,7 +176,7 @@ public class PmDamageTool {
 		}
 		event.setAmount(newDamageAmount);
 	}
-
+	
 	/** 四色伤害配置影响 */
 	private static boolean fourColorDamageConfigImpact(ColorType fourColorDamageTypes) {
 		if (!PmConfig.SERVER.ENABLE_THE_SOUL_DAMAGE.get() && fourColorDamageTypes.equals(ColorType.THE_SOUL)) {
@@ -185,33 +187,33 @@ public class PmDamageTool {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * 返回实体或物品的伤害倍数
 	 */
 	public static float getDamageMultiple(@NotNull Level laval, @NotNull Level laval2) {
 		return getDamageMultiple(leveDifferenceValue(laval, laval2));
 	}
-
+	
 	/**
 	 * 返回实体或物品之间的等级差值
 	 */
 	public static int leveDifferenceValue(@NotNull Level level, @NotNull Level level2) {
 		return level.getLevelValue() - level2.getLevelValue();
 	}
-
+	
 	/**
 	 * 获取伤害倍数
 	 */
 	public static float getDamageMultiple(int i) {
 		if (i > 4) {
-
+			
 			i = 4;
 		}
 		if (i < -4) {
 			i = -4;
 		}
-
+		
 		return switch (i) {
 			case 4 -> 0.4F;
 			case 3 -> 0.6F;
@@ -224,7 +226,7 @@ public class PmDamageTool {
 			default -> 0.0F;
 		};
 	}
-
+	
 	/** 低抗减慢 */
 	public static boolean applySlowdownIfAttributeExceedsOne(ColorType colorType, @NotNull LivingEntity entity) {
 		if (colorType == null) {
@@ -236,7 +238,7 @@ public class PmDamageTool {
 		}
 		return false;
 	}
-
+	
 	/** 灵魂伤害判断 */
 	public static boolean doesTheOrganismSufferFromTheSoulDamage(LivingEntity entity) {
 		if (!PmConfig.SERVER.THE_SOUL_AFFECT_ABOMINATIONS.get() && entity instanceof AbnosEntity) {
@@ -250,7 +252,7 @@ public class PmDamageTool {
 		}
 		return false;
 	}
-
+	
 	/** 扣除生命 */
 	public static boolean reply(LivingDamageEvent.Pre event, LivingEntity entity) {
 		float newDamage = event.getNewDamage();
@@ -261,30 +263,30 @@ public class PmDamageTool {
 		}
 		return false;
 	}
-
+	
 	/** 百分比扣生命 */
 	public static void executeTheSoulDamage(LivingDamageEvent.Pre event, LivingEntity entity) {
 		if (reply(event, entity)) return;
 		float max = entity.getMaxHealth();
 		event.setNewDamage(max * (event.getNewDamage() / 100));
 	}
-
+	
 	/** 如果受伤者没有理智，则理智和生命同时减少 */
 	public static void executeErosionDamage(LivingDamageEvent.Pre event, LivingEntity entity) {
-		handleRationally(event, entity);
+		handleSpirit(event, entity);
 	}
-
+	
 	/// 获取颜色伤害类型
 	public static PmDamageTool.ColorType getColorDamageType(PmDamageTool.ColorType colorType, Holder<DamageType> type) {
 		if (colorType != null) {
 			return colorType;
 		}
-
+		
 		// 从 Holder 中提取 ResourceKey 并查询 Map
 		Optional<ResourceKey<DamageType>> keyOptional = type.unwrapKey();
 		return keyOptional.map(DAMAGE_TYPE_MAP::get).orElse(null);
 	}
-
+	
 	/** 四色伤害类型 */
 	public enum ColorType {
 		/**
@@ -304,20 +306,20 @@ public class PmDamageTool {
 		 */
 		THE_SOUL(3, "the_soul", THE_SOUL_RESISTANCE, PmColourTool.THE_SOUL),
 		;
-
+		
 		private final int               index;
 		private final String            name;
 		// 对应的抗性属性
 		private final Holder<Attribute> resistance;
 		private final PmColourTool      colour;
-
+		
 		ColorType(int index, String name, Holder<Attribute> resistance, PmColourTool colour) {
 			this.index      = index;
 			this.name       = name;
 			this.resistance = resistance;
 			this.colour     = colour;
 		}
-
+		
 		public static ColorType is(String name) {
 			for (ColorType colorType : ColorType.values()) {
 				if (colorType.name.equals(name)) {
@@ -326,24 +328,24 @@ public class PmDamageTool {
 			}
 			return null;
 		}
-
+		
 		public String getName() {
 			return name;
 		}
-
+		
 		public PmColourTool getColour() {
 			return colour;
 		}
-
+		
 		public int getIndex() {
 			return index;
 		}
-
+		
 		public Holder<Attribute> getResistance() {
 			return resistance;
 		}
 	}
-
+	
 	/** 等级 */
 	public enum Level {
 		ZAYIN("ZAYIN", 1, PmColourTool.ZAYIN),
@@ -351,17 +353,17 @@ public class PmDamageTool {
 		HE("HE", 3, PmColourTool.HE),
 		WAW("WAW", 4, PmColourTool.WAW),
 		ALEPH("ALEPH", 5, PmColourTool.ALEPH);
-
+		
 		private final String       name;
 		private final int          levelValue;
 		private final PmColourTool colour;
-
+		
 		Level(String name, int levelValue, PmColourTool colour) {
 			this.name       = name;
 			this.levelValue = levelValue;
 			this.colour     = colour;
 		}
-
+		
 		@NotNull
 		public static PmDamageTool.Level getEntityLevel(@NotNull Entity entity) {
 			ILevel capability = entity.getCapability(LEVEL_ENTITY);
@@ -374,19 +376,19 @@ public class PmDamageTool {
 			}
 			return level;
 		}
-
+		
 		public String getName() {
 			return name;
 		}
-
+		
 		public int getLevelValue() {
 			return levelValue;
 		}
-
+		
 		public PmColourTool getColour() {
 			return colour;
 		}
-
+		
 		public String getColourText() {
 			return colour.getColour();
 		}

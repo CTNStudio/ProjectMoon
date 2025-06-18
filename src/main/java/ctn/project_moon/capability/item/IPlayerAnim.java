@@ -14,8 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.CheckForNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.TempNbtAttribute.PLAYER_ATTACK;
-import static ctn.project_moon.api.TempNbtAttribute.PLAYER_USE_ITEM;
+import static ctn.project_moon.api.attr.TempNbtAttribute.PLAYER_ATTACK;
+import static ctn.project_moon.api.attr.TempNbtAttribute.PLAYER_USE_ITEM;
 
 public interface IPlayerAnim {
 	/**
@@ -30,7 +30,7 @@ public interface IPlayerAnim {
 			PlayerAnimAPIClient.stopPlayerAnim(clientPlayer, getAnimationID(animName));
 		}
 	}
-
+	
 	/**
 	 * 播放动画
 	 */
@@ -43,19 +43,19 @@ public interface IPlayerAnim {
 			PlayerAnimAPIClient.playPlayerAnim(clientPlayer, getAnimationID(animName));
 		}
 	}
-
+	
 	static @NotNull ResourceLocation getAnimationID(String animName) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, animName);
 	}
-
+	
 	/** 强制打断 */
 	void forcedInterruption(Level level, Player player);
-
+	
 	/** 进入攻击状态 */
 	default void enterAttackState(Level level, Player player) {
 		enterAttackState(level, player, null);
 	}
-
+	
 	/**
 	 * 进入攻击状态并播放动画
 	 */

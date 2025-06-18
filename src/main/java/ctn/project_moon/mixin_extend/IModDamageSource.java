@@ -7,15 +7,15 @@ import javax.annotation.CheckForNull;
 public interface IModDamageSource {
 	@CheckForNull
 	PmDamageTool.ColorType getFourColorDamageTypes();
-
+	
+	void setFourColorDamageTypes(PmDamageTool.ColorType type);
+	
 	@CheckForNull
 	PmDamageTool.Level getDamageLevel();
-
-	void setFourColorDamageTypes(PmDamageTool.ColorType type);
-
+	
 	void setDamageLevel(PmDamageTool.Level level);
-
+	
 	int getInvincibleTick();
-
+	
 	void setInvincibleTick(int tick);
 }

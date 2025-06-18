@@ -13,10 +13,10 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.MobGeneralAttribute.INJURY_TICK;
-import static ctn.project_moon.api.MobGeneralAttribute.SPIRIT_RECOVERY_TICK;
-import static ctn.project_moon.api.SpiritAttribute.setInjuryCount;
-import static ctn.project_moon.api.SpiritAttribute.setSpiritRecoveryCount;
+import static ctn.project_moon.api.attr.MobGeneralAttribute.INJURY_TICK;
+import static ctn.project_moon.api.attr.MobGeneralAttribute.RATIONALITY_RECOVERY_TICK;
+import static ctn.project_moon.api.attr.RationalityAttribute.setInjuryCount;
+import static ctn.project_moon.api.attr.RationalityAttribute.setRationalityRecoveryCount;
 import static ctn.project_moon.api.tool.PmDamageTool.*;
 import static ctn.project_moon.client.particles.TextParticle.createDamageParticles;
 
@@ -30,7 +30,7 @@ public class ColorDamageEvents {
 		// 根据四色伤害类型处理抗性
 		resistanceTreatment(event, damageSource, modDamageSource.getDamageLevel(), modDamageSource.getFourColorDamageTypes());
 	}
-
+	
 	/**
 	 * 处理伤害效果
 	 */
@@ -45,7 +45,7 @@ public class ColorDamageEvents {
 		applySlowdownIfAttributeExceedsOne(colorType, entity);
 		reply(event, entity);
 	}
-
+	
 	/** 已应用伤害至实体事件 */
 	@SubscribeEvent
 	public static void appliedDamageToEntityEvent(LivingDamageEvent.Post event) {
@@ -53,11 +53,11 @@ public class ColorDamageEvents {
 		CompoundTag nbt = entity.getPersistentData();
 		if (nbt.contains(INJURY_TICK)) {
 			setInjuryCount(entity, 200);
-			if (nbt.contains(SPIRIT_RECOVERY_TICK)) {
-				setSpiritRecoveryCount(entity, 0);
+			if (nbt.contains(RATIONALITY_RECOVERY_TICK)) {
+				setRationalityRecoveryCount(entity, 0);
 			}
 		}
-
+		
 		Component text = Component.literal(String.format("%.2f", event.getNewDamage()));
 		// 生成粒子
 		createDamageParticles(

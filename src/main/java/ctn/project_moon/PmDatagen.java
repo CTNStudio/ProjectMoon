@@ -24,7 +24,7 @@ public class PmDatagen {
 		PackOutput output = generator.getPackOutput();
 		ExistingFileHelper exFileHelper = event.getExistingFileHelper();
 		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
-
+		
 		// 客户端数据生成
 		generator.addProvider(event.includeClient(), new DatagenI18ZhCn(output));
 		generator.addProvider(event.includeClient(), new DatagenItemModel(output, exFileHelper));
@@ -35,10 +35,10 @@ public class PmDatagen {
 		generator.addProvider(event.includeClient(), new PmTags.PmItem(output, lookupProvider, pmPmBlockTags.contentsGetter(), exFileHelper));
 		generator.addProvider(event.includeClient(), new PmTags.PmDamageType(output, lookupProvider, exFileHelper));
 		generator.addProvider(event.includeClient(), new PmTags.PmEntity(output, lookupProvider, exFileHelper));
-
+		
 		// 服务端数据生成
 		generator.addProvider(event.includeServer(), new DatagenDatapackBuiltinEntries(output, lookupProvider));
-
+		
 		event.getGenerator().addProvider(event.includeServer(), new DatagenCuriosTest(event.getGenerator().getPackOutput(), event.getExistingFileHelper(), event.getLookupProvider()));
 	}
 }

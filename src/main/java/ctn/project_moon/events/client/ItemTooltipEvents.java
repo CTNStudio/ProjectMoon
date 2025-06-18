@@ -22,9 +22,9 @@ import java.util.Map;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.tool.PmDamageTool.ColorType.*;
 import static ctn.project_moon.capability.ILevel.getItemLevel;
-import static ctn.project_moon.init.PmCapability.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
-import static ctn.project_moon.init.PmCapability.RANDOM_DAMAGE_ITEM;
-import static ctn.project_moon.init.PmCapability.USAGE_REQ_ITEM;
+import static ctn.project_moon.init.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
+import static ctn.project_moon.init.PmCapabilitys.RANDOM_DAMAGE_ITEM;
+import static ctn.project_moon.init.PmCapabilitys.USAGE_REQ_ITEM;
 import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
 import static ctn.project_moon.tool.PmTool.*;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
@@ -37,6 +37,13 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_CONTROL;
  */
 @EventBusSubscriber(modid = MOD_ID)
 public class ItemTooltipEvents {
+	private static final Map<PmDamageTool.ColorType, String> COLOR_MAP = Map.of(
+			PHYSICS, PmColourTool.PHYSICS.getColour(),
+			SPIRIT, PmColourTool.SPIRIT.getColour(),
+			EROSION, PmColourTool.EROSION.getColour(),
+			THE_SOUL, PmColourTool.THE_SOUL.getColour()
+	);
+	
 	@SubscribeEvent
 	public static void itemTooltip(final ItemTooltipEvent event) {
 		List<Component> components = event.getToolTip();
@@ -44,11 +51,11 @@ public class ItemTooltipEvents {
 		levelText(components, stack);
 		randomDamageText(event, components);
 		damageTypeText(stack, components);
-
+		
 		itemReminderText(stack, components);
 		detailedText(event, stack, components);
 	}
-
+	
 	/** 提示文本 */
 	private static void itemReminderText(ItemStack stack, List<Component> components) {
 		if (!stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get()) || stack.getCapability(USAGE_REQ_ITEM) == null) {
@@ -57,14 +64,7 @@ public class ItemTooltipEvents {
 		components.add(2, Component.translatable(MOD_ID + ".item_tooltip.use_condition"
 				, Component.literal(Minecraft.ON_OSX ? "COMMAND" : "CTRL").withColor(colorConversion("#FFFFFF"))).withColor(colorConversion("#AAAAAA")));
 	}
-
-	private static final Map<PmDamageTool.ColorType, String> COLOR_MAP = Map.of(
-			PHYSICS, PmColourTool.PHYSICS.getColour(),
-			SPIRIT, PmColourTool.SPIRIT.getColour(),
-			EROSION, PmColourTool.EROSION.getColour(),
-			THE_SOUL, PmColourTool.THE_SOUL.getColour()
-	);
-
+	
 	/** 伤害类型文本 */
 	private static void damageTypeText(ItemStack stack, List<Component> components) {
 		// 物品没有IColorDamageTypeItem能力就返回
@@ -72,38 +72,38 @@ public class ItemTooltipEvents {
 		if (capability == null) {
 			return;
 		}
-
+		
 		// 物品是否有自定义的伤害描述
 		final Component tooltip = capability.getColorDamageTypeToTooltip();
 		if (tooltip != null) {
 			components.add(Mth.clamp(components.size(), 1, 2), tooltip);
 			return;
 		}
-
+		
 		// 物品属性
 		final ItemAttributeModifiers attribute = stack.getComponents().get(ATTRIBUTE_MODIFIERS);
 		if (attribute == null) {
 			return;
 		}
-
+		
 		// 是否有近战伤害修改属性
 		final boolean isEmpty = attribute.modifiers().stream().anyMatch(it -> it.matches(Attributes.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE_ID));
 		if (!isEmpty) {
 			return;
 		}
-
+		
 		// 获取物品可造成伤害类型
 		List<PmDamageTool.ColorType> colorTypeList = capability.getCanCauseDamageTypes();
 		if (colorTypeList == null) {
 			colorTypeList = List.of(PHYSICS);
 		}
-
+		
 		components.add(Mth.clamp(components.size(), 1, 2),
-				i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA"));
+		               i18ColorText(MOD_ID + ".item_tooltip.geo_describe.damage_type", "#AAAAAA"));
 		colorTypeList.forEach(colorType -> components.add(Mth.clamp(components.size(), 2, 3),
-				Component.literal(" ").append(i18ColorText(MOD_ID + ".item_tooltip.geo_describe." + colorType.getName(), COLOR_MAP.get(colorType)))));
+		                                                  Component.literal(" ").append(i18ColorText(MOD_ID + ".item_tooltip.geo_describe." + colorType.getName(), COLOR_MAP.get(colorType)))));
 	}
-
+	
 	/** 详细描述文本 */
 	private static void detailedText(ItemTooltipEvent event, ItemStack stack, List<Component> components) {
 		if (!stack.getComponents().has(ITEM_COLOR_USAGE_REQ.get()) || stack.getCapability(USAGE_REQ_ITEM) == null) {
@@ -120,11 +120,11 @@ public class ItemTooltipEvents {
 		}
 		itemColorUsageReq.getToTooltip(components);
 	}
-
+	
 	private static boolean isKeyDown(int keyCode) {
 		return InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), keyCode);
 	}
-
+	
 	/**
 	 * 等级文本
 	 */
@@ -135,7 +135,7 @@ public class ItemTooltipEvents {
 		}
 		components.add(Mth.clamp(components.size(), 0, 1), createColorText(itemLevel.getName(), itemLevel.getColour().getColour()));
 	}
-
+	
 	/** 添加随机伤害处理文本 */
 	private static void randomDamageText(ItemTooltipEvent event, List<Component> components) {
 		IRandomDamage capability = event.getItemStack().getCapability(RANDOM_DAMAGE_ITEM);

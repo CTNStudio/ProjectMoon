@@ -26,8 +26,9 @@ import static ctn.project_moon.init.PmEntityAttributes.PM_ATTRIBUTE_REGISTER;
 import static ctn.project_moon.init.PmEntitys.ENTITY_TYPE_REGISTER;
 import static ctn.project_moon.init.PmItemDataComponents.ITEM_DATA_COMPONENT_REGISTER;
 import static ctn.project_moon.init.PmItems.ITEM_REGISTER;
-import static ctn.project_moon.init.PmMenuType.MENU_TYPE_REGISTER;
+import static ctn.project_moon.init.PmMenuTypes.MENU_TYPE_REGISTER;
 import static ctn.project_moon.init.PmParticleTypes.PARTICLE_TYPE_REGISTER;
+import static ctn.project_moon.init.PmSkills.SKILL_REGISTRY;
 import static ctn.project_moon.init.PmSoundEvents.SOUND_EVENT_TYPE_REGISTER;
 import static top.theillusivec4.curios.api.CuriosApi.registerCurioPredicate;
 
@@ -35,14 +36,14 @@ import static top.theillusivec4.curios.api.CuriosApi.registerCurioPredicate;
 public class PmMain {
 	public static final String MOD_ID = "project_moon";
 	public static final Logger LOGGER = LogUtils.getLogger();
-
+	
 	public PmMain(IEventBus modEventBus, ModContainer modContainer) {
 		modEventBus.addListener(this::commonSetup);
 		modContainer.registerConfig(ModConfig.Type.COMMON, PmConfig.COMMON_SPEC);
 		modContainer.registerConfig(ModConfig.Type.SERVER, PmConfig.SERVER_SPEC);
 		modContainer.registerConfig(ModConfig.Type.CLIENT, PmConfig.CLIENT_SPEC);
 		modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-
+		
 		BLOCK_REGISTER.register(modEventBus);
 		ITEM_REGISTER.register(modEventBus);
 		PROJECT_MOON_TAB_REGISTER.register(modEventBus);
@@ -53,24 +54,26 @@ public class PmMain {
 		ENTITY_TYPE_REGISTER.register(modEventBus);
 		ITEM_DATA_COMPONENT_REGISTER.register(modEventBus);
 		MENU_TYPE_REGISTER.register(modEventBus);
-
+		
+		SKILL_REGISTRY.register(modEventBus);
+		
 		createValidators();
 		NeoForge.EVENT_BUS.register(this);
 	}
-
+	
 	public static void createValidators(ResourceLocation name, TagKey<Item> tagKey) {
 		registerCurioPredicate(name, (slotResult) -> slotResult.stack().is(tagKey));
 	}
-
+	
 	public void commonSetup(final FMLCommonSetupEvent event) {
 		LOGGER.info("ProjectMoon from common setup");
 	}
-
+	
 	@SubscribeEvent
 	public void onServerStarting(ServerStartingEvent event) {
 		LOGGER.info("ProjectMoon from server starting");
 	}
-
+	
 	// 饰品
 	public void createValidators() {
 		createValidators(EGO_CURIOS_TAG, EGO_CURIOS);
@@ -89,6 +92,6 @@ public class PmMain {
 		createValidators(RIGHT_BACK_TAG, EGO_CURIOS_RIGHT_BACK);
 		createValidators(LEFT_BACK_TAG, EGO_CURIOS_LEFT_BACK);
 	}
-
-
+	
+	
 }

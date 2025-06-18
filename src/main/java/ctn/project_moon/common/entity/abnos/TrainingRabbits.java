@@ -16,32 +16,32 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class TrainingRabbits extends AbnosEntity {
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
+	
 	public TrainingRabbits(EntityType<? extends Mob> entityType, Level level) {
 		super(entityType, level);
 	}
-
+	
 	public static AttributeSupplier.Builder createAttributes() {
 		return createAbnosAttributes()
 				.add(PmEntityAttributes.THE_SOUL_RESISTANCE, 1.0)
 				.add(PmEntityAttributes.EROSION_RESISTANCE, 1.0);
 	}
-
+	
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-
+	
 	}
-
+	
 	@Override
 	public AnimatableInstanceCache getAnimatableInstanceCache() {
 		return cache;
 	}
-
+	
 	public static class TrainingRabbitsRenderer extends GeoEntityRenderer<TrainingRabbits> {
 		public TrainingRabbitsRenderer(EntityRendererProvider.Context context) {
 			super(context, new PmGeoEntityModel<>("training_rabbits"));
 		}
-
+		
 		@Override
 		public @NotNull ResourceLocation getTextureLocation(@NotNull TrainingRabbits animatable) {
 			return PmGeoEntityModel.texturePath("training_rabbits");

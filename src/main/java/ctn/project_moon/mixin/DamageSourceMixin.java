@@ -6,7 +6,7 @@ import ctn.project_moon.capability.entity.IColorDamageTypeEntity;
 import ctn.project_moon.capability.entity.IInvincibleTickEntity;
 import ctn.project_moon.capability.item.IColorDamageTypeItem;
 import ctn.project_moon.capability.item.IInvincibleTickItem;
-import ctn.project_moon.init.PmCapability;
+import ctn.project_moon.init.PmCapabilitys;
 import ctn.project_moon.mixin_extend.IModDamageSource;
 import net.minecraft.core.Holder;
 import net.minecraft.world.damagesource.DamageSource;
@@ -26,10 +26,10 @@ import javax.annotation.CheckForNull;
 
 import static ctn.project_moon.api.tool.PmDamageTool.getColorDamageType;
 import static ctn.project_moon.api.tool.PmDamageTool.getDamageItemStack;
-import static ctn.project_moon.init.PmCapability.ColorDamageType.COLOR_DAMAGE_TYPE_ENTITY;
-import static ctn.project_moon.init.PmCapability.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
-import static ctn.project_moon.init.PmCapability.InvincibleTick.INVINCIBLE_TICK_ENTITY;
-import static ctn.project_moon.init.PmCapability.InvincibleTick.INVINCIBLE_TICK_ITEM;
+import static ctn.project_moon.init.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ENTITY;
+import static ctn.project_moon.init.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
+import static ctn.project_moon.init.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ENTITY;
+import static ctn.project_moon.init.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ITEM;
 
 /**
  * @author 尽
@@ -40,14 +40,14 @@ public abstract class DamageSourceMixin implements IModDamageSource {
 	@Unique
 	@CheckForNull
 	private PmDamageTool.ColorType projectMoon$ColorType;
-
+	
 	@Unique
 	@CheckForNull
 	private PmDamageTool.Level projectMoon$damageLevel;
-
+	
 	@Unique
 	private int projectMoon$invincibleTick = -1;
-
+	
 	@Inject(method = "<init>(Lnet/minecraft/core/Holder;" +
 	                 "Lnet/minecraft/world/entity/Entity;" +
 	                 "Lnet/minecraft/world/entity/Entity;" +
@@ -59,7 +59,7 @@ public abstract class DamageSourceMixin implements IModDamageSource {
 		if (itemStack != null) {
 			IColorDamageTypeItem colorDamageTypeItem = itemStack.getCapability(COLOR_DAMAGE_TYPE_ITEM);
 			IInvincibleTickItem invincibleTickItem = itemStack.getCapability(INVINCIBLE_TICK_ITEM);
-			level = itemStack.getCapability(PmCapability.Level.LEVEL_ITEM);
+			level = itemStack.getCapability(PmCapabilitys.Level.LEVEL_ITEM);
 			if (colorDamageTypeItem != null) {
 				projectMoon$ColorType = colorDamageTypeItem.getColorDamageType(itemStack);
 			}
@@ -70,21 +70,21 @@ public abstract class DamageSourceMixin implements IModDamageSource {
 				projectMoon$damageLevel = level.getItemLevel();
 			}
 		}
-
+		
 		projectMoon$getEntityAttribute(directEntity);
 		projectMoon$getEntityAttribute(causingEntity);
-
+		
 		projectMoon$ColorType = getColorDamageType(projectMoon$ColorType, type);
-
+		
 		if (projectMoon$damageLevel == null) {
 			projectMoon$damageLevel = PmDamageTool.Level.ZAYIN;
 		}
-
+		
 		if (projectMoon$invincibleTick == -1) {
 			projectMoon$invincibleTick = 20;
 		}
 	}
-
+	
 	@Unique
 	private void projectMoon$getEntityAttribute(Entity entity) {
 		IColorDamageTypeEntity colorDamageTypeEntity;
@@ -103,40 +103,40 @@ public abstract class DamageSourceMixin implements IModDamageSource {
 					projectMoon$invincibleTick = invincibleTickEntity.getInvincibleTick(entity);
 				}
 			}
-			level = entity.getCapability(PmCapability.Level.LEVEL_ENTITY);
+			level = entity.getCapability(PmCapabilitys.Level.LEVEL_ENTITY);
 			if (level != null) {
 				projectMoon$damageLevel = level.getItemLevel();
 			}
 		}
 	}
-
+	
 	@Unique
 	@CheckForNull
 	public PmDamageTool.ColorType projectMoonInt$getFourColorDamageTypes() {
 		return projectMoon$ColorType;
 	}
-
+	
 	@Unique
 	@CheckForNull
 	public PmDamageTool.Level projectMoonInt$getDamageLevel() {
 		return projectMoon$damageLevel;
 	}
-
+	
 	@Unique
 	public int projectMoonInt$getInvincibleTick() {
 		return projectMoon$invincibleTick;
 	}
-
+	
 	@Unique
 	public void projectMoonInt$setFourColorDamageTypes(PmDamageTool.ColorType type) {
 		this.projectMoon$ColorType = type;
 	}
-
+	
 	@Unique
 	public void projectMoonInt$setDamageLevel(PmDamageTool.Level level) {
 		this.projectMoon$damageLevel = level;
 	}
-
+	
 	@Unique
 	public void projectMoonInt$setInvincibleTick(int tick) {
 		this.projectMoon$invincibleTick = tick;

@@ -28,7 +28,7 @@ public class DatagenCuriosTest extends CuriosDataProvider {
 	public static final String GLOVE_CURIOS      = "ego_glove";
 	public static final String RIGHT_BACK_CURIOS = "ego_right_back";
 	public static final String LEFT_BACK_CURIOS  = "ego_left_back";
-
+	
 	public static final ResourceLocation EGO_CURIOS_TAG = createTagId("ego_curios");
 	public static final ResourceLocation HEADWEAR_TAG   = createTagId("headwear");
 	public static final ResourceLocation HEAD_TAG       = createTagId("head");
@@ -44,19 +44,19 @@ public class DatagenCuriosTest extends CuriosDataProvider {
 	public static final ResourceLocation GLOVE_TAG      = createTagId("glove");
 	public static final ResourceLocation RIGHT_BACK_TAG = createTagId("right_back");
 	public static final ResourceLocation LEFT_BACK_TAG  = createTagId("left_back");
-
+	
 	public DatagenCuriosTest(PackOutput output, ExistingFileHelper fileHelper, CompletableFuture<HolderLookup.Provider> registries) {
 		super(MOD_ID, output, fileHelper, registries);
 	}
-
+	
 	private static String createId(String name) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name).toString();
 	}
-
+	
 	private static ResourceLocation createTagId(String name) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_tag");
 	}
-
+	
 	@Override
 	public void generate(HolderLookup.Provider registries, ExistingFileHelper fileHelper) {
 		createSlot(HEADWEAR_CURIOS, HEADWEAR_TAG);
@@ -73,21 +73,21 @@ public class DatagenCuriosTest extends CuriosDataProvider {
 		createSlot(GLOVE_CURIOS, GLOVE_TAG);
 		createSlot(RIGHT_BACK_CURIOS, RIGHT_BACK_TAG);
 		createSlot(LEFT_BACK_CURIOS, LEFT_BACK_TAG);
-
+		
 		createSimpleEntities("player");
 	}
-
+	
 	public ISlotData createSlot(String nameID, String icon, ResourceLocation validator) {
 		return createSlot(nameID, validator).icon(ResourceLocation.fromNamespaceAndPath(MOD_ID, icon));
 	}
-
+	
 	public ISlotData createSlot(String nameId, ResourceLocation validator) {
 		return super.createSlot(nameId)
-				.dropRule(ALWAYS_KEEP)
-				.addValidator(validator)
-				.addCosmetic(true);
+		            .dropRule(ALWAYS_KEEP)
+		            .addValidator(validator)
+		            .addCosmetic(true);
 	}
-
+	
 	public IEntitiesData createSimpleEntities(String nameID) {
 		return createEntities(nameID).addPlayer().addSlots(HEADWEAR_CURIOS, HEAD_CURIOS, HINDBRAIN_CURIOS, EYE_AREA_CURIOS, FACE_CURIOS, CHEEK_CURIOS, MASK_CURIOS, MOUTH_CURIOS, NECK_CURIOS, CHEST_CURIOS, HAND_CURIOS, GLOVE_CURIOS, RIGHT_BACK_CURIOS, LEFT_BACK_CURIOS);
 	}

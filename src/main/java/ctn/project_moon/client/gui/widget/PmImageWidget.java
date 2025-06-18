@@ -10,7 +10,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 /**
- * @author 小尽
+ * @author 尽
  */
 @OnlyIn(Dist.CLIENT)
 public class PmImageWidget extends AbstractWidget {
@@ -19,7 +19,7 @@ public class PmImageWidget extends AbstractWidget {
 	private final int              textureHeight;
 	private final float            uOffset;
 	private final float            vOffset;
-
+	
 	public PmImageWidget(int x, int y,
 			int width, int height,
 			ResourceLocation texture,
@@ -33,7 +33,7 @@ public class PmImageWidget extends AbstractWidget {
 		this.uOffset       = uOffset;
 		this.vOffset       = vOffset;
 	}
-
+	
 	public PmImageWidget(int x, int y,
 			int width, int height,
 			ResourceLocation texture,
@@ -41,7 +41,7 @@ public class PmImageWidget extends AbstractWidget {
 			Component component) {
 		this(x, y, width, height, texture, 256, 256, uOffset, vOffset, component);
 	}
-
+	
 	@Override
 	protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		guiGraphics.blit(
@@ -55,31 +55,31 @@ public class PmImageWidget extends AbstractWidget {
 			renderTooltip(guiGraphics, mouseX, mouseY);
 		}
 	}
-
+	
 	@Override
 	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 	}
-
+	
 	public void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
 		guiGraphics.renderTooltip(Minecraft.getInstance().font, getMessage(), mouseX, mouseY);
 	}
-
+	
 	public ResourceLocation getTexture() {
 		return texture;
 	}
-
+	
 	public int getTextureWidth() {
 		return textureWidth;
 	}
-
+	
 	public int getTextureHeight() {
 		return textureHeight;
 	}
-
+	
 	public float getUOffset() {
 		return uOffset;
 	}
-
+	
 	public float getVOffset() {
 		return vOffset;
 	}

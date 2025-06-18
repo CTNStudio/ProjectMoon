@@ -16,18 +16,18 @@ import static ctn.project_moon.api.tool.PmDamageTool.Level.getEntityLevel;
 // 实体等级显示
 public enum MobEntityLevel implements IEntityComponentProvider {
 	INSTANCE;
-
+	
 	private static @NotNull ResourceLocation getResourceLocation(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
-
+	
 	@Override
 	public void appendTooltip(ITooltip iTooltip, EntityAccessor entityAccessor, IPluginConfig iPluginConfig) {
 		PmDamageTool.Level level = getEntityLevel(entityAccessor.getEntity());
 		if (level == null) return;
 		iTooltip.add(1, Component.literal(level.getName()).withColor(PmTool.colorConversion(level.getColourText())));
 	}
-
+	
 	@Override
 	public ResourceLocation getUid() {
 		return PmPlugin.LEVEL;

@@ -5,20 +5,17 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.CheckForNull;
 
-import static ctn.project_moon.init.PmCapability.Level.LEVEL_ITEM;
+import static ctn.project_moon.init.PmCapabilitys.Level.LEVEL_ITEM;
 
 @FunctionalInterface
 public interface ILevel {
-	@CheckForNull
-	PmDamageTool.Level getItemLevel();
-
 	/**
 	 * 返回之间的等级差值
 	 */
 	static int leveDifferenceValue(ItemStack item, ItemStack item2) {
 		return getItemLevelValue(item) - getItemLevelValue(item2);
 	}
-
+	
 	/**
 	 * 返回物品等级
 	 */
@@ -28,9 +25,9 @@ public interface ILevel {
 			return 0;
 		}
 		return level.getLevelValue();
-
+		
 	}
-
+	
 	/**
 	 * @return {@link PmDamageTool.Level}
 	 */
@@ -41,4 +38,7 @@ public interface ILevel {
 		}
 		return capability.getItemLevel();
 	}
+	
+	@CheckForNull
+	PmDamageTool.Level getItemLevel();
 }

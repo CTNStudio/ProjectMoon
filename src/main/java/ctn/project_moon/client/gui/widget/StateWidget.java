@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 多重状态图像控件(2维)
  *
- * @author 小尽
+ * @author 尽
  */
 @OnlyIn(Dist.CLIENT)
 public class StateWidget extends AbstractWidget {
@@ -26,7 +26,7 @@ public class StateWidget extends AbstractWidget {
 	protected       int              stateU   = 0;// 序列从0开始
 	protected       int              stateV   = 0;// 序列从0开始
 	protected       Tooltip          tooltip;
-
+	
 	public StateWidget(int x, int y,
 			int width, int height,
 			int uOffset, int vOffset, ResourceLocation texture, Component component) {
@@ -35,7 +35,7 @@ public class StateWidget extends AbstractWidget {
 		this.vOffset = vOffset;
 		this.texture = texture;
 	}
-
+	
 	@Override
 	protected void renderWidget(GuiGraphics guiGraphics,
 			int mouseX, int mouseY, float partialTick) {
@@ -46,11 +46,11 @@ public class StateWidget extends AbstractWidget {
 			renderTooltip(guiGraphics, mouseX, mouseY);
 		}
 	}
-
+	
 	public void setTooltip(Tooltip tooltip) {
 		this.tooltip = tooltip;
 	}
-
+	
 	public void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
 		if (tooltip != null) {
 			tooltip.run(this, guiGraphics, mouseX, mouseY);
@@ -61,39 +61,39 @@ public class StateWidget extends AbstractWidget {
 		}
 		guiGraphics.renderComponentTooltip(Minecraft.getInstance().font, messages, mouseX, mouseY);
 	}
-
+	
 	public List<Component> getMessageList() {
 		return messages;
 	}
-
+	
 	@Override
 	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 	}
-
+	
 	public int getStateU() {
 		return stateU;
 	}
-
+	
 	public void setStateU(int stateU) {
 		this.stateU = stateU;
 	}
-
+	
 	public int getUOffset() {
 		return uOffset;
 	}
-
+	
 	public int getVOffset() {
 		return vOffset;
 	}
-
+	
 	public int getStateV() {
 		return stateV;
 	}
-
+	
 	public void setStateV(int stateV) {
 		this.stateV = stateV;
 	}
-
+	
 	public interface Tooltip {
 		void run(StateWidget widget, GuiGraphics guiGraphics, int mouseX, int mouseY);
 	}

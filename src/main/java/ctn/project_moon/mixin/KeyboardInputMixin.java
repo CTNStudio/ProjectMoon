@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static ctn.project_moon.api.TempNbtAttribute.CANNOT_PLAYER_MOVED;
+import static ctn.project_moon.api.attr.TempNbtAttribute.CANNOT_PLAYER_MOVED;
 
 @Mixin(KeyboardInput.class)
 public abstract class KeyboardInputMixin extends Input {
 	@Final
 	@Shadow
 	private Options options;
-
+	
 	@Inject(method = "tick", at = @At("HEAD"), cancellable = true)
 	public void projectMoon$tick(boolean isSneaking, float sneakingSpeedMultiplier, CallbackInfo ci) {
 		Minecraft minecraft = Minecraft.getInstance();

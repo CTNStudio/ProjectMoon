@@ -21,7 +21,7 @@ public abstract class AttributeSupplier$BuilderMixin {
 		create(EROSION_RESISTANCE);
 		create(THE_SOUL_RESISTANCE);
 	}
-
+	
 	@Shadow
 	protected abstract AttributeInstance create(Holder<Attribute> attribute);
 }

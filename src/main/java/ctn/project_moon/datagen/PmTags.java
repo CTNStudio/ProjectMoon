@@ -28,26 +28,26 @@ import static net.minecraft.tags.DamageTypeTags.ALWAYS_HURTS_ENDER_DRAGONS;
 
 public class PmTags {
 	public static class PmBlock extends BlockTagsProvider {
-
+		
 		public PmBlock(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @CheckForNull ExistingFileHelper existingFileHelper) {
 			super(output, lookupProvider, MOD_ID, existingFileHelper);
 		}
-
+		
 		protected static TagKey<Block> createTag(String name) {
 			return BlockTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
 		}
-
+		
 		@Override
 		protected void addTags(HolderLookup.@NotNull Provider capability) {
 		}
 	}
-
+	
 	public static class PmItem extends ItemTagsProvider {
 		public static final TagKey<Item> EGO        = createTag("ego");
 		public static final TagKey<Item> EGO_CURIOS = createTag("ego_curios");
 		public static final TagKey<Item> EGO_SUIT   = createTag("ego_suit");
 		public static final TagKey<Item> EGO_WEAPON = createTag("ego_weapon");
-
+		
 		public static final TagKey<Item> EGO_CURIOS_HEADWEAR   = createTag("ego_curios_headwear");
 		public static final TagKey<Item> EGO_CURIOS_HEAD       = createTag("ego_curios_head");
 		public static final TagKey<Item> EGO_CURIOS_HINDBRAIN  = createTag("ego_curios_hindbrain");
@@ -62,15 +62,15 @@ public class PmTags {
 		public static final TagKey<Item> EGO_CURIOS_GLOVE      = createTag("ego_curios_glove");
 		public static final TagKey<Item> EGO_CURIOS_RIGHT_BACK = createTag("ego_curios_right_back");
 		public static final TagKey<Item> EGO_CURIOS_LEFT_BACK  = createTag("ego_curios_left_back");
-
+		
 		public PmItem(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<net.minecraft.world.level.block.Block>> blockTags, @CheckForNull ExistingFileHelper existingFileHelper) {
 			super(output, lookupProvider, blockTags, MOD_ID, existingFileHelper);
 		}
-
+		
 		protected static TagKey<Item> createTag(String name) {
 			return ItemTags.create(ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
 		}
-
+		
 		@Override
 		protected void addTags(HolderLookup.@NotNull Provider capability) {
 			tag(EGO_CURIOS_HEADWEAR);
@@ -103,36 +103,36 @@ public class PmTags {
 					.addTags(EGO_CURIOS, EGO_SUIT, EGO_WEAPON);
 		}
 	}
-
+	
 	public static class PmEntity extends EntityTypeTagsProvider {
 		public static final TagKey<EntityType<?>> ABNOS = createTag("abnos");
-
+		
 		public PmEntity(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @CheckForNull ExistingFileHelper existingFileHelper) {
 			super(output, lookupProvider, MOD_ID, existingFileHelper);
 		}
-
+		
 		protected static TagKey<EntityType<?>> createTag(String name) {
 			return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
 		}
-
+		
 		@Override
 		protected void addTags(HolderLookup.@NotNull Provider capability) {
 			tag(ABNOS);
 		}
 	}
-
+	
 	public static class PmDamageType extends DamageTypeTagsProvider {
-		public static final  TagKey<DamageType>            ABNOS                = createTag("abnos");
-		public static final  TagKey<DamageType>            EGO                  = createTag("ego");
-
+		public static final TagKey<DamageType> ABNOS = createTag("abnos");
+		public static final TagKey<DamageType> EGO   = createTag("ego");
+		
 		public PmDamageType(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @CheckForNull ExistingFileHelper existingFileHelper) {
 			super(output, lookupProvider, MOD_ID, existingFileHelper);
 		}
-
+		
 		protected static TagKey<DamageType> createTag(String name) {
 			return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
 		}
-
+		
 		@Override
 		protected void addTags(HolderLookup.@NotNull Provider capability) {
 			tag(ABNOS)

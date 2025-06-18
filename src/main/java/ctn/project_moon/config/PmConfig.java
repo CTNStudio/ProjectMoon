@@ -77,7 +77,7 @@ public class PmConfig {
 	 * 双端配置
 	 */
 	public static class Common {
-		//理智/精神伤害配置
+		// 理智系统配置
 		public final BooleanValue ENABLE_RATIONALITY;
 
 		Common(Builder builder) {
@@ -97,7 +97,7 @@ public class PmConfig {
 
 		//理智/精神伤害配置
 		public final BooleanValue ENABLE_SPIRIT_DAMAGE;
-		public final BooleanValue ENABLE_NATURAL_RATIONALITY_SPIRIT;
+		public final BooleanValue ENABLE_NATURAL_RATIONALITY_RATIONALITY;
 		public final BooleanValue ENABLE_LOW_RATIONALITY_NEGATIVE_EFFECT;
 
 		//灵魂伤害配置
@@ -164,10 +164,10 @@ public class PmConfig {
 			builder.push("enable_four_color_damage");
 			ENABLE_FOUR_COLOR_DAMAGE               = builderConfig(
 					builder, "四色伤害系统", "enable_four_color_damage", true);
-			ENABLE_SPIRIT_DAMAGE                   = builderConfig(
+			ENABLE_SPIRIT_DAMAGE = builderConfig(
 					builder, "精神伤害系统", "enable_spirit_damage", true);
-			ENABLE_NATURAL_RATIONALITY_SPIRIT      = builderConfig(
-					builder, "自然恢复理智值", "enable_natural_rationality_spirit", true);
+			ENABLE_NATURAL_RATIONALITY_RATIONALITY      = builderConfig(
+					builder, "自然恢复理智值", "enable_natural_rationality_rationality", true);
 			ENABLE_LOW_RATIONALITY_NEGATIVE_EFFECT = builderConfig(
 					builder, "玩家低理智负面效果", "enable_low_rationality_negative_effect", true);
 			ENABLE_THE_SOUL_DAMAGE                 = builderConfig(

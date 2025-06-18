@@ -19,7 +19,7 @@ public class RegistrarCurioEvents {
 		register(PmItems.PARADISE_LOST_WINGS.get());
 		register(PmItems.MAGIC_BULLET_PIPE.get());
 	}
-
+	
 	private static void register(EgoCurioItem item) {
 		CuriosRendererRegistry.register(item, () -> new CuriosItemRenderer(item));
 	}

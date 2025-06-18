@@ -9,15 +9,15 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
-import static ctn.project_moon.init.PmMenuType.PLAYER_ATTRIBUTE_MENU;
+import static ctn.project_moon.init.PmMenuTypes.PLAYER_ATTRIBUTE_MENU;
 
 /**
- * @author 小尽
+ * @author 尽
  */
 @OnlyIn(Dist.CLIENT)
 public class PlayerAttributeMenu extends AbstractContainerMenu {
 	private final Player player;
-
+	
 	public PlayerAttributeMenu(int containerId, Inventory playerInventory) {
 		super(PLAYER_ATTRIBUTE_MENU.get(), containerId);
 		this.player = playerInventory.player;
@@ -37,7 +37,7 @@ public class PlayerAttributeMenu extends AbstractContainerMenu {
 			}
 		}
 	}
-
+	
 	@Override
 	public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
 		if (index < 0) {
@@ -60,16 +60,16 @@ public class PlayerAttributeMenu extends AbstractContainerMenu {
 				return ItemStack.EMPTY;
 			}
 		}
-
+		
 		quickMovedSlot.setChanged();
 		return rawStack;
 	}
-
+	
 	@Override
 	public boolean stillValid(Player player) {
 		return true;
 	}
-
+	
 	public Player getPlayer() {
 		return player;
 	}

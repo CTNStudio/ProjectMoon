@@ -3,7 +3,7 @@ package ctn.project_moon.common.item.weapon;
 
 import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.client.models.PmGeoItemModel;
-import ctn.project_moon.common.item.weapon.abstract_ltem.Weapon;
+import ctn.project_moon.common.item.weapon.abstract_item.Weapon;
 
 import javax.annotation.CheckForNull;
 import java.util.List;
@@ -14,7 +14,7 @@ public class DetonatingBatonItem extends Weapon {
 		super(builder);
 		setDefaultModel(new PmGeoItemModel<>("detonating_baton"));
 	}
-
+	
 	@CheckForNull
 	@Override
 	public List<PmDamageTool.ColorType> getCanCauseDamageTypes() {

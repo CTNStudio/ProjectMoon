@@ -24,13 +24,13 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.FourColorAttribute.*;
+import static ctn.project_moon.api.attr.FourColorAttribute.*;
 import static ctn.project_moon.init.PmEntityAttributes.*;
 import static net.minecraft.world.entity.ai.attributes.Attributes.*;
 import static net.neoforged.neoforge.common.NeoForgeMod.SWIM_SPEED;
 
 /**
- * @author 小尽
+ * @author 尽
  */
 @OnlyIn(Dist.CLIENT)
 public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<PlayerAttributeMenu> implements ICuriosScreen {
@@ -49,7 +49,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 	};
 	public static final String[]         RESISTANCE_TOOLTIP           = new String[]{
 			PREFIX + "physics.message",
-			PREFIX + "spirit.message",
+			PREFIX + "rationality.message",
 			PREFIX + "erosion.message",
 			PREFIX + "the_soul.message"
 	};
@@ -57,12 +57,12 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 	private final       StateWidget[]    resistanceWidget             = new StateWidget[4];
 	private final       Player           player;
 	private             StateWidget      compositeRatingWidget;
-
+	
 	public PlayerAttributeScreen(PlayerAttributeMenu menu, Inventory playerInventory, Component title) {
 		super(menu, playerInventory, title);
 		player = playerInventory.player;
 	}
-
+	
 	/** 获取属性加成 */
 	private static @NotNull MutableComponent getBonusComponent(double bonus) {
 		MutableComponent component;
@@ -75,7 +75,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		}
 		return component;
 	}
-
+	
 	/** 获取属性加成 */
 	private static @NotNull MutableComponent getBonusComponent(AttributeModifier attributeModifier) {
 		if (attributeModifier == null) {
@@ -94,11 +94,11 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 				}, Math.abs(amount))
 		).withColor(amount > 0 ? PmColourTool.TETH.getColourRGB() : CommonColors.SOFT_RED);
 	}
-
+	
 	private static @NotNull ResourceLocation getResourceLocation(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
-
+	
 	@Override
 	protected void init() {
 		imageWidth  = 176;
@@ -110,7 +110,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 				16, 16,
 				194, 0,
 				TEXTURE, Component.translatable(ATTRIBUTE_TOOLTIP[4])));
-
+		
 		for (int i = 0; i < 4; i++) {
 			addRenderableWidget(new PmImageWidget(
 					leftPos + 7, topPos + 7 + 18 * i,
@@ -137,14 +137,14 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 					211, 0,
 					TEXTURE, Component.empty()));
 		}
-
+		
 		attributeRatingWidget[0].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
 			List<Component> list = addAttributeTooltip(widget, getBaseFortitude(player), FORTITUDE_ADDITIONAL);
 			addAttributeBonusTooltip(list, "attribute.name.max_health", player.getAttribute(MAX_HEALTH).getValue() - 20);
 		});
 		attributeRatingWidget[1].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
 			List<Component> list = addAttributeTooltip(widget, getBasePrudence(player), PRUDENCE_ADDITIONAL);
-			addAttributeBonusTooltip(list, "attribute.name.generic.max_spirit", player.getAttribute(MAX_SPIRIT).getValue() - 20);
+			addAttributeBonusTooltip(list, "attribute.name.generic.max_rationality", player.getAttribute(MAX_RATIONALITY).getValue() - 20);
 		});
 		attributeRatingWidget[2].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
 			List<Component> list = addAttributeTooltip(widget, getBaseTemperance(player), TEMPERANCE_ADDITIONAL);
@@ -161,7 +161,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 			addAttributeBonusTooltip(list, "attribute.name.generic.attack_speed", getAttributeModifierValue(ATTACK_SPEED, JUSTICE_ADD_ATTACK_SPEED));
 			addAttributeBonusTooltip(list, "neoforge.swim_speed", getAttributeModifierValue(SWIM_SPEED, JUSTICE_ADD_SWIM_SPEED));
 		});
-
+		
 		resistanceWidget[0].setTooltip((widget, guiGraphics, mouseX, mouseY) -> {
 			addResistanceTooltip(widget, PHYSICS_RESISTANCE);
 		});
@@ -175,7 +175,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 			addResistanceTooltip(widget, THE_SOUL_RESISTANCE);
 		});
 	}
-
+	
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		compositeRatingWidget.setStateV(getCompositeRatting(player) - 1);
@@ -190,18 +190,18 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		super.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
-
+	
 	private void addResistanceTooltip(StateWidget widget, Holder<Attribute> theSoulResistance) {
 		widget.getMessageList().clear();
 		List<Component> list = widget.getMessageList();
 		list.add(Component.translatable(DAMAGE_RESISTANCE_TOOLTIP, player.getAttributeValue(theSoulResistance)));
 		list.add(Component.translatable(DAMAGE_RESISTANCE1));
 	}
-
+	
 	private void modifyRatingWidget(int index, int value) {
 		attributeRatingWidget[index].setStateV(value);
 	}
-
+	
 	private void modifyResistanceWidget(int index, Holder<Attribute> physicsResistance) {
 		double state = player.getAttributeValue(physicsResistance);
 		int i = 0;
@@ -218,28 +218,28 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		}
 		resistanceWidget[index].setStateV(i);
 	}
-
+	
 	@Override
 	protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
 	}
-
+	
 	@Override
 	protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
 		guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, 256, 256);
 	}
-
+	
 	/** 获取属性修改器 */
 	private AttributeModifier getAttributeModifierValue(Holder<Attribute> attribute, String attributeModifierName) {
 		return player.getAttribute(attribute).getModifiers().stream()
-				.filter((a) -> a.id().equals(getResourceLocation(attributeModifierName)))
-				.findFirst().orElse(null);
+		             .filter((a) -> a.id().equals(getResourceLocation(attributeModifierName)))
+		             .findFirst().orElse(null);
 	}
-
+	
 	/** 添加属性加成文本 */
 	private void addAttributeBonusTooltip(List<Component> list, String key, double bonus) {
 		list.add(getBonusComponent(bonus).append(Component.translatable(key)));
 	}
-
+	
 	/** 添加属性加成文本 */
 	private void addAttributeBonusTooltip(List<Component> list, String key, AttributeModifier attributeModifier) {
 		if (attributeModifier == null) {
@@ -247,7 +247,7 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		}
 		list.add(getBonusComponent(attributeModifier).append(Component.translatable(key)));
 	}
-
+	
 	/** 添加属性点数和属性经验文本 */
 	private List<Component> addAttributeTooltip(StateWidget widget, final int baseValue, Holder<Attribute> attribute) {
 		widget.getMessageList().clear();
@@ -256,14 +256,14 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		MessageList.add(gerAttributeExperience(0));
 		return MessageList;
 	}
-
+	
 	/**
 	 * 获取属性点数
 	 */
 	private @NotNull Component getAttributePoints(final int baseValue, Holder<Attribute> attribute) {
 		return Component.translatable(ATTRIBUTE_POINTS_TOOLTIP, getAdditionalComponent(baseValue, attribute));
 	}
-
+	
 	/** 获取属性点数加成 */
 	private @NotNull Component getAdditionalComponent(final int baseValue, Holder<Attribute> attribute) {
 		MutableComponent c = Component.literal("").append(Component.literal(String.valueOf(baseValue)));
@@ -279,12 +279,12 @@ public class PlayerAttributeScreen extends EffectRenderingInventoryScreen<Player
 		}
 		return c.append(additionalComponent);
 	}
-
+	
 	/** 获取属性经验 */
 	private @NotNull Component gerAttributeExperience(final int exValue) {
 		return Component.translatable(ATTRIBUTE_EXPERIENCE_TOOLTIP, exValue).withColor(CommonColors.GREEN);
 	}
-
+	
 	/** 获取抗性 */
 	private @NotNull String getResistanceString(Holder<Attribute> attribute) {
 		return String.format("%.2f", player.getAttribute(attribute).getValue());

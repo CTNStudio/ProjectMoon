@@ -11,14 +11,14 @@ import net.neoforged.api.distmarker.OnlyIn;
 /**
  * 复合控件
  *
- * @author 小尽
+ * @author 尽
  */
 @OnlyIn(Dist.CLIENT)
 public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget {
 	public final T       widget1;
 	public final T       widget2;
 	private      boolean state = true;
-
+	
 	public CompositeWidget(int x, int y, int width, int height, T widget1, T widget2) {
 		super(x, y, width, height, Component.empty());
 		this.widget1 = widget1;
@@ -26,21 +26,21 @@ public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget {
 		setX(x);
 		setY(y);
 	}
-
+	
 	@Override
 	public void setX(int x) {
 		super.setX(x);
 		widget1.setX(x);
 		widget2.setX(x);
 	}
-
+	
 	@Override
 	public void setY(int y) {
 		super.setY(y);
 		widget1.setY(y);
 		widget2.setY(y);
 	}
-
+	
 	@Override
 	protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		T widget = isState() ? widget1 : widget2;
@@ -49,7 +49,7 @@ public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget {
 			renderTooltip(guiGraphics, mouseX, mouseY);
 		}
 	}
-
+	
 	public void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
 		T widget = isState() ? widget1 : widget2;
 		if (widget.getMessage().getString().isEmpty()) {
@@ -57,16 +57,16 @@ public class CompositeWidget<T extends AbstractWidget> extends AbstractWidget {
 		}
 		guiGraphics.renderTooltip(Minecraft.getInstance().font, widget.getMessage(), mouseX, mouseY);
 	}
-
-
+	
+	
 	@Override
 	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 	}
-
+	
 	public boolean isState() {
 		return state;
 	}
-
+	
 	public void setState(boolean state) {
 		this.state = state;
 	}

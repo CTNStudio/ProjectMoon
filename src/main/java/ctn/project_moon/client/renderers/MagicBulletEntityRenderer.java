@@ -11,16 +11,16 @@ import static ctn.project_moon.PmMain.MOD_ID;
 
 public class MagicBulletEntityRenderer extends EntityRenderer<MagicBulletEntity> {
 	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/entity/magic_bullet.png");
-
+	
 	public MagicBulletEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
 	}
-
+	
 	@Override
 	public void render(MagicBulletEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-
+	
 	}
-
+	
 	@Override
 	public ResourceLocation getTextureLocation(MagicBulletEntity magicBulletEntity) {
 		return TEXTURE;

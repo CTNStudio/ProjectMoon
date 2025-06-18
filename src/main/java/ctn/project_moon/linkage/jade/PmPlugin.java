@@ -14,11 +14,11 @@ import static ctn.project_moon.PmMain.MOD_ID;
 public class PmPlugin implements IWailaPlugin {
 	public static final ResourceLocation LEVEL      = ResourceLocation.fromNamespaceAndPath(MOD_ID, "level");
 	public static final ResourceLocation RESISTANCE = ResourceLocation.fromNamespaceAndPath(MOD_ID, "resistance");
-
+	
 	@Override
 	public void register(IWailaCommonRegistration registration) {
 	}
-
+	
 	@Override
 	public void registerClient(IWailaClientRegistration registration) {
 		registration.registerBlockComponent(BlockLevel.INSTANCE, Block.class);

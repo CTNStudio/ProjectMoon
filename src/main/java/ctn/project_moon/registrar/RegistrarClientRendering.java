@@ -15,11 +15,11 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.init.PmMenuType.PLAYER_ATTRIBUTE_MENU;
+import static ctn.project_moon.init.PmMenuTypes.PLAYER_ATTRIBUTE_MENU;
 
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class RegistrarClientRendering {
-
+	
 	/**
 	 * 注册实体渲染器
 	 */
@@ -28,13 +28,13 @@ public class RegistrarClientRendering {
 		EntityRenderers.register(PmEntitys.TRAINING_RABBITS.get(), TrainingRabbits.TrainingRabbitsRenderer::new);
 		EntityRenderers.register(PmEntitys.PARADISE_LOST_SPIKEWEED.get(), ParadiseLostSpikeweed.TrainingRabbitsRenderer::new);
 	}
-
+	
 	/** 注册粒子渲染器 */
 	@SubscribeEvent
 	public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
 		event.registerSpriteSet(PmParticleTypes.TEXT_PARTICLE_TYPE.get(), TextParticle.Provider::new);
 	}
-
+	
 	/**
 	 * 注册菜单渲染器
 	 */

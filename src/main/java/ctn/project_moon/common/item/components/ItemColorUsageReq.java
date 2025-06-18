@@ -2,8 +2,8 @@ package ctn.project_moon.common.item.components;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import ctn.project_moon.api.FourColorAttribute;
 import ctn.project_moon.api.UniqueList;
+import ctn.project_moon.api.attr.FourColorAttribute;
 import ctn.project_moon.tool.PmColourTool;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.FourColorAttribute.Type.*;
+import static ctn.project_moon.api.attr.FourColorAttribute.Type.*;
 import static ctn.project_moon.init.PmEntityAttributes.ID_ACT;
 import static ctn.project_moon.tool.PmTool.i18ColorText;
 import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
@@ -29,7 +29,7 @@ import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
  * <p>
  * 当一个最后一个值为-1就是包括大于
  */
-public class ItemColorUsageReq {
+public class ItemColorUsageReq extends ToTooltip {
 	public static final  StreamCodec<ByteBuf, ItemColorUsageReq>                      STREAM_CODEC   = StreamCodec.composite(
 			ByteBufCodecs.map(LinkedHashMap::new, FourColorAttribute.Type.STREAM_CODEC, ByteBufCodecs.INT.apply(ByteBufCodecs.list())),
 			ItemColorUsageReq::apply,
@@ -48,15 +48,15 @@ public class ItemColorUsageReq {
 			.apply(instance, ItemColorUsageReq::new));
 	public static final  Codec<ItemColorUsageReq>                                     CODEC          = Codec.withAlternative(FULL_CODEC, LEVELS_CODEC, ItemColorUsageReq::new);
 	private final        LinkedHashMap<FourColorAttribute.Type, List<Integer>>        requireMap;
-
+	
 	public ItemColorUsageReq(LinkedHashMap<FourColorAttribute.Type, List<Integer>> map) {
 		this.requireMap = map;
 	}
-
+	
 	private static LinkedHashMap<FourColorAttribute.Type, List<Integer>> apply(ItemColorUsageReq p_340784_) {
 		return p_340784_.requireMap;
 	}
-
+	
 	public static ItemColorUsageReq empty() {
 		LinkedHashMap<FourColorAttribute.Type, List<Integer>> map = new LinkedHashMap<>();
 		map.put(FORTITUDE, new UniqueList<>());
@@ -66,43 +66,15 @@ public class ItemColorUsageReq {
 		map.put(COMPOSITE_RATING, new UniqueList<>());
 		return new ItemColorUsageReq(map);
 	}
-
+	
 	private static void validateCompositeRatingValue(FourColorAttribute.Type attribute, int value) {
 		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || value != 6 : String.format("Composite Rating must be between [-1, 1, 2, 3, 4, 5]. Currently, it is: %d", value);
 	}
-
+	
 	private static Component getParameterComponent(boolean detailed, int value) {
 		return detailed ? Component.literal(String.valueOf(value)) : Component.translatable(FourColorAttribute.Rating.getRating(value).getIdName());
 	}
-
-	public List<Integer> getValue(FourColorAttribute.Type attribute) {
-		return getAttributeList(attribute);
-	}
-
-	//没什么特殊要求的建议使用这个
-	/// 至少
-	public ItemColorUsageReq setNotToExceedValue(FourColorAttribute.Type attribute, FourColorAttribute.Rating rating) {
-		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || rating != FourColorAttribute.Rating.EX :
-				String.format("Composite Rating must be between I and V. Currently, it is: %s", rating);
-		List<Integer> list = getAttributeList(attribute);
-		list.clear();
-		list.add(rating.getMinValue());
-		list.add(-1);
-		return this;
-	}
-
-	/// 至多
-	public ItemColorUsageReq setNotLowerThanValue(FourColorAttribute.Type attribute, FourColorAttribute.Rating rating) {
-		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || rating != FourColorAttribute.Rating.EX :
-				String.format("Composite Rating must be between I and V. Currently, it is: %s", rating);
-		List<Integer> list = getAttributeList(attribute);
-		list.clear();
-		list.add(-1);
-		list.add(rating.getMinValue());
-		return this;
-	}
-
-
+	
 	/// 至少 推荐使用方法
 	public static ItemColorUsageReq notToExceed(FourColorAttribute.Rating fortitudeRating, FourColorAttribute.Rating prudenceRating, FourColorAttribute.Rating temperanceRating, FourColorAttribute.Rating justiceRating, FourColorAttribute.Rating compositeRating) {
 		final ItemColorUsageReq empty = ItemColorUsageReq.empty();
@@ -123,7 +95,9 @@ public class ItemColorUsageReq {
 		}
 		return empty;
 	}
-
+	
+	//没什么特殊要求的建议使用这个
+	
 	/// 至多
 	public static ItemColorUsageReq notLowerThan(FourColorAttribute.Rating fortitudeRating, FourColorAttribute.Rating prudenceRating, FourColorAttribute.Rating temperanceRating, FourColorAttribute.Rating justiceRating, FourColorAttribute.Rating compositeRating) {
 		final ItemColorUsageReq empty = ItemColorUsageReq.empty();
@@ -144,7 +118,33 @@ public class ItemColorUsageReq {
 		}
 		return empty;
 	}
-
+	
+	public List<Integer> getValue(FourColorAttribute.Type attribute) {
+		return getAttributeList(attribute);
+	}
+	
+	/// 至少
+	public ItemColorUsageReq setNotToExceedValue(FourColorAttribute.Type attribute, FourColorAttribute.Rating rating) {
+		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || rating != FourColorAttribute.Rating.EX :
+				String.format("Composite Rating must be between I and V. Currently, it is: %s", rating);
+		List<Integer> list = getAttributeList(attribute);
+		list.clear();
+		list.add(rating.getMinValue());
+		list.add(-1);
+		return this;
+	}
+	
+	/// 至多
+	public ItemColorUsageReq setNotLowerThanValue(FourColorAttribute.Type attribute, FourColorAttribute.Rating rating) {
+		assert attribute != FourColorAttribute.Type.COMPOSITE_RATING || rating != FourColorAttribute.Rating.EX :
+				String.format("Composite Rating must be between I and V. Currently, it is: %s", rating);
+		List<Integer> list = getAttributeList(attribute);
+		list.clear();
+		list.add(-1);
+		list.add(rating.getMinValue());
+		return this;
+	}
+	
 	public ItemColorUsageReq setValue(FourColorAttribute.Type attribute, FourColorAttribute.Rating... ratings) {
 		if (attribute == FourColorAttribute.Type.COMPOSITE_RATING) {
 			for (FourColorAttribute.Rating rating : ratings) {
@@ -158,7 +158,7 @@ public class ItemColorUsageReq {
 		list.add(ratings[1].getMinValue());
 		return this;
 	}
-
+	
 	/**
 	 * 适合仅对应的值可用 -1代表没有限制
 	 * <p>
@@ -187,7 +187,7 @@ public class ItemColorUsageReq {
 		}
 		return this;
 	}
-
+	
 	public ItemColorUsageReq setMinValue(FourColorAttribute.Type attribute, int value) {
 		validateCompositeRatingValue(attribute, value);
 		List<Integer> list = getAttributeList(attribute);
@@ -200,7 +200,7 @@ public class ItemColorUsageReq {
 		list.add(-1);
 		return this;
 	}
-
+	
 	public ItemColorUsageReq setMaxValue(FourColorAttribute.Type attribute, int value) {
 		validateCompositeRatingValue(attribute, value);
 		List<Integer> list = getAttributeList(attribute);
@@ -213,7 +213,7 @@ public class ItemColorUsageReq {
 		list.add(value);
 		return this;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -223,24 +223,24 @@ public class ItemColorUsageReq {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return requireMap.hashCode() * FourColorAttribute.Type.values().length;
 	}
-
+	
 	private List<Integer> getAttributeList(FourColorAttribute.Type attribute) {
 		if (requireMap.get(attribute) == null) {
 			requireMap.put(attribute, new UniqueList<>());
 		}
 		return requireMap.get(attribute);
 	}
-
+	
 	public ItemColorUsageReq clearAttributeList(FourColorAttribute.Type attribute) {
 		getAttributeList(attribute).clear();
 		return this;
 	}
-
+	
 	/**
 	 * 列表是否为空
 	 */
@@ -253,7 +253,7 @@ public class ItemColorUsageReq {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * 获取属性对应的使用要求
 	 */
@@ -269,7 +269,7 @@ public class ItemColorUsageReq {
 			case JUSTICE -> PmColourTool.THE_SOUL.getColour();
 			case COMPOSITE_RATING -> null;
 		};
-
+		
 		// 根据类型生成
 		MutableComponent component = attribute != FourColorAttribute.Type.COMPOSITE_RATING ?
 				Component.literal("").append(i18ColorText(attribute.getSerializedName(), color)) :
@@ -282,17 +282,17 @@ public class ItemColorUsageReq {
 			case 1 -> {
 				if (list.get(0) != -1) {
 					component.append(Component.translatable(REQUIREMENT)).append(" ")
-							.append(getParameterComponent(detailed, list.get(0)));
+					         .append(getParameterComponent(detailed, list.get(0)));
 				}
 			}
 			// 说真的我并不清楚这些奇奇怪怪的功能到底会有多少人用，但凭借着有比没有好的原则还是加上比较好
 			case 2 -> {
 				if (list.get(0) == -1) {
 					component.append(Component.translatable(NOT_TO_EXCEED))
-							.append(" ").append(getParameterComponent(detailed, list.get(1)));
+					         .append(" ").append(getParameterComponent(detailed, list.get(1)));
 				} else if (list.get(1) == -1) {
 					component.append(Component.translatable(NOT_LOWER_THAN))
-							.append(" ").append(getParameterComponent(detailed, list.get(0)));
+					         .append(" ").append(getParameterComponent(detailed, list.get(0)));
 				} else {
 					component.append(Component.translatable(
 							INTERVAL,
@@ -309,8 +309,8 @@ public class ItemColorUsageReq {
 		}
 		return component;
 	}
-
-
+	
+	
 	public boolean isAccord(FourColorAttribute.Type attribute, int value) {
 		List<Integer> attributeUsageReq = getAttributeList(attribute);
 		if (isListEmpty(attributeUsageReq)) {
@@ -341,7 +341,7 @@ public class ItemColorUsageReq {
 			}
 		};
 	}
-
+	
 	@Override
 	public String toString() {
 		return analysisUsageReq(FORTITUDE, true).tryCollapseToString() + "," +
@@ -349,7 +349,7 @@ public class ItemColorUsageReq {
 		       analysisUsageReq(TEMPERANCE, true).tryCollapseToString() + "," +
 		       analysisUsageReq(JUSTICE, true).tryCollapseToString();
 	}
-
+	
 	public boolean isEmpty() {
 		int i = 0;
 		for (FourColorAttribute.Type type : FourColorAttribute.Type.values()) {
@@ -359,7 +359,8 @@ public class ItemColorUsageReq {
 		}
 		return i == FourColorAttribute.Type.values().length;
 	}
-
+	
+	@Override
 	public void getToTooltip(List<Component> components) {
 		if (isEmpty()) {
 			return;
@@ -375,23 +376,23 @@ public class ItemColorUsageReq {
 			components.add(Component.literal(" ").append(analysisUsageReq(type, detailed)));
 		}
 	}
-
+	
 	public List<Integer> getFortitudeUsageReq() {
 		return getAttributeList(FORTITUDE);
 	}
-
+	
 	public List<Integer> getPrudenceUsageReq() {
 		return getAttributeList(PRUDENCE);
 	}
-
+	
 	public List<Integer> getTemperanceUsageReq() {
 		return getAttributeList(TEMPERANCE);
 	}
-
+	
 	public List<Integer> getJusticeUsageReq() {
 		return getAttributeList(JUSTICE);
 	}
-
+	
 	public List<Integer> getCompositeRatingUsageReq() {
 		return getAttributeList(COMPOSITE_RATING);
 	}

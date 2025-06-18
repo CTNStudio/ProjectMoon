@@ -1,6 +1,6 @@
 package ctn.project_moon.client.gui.widget.player_attribute;
 
-import ctn.project_moon.common.payload.data.OpenPlayerAttributeScreenData;
+import ctn.project_moon.common.payloadInit.data.OpenPlayerAttributeScreenData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 import static ctn.project_moon.PmMain.MOD_ID;
 
 /**
- * @author 小尽
+ * @author 尽
  */
 @OnlyIn(Dist.CLIENT)
 public final class PlayerAttributeButton extends ImageButton {
@@ -31,7 +31,7 @@ public final class PlayerAttributeButton extends ImageButton {
 			getResourceLocation("player_attribute_button_enabled"),
 			getResourceLocation("player_attribute_button_disabled"), getResourceLocation("player_attribute_button_enabled_focused"));
 	private final       AbstractContainerScreen<?> parentGui;
-
+	
 	public PlayerAttributeButton(AbstractContainerScreen<?> parentGui) {
 		super(
 				12, 12, DEFAULT, (button) -> {
@@ -45,11 +45,11 @@ public final class PlayerAttributeButton extends ImageButton {
 				}, Component.translatable(MESSAGE));
 		this.parentGui = parentGui;
 	}
-
+	
 	private static @NotNull ResourceLocation getResourceLocation(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, "player_attribute/" + path);
 	}
-
+	
 	@Override
 	public void renderWidget(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY,
 			float partialTicks) {

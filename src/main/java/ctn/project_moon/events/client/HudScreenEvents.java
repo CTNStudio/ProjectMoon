@@ -11,11 +11,11 @@ import static ctn.project_moon.PmMain.MOD_ID;
 public class HudScreenEvents {
 	@SubscribeEvent
 	public static void renderGuiEventPre(RenderGuiEvent.Pre event) {
-
+	
 	}
-
+	
 	@SubscribeEvent
 	public static void renderGuiEventPost(RenderGuiEvent.Post event) {
-
+	
 	}
 }

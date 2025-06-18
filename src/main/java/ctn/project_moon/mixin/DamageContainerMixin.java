@@ -14,15 +14,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static ctn.project_moon.api.tool.PmDamageTool.getDamageItemStack;
-import static ctn.project_moon.init.PmCapability.RANDOM_DAMAGE_ITEM;
+import static ctn.project_moon.init.PmCapabilitys.RANDOM_DAMAGE_ITEM;
 
 @Mixin(DamageContainer.class)
 public abstract class DamageContainerMixin {
 	@Shadow
 	private float newDamage;
-
-	@Shadow public abstract void setPostAttackInvulnerabilityTicks(int ticks);
-
+	
+	@Shadow
+	public abstract void setPostAttackInvulnerabilityTicks(int ticks);
+	
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void projectMoon$DamageContainer(DamageSource source, float originalDamage, CallbackInfo ci) {
 		setPostAttackInvulnerabilityTicks(((IModDamageSource) source).getInvincibleTick());

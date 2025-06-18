@@ -1,8 +1,8 @@
 package ctn.project_moon.common.item.weapon.special;
 
 import ctn.project_moon.api.tool.PmDamageTool;
-import ctn.project_moon.common.item.weapon.abstract_ltem.EgoWeapon;
-import ctn.project_moon.common.item.weapon.abstract_ltem.Weapon;
+import ctn.project_moon.common.item.weapon.abstract_item.EgoWeapon;
+import ctn.project_moon.common.item.weapon.abstract_item.Weapon;
 
 import javax.annotation.CheckForNull;
 import java.util.List;
@@ -13,7 +13,7 @@ public class LoveHateItem extends EgoWeapon {
 		super(builder.build(), builder);
 		setItemModel("love_hate");
 	}
-
+	
 	@CheckForNull
 	@Override
 	public List<PmDamageTool.ColorType> getCanCauseDamageTypes() {

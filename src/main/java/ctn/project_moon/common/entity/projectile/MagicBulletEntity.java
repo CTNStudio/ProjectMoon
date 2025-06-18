@@ -49,17 +49,17 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 	private              boolean                 canGoThroughWallsWhenNoTarget = false;//无目标时是否可以穿墙
 	private              boolean                 dealDamageToAllies            = false;//是否对盟友造成伤害
 	private              LivingEntity            trackingTarget;//正在追踪的目标
-
+	
 	public MagicBulletEntity(EntityType<? extends ThrowableProjectile> entityType, Level level) {
 		super(entityType, level);
 		this.setNoGravity(true);
 	}
-
+	
 	public MagicBulletEntity(Level level, LivingEntity shooter) {
 		super(PmEntitys.MAGIC_BULLET_ENTITY.get(), shooter, level);
 		this.setNoGravity(true);
 	}
-
+	
 	public static MagicBulletEntity create(Level level, LivingEntity shooter, int maxDamage, int minDamage) {
 		MagicBulletEntity magicBullet = new MagicBulletEntity(level, shooter);
 		magicBullet.maxDamage = maxDamage;
@@ -67,31 +67,31 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 		magicBullet.setOwner(shooter);
 		return magicBullet;
 	}
-
+	
 	public void setTrackingTarget(LivingEntity trackingTarget) {
 		this.trackingTarget = trackingTarget;
 		hasTracked.add(trackingTarget);
 	}
-
+	
 	public void setDealDamageToAllies(boolean dealDamageToAllies) {
 		this.dealDamageToAllies = dealDamageToAllies;
 	}
-
+	
 	public void setCanGoThroughWallsWhenNoTarget(boolean canGoThroughWallsWhenNoTarget) {
 		this.canGoThroughWallsWhenNoTarget = canGoThroughWallsWhenNoTarget;
 	}
-
+	
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 	}
-
+	
 	//击中实体与地面时
 	@Override
 	protected void onHit(@NotNull HitResult result) {
 		super.onHit(result);
 	}
-
+	
 	/**
 	 * 命中实体时
 	 *
@@ -111,7 +111,7 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 			}
 		}
 	}
-
+	
 	/**
 	 * 命中方块时
 	 * 有追踪目标时均可穿墙
@@ -126,7 +126,7 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 			}
 		}
 	}
-
+	
 	@Override
 	public void tick() {
 		super.tick();
@@ -150,7 +150,7 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 		}
 		//追踪
 		if (this.canTrack && !level().isClientSide) {
-
+			
 			// 获取追踪目标
 			if (this.trackingTarget == null) {
 				//获取范围内实体
@@ -168,12 +168,12 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 							if (!entity.isAttackable() || !entity.isAlive() || (entity instanceof Player player && (player.isCreative() || player.isSpectator()))) {
 								return false;
 							}
-
+							
 							// 默认只对非玩家队友生物进行追踪，如果要追踪玩家
 							if (!dealDamageToAllies && entity.isAlliedTo(owner)) {
 								return false;
 							}
-
+							
 							//限制追踪距离（削圆）
 							if (entity.distanceTo(this) > this.TrackingDistance) {
 								return false;
@@ -186,18 +186,18 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 					this.setTrackingTarget((LivingEntity) entityList.get(level().getRandom().nextInt(i)));
 				}
 			}
-
+			
 			// 追踪目标
 			else {
 				// 计算目标方向向量
 				//TODO: 现在是追踪目标眼睛的位置（但有些生物如末影龙眼睛处没有碰撞就打不到）
 				Vec3 targetPos = trackingTarget.position().add(0, trackingTarget.getEyeHeight(), 0);
 				Vec3 direction = targetPos.subtract(position()).normalize();
-
+				
 				// 调整当前运动方向
 				Vec3 currentMotion = getDeltaMovement();
 				Vec3 newMotion = currentMotion.scale(1 - TURN_RATE).add(direction.scale(TURN_RATE * BULLET_SPEED));
-
+				
 				// 更新运动参数
 				setDeltaMovement(newMotion.normalize().scale(BULLET_SPEED));
 				yRotO = (float) Math.toDegrees(Math.atan2(newMotion.x, newMotion.z));
@@ -207,11 +207,11 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 			}
 		}
 	}
-
+	
 	public ParticleOptions getParticle() {
 		return ParticleTypes.FLAME;//TODO:测试现形用，待修改
 	}
-
+	
 	private void dealDamageTo(Entity target) {
 		final ResourceKey<DamageType> EROSION = PmDamageTypes.EROSION;
 		if (getOwner() instanceof LivingEntity livingentity) {
@@ -233,17 +233,17 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 			target.hurt(source, damage);
 		}
 	}
-
+	
 	@Override
 	public boolean shouldBeSaved() {
 		return true;
 	}
-
+	
 	@Override
 	public int getMaxDamage() {
 		return maxDamage;
 	}
-
+	
 	@Override
 	public int getMinDamage() {
 		return minDamage;
