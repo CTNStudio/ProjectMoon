@@ -20,7 +20,7 @@ public class Skill {
 	private static final ResourceLocation EMPTY       = ResourceLocation.fromNamespaceAndPath(MOD_ID, "empty");
 	public static final  Skill            EMPTY_SKILL = new Skill(EMPTY, EMPTY, 0);
 	protected final      ResourceLocation skillId;
-	/// 路径 resources/assets/{mod_id}/textures/skills/
+	/// 路径 resources/assets/{mod_id}/textures/gui/sprites/skill/skills/
 	protected final      ResourceLocation iconPath;
 	protected final      int              maxCd;
 	/// 默认技能按键
@@ -52,6 +52,7 @@ public class Skill {
 		return skill == null || skill.isEmpty();
 	}
 	
+	/// 路径 resources/assets/{mod_id}/textures/gui/sprites/skill/skills/
 	public ResourceLocation getSkillId() {
 		return skillId;
 	}

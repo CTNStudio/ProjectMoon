@@ -4,6 +4,7 @@ package ctn.project_moon.api.skill;
 import ctn.project_moon.capability.ISkillHandler;
 import ctn.project_moon.capability_provider.EntitySkillHandler;
 import ctn.project_moon.init.PmPayloadInit;
+import ctn.project_moon.init.PmSkills;
 import ctn.project_moon.mixin_extend.IPlayerMixin;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
@@ -25,9 +26,12 @@ public class SkillTool {
 		RegistryAccess registry = player.level().registryAccess();
 		ISkillHandler handler = playerMixin.getSkillHandler();
 
-//		handler.clearSkills(); // 清除
-//		handler.addSkill(PmSkills.MAGIC_BULLET_FLOODED.get()); // 添加
-//		handler.getSkill(0).setCd(20 * 110); // 设置技能CD
+		handler.clearSkills(); // 清除
+		handler.addSkill(PmSkills.MAGIC_BULLET_FLOODED.get()); // 添加
+		handler.addSkill(PmSkills.MAGIC_BULLET_PENETRATING.get()); // 添加
+		handler.getSkill(0).setCd(20 * 10); // 设置技能CD
+//		handler.getSkill(0).setKey(-1); // 设置技能按键
+		handler.getSkill(0).setKey(1); // 设置技能按键
 		
 		EntitySkillHandler.saveAllSkills(nbt, handler, registry);
 		PmPayloadInit.syncSkill(player);

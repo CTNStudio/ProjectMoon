@@ -82,21 +82,29 @@ public final class SkillStack {
 		public void encode(@NotNull RegistryFriendlyByteBuf buffer, SkillStack stack) {
 			SkillStack.OPTIONAL_STREAM_CODEC.encode(buffer, stack);
 		}
+		
 	};
 	public static final  StreamCodec<RegistryFriendlyByteBuf, List<SkillStack>> LIST_STREAM_CODEC          = STREAM_CODEC.apply(
 			ByteBufCodecs.collection(NonNullList::createWithCapacity)
 	);
+	
 	public static final  StreamCodec<RegistryFriendlyByteBuf, List<SkillStack>> OPTIONAL_LIST_STREAM_CODEC = OPTIONAL_STREAM_CODEC.apply(
 			ByteBufCodecs.collection(NonNullList::createWithCapacity)
 	);
-	public static final  SkillStack                                             EMPTY                      = new SkillStack(EMPTY_SKILL, Type.ADDITIONAL);
-	private static final Logger                                                 LOGGER                     = LogUtils.getLogger();
-	private final        Skill                                                  skill;
-	private final        Type                                                   type;
-	private              int                                                    cd;
-	private              int                                                    key;
+	
+	private static final Logger LOGGER = LogUtils.getLogger();
+	
+	public static final SkillStack EMPTY = new SkillStack(EMPTY_SKILL, Type.ADDITIONAL);
+	private final Skill skill;
+	private final Type type;
+	/// 是否被禁用
+	private boolean isDisable = false;
+	/// 剩余cd
+	private int cd = 0;
+	/// 绑定按键
+	private int key = -1;
 	/// 一个额外计时，预留
-	private              int                                                    tick;
+	private int tick;
 	
 	public SkillStack(Holder<Skill> skill, Type type) {
 		this(skill.value(), type);
@@ -110,12 +118,16 @@ public final class SkillStack {
 		this(skill.value(), cd, type, key);
 	}
 	
+	public SkillStack(Holder<Skill> skill, int cd, Type type, int key, boolean isDisable) {
+		this(skill.value(), cd, type, key);
+	}
+	
 	public SkillStack(Skill skill, Type type) {
 		this(skill, 0, type);
 	}
 	
 	public SkillStack(Skill skill, int cd, Type type) {
-		this(skill, cd, type, -1);// -1代表没有
+		this(skill, cd, type, -1);// 小于0代表没有
 	}
 	
 	public SkillStack(Skill skill, int cd, Type type, int key) {
@@ -123,6 +135,29 @@ public final class SkillStack {
 		this.cd    = cd;
 		this.type  = type;
 		this.key   = key;
+	}
+	
+	public SkillStack(Skill skill, int cd, Type type, int key, boolean isDisable) {
+		this.skill = skill;
+		this.cd    = cd;
+		this.type  = type;
+		this.key   = key;
+		this.isDisable = isDisable;
+	}
+	
+	/// 是否可以使用
+	public boolean isUse(){
+		return !isCd();
+	}
+	
+	/// 是否正在CD
+	public boolean isCd(){
+		return cd > 0;
+	}
+	
+	/// 进入cd
+	public void enterCD(){
+		cd = skill.getMaxCd();
 	}
 	
 	/// 加载
@@ -234,6 +269,14 @@ public final class SkillStack {
 	
 	public void setKey(int key) {
 		this.key = key;
+	}
+	
+	public boolean isDisable() {
+		return isDisable;
+	}
+	
+	public void setDisable(boolean disable) {
+		this.isDisable = disable;
 	}
 	
 	/// 技能的存储类型
