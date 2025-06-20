@@ -9,6 +9,7 @@
 | [尘昨喧](https://space.bilibili.com/161342683)              | 程序     |
 | [小史龙吖Slime_Dragon](https://space.bilibili.com/569400746) | 主美     |
 | [星零大队长](https://space.bilibili.com/489185984)            | 美术     |
+| [涵_AH_han](https://space.bilibili.com/532826315)         | 美术     |
 | [原木Log_ym](https://space.bilibili.com/138986403)         | 模型美工   |
 | [倾城奶茶店店员](https://space.bilibili.com/1182161967)         | 模型美工   |
 
