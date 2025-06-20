@@ -15,8 +15,8 @@ import static net.neoforged.fml.common.EventBusSubscriber.Bus.MOD;
 
 @EventBusSubscriber(modid = MOD_ID, bus = MOD)
 public class PmRegistries {
-	public static final ResourceKey<Registry<Skill>> SKILL_REGISTRY_KEY = ResourceKey.createRegistryKey(getResourceLocation("spells"));
-	public static final Registry<Skill>              SKILL              = new RegistryBuilder<>(SKILL_REGISTRY_KEY).sync(true).defaultKey(getResourceLocation("empty")).create();
+	public static final ResourceKey<Registry<Skill>> SKILL_REGISTRY_KEY = ResourceKey.createRegistryKey(getPath("spells"));
+	public static final Registry<Skill>              SKILL              = new RegistryBuilder<>(SKILL_REGISTRY_KEY).sync(true).defaultKey(getPath("empty")).create();
 
 //	// Alternatively:
 //	@SubscribeEvent
@@ -29,7 +29,7 @@ public class PmRegistries {
 		event.register(SKILL);
 	}
 	
-	private static @NotNull ResourceLocation getResourceLocation(String spells) {
+	private static @NotNull ResourceLocation getPath(String spells) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, spells);
 	}
 }

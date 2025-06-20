@@ -20,7 +20,7 @@ public class DatagenParticle extends ParticleDescriptionProvider {
 		super(output, fileHelper);
 	}
 	
-	private static @NotNull ResourceLocation getResourceLocation(String name) {
+	private static @NotNull ResourceLocation getPath(String name) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
 	}
 	
@@ -43,7 +43,7 @@ public class DatagenParticle extends ParticleDescriptionProvider {
 	private <p extends ParticleOptions> void createSprite(Supplier<ParticleType<p>> type, String... names) {
 		List<ResourceLocation> list = new ArrayList<>();
 		for (String name : names) {
-			list.add(getResourceLocation(name));
+			list.add(getPath(name));
 		}
 		spriteSet(type.get(), list);
 	}

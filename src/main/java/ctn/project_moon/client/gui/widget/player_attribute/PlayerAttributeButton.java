@@ -27,9 +27,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
 @OnlyIn(Dist.CLIENT)
 public final class PlayerAttributeButton extends ImageButton {
 	public static final String                     MESSAGE = MOD_ID + ".gui.player_attribute_button.message";
-	public static final WidgetSprites              DEFAULT = new WidgetSprites(
-			getResourceLocation("player_attribute_button_enabled"),
-			getResourceLocation("player_attribute_button_disabled"), getResourceLocation("player_attribute_button_enabled_focused"));
+	public static final WidgetSprites              DEFAULT = new WidgetSprites(getPath("button"), getPath("button_press"));
 	private final       AbstractContainerScreen<?> parentGui;
 	
 	public PlayerAttributeButton(AbstractContainerScreen<?> parentGui) {
@@ -46,7 +44,7 @@ public final class PlayerAttributeButton extends ImageButton {
 		this.parentGui = parentGui;
 	}
 	
-	private static @NotNull ResourceLocation getResourceLocation(String path) {
+	private static @NotNull ResourceLocation getPath(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, "player_attribute/" + path);
 	}
 	
@@ -54,7 +52,8 @@ public final class PlayerAttributeButton extends ImageButton {
 	public void renderWidget(@Nonnull GuiGraphics guiGraphics, int mouseX, int mouseY,
 			float partialTicks) {
 		if (!(parentGui instanceof InventoryScreen ||
-		      parentGui instanceof CreativeModeInventoryScreen creativeInventory && creativeInventory.isInventoryOpen())) {
+		      parentGui instanceof CreativeModeInventoryScreen creativeInventory &&
+		      creativeInventory.isInventoryOpen())) {
 			this.active = false;
 			return;
 		}

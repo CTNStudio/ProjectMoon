@@ -17,7 +17,7 @@ import static ctn.project_moon.api.tool.PmDamageTool.Level.getEntityLevel;
 public enum MobEntityLevel implements IEntityComponentProvider {
 	INSTANCE;
 	
-	private static @NotNull ResourceLocation getResourceLocation(String path) {
+	private static @NotNull ResourceLocation getPath(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 	

@@ -31,7 +31,7 @@ public class SkillTool {
 		handler.addSkill(PmSkills.MAGIC_BULLET_PENETRATING.get()); // 添加
 		handler.getSkill(0).setCd(20 * 10); // 设置技能CD
 //		handler.getSkill(0).setKey(-1); // 设置技能按键
-		handler.getSkill(0).setKey(1); // 设置技能按键
+		handler.getSkill(0).setKey(-1); // 设置技能按键
 		
 		EntitySkillHandler.saveAllSkills(nbt, handler, registry);
 		PmPayloadInit.syncSkill(player);

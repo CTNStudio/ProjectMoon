@@ -22,11 +22,11 @@ import static snownee.jade.JadeInternals.getElementHelper;
 public enum MobEntityResistance implements IEntityComponentProvider {
 	INSTANCE;
 	
-	public static final String ATTRIBUTE_DESCRIPTION_KEY = getResourceLocation("entity.attribute_description").toLanguageKey();
-	public static final String PHYSICS_KEY               = getResourceLocation("entity.attribute_description.physics").toLanguageKey();
-	public static final String SPIRIT_KEY                = getResourceLocation("entity.attribute_description.rationality").toLanguageKey();
-	public static final String EROSION_KEY               = getResourceLocation("entity.attribute_description.erosion").toLanguageKey();
-	public static final String THE_SOUL_KEY              = getResourceLocation("entity.attribute_description.the_soul").toLanguageKey();
+	public static final String ATTRIBUTE_DESCRIPTION_KEY = getPath("entity.attribute_description").toLanguageKey();
+	public static final String PHYSICS_KEY               = getPath("entity.attribute_description.physics").toLanguageKey();
+	public static final String SPIRIT_KEY                = getPath("entity.attribute_description.rationality").toLanguageKey();
+	public static final String EROSION_KEY               = getPath("entity.attribute_description.erosion").toLanguageKey();
+	public static final String THE_SOUL_KEY              = getPath("entity.attribute_description.the_soul").toLanguageKey();
 	
 	/** 插入N个空格 */
 	private static void emptys(ITooltip iTooltip) {
@@ -51,7 +51,7 @@ public enum MobEntityResistance implements IEntityComponentProvider {
 		return String.format(" %.1f", entity.getAttributeValue(attribute));
 	}
 	
-	private static @NotNull ResourceLocation getResourceLocation(String path) {
+	private static @NotNull ResourceLocation getPath(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 	

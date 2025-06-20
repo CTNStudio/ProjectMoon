@@ -389,7 +389,7 @@ public class FourColorAttribute {
 		}
 	}
 	
-	private static @NotNull ResourceLocation getResourceLocation(String name) {
+	private static @NotNull ResourceLocation getPath(String name) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
 	}
 	
@@ -436,11 +436,11 @@ public class FourColorAttribute {
 	
 	/** 检查玩家是否有指定属性的指定附加值 */
 	private static boolean hasModifier(Player player, Holder<Attribute> attribute, String name) {
-		return Objects.requireNonNull(player.getAttribute(attribute)).hasModifier(getResourceLocation(name));
+		return Objects.requireNonNull(player.getAttribute(attribute)).hasModifier(getPath(name));
 	}
 	
 	private static @NotNull AttributeModifier newAttributeModifierAddValue(String name, double value) {
-		return new AttributeModifier(getResourceLocation(name), value, AttributeModifier.Operation.ADD_VALUE);
+		return new AttributeModifier(getPath(name), value, AttributeModifier.Operation.ADD_VALUE);
 	}
 	
 	/** 四色属性类型枚举 */

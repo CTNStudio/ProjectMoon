@@ -29,10 +29,10 @@ public class PmSkills {
 	}
 	
 	private static @NotNull DeferredHolder<Skill, Skill> createSkill(String name, SkillStack.Type defaultType, int maxCd, int defaultKey) {
-		return SKILL_REGISTRY.register(name, () -> new Skill(getResourceLocation(name), getResourceLocation(name), defaultType, maxCd, defaultKey));
+		return SKILL_REGISTRY.register(name, () -> new Skill(getPath(name), getPath(name), defaultType, maxCd, defaultKey));
 	}
 	
-	private static @NotNull ResourceLocation getResourceLocation(String name) {
+	private static @NotNull ResourceLocation getPath(String name) {
 		return ResourceLocation.fromNamespaceAndPath(SKILL_REGISTRY.getRegistryName().getNamespace(), name);
 	}
 }

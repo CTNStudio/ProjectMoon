@@ -8,40 +8,32 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 多重状态图像控件(2维)
+ * 多重状态图像控件(1维)
  *
  * @author 尽
  */
 @OnlyIn(Dist.CLIENT)
-public class StateWidget extends AbstractWidget implements MessageTooltip {
-	protected final ResourceLocation texture;
+public class StateSprite extends AbstractWidget implements MessageTooltip{
+	protected final ResourceLocation[] texture;
 	protected final List<Component>  messages = new ArrayList<>();
-	protected final int              uOffset;
-	protected final int              vOffset;
-	protected       int              stateU   = 0;// 序列从0开始
-	protected       int              stateV   = 0;// 序列从0开始
+	protected       int              index   = 0;   // 索引从0开始
 	protected       Tooltip          tooltip;
 	
-	public StateWidget(int x, int y,
-			int width, int height,
-			int uOffset, int vOffset, ResourceLocation texture, Component component) {
+	public StateSprite(int x, int y, int width, int height, ResourceLocation[] texture, Component component) {
 		super(x, y, width, height, component);
-		this.uOffset = uOffset;
-		this.vOffset = vOffset;
 		this.texture = texture;
 	}
 	
 	@Override
 	protected void renderWidget(GuiGraphics guiGraphics,
 			int mouseX, int mouseY, float partialTick) {
-		int uOffset = this.uOffset + (width + 1) * stateU;
-		int vOffset = this.vOffset + (height + 1) * stateV;
-		guiGraphics.blit(texture, getX(), getY(), uOffset, vOffset, width, height);
+		guiGraphics.blitSprite(texture[index], getX(), getY(), width, height);
 		if (isHovered()) {
 			renderTooltip(guiGraphics, mouseX, mouseY);
 		}
@@ -68,35 +60,22 @@ public class StateWidget extends AbstractWidget implements MessageTooltip {
 		return messages;
 	}
 	
+	public void setIndex(int index){
+		// 索引不能为0
+		assert index != 0 : "Index cannot be 0 !";
+		// 索引不能大于或等于纹理数量
+		assert index < texture.length : "Index cannot be greater than or equal to the number of textures !";
+		this.index = index;
+	}
+	
+	public int getIndex(){
+		return index;
+	}
+	
 	@Override
-	protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
-	}
-	
-	public int getStateU() {
-		return stateU;
-	}
-	
-	public void setStateU(int stateU) {
-		this.stateU = stateU;
-	}
-	
-	public int getUOffset() {
-		return uOffset;
-	}
-	
-	public int getVOffset() {
-		return vOffset;
-	}
-	
-	public int getStateV() {
-		return stateV;
-	}
-	
-	public void setStateV(int stateV) {
-		this.stateV = stateV;
-	}
+	protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {}
 	
 	public interface Tooltip {
-		void run(StateWidget widget, GuiGraphics guiGraphics, int mouseX, int mouseY);
+		void run(StateSprite widget, GuiGraphics guiGraphics, int mouseX, int mouseY);
 	}
 }

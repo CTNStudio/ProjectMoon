@@ -190,7 +190,7 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(PlayerAttributeScreen.ATTRIBUTE_POINTS_TOOLTIP, "属性点数：%s");
 		add(PlayerAttributeScreen.ATTRIBUTE_EXPERIENCE_TOOLTIP, "属性经验：%s");
 		add(PlayerAttributeScreen.DAMAGE_RESISTANCE_TOOLTIP, "伤害抗性：%s");
-		add(PlayerAttributeScreen.DAMAGE_RESISTANCE1, "数字越大抵抗效果越差");
+		add(PlayerAttributeScreen.DAMAGE_RESISTANCE, "数字越大抵抗效果越差");
 		
 		add(ATTRIBUTE_TO_SET + FourColorAttribute.Type.JUSTICE.getName(), "更改玩家正义点数为 %d");
 		add(ATTRIBUTE_TO_SET + FourColorAttribute.Type.COMPOSITE_RATING.getName(), "更改玩家综合评级为 %d");
