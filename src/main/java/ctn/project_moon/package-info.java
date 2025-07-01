@@ -25,7 +25,7 @@
  * <p>
  * 类命名规则：__Events
  * <p>
- * <br> 包类：{@link ctn.project_moon.init}-注册，可重复使用的常量 集合类
+ * <br> 包类：{@link ctn.project_moon.init}-注册（初始化），可重复使用的常量 集合类
  * <p>
  * 类命名规则：Pm__
  * <p>
