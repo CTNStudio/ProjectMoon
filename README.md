@@ -2,16 +2,17 @@
 <hr>
 开发人员(不分顺序)
 
-| 名称                                                       | 负责部分   |
-|----------------------------------------------------------|--------|
-| [爱玩的小尽](https://space.bilibili.com/1082533225)           | 主程序、策划 |
-| [AmarokIce](https://space.bilibili.com/171428397)        | 程序     |
-| [尘昨喧](https://space.bilibili.com/161342683)              | 程序     |
-| [小史龙吖Slime_Dragon](https://space.bilibili.com/569400746) | 主美     |
-| [星零大队长](https://space.bilibili.com/489185984)            | 美术     |
-| [涵_AH_han](https://space.bilibili.com/532826315)         | 美术     |
-| [原木Log_ym](https://space.bilibili.com/138986403)         | 模型美工   |
-| [倾城奶茶店店员](https://space.bilibili.com/1182161967)         | 模型美工   |
+| 名称                                                        | 负责部分   |
+|-----------------------------------------------------------|--------|
+| [爱玩的小尽](https://space.bilibili.com/1082533225)            | 主程序、策划 |
+| [AmarokIce](https://space.bilibili.com/171428397)         | 程序     |
+| [尘昨喧](https://space.bilibili.com/161342683)               | 程序     |
+| [小史龙吖Slime_Dragon](https://space.bilibili.com/569400746)  | 主美     |
+| [Gstbnnnnnn](https://space.bilibili.com/3494357850130895) | 美术     |
+| [星零大队长](https://space.bilibili.com/489185984)             | 美术     |
+| [涵_AH_han](https://space.bilibili.com/532826315)          | 美术     |
+| [原木Log_ym](https://space.bilibili.com/138986403)          | 模型美工   |
+| [倾城奶茶店店员](https://space.bilibili.com/1182161967)          | 模型美工   |
 
 贡献者
 
@@ -44,10 +45,10 @@
 <hr>
 
 注：本MOD的部分属性超过了原版最大值，所以为了能正常使用这些属性请加上这些
+注：这些MOD不是必需的，本MOD也可以修改原版属性，但为了兼容所以以这种方式处理
 
 | 链接及名称                                                                  | 功能      |
 |------------------------------------------------------------------------|---------|
 | [属性修复 AttributeFix](https://github.com/Darkhax-Minecraft/AttributeFix) |         |
 | [Bookshelf](https://github.com/Darkhax-Minecraft/Bookshelf)            | 属性修复的前置 |
 | [Prickle](https://github.com/Darkhax-Minecraft/PrickleMC)              | 属性修复的前置 |
-注：这些MOD不是必需的，本MOD也可以修改原版属性，但为了兼容所以以这种方式处理
