@@ -1,8 +1,8 @@
 package ctn.project_moon.events.client;
 
 import com.mojang.datafixers.util.Function3;
-import ctn.project_moon.client.gui.RationalityLayersDraw;
-import ctn.project_moon.client.gui.SkillLayersDrew;
+import ctn.project_moon.client.gui.hud.RationalityLayersDraw;
+import ctn.project_moon.client.gui.hud.SkillLayersDrew;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,8 +14,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.client.PmGuiLayers.PLAYER_RATIONALITY;
-import static ctn.project_moon.client.PmGuiLayers.PLAYER_SKILL;
+import static ctn.project_moon.client.gui.PmHudLayers.PLAYER_RATIONALITY;
+import static ctn.project_moon.client.gui.PmHudLayers.PLAYER_SKILL;
 import static net.neoforged.neoforge.client.gui.VanillaGuiLayers.SELECTED_ITEM_NAME;
 
 /**

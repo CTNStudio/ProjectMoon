@@ -20,13 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.api.tool.PmDamageTool.ColorType.*;
+import static ctn.project_moon.api.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
+import static ctn.project_moon.api.PmCapabilitys.RANDOM_DAMAGE_ITEM;
+import static ctn.project_moon.api.PmCapabilitys.USAGE_REQ_ITEM;
 import static ctn.project_moon.capability.ILevel.getItemLevel;
-import static ctn.project_moon.init.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
-import static ctn.project_moon.init.PmCapabilitys.RANDOM_DAMAGE_ITEM;
-import static ctn.project_moon.init.PmCapabilitys.USAGE_REQ_ITEM;
 import static ctn.project_moon.init.PmItemDataComponents.ITEM_COLOR_USAGE_REQ;
-import static ctn.project_moon.tool.PmTool.*;
+import static ctn.project_moon.tool.PmColourTool.colorConversion;
 import static net.minecraft.core.component.DataComponents.ATTRIBUTE_MODIFIERS;
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;

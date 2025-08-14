@@ -1,7 +1,7 @@
 package ctn.project_moon.events.entity;
 
+import ctn.project_moon.api.PmCapabilitys;
 import ctn.project_moon.capability.ISkillHandler;
-import ctn.project_moon.init.PmCapabilitys;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;

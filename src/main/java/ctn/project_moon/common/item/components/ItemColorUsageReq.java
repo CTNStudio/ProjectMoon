@@ -21,7 +21,7 @@ import java.util.function.Function;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.attr.FourColorAttribute.Type.*;
 import static ctn.project_moon.init.PmEntityAttributes.ID_ACT;
-import static ctn.project_moon.tool.PmTool.i18ColorText;
+import static ctn.project_moon.tool.PmColourTool.i18ColorText;
 import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
 
 /**

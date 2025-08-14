@@ -18,8 +18,8 @@ import java.util.List;
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.tool.PmDamageTool.ColorType.*;
 import static ctn.project_moon.init.PmItemDataComponents.COLOR_DAMAGE_TYPE;
-import static ctn.project_moon.tool.PmTool.createColorText;
-import static ctn.project_moon.tool.PmTool.i18ColorText;
+import static ctn.project_moon.tool.PmColourTool.createColorText;
+import static ctn.project_moon.tool.PmColourTool.i18ColorText;
 
 /// 混沌刀
 public class ChaosKnifeItem extends EgoWeapon {

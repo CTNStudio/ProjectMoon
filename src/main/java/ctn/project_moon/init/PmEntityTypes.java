@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
-public class PmEntitys {
+public class PmEntityTypes {
 	public static final DeferredRegister<EntityType<?>> ENTITY_TYPE_REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MOD_ID);
 	
 	public static final Supplier<EntityType<TrainingRabbits>> TRAINING_RABBITS = registerEntity(

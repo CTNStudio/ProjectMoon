@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static ctn.project_moon.api.PmCapabilitys.RANDOM_DAMAGE_ITEM;
 import static ctn.project_moon.api.tool.PmDamageTool.getDamageItemStack;
-import static ctn.project_moon.init.PmCapabilitys.RANDOM_DAMAGE_ITEM;
 
 @Mixin(DamageContainer.class)
 public abstract class DamageContainerMixin {

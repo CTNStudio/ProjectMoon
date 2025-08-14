@@ -1,5 +1,6 @@
 package ctn.project_moon.common.skill;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -48,7 +49,7 @@ public final class SkillStack {
 							SKILL_NON_EMPTY_CODEC.fieldOf("id").forGetter(SkillStack::getSkillHolder),
 							Codec.INT.fieldOf("cd").forGetter(SkillStack::getCd),
 							Type.CODEC.fieldOf("type").forGetter(SkillStack::getType),
-							Codec.INT.optionalFieldOf("key", -1).forGetter(SkillStack::getKey)
+							Codec.STRING.optionalFieldOf("key", "").forGetter(SkillStack::getKeyName)
 					).apply(instance, SkillStack::new)
 			)
 	);
@@ -60,7 +61,7 @@ public final class SkillStack {
 			Holder<Skill> holder = SKILL_STREAM_CODEC.decode(byteBuf);
 			int cd = byteBuf.readVarInt();
 			Type type = Type.get(byteBuf.readVarInt());
-			int key = byteBuf.readVarInt();
+			String key = byteBuf.readUtf();
 			return new SkillStack(holder, cd, type, key);
 		}
 		
@@ -69,7 +70,7 @@ public final class SkillStack {
 			SKILL_STREAM_CODEC.encode(buffer, patch.getSkillHolder());
 			buffer.writeVarInt(patch.getCd());
 			buffer.writeVarInt(patch.getType().ordinal());
-			buffer.writeVarInt(patch.getKey());
+			buffer.writeUtf(patch.getKeyName());
 		}
 	};
 	public static final  StreamCodec<RegistryFriendlyByteBuf, SkillStack>       STREAM_CODEC               = new StreamCodec<>() {
@@ -100,11 +101,11 @@ public final class SkillStack {
 	/// 是否被禁用
 	private boolean isDisable = false;
 	/// 剩余cd
-	private int cd = 0;
-	/// 绑定按键
-	private int key = -1;
+	private int    cd      = 0;
+	/// 绑定按键 请参考：{@link InputConstants.Type}
+	private String keyName = "";
 	/// 一个额外计时，预留
-	private int tick;
+	private int    tick;
 	
 	public SkillStack(Holder<Skill> skill, Type type) {
 		this(skill.value(), type);
@@ -114,12 +115,12 @@ public final class SkillStack {
 		this(skill.value(), cd, type);
 	}
 	
-	public SkillStack(Holder<Skill> skill, int cd, Type type, int key) {
-		this(skill.value(), cd, type, key);
+	public SkillStack(Holder<Skill> skill, int cd, Type type, String keyName) {
+		this(skill.value(), cd, type, keyName);
 	}
 	
-	public SkillStack(Holder<Skill> skill, int cd, Type type, int key, boolean isDisable) {
-		this(skill.value(), cd, type, key);
+	public SkillStack(Holder<Skill> skill, int cd, Type type, String keyName, boolean isDisable) {
+		this(skill.value(), cd, type, keyName);
 	}
 	
 	public SkillStack(Skill skill, Type type) {
@@ -127,21 +128,21 @@ public final class SkillStack {
 	}
 	
 	public SkillStack(Skill skill, int cd, Type type) {
-		this(skill, cd, type, -1);// 小于0代表没有
+		this(skill, cd, type, "");// 小于0代表没有
 	}
 	
-	public SkillStack(Skill skill, int cd, Type type, int key) {
-		this.skill = skill;
-		this.cd    = cd;
-		this.type  = type;
-		this.key   = key;
+	public SkillStack(Skill skill, int cd, Type type, String keyName) {
+		this.skill   = skill;
+		this.cd      = cd;
+		this.type    = type;
+		this.keyName = keyName;
 	}
 	
-	public SkillStack(Skill skill, int cd, Type type, int key, boolean isDisable) {
-		this.skill = skill;
-		this.cd    = cd;
-		this.type  = type;
-		this.key   = key;
+	public SkillStack(Skill skill, int cd, Type type, String keyName, boolean isDisable) {
+		this.skill     = skill;
+		this.cd        = cd;
+		this.type      = type;
+		this.keyName   = keyName;
 		this.isDisable = isDisable;
 	}
 	
@@ -263,12 +264,12 @@ public final class SkillStack {
 		return type;
 	}
 	
-	public int getKey() {
-		return key;
+	public String getKeyName() {
+		return keyName;
 	}
 	
-	public void setKey(int key) {
-		this.key = key;
+	public void setKeyName(String keyName) {
+		this.keyName = keyName;
 	}
 	
 	public boolean isDisable() {

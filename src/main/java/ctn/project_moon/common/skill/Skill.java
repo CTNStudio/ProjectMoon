@@ -1,5 +1,6 @@
 package ctn.project_moon.common.skill;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import ctn.project_moon.init.PmRegistries;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -8,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
@@ -23,12 +25,11 @@ public class Skill {
 	/// 路径 resources/assets/{mod_id}/textures/gui/sprites/skill/skills/
 	protected final      ResourceLocation iconPath;
 	protected final      int              maxCd;
-	/// 默认技能按键
-	protected            int              defaultKey;
-	protected            List<Component>  describe;
+	/// 默认技能按键键名 请参考：{@link InputConstants.Type}
+	protected final      String           defaultKey;
 	protected            SkillStack       defaultSkillStack;
 	
-	public Skill(ResourceLocation id, ResourceLocation iconPath, SkillStack.Type defaultType, int maxCd, int defaultKey) {
+	public Skill(ResourceLocation id, ResourceLocation iconPath, SkillStack.Type defaultType, int maxCd, String defaultKey) {
 		this.skillId           = id;
 		this.iconPath          = iconPath;
 		this.maxCd             = maxCd;
@@ -36,16 +37,16 @@ public class Skill {
 		this.defaultKey        = defaultKey;
 	}
 	
-	public Skill(ResourceLocation id, ResourceLocation iconPath, int maxCd, int defaultKey) {
+	public Skill(ResourceLocation id, ResourceLocation iconPath, int maxCd, String defaultKey) {
 		this(id, iconPath, ADDITIONAL, maxCd, defaultKey);
 	}
 	
 	public Skill(ResourceLocation id, ResourceLocation iconPath, int maxCd) {
-		this(id, iconPath, maxCd, -1);
+		this(id, iconPath, maxCd, "");
 	}
 	
 	public Skill(ResourceLocation id, ResourceLocation iconPath, SkillStack.Type defaultType, int maxCd) {
-		this(id, iconPath, defaultType, maxCd, -1);
+		this(id, iconPath, defaultType, maxCd, "");
 	}
 	
 	public static boolean validity(Skill skill) {
@@ -77,17 +78,17 @@ public class Skill {
 		this.defaultSkillStack = skillStack;
 	}
 	
+	public String getDefaultKey() {
+		return defaultKey;
+	}
+	
 	/// 名称
 	public MutableComponent getTooltip() {
 		return Component.translatable("skills." + skillId.toString());
 	}
 	
-	public List<Component> getDescribe() {
-		return describe;
-	}
-	
-	public void setDescribe(List<Component> describe) {
-		this.describe = describe;
+	public List<Component> getDescribe(SkillStack stack) {
+		return new ArrayList<>();
 	}
 	
 	public void tick(Level level, Entity entity) {

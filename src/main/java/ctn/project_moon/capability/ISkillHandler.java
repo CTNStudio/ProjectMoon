@@ -33,4 +33,8 @@ public interface ISkillHandler {
 	NonNullList<SkillStack> getSkills();
 	
 	void tick(Level level, Entity entity);
+	
+	int getSkillSlotIndex();
+	
+	void setSkillSlotIndex(int slotIndex);
 }

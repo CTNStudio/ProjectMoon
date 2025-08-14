@@ -11,7 +11,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 /**
- * 玩家属性容器提供程序
+ * 玩家技能容器提供程序
  */
 public class PlayerAttributeContainerProvider implements MenuProvider {
 	

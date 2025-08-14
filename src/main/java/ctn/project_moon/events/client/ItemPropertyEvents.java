@@ -1,6 +1,8 @@
-package ctn.project_moon.init;
+package ctn.project_moon.events.client;
 
 import ctn.project_moon.api.tool.PmDamageTool;
+import ctn.project_moon.init.PmItemDataComponents;
+import ctn.project_moon.init.PmItems;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +18,7 @@ import static ctn.project_moon.PmMain.MOD_ID;
  * 物品渲染附加
  */
 @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class PmItemPropertyEvents {
+public class ItemPropertyEvents {
 	public static final ResourceLocation MODE_BOOLEAN        = createProperties("mode_boolean");
 	public static final ResourceLocation CURRENT_DAMAGE_TYPE = createProperties("current_damage_type");
 	

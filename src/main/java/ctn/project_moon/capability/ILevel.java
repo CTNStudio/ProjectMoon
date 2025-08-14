@@ -5,7 +5,7 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.CheckForNull;
 
-import static ctn.project_moon.init.PmCapabilitys.Level.LEVEL_ITEM;
+import static ctn.project_moon.api.PmCapabilitys.Level.LEVEL_ITEM;
 
 @FunctionalInterface
 public interface ILevel {

@@ -45,6 +45,8 @@ public class StateSprite extends AbstractWidget implements MessageTooltip{
 	
 	@SuppressWarnings("DuplicatedCode")
 	public void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+		guiGraphics.pose().pushPose();
+		guiGraphics.pose().translate(0, 0, 100);
 		if (tooltip != null) {
 			tooltip.run(this, guiGraphics, mouseX, mouseY);
 		}
@@ -53,6 +55,7 @@ public class StateSprite extends AbstractWidget implements MessageTooltip{
 			return;
 		}
 		guiGraphics.renderComponentTooltip(Minecraft.getInstance().font, messages, mouseX, mouseY);
+		guiGraphics.pose().popPose();
 	}
 	
 	@Override

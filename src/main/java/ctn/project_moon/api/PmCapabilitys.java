@@ -1,4 +1,4 @@
-package ctn.project_moon.init;
+package ctn.project_moon.api;
 
 import ctn.project_moon.capability.ILevel;
 import ctn.project_moon.capability.IRandomDamage;
@@ -32,6 +32,7 @@ public class PmCapabilitys {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
 	}
 	
+	/// 技能
 	public static class Skill {
 		public static final ItemCapability<ISkillHandler, Void> SKILL_ITEM =
 				ItemCapability.createVoid(getPath("skill_item"), ISkillHandler.class);

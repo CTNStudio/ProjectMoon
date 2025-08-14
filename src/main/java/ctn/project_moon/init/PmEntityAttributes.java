@@ -20,6 +20,8 @@ public class PmEntityAttributes {
 	public static final Holder<Attribute>           EROSION_RESISTANCE                = registerRangedAttribute("generic.erosion_resistance", "attribute.name.generic.erosion_resistance", 1.5, -1024, 1024);
 	/** 灵魂伤害抵抗能力 */
 	public static final Holder<Attribute>           THE_SOUL_RESISTANCE               = registerRangedAttribute("generic.the_soul_resistance", "attribute.name.generic.the_soul_resistance", 2.0, -1024, 1024);
+	
+	/// 理智
 	/** 最大理智值 */
 	public static final Holder<Attribute>           MAX_RATIONALITY                   = registerRangedAttribute("generic.max_rationality", "attribute.name.generic.max_rationality", 20, 0, 4096);
 	/** 理智值自然恢复效率 */

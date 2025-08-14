@@ -134,7 +134,7 @@ dependencies {
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
-    implementation "com.zigythebird.playeranimatorapi:playeranimatorapi-neoforge-1.21:${playeranimatorapi_version}"
+    implementation "com.zigythebird.playeranimatorapi:playeranimatorapi-neoforge-${playeranimatorapi_version}"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

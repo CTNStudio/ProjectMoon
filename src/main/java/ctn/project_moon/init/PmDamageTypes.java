@@ -1,5 +1,7 @@
 package ctn.project_moon.init;
 
+import ctn.project_moon.api.tool.PmDamageTool;
+import ctn.project_moon.mixin_extend.IModDamageSource;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -8,6 +10,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 
+/// 尽量用{@link IModDamageSource#setFourColorDamageTypes(PmDamageTool.ColorType)}
 public interface PmDamageTypes extends DamageTypes {
 	/**
 	 * 物理

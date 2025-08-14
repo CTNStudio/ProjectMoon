@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
 import static ctn.project_moon.api.attr.MobGeneralAttribute.RATIONALITY_VALUE;
-import static ctn.project_moon.api.attr.RationalityAttribute.getRationalityValue;
 
 /// 理智值
 public record RationalityValueData(double rationalityValue) implements CustomPacketPayload {
@@ -29,11 +28,8 @@ public record RationalityValueData(double rationalityValue) implements CustomPac
 		return new RationalityValueData(getRationalityValue(serverPlayer));
 	}
 	
-	public static void server(final RationalityValueData data, final IPayloadContext context) {
+	public static void toClient(final RationalityValueData data, final IPayloadContext context) {
 		context.player().getPersistentData().putDouble(RATIONALITY_VALUE, data.rationalityValue);
-	}
-	
-	public static void client(final RationalityValueData data, final IPayloadContext context) {
 	}
 	
 	public void encoder(ByteBuf buffer) {

@@ -25,7 +25,7 @@ public record FourColorData(int fortitude, int prudence, int temperance, int jus
 			FourColorData::new
 	);
 	
-	public static void server(final FourColorData data, final IPayloadContext context) {
+	public static void toClient(final FourColorData data, final IPayloadContext context) {
 		CompoundTag nbt = context.player().getPersistentData();
 		nbt.putInt(BASE_FORTITUDE, data.fortitude());
 		nbt.putInt(BASE_PRUDENCE, data.prudence());

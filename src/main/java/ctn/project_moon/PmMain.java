@@ -23,7 +23,7 @@ import static ctn.project_moon.init.PmArmorMaterials.ARMOR_MATERIALS_TYPE_REGIST
 import static ctn.project_moon.init.PmBlocks.BLOCK_REGISTER;
 import static ctn.project_moon.init.PmCreativeModeTab.PROJECT_MOON_TAB_REGISTER;
 import static ctn.project_moon.init.PmEntityAttributes.PM_ATTRIBUTE_REGISTER;
-import static ctn.project_moon.init.PmEntitys.ENTITY_TYPE_REGISTER;
+import static ctn.project_moon.init.PmEntityTypes.ENTITY_TYPE_REGISTER;
 import static ctn.project_moon.init.PmItemDataComponents.ITEM_DATA_COMPONENT_REGISTER;
 import static ctn.project_moon.init.PmItems.ITEM_REGISTER;
 import static ctn.project_moon.init.PmMenuTypes.MENU_TYPE_REGISTER;

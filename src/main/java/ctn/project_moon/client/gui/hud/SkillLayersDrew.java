@@ -1,10 +1,10 @@
-package ctn.project_moon.client.gui;
+package ctn.project_moon.client.gui.hud;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import ctn.project_moon.api.PmCapabilitys;
 import ctn.project_moon.capability.ISkillHandler;
 import ctn.project_moon.common.skill.SkillStack;
-import ctn.project_moon.init.PmCapabilitys;
-import ctn.project_moon.tool.PmTool;
+import ctn.project_moon.tool.PmColourTool;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -19,7 +19,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
 
 /**
  * 技能层渲染类
@@ -35,21 +34,21 @@ public class SkillLayersDrew extends LayeredDraw implements LayeredDraw.Layer {
 	private static final String           SKILL_SKILLS   = "skill/skills/";
 	
 	// 颜色和其他渲染相关常量
+	/// 按键禁用背景图标颜色
+	private static final int   DISABLE_KEY_COLOR       = PmColourTool.colorConversion("#737373");
+	private static final int   WHITE_COLOR             = PmColourTool.colorConversion("#ffffff");
 	/// 按键背景图标大小
 	private static final int   KEY_BG_SIZE             = 16;
-	/// 按键禁用背景图标颜色
-	private static final int   DISABLE_KEY_COLOR       = PmTool.colorConversion("#737373");
 	/// 技能图标大小
 	private static final int   SKILL_ICON_SIZE         = 16;
 	/// 技能图标灰度
 	private static final float DISABLE_SKILL_ICON_GRAY = 0.3F;
-	/// 技能间隔
+	/// 技能图标间隔
 	private static final int   SKILL_SPACE             = 20;
 	/// 技能背景高度
 	private static final int   BG_HEIGHT               = 26;
 	/// 选择框大小
 	private static final int   SELECTION_BOX_SIZE      = 28;
-	private static final int   WHITE_COLOR             = PmTool.colorConversion("#ffffff");
 	/// 技能文本最大宽度
 	private static final int   SKILL_MAX_TEXT_WIDTH    = 15;
 	/// 技能文本偏移
@@ -113,13 +112,15 @@ public class SkillLayersDrew extends LayeredDraw implements LayeredDraw.Layer {
 		guiGraphics.pose().pushPose();
 		// 技能数量
 		final int skillCount = skills.size();
+		// 选择的技能槽位索引
+		final int skillSlotIndex = skillHandler.getSkillSlotIndex();
 		// 技能背景宽度
 		int bgWidth = 24 + (skillCount - 1) * SKILL_SPACE;
 		// 技能背景X坐标
 		int bgX = 0;
 		// 技能背景Y坐标
 		int bgY = guiHeight - 31;
-		int skillX = bgX + 2, skillY = bgY + 5;
+		int skillX = bgX + 3, skillY = bgY + 4;
 		
 		/// 技能背景
 		guiGraphics.blitSprite(BG, bgX, bgY, bgWidth, BG_HEIGHT);
@@ -130,7 +131,11 @@ public class SkillLayersDrew extends LayeredDraw implements LayeredDraw.Layer {
 		}
 		
 		/// 选择框
-		guiGraphics.blitSprite(SELECTION_BOX, bgX - 4, bgY - 1, SELECTION_BOX_SIZE, SELECTION_BOX_SIZE);
+		if (skillSlotIndex >= 0) {
+			int selectionBoxX = bgX - 3 + (skillSlotIndex) * SELECTION_BOX_SIZE;
+			int selectionBoxY = bgY - 2;
+			guiGraphics.blitSprite(SELECTION_BOX, selectionBoxX, selectionBoxY, SELECTION_BOX_SIZE, SELECTION_BOX_SIZE);
+		}
 		guiGraphics.pose().popPose();
 	}
 	
@@ -145,8 +150,8 @@ public class SkillLayersDrew extends LayeredDraw implements LayeredDraw.Layer {
 		renderSkill(stack, guiGraphics, deltaTracker, x, y);
 		
 		/// 渲染按键背景图标和按键文本
-		if (stack.getKey() != -1) {
-			renderKeyBg(stack, guiGraphics, deltaTracker, x, y);
+		if (!(stack.getKeyName() == null || stack.getKeyName().isEmpty())) {
+			renderSkillKeyBg(stack, guiGraphics, deltaTracker, x, y);
 		}
 		
 		/// 渲染技能冷却时间文字
@@ -163,7 +168,7 @@ public class SkillLayersDrew extends LayeredDraw implements LayeredDraw.Layer {
 	 */
 	private void renderSkill(SkillStack stack, GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker, int x, int y) {
 		guiGraphics.pose().pushPose();
-		ResourceLocation path = getSkillPath(stack.getSkill().getIconPath());
+		ResourceLocation path = getSkillIconPath(stack);
 		/// 降低技能图标亮度
 		if (!stack.isUse()) {
 			guiGraphics.setColor(DISABLE_SKILL_ICON_GRAY, DISABLE_SKILL_ICON_GRAY, DISABLE_SKILL_ICON_GRAY, 1.0F);
@@ -175,34 +180,29 @@ public class SkillLayersDrew extends LayeredDraw implements LayeredDraw.Layer {
 		guiGraphics.pose().popPose();
 	}
 	
+	public static @NotNull ResourceLocation getSkillIconPath(SkillStack stack) {
+		return getSkillPath(stack.getSkill().getIconPath());
+	}
+	
 	/**
 	 * 渲染按键图标背景
 	 * 包括按键背景和对应的按键名称
 	 */
-	private void renderKeyBg(SkillStack skillStack, GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker, int x, int y) {
+	private void renderSkillKeyBg(SkillStack skillStack, GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker, int x, int y) {
 		guiGraphics.pose().pushPose();
 		/// 按键图标背景Y坐标
 		int bgY = y - KEY_BG_SIZE - 7;
 		/// 文本X坐标
 		int textX = x + KEY_BG_SIZE / 2;
 		/// 文本Y坐标
-		int textY = bgY + 1;
+		int textY = bgY + 3;
 		/// 背景纹理路径
 		final ResourceLocation backgroundPath;
-		/// 按键名称ID
-		int keyCode = skillStack.getKey();
-		String keyName = glfwGetKeyName(keyCode, -1);
-		/// 按键名称
-		final Component keyText;
+		final InputConstants.Key key = getSkillKey(skillStack);
 		/// 按键名称文字颜色
 		final int keyColor;
-		
-		if (keyName != null) {
-			keyText = Component.translatable(keyName.toUpperCase());
-		} else {
-			final InputConstants.Key key = InputConstants.getKey(keyCode, -1);
-			keyText = key.getDisplayName();
-		}
+		/// 按键名称
+		Component keyText = key.getDisplayName();
 		
 		if (skillStack.isUse()) {
 			keyColor       = WHITE_COLOR;
@@ -218,6 +218,12 @@ public class SkillLayersDrew extends LayeredDraw implements LayeredDraw.Layer {
 		/// 渲染按键名称
 		guiGraphics.drawCenteredString(font, keyText, textX, textY, keyColor);
 		guiGraphics.pose().popPose();
+	}
+	
+	public static InputConstants.@NotNull Key getSkillKey(SkillStack skillStack) {
+		/// 按键名称ID
+		String keyCode = skillStack.getKeyName();
+		return InputConstants.getKey(keyCode);
 	}
 	
 	/**

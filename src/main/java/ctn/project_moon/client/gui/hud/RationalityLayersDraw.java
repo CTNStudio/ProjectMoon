@@ -1,4 +1,4 @@
-package ctn.project_moon.client.gui;
+package ctn.project_moon.client.gui.hud;
 
 import ctn.project_moon.api.attr.RationalityAttribute;
 import net.minecraft.client.DeltaTracker;

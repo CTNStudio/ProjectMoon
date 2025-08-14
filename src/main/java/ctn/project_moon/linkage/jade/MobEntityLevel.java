@@ -1,7 +1,7 @@
 package ctn.project_moon.linkage.jade;
 
 import ctn.project_moon.api.tool.PmDamageTool;
-import ctn.project_moon.tool.PmTool;
+import ctn.project_moon.tool.PmColourTool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +25,7 @@ public enum MobEntityLevel implements IEntityComponentProvider {
 	public void appendTooltip(ITooltip iTooltip, EntityAccessor entityAccessor, IPluginConfig iPluginConfig) {
 		PmDamageTool.Level level = getEntityLevel(entityAccessor.getEntity());
 		if (level == null) return;
-		iTooltip.add(1, Component.literal(level.getName()).withColor(PmTool.colorConversion(level.getColourText())));
+		iTooltip.add(1, Component.literal(level.getName()).withColor(PmColourTool.colorConversion(level.getColourText())));
 	}
 	
 	@Override

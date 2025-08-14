@@ -1,8 +1,10 @@
 package ctn.project_moon.datagen;
 
 import ctn.project_moon.api.attr.FourColorAttribute;
-import ctn.project_moon.client.gui.widget.player_attribute.PlayerAttributeButton;
-import ctn.project_moon.client.screen.PlayerAttributeScreen;
+import ctn.project_moon.client.gui.screen.player.PlayerAttributeScreen;
+import ctn.project_moon.client.gui.screen.player.PlayerSkillScreen;
+import ctn.project_moon.client.gui.widget.open_screen.PlayerAttributeButton;
+import ctn.project_moon.client.gui.widget.open_screen.PlayerSkillButton;
 import ctn.project_moon.common.item.components.ItemColorUsageReq;
 import ctn.project_moon.common.skill.Skill;
 import ctn.project_moon.config.PmConfig;
@@ -108,8 +110,8 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(MobEntityResistance.EROSION_KEY, "侵蚀");
 		add(MobEntityResistance.THE_SOUL_KEY, "灵魂");
 		
-		addEntityType(PmEntitys.TRAINING_RABBITS, "教学兔兔");
-		addEntityType(PmEntitys.PARADISE_LOST_SPIKEWEED, "失乐园尖刺");
+		addEntityType(PmEntityTypes.TRAINING_RABBITS, "教学兔兔");
+		addEntityType(PmEntityTypes.PARADISE_LOST_SPIKEWEED, "失乐园尖刺");
 		
 		add("config.jade.plugin_project_moon.level", "生物/方块等级");
 		add("config.jade.plugin_project_moon.resistance", "实体抗性");
@@ -177,7 +179,7 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add("project_moon.configuration.enable_four_color_damage", "四色伤害配置");
 		add("project_moon.configuration.enable_four_color_damage.button", "配置四色伤害");
 		
-		add(PlayerAttributeButton.MESSAGE, "打开月亮计划玩家属性面板");
+		add(PlayerAttributeButton.MESSAGE, "打开玩家属性面板");
 		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[0], "物理抗性");
 		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[1], "精神抗性");
 		add(PlayerAttributeScreen.RESISTANCE_TOOLTIP[2], "侵蚀抗性");
@@ -191,6 +193,8 @@ public class DatagenI18ZhCn extends LanguageProvider {
 		add(PlayerAttributeScreen.ATTRIBUTE_EXPERIENCE_TOOLTIP, "属性经验：%s");
 		add(PlayerAttributeScreen.DAMAGE_RESISTANCE_TOOLTIP, "伤害抗性：%s");
 		add(PlayerAttributeScreen.DAMAGE_RESISTANCE, "数字越大抵抗效果越差");
+		add(PlayerSkillButton.MESSAGE, "打开玩家技能面板");
+		add(PlayerSkillScreen.TITLE, "玩家技能面板");
 		
 		add(ATTRIBUTE_TO_SET + FourColorAttribute.Type.JUSTICE.getName(), "更改玩家正义点数为 %d");
 		add(ATTRIBUTE_TO_SET + FourColorAttribute.Type.COMPOSITE_RATING.getName(), "更改玩家综合评级为 %d");

@@ -23,10 +23,10 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import java.util.*;
 
+import static ctn.project_moon.api.PmCapabilitys.Level.LEVEL_ENTITY;
 import static ctn.project_moon.api.attr.RationalityAttribute.handleSpirit;
 import static ctn.project_moon.api.tool.PmDamageTool.Level.getEntityLevel;
 import static ctn.project_moon.capability.ILevel.getItemLevelValue;
-import static ctn.project_moon.init.PmCapabilitys.Level.LEVEL_ENTITY;
 import static ctn.project_moon.init.PmDamageTypes.*;
 import static ctn.project_moon.init.PmEntityAttributes.*;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;

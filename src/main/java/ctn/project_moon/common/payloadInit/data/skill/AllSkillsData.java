@@ -2,7 +2,7 @@ package ctn.project_moon.common.payloadInit.data.skill;
 
 import ctn.project_moon.capability_provider.EntitySkillHandler;
 import ctn.project_moon.common.skill.SkillStack;
-import ctn.project_moon.mixin_extend.IPlayerMixin;
+import ctn.project_moon.mixin_extend.IModPlayerMixin;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -22,9 +22,9 @@ public record AllSkillsData(List<SkillStack> skills) implements CustomPacketPayl
 	public static final StreamCodec<RegistryFriendlyByteBuf, AllSkillsData> CODEC =
 			StreamCodec.composite(SkillStack.LIST_STREAM_CODEC, AllSkillsData::skills, AllSkillsData::new);
 	
-	public static void server(final AllSkillsData data, final IPayloadContext context) {
+	public static void toClient(final AllSkillsData data, final IPayloadContext context) {
 		Player player = context.player();
-		((IPlayerMixin) player).setSkillHandler(new EntitySkillHandler(player, data.skills()));
+		((IModPlayerMixin) player).setSkillHandler(new EntitySkillHandler(player, data.skills()));
 	}
 	
 	@Override

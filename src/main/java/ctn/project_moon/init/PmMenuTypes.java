@@ -1,6 +1,7 @@
 package ctn.project_moon.init;
 
 import ctn.project_moon.common.menu.PlayerAttributeMenu;
+import ctn.project_moon.common.menu.PlayerSkillMenu;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -19,7 +20,11 @@ public class PmMenuTypes {
 		return MENU_TYPE_REGISTER.register(key, () -> new MenuType<>(factory, FeatureFlags.VANILLA_SET));
 	}
 	
-	public static final Supplier<MenuType<PlayerAttributeMenu>> PLAYER_ATTRIBUTE_MENU = register("player_attribute_menu", PlayerAttributeMenu::new);
+	public static final Supplier<MenuType<PlayerAttributeMenu>> PLAYER_ATTRIBUTE_MENU =
+			register("player_attribute_menu", PlayerAttributeMenu::new);
+	
+	public static final Supplier<MenuType<PlayerSkillMenu>> PLAYER_SKILL_MENU =
+			register("player_skill_menu", PlayerSkillMenu::new);
 	
 	
 }

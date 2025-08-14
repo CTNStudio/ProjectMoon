@@ -16,19 +16,23 @@ public class PmSkills {
 	public static final DeferredHolder<Skill, Skill> EMPTY                  =
 			createSkill("empty", EMPTY_SKILL);
 	public static final DeferredHolder<Skill, Skill> MAGIC_BULLET_SILENCING =
-			createSkill("magic_bullet_silencing", SkillStack.Type.POSSESS, 20 * 5, -1);
+			createSkill("magic_bullet_silencing", SkillStack.Type.POSSESS, 20 * 5);
 	
 	public static final DeferredHolder<Skill, Skill> MAGIC_BULLET_PENETRATING =
-			createSkill("magic_bullet_penetrating", SkillStack.Type.ADDITIONAL, 20 * 8, -1);
+			createSkill("magic_bullet_penetrating", SkillStack.Type.ADDITIONAL, 20 * 8);
 	
 	public static final DeferredHolder<Skill, Skill> MAGIC_BULLET_FLOODED =
-			createSkill("magic_bullet_flooded", SkillStack.Type.ADDITIONAL, 20 * 10, -1);
+			createSkill("magic_bullet_flooded", SkillStack.Type.ADDITIONAL, 20 * 10);
 	
 	private static @NotNull DeferredHolder<Skill, Skill> createSkill(String name, Skill skill) {
 		return SKILL_REGISTRY.register(name, () -> skill);
 	}
 	
-	private static @NotNull DeferredHolder<Skill, Skill> createSkill(String name, SkillStack.Type defaultType, int maxCd, int defaultKey) {
+	private static @NotNull DeferredHolder<Skill, Skill> createSkill(String name, SkillStack.Type defaultType, int maxCd) {
+		return SKILL_REGISTRY.register(name, () -> new Skill(getPath(name), getPath(name), defaultType, maxCd));
+	}
+	
+	private static @NotNull DeferredHolder<Skill, Skill> createSkill(String name, SkillStack.Type defaultType, int maxCd, String defaultKey) {
 		return SKILL_REGISTRY.register(name, () -> new Skill(getPath(name), getPath(name), defaultType, maxCd, defaultKey));
 	}
 	

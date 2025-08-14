@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-import static ctn.project_moon.init.PmEntitys.PARADISE_LOST_SPIKEWEED;
+import static ctn.project_moon.init.PmEntityTypes.PARADISE_LOST_SPIKEWEED;
 import static net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN;
 
 /// 失乐园尖刺

@@ -4,7 +4,7 @@ package ctn.project_moon.common.entity.projectile;
 import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.capability.IRandomDamage;
 import ctn.project_moon.init.PmDamageTypes;
-import ctn.project_moon.init.PmEntitys;
+import ctn.project_moon.init.PmEntityTypes;
 import ctn.project_moon.mixin_extend.IModDamageSource;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -56,7 +56,7 @@ public class MagicBulletEntity extends PmBulletEntity implements IRandomDamage {
 	}
 	
 	public MagicBulletEntity(Level level, LivingEntity shooter) {
-		super(PmEntitys.MAGIC_BULLET_ENTITY.get(), shooter, level);
+		super(PmEntityTypes.MAGIC_BULLET_ENTITY.get(), shooter, level);
 		this.setNoGravity(true);
 	}
 	

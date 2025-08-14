@@ -8,7 +8,7 @@ import ctn.project_moon.capability.entity.IInvincibleTickEntity;
 import ctn.project_moon.capability.item.IColorDamageTypeItem;
 import ctn.project_moon.capability.item.IInvincibleTickItem;
 import ctn.project_moon.capability.item.IUsageReqItem;
-import ctn.project_moon.mixin_extend.IPlayerMixin;
+import ctn.project_moon.mixin_extend.IModPlayerMixin;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -21,13 +21,13 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import java.util.List;
 
 import static ctn.project_moon.PmMain.MOD_ID;
-import static ctn.project_moon.init.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ENTITY;
-import static ctn.project_moon.init.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
-import static ctn.project_moon.init.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ENTITY;
-import static ctn.project_moon.init.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ITEM;
-import static ctn.project_moon.init.PmCapabilitys.*;
-import static ctn.project_moon.init.PmCapabilitys.Level.LEVEL_ENTITY;
-import static ctn.project_moon.init.PmCapabilitys.Skill.SKILL_ENTITY;
+import static ctn.project_moon.api.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ENTITY;
+import static ctn.project_moon.api.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
+import static ctn.project_moon.api.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ENTITY;
+import static ctn.project_moon.api.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ITEM;
+import static ctn.project_moon.api.PmCapabilitys.*;
+import static ctn.project_moon.api.PmCapabilitys.Level.LEVEL_ENTITY;
+import static ctn.project_moon.api.PmCapabilitys.Skill.SKILL_ENTITY;
 import static ctn.project_moon.init.PmItems.*;
 import static net.minecraft.world.entity.EntityType.*;
 
@@ -161,7 +161,8 @@ public class RegistrarCapability {
 	
 	@SubscribeEvent
 	public static void registrarEntity(RegisterCapabilitiesEvent event) {
-		event.registerEntity(SKILL_ENTITY, PLAYER, (entity, ctx) -> ((IPlayerMixin) entity).getSkillHandler());
+		event.registerEntity(SKILL_ENTITY, PLAYER, (entity, ctx) -> ((IModPlayerMixin) entity).getSkillHandler());
+		
 		for (EntityType<?> entityType : BuiltInRegistries.ENTITY_TYPE) {
 			event.registerEntity(
 					INVINCIBLE_TICK_ENTITY, entityType, (entity, ctx) ->

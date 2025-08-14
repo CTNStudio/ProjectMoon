@@ -41,7 +41,7 @@ import org.joml.Matrix4f;
 import javax.annotation.CheckForNull;
 
 import static ctn.project_moon.init.PmParticleTypes.TEXT_PARTICLE_TYPE;
-import static ctn.project_moon.tool.PmTool.colorConversion;
+import static ctn.project_moon.tool.PmColourTool.colorConversion;
 import static net.minecraft.world.damagesource.DamageTypes.GENERIC_KILL;
 
 // TODO 优化伤害显示粒子 等待添加材质

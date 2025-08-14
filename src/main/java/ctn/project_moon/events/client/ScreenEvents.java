@@ -1,6 +1,7 @@
 package ctn.project_moon.events.client;
 
-import ctn.project_moon.client.gui.widget.player_attribute.PlayerAttributeButton;
+import ctn.project_moon.client.gui.widget.open_screen.PlayerAttributeButton;
+import ctn.project_moon.client.gui.widget.open_screen.PlayerSkillButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -35,6 +36,7 @@ public class ScreenEvents {
 		if (screen instanceof InventoryScreen || screen instanceof CreativeModeInventoryScreen) {
 			AbstractContainerScreen<?> gui = (AbstractContainerScreen<?>) screen;
 			evt.addListener(new PlayerAttributeButton(gui));
+			evt.addListener(new PlayerSkillButton(gui));
 		}
 	}
 }

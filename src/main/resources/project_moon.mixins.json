@@ -11,6 +11,7 @@
     "PlayerMixin"
   ],
   "client": [
+    "client.GuiGraphicsMixin",
     "client.ItemRendererMixin",
     "client.MinecraftMixin",
     "client.MouseHandlerMixin",

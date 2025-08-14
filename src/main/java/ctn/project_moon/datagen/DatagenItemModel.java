@@ -1,6 +1,6 @@
 package ctn.project_moon.datagen;
 
-import ctn.project_moon.init.PmItemPropertyEvents;
+import ctn.project_moon.events.client.ItemPropertyEvents;
 import ctn.project_moon.init.PmItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -42,13 +42,13 @@ public class DatagenItemModel extends ItemModelProvider {
 		LinkedHashMap<Float, String> creativeRationalityTool = new LinkedHashMap<>();
 		creativeRationalityTool.put(0F, "add");
 		creativeRationalityTool.put(1F, "decrease");
-		createModelFile(PmItems.CREATIVE_RATIONALITY_TOOL.get(), creativeRationalityTool, PmItemPropertyEvents.MODE_BOOLEAN);
+		createModelFile(PmItems.CREATIVE_RATIONALITY_TOOL.get(), creativeRationalityTool, ItemPropertyEvents.MODE_BOOLEAN);
 		LinkedHashMap<Float, String> chaosKnife = new LinkedHashMap<>();
 		chaosKnife.put(0F, "physics");
 		chaosKnife.put(0.1F, "spirit");
 		chaosKnife.put(0.2F, "erosion");
 		chaosKnife.put(0.3F, "the_soul");
-		createModelFile(PmItems.CHAOS_SWORD.get(), chaosKnife, getParent("item/handheld"), PmItemPropertyEvents.CURRENT_DAMAGE_TYPE);
+		createModelFile(PmItems.CHAOS_SWORD.get(), chaosKnife, getParent("item/handheld"), ItemPropertyEvents.CURRENT_DAMAGE_TYPE);
 	}
 	
 	private ModelFile.@NotNull UncheckedModelFile getParent(String name) {
@@ -76,11 +76,9 @@ public class DatagenItemModel extends ItemModelProvider {
 		var mod = basicItem(item).parent(parent);
 		var predicate = predicates[0];
 		Iterator<Float> iteratorKey = texture.keySet().iterator();
-		Float key;
-		String value;
 		for (int i = 0; i < texture.size(); i++) {
-			key   = iteratorKey.next();
-			value = texture.get(key);
+			float key   = iteratorKey.next();
+			String value = texture.get(key);
 			if (predicates.length > 1) {
 				predicate = predicates[i];
 			}

@@ -3,7 +3,7 @@ package ctn.project_moon.capability_provider;
 import ctn.project_moon.capability.ISkillHandler;
 import ctn.project_moon.common.skill.Skill;
 import ctn.project_moon.common.skill.SkillStack;
-import ctn.project_moon.init.PmPayloadInit;
+import ctn.project_moon.tool.PmPayloadTool;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -17,15 +17,18 @@ import java.util.List;
 import static ctn.project_moon.common.skill.SkillStack.validity;
 
 public class EntitySkillHandler implements ISkillHandler {
+	private int skillSlotIndex = 0;
 	private NonNullList<SkillStack> skills = NonNullList.create();
 	
 	public EntitySkillHandler() {
+		skillSlotIndex = -1;
 	}
 	
 	/// 从list中加载并保存到tag中
 	public EntitySkillHandler(Entity entity, List<SkillStack> skills) {
 		this.skills.addAll(skills);
 		saveAllSkills(entity.getPersistentData(), this.skills, entity.level().registryAccess());
+		if (skillSlotIndex > skills.size() - 1) skillSlotIndex = -1;
 	}
 	
 	public static void loadAllSkills(CompoundTag tag, ISkillHandler skillHandler, HolderLookup.Provider levelRegistry) {
@@ -74,7 +77,13 @@ public class EntitySkillHandler implements ISkillHandler {
 	
 	@Override
 	public void setSkill(NonNullList<SkillStack> skills) {
+		if (skills == null) return;
 		this.skills = skills;
+		if (skills.isEmpty()) {
+			skillSlotIndex = -1;
+		} else {
+			if (skillSlotIndex > this.skills.size() - 1) skillSlotIndex = 0;
+		}
 	}
 	
 	@Override
@@ -97,13 +106,16 @@ public class EntitySkillHandler implements ISkillHandler {
 	
 	@Override
 	public SkillStack removeSkill(int index) {
-		return skills.remove(index);
+		SkillStack remove = skills.remove(index);
+		if (skillSlotIndex > this.skills.size() - 1) skillSlotIndex = 0;
+		return remove;
 	}
 	
 	@Override
 	public NonNullList<SkillStack> clearSkills() {
 		NonNullList<SkillStack> skills = this.skills;
 		this.skills.clear();
+		skillSlotIndex = -1;
 		return skills;
 	}
 	
@@ -117,14 +129,16 @@ public class EntitySkillHandler implements ISkillHandler {
 	public void tick(Level level, Entity entity) {
 		for (int i = 0, skillsSize = skills.size(); i < skillsSize; i++) {
 			SkillStack skillStack = skills.get(i);
-			if (skillStack.getCd() > 0) {
-				skillStack.tick(level, entity);
-				
-				/// 给玩家客户端同步
-				if (entity instanceof ServerPlayer serverPlayer) {
-					PmPayloadInit.syncSkill(serverPlayer, skillStack, i);
-				}
+			if (skillStack.getCd() <= 0) {
+				continue;
 			}
+			skillStack.tick(level, entity);
+			
+			/// 给玩家客户端同步
+			if (!(entity instanceof ServerPlayer serverPlayer)) {
+				continue;
+			}
+			PmPayloadTool.syncSkill(serverPlayer, skillStack, i);
 		}
 	}
 	
@@ -144,5 +158,21 @@ public class EntitySkillHandler implements ISkillHandler {
 	public void setSkill(Skill skill, int index) {
 		if (Skill.validity(skill)) return;
 		skills.set(index, skill.getDefaultSkillStack());
+	}
+	
+	@Override
+	public int getSkillSlotIndex() {
+		return skillSlotIndex;
+	}
+	
+	@Override
+	public void setSkillSlotIndex(int skillSlotIndex) {
+		int i = skills.size() - 1;
+		if (skillSlotIndex < 0) {
+			skillSlotIndex = i;
+		} else if (skillSlotIndex > i) {
+			skillSlotIndex = 0;
+		}
+		this.skillSlotIndex = skillSlotIndex;
 	}
 }

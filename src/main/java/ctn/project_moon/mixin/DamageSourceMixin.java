@@ -1,12 +1,12 @@
 package ctn.project_moon.mixin;
 
+import ctn.project_moon.api.PmCapabilitys;
 import ctn.project_moon.api.tool.PmDamageTool;
 import ctn.project_moon.capability.ILevel;
 import ctn.project_moon.capability.entity.IColorDamageTypeEntity;
 import ctn.project_moon.capability.entity.IInvincibleTickEntity;
 import ctn.project_moon.capability.item.IColorDamageTypeItem;
 import ctn.project_moon.capability.item.IInvincibleTickItem;
-import ctn.project_moon.init.PmCapabilitys;
 import ctn.project_moon.mixin_extend.IModDamageSource;
 import net.minecraft.core.Holder;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,12 +24,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.CheckForNull;
 
+import static ctn.project_moon.api.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ENTITY;
+import static ctn.project_moon.api.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
+import static ctn.project_moon.api.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ENTITY;
+import static ctn.project_moon.api.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ITEM;
 import static ctn.project_moon.api.tool.PmDamageTool.getColorDamageType;
 import static ctn.project_moon.api.tool.PmDamageTool.getDamageItemStack;
-import static ctn.project_moon.init.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ENTITY;
-import static ctn.project_moon.init.PmCapabilitys.ColorDamageType.COLOR_DAMAGE_TYPE_ITEM;
-import static ctn.project_moon.init.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ENTITY;
-import static ctn.project_moon.init.PmCapabilitys.InvincibleTick.INVINCIBLE_TICK_ITEM;
 
 /**
  * @author 尽

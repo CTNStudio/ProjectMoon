@@ -3,7 +3,7 @@ package ctn.project_moon.api.attr;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.event.RationalityEvent;
 import ctn.project_moon.init.PmEntityAttributes;
-import ctn.project_moon.init.PmPayloadInit;
+import ctn.project_moon.tool.PmPayloadTool;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -61,7 +61,7 @@ public class RationalityAttribute {
 	public static void syncRationalityValue(ServerPlayer player) {
 		restrictRationality(player);
 		if (player instanceof ServerPlayer serverPlayer) {
-			PmPayloadInit.syncRationality(serverPlayer);
+			PmPayloadTool.syncRationality(serverPlayer);
 		}
 	}
 	

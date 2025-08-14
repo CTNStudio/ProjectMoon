@@ -3,7 +3,7 @@ package ctn.project_moon.api.attr;
 import com.mojang.serialization.Codec;
 import ctn.project_moon.config.PmConfig;
 import ctn.project_moon.init.PmEntityAttributes;
-import ctn.project_moon.init.PmPayloadInit;
+import ctn.project_moon.tool.PmPayloadTool;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
@@ -79,7 +79,7 @@ public class FourColorAttribute {
 	/** 同步四色基础属性 */
 	public static void syncFourColorAttribute(Player player) {
 		if (player instanceof ServerPlayer serverPlayer) {
-			PmPayloadInit.syncFourColorAttribute(serverPlayer);
+			PmPayloadTool.syncFourColorAttribute(serverPlayer);
 		}
 	}
 	

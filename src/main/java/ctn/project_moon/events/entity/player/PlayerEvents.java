@@ -1,7 +1,7 @@
 package ctn.project_moon.events.entity.player;
 
 import ctn.project_moon.api.attr.TempNbtAttribute;
-import ctn.project_moon.init.PmPayloadInit;
+import ctn.project_moon.tool.PmPayloadTool;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -60,7 +60,7 @@ public class PlayerEvents {
 			prudenceRelated(serverPlayer);
 			temperanceRelated(serverPlayer);
 			justiceRelated(serverPlayer);
-			PmPayloadInit.syncSkill(serverPlayer);
+			PmPayloadTool.syncAllSkills(serverPlayer);
 		}
 	}
 	

@@ -31,7 +31,7 @@ public record TempNbtAttrData(boolean isPlayerUseItem, boolean isPlayerAttack, b
 			TempNbtAttrData::new
 	);
 	
-	public static void server(final TempNbtAttrData data, final IPayloadContext context) {
+	public static void toClient(final TempNbtAttrData data, final IPayloadContext context) {
 		CompoundTag nbt = context.player().getPersistentData();
 		nbt.putBoolean(PLAYER_USE_ITEM, data.isPlayerUseItem());
 		nbt.putBoolean(PLAYER_ATTACK, data.isPlayerAttack());
